@@ -105,7 +105,8 @@ void phoIDcut(Int_t iWP, TreeReader &data,  vector<int>& passed){
     //if((phoID[ipho]>>iWP&1) == 0) continue;
     //passed.push_back(ipho);
     Int_t pass =0;
-    if((phoID[ipho]>>iWP&1) == 0) pass =1;
+    if((phoID[ipho]>>iWP&1) == 1) pass =1;
+    else pass =0;
     passed.push_back(pass);
   }
 }
