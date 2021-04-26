@@ -114,8 +114,10 @@ void xZg(char* pathes){
   Float_t HoverE, sieie, chIso, phoIso, nhIso, chWorst, eleVeto, rho;
   Float_t chIso_, phoIso_, nhIso_, chWorst_;
   Float_t sieieFull5x5, sieipFull5x5, sipipFull5x5, r9Full5x5;
-  Float_t HoverE_Mwp, chIso_Mwp, phoIso_Mwp, nhIso_Mwp, chWorst_Mwp;
-  Float_t sieieFull5x5_Mwp, sieipFull5x5_Mwp, sipipFull5x5_Mwp, r9Full5x5_Mwp;
+  //Float_t HoverE_Mwp, chIso_Mwp, phoIso_Mwp, nhIso_Mwp, chWorst_Mwp;
+  //Float_t sieieFull5x5_Mwp, sieipFull5x5_Mwp, sipipFull5x5_Mwp, r9Full5x5_Mwp;
+  Float_t HoverE_sig, chIso_sig, phoIso_sig, nhIso_sig, chWorst_sig;
+  Float_t sieieFull5x5_sig, sieipFull5x5_sig, sipipFull5x5_sig, r9Full5x5_sig;
   //Float_t HoverE_Lwp, sieieFull5x5_Lwp, chIso_Lwp, phoIso_Lwp, nhIso_Lwp;
   //Float_t HoverE_Mwp, r9Full5x5_Mwp, sieieFull5x5_Mwp, chIso_Mwp, phoIso_Mwp, nhIso_Mwp, chWorst_Mwp;
   //Float_t HoverE_Twp, sieieFull5x5_Twp, chIso_Twp, phoIso_Twp, nhIso_Twp;
@@ -160,15 +162,25 @@ void xZg(char* pathes){
   //outtree_->Branch("phoIso_Lwp",       &phoIso_Lwp, "phoIso_Lwp/F");
   //outtree_->Branch("nhIso_Lwp",        &nhIso_Lwp, "nhIso_Lwp/F");
     
-  outtree_->Branch("HoverE_Mwp",       &HoverE_Mwp, "HoverE_Mwp/F");
-  outtree_->Branch("r9Full5x5_Mwp",    &r9Full5x5_Mwp, "r9Full5x5_Mwp/F");
-  outtree_->Branch("sieieFull5x5_Mwp", &sieieFull5x5_Mwp, "sieieFull5x5_Mwp/F");
-  outtree_->Branch("sieipFull5x5_Mwp", &sieipFull5x5_Mwp, "sieipFull5x5_Mwp/F");
-  outtree_->Branch("sipipFull5x5_Mwp", &sipipFull5x5_Mwp, "sipipFull5x5_Mwp/F");
-  outtree_->Branch("chIso_Mwp",        &chIso_Mwp, "chIso_Mwp/F");
-  outtree_->Branch("phoIso_Mwp",       &phoIso_Mwp, "phoIso_Mwp/F");
-  outtree_->Branch("nhIso_Mwp",        &nhIso_Mwp, "nhIso_Mwp/F");
-  outtree_->Branch("chWorst_Mwp",      &chWorst_Mwp, "chWorst_Mwp/F");
+  //outtree_->Branch("HoverE_Mwp",       &HoverE_Mwp, "HoverE_Mwp/F");
+  //outtree_->Branch("r9Full5x5_Mwp",    &r9Full5x5_Mwp, "r9Full5x5_Mwp/F");
+  //outtree_->Branch("sieieFull5x5_Mwp", &sieieFull5x5_Mwp, "sieieFull5x5_Mwp/F");
+  //outtree_->Branch("sieipFull5x5_Mwp", &sieipFull5x5_Mwp, "sieipFull5x5_Mwp/F");
+  //outtree_->Branch("sipipFull5x5_Mwp", &sipipFull5x5_Mwp, "sipipFull5x5_Mwp/F");
+  //outtree_->Branch("chIso_Mwp",        &chIso_Mwp, "chIso_Mwp/F");
+  //outtree_->Branch("phoIso_Mwp",       &phoIso_Mwp, "phoIso_Mwp/F");
+  //outtree_->Branch("nhIso_Mwp",        &nhIso_Mwp, "nhIso_Mwp/F");
+  //outtree_->Branch("chWorst_Mwp",      &chWorst_Mwp, "chWorst_Mwp/F");
+
+  outtree_->Branch("HoverE_sig",       &HoverE_sig, "HoverE_sig/F");
+  outtree_->Branch("r9Full5x5_sig",    &r9Full5x5_sig, "r9Full5x5_sig/F");
+  outtree_->Branch("sieieFull5x5_sig", &sieieFull5x5_sig, "sieieFull5x5_sig/F");
+  outtree_->Branch("sieipFull5x5_sig", &sieipFull5x5_sig, "sieipFull5x5_sig/F");
+  outtree_->Branch("sipipFull5x5_sig", &sipipFull5x5_sig, "sipipFull5x5_sig/F");
+  outtree_->Branch("chIso_sig",        &chIso_sig, "chIso_sig/F");
+  outtree_->Branch("phoIso_sig",       &phoIso_sig, "phoIso_sig/F");
+  outtree_->Branch("nhIso_sig",        &nhIso_sig, "nhIso_sig/F");
+  outtree_->Branch("chWorst_sig",      &chWorst_sig, "chWorst_sig/F");
   
   //outtree_->Branch("HoverE_Twp",       &HoverE_Twp, "HoverE_Twp/F");
   //outtree_->Branch("sieieFull5x5_Twp", &sieieFull5x5_Twp, "sieieFull5x5_Twp/F");
@@ -355,12 +367,12 @@ void xZg(char* pathes){
     //phoIDcut(1, data, matchpho_list, realphoEB_list);
     //phoIDcut(1, data, matchpho_list, realphoEE_list);
 
-    Int_t nrealEBpho;
-    Int_t nrealEBpho_M;
+    Int_t nrealEBpho =0;
+    Int_t nrealEBpho_M =0;
     for(Int_t ipho=0; ipho<nPho; ipho++){
       
       if(isPVGood ==1 && match[ipho] ==1){
-	if(fabs(phoEta[ipho]) < 1.4442){
+	if(fabs(phoEta[ipho]) < 1.4442 && phoEt[ipho] > 200.){
 	  h_realphoEB_pt_var->Fill(phoEt[ipho]);
 	  h_realphoEB_eta_var->Fill(phoEta[ipho]);
 	  h_dphoMETPhi->Fill(deltaPhi(phoPhi[ipho], pfMETPhi));
@@ -379,52 +391,53 @@ void xZg(char* pathes){
 	  nhIso_   = Iso_rc[2][ipho];
 	  chWorst_ = Iso_rc[3][ipho];
 	  realphoEB_list.push_back(ipho);
-	  nrealEBpho++;
-	  
-	  if(cutIDpho_list[ipho] ==1 && fabs(deltaPhi(phoPhi[ipho], pfMETPhi)) > 2){
-	  //if(cutIDpho_list[ipho] == 1){
+	  nrealEBpho += 1;
+
+	  if(cutIDpho_list[ipho] == 1){
 	    h_realphoEB_pt_M_var->Fill(phoEt[ipho]);
 	    h_realphoEB_eta_M_var->Fill(phoEta[ipho]);
-
-	    mcphoEt = mcPt[ipho];
-	    mcphoEta = mcEta[ipho];
-	    mcphoPhi = mcPhi[ipho];
-	    realphoEt = phoEt[ipho];
-	    realphoEta = phoEta[ipho];
-	    realphoPhi = phoPhi[ipho];
+	    if(fabs(deltaPhi(phoPhi[ipho], pfMETPhi)) > 2 && pfMET > 140 && chWorst_ <1.5 ){
+	      mcphoEt = mcPt[ipho];
+	      mcphoEta = mcEta[ipho];
+	      mcphoPhi = mcPhi[ipho];
+	      realphoEt = phoEt[ipho];
+	      realphoEta = phoEta[ipho];
+	      realphoPhi = phoPhi[ipho];
       
-	    r9Full5x5_Mwp = phoR9Full5x5[ipho];
-	    HoverE_Mwp = phoHoverE[ipho];
-	    sieieFull5x5_Mwp = phoSigmaIEtaIEtaFull5x5[ipho];
-	    sieipFull5x5_Mwp = phoSigmaIEtaIPhiFull5x5[ipho];
-	    sipipFull5x5_Mwp = phoSigmaIPhiIPhiFull5x5[ipho];
-	    chIso_Mwp = Iso_rc[0][ipho];
-	    phoIso_Mwp = Iso_rc[1][ipho];
-	    nhIso_Mwp = Iso_rc[2][ipho];
-	    chWorst_Mwp = Iso_rc[3][ipho];
-	    nrealEBpho_M++;
+	      r9Full5x5_sig = phoR9Full5x5[ipho];
+	      HoverE_sig = phoHoverE[ipho];
+	      sieieFull5x5_sig = phoSigmaIEtaIEtaFull5x5[ipho];
+	      sieipFull5x5_sig = phoSigmaIEtaIPhiFull5x5[ipho];
+	      sipipFull5x5_sig = phoSigmaIPhiIPhiFull5x5[ipho];
+	      chIso_sig = Iso_rc[0][ipho];
+	      phoIso_sig = Iso_rc[1][ipho];
+	      nhIso_sig = Iso_rc[2][ipho];
+	      chWorst_sig = Iso_rc[3][ipho];
+	    }
+	    else{
+	      mcphoEt = -999;
+	      mcphoEta = -999;
+	      mcphoPhi = -999;
+	      realphoEt = -999;
+	      realphoEta = -999;
+	      realphoPhi = -999;
+	      HoverE_sig = -999;
+	      r9Full5x5_sig = -999;
+	      sieieFull5x5_sig = -999;
+	      sieipFull5x5_sig = -999;
+	      sipipFull5x5_sig = -999;
+	      chIso_sig = -999;
+	      phoIso_sig = -999;
+	      nhIso_sig = -999;
+	      chWorst_sig = -999;
+	    }
+	  //if(cutIDpho_list[ipho] == 1){  
+	    nrealEBpho_M +=1;
 	  }
 	  else nrealEBpho_M += 0;
 	}
 	else nrealEBpho += 0;
-      }
-      else{
-	mcphoEt = -999;
-	mcphoEta = -999;
-	mcphoPhi = -999;
-	realphoEt = -999;
-	realphoEta = -999;
-	realphoPhi = -999;
-	HoverE_Mwp = -999;
-	r9Full5x5_Mwp = -999;
-	sieieFull5x5_Mwp = -999;
-	sieipFull5x5_Mwp = -999;
-	sipipFull5x5_Mwp = -999;
-	chIso_Mwp = -999;
-	phoIso_Mwp = -999;
-	nhIso_Mwp = -999;
-	chWorst_Mwp = -999;
-      }
+      }  
       outtree_->Fill();
     }
     h_nrealphoEB->Fill(nrealEBpho);
