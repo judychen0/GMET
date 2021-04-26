@@ -17,7 +17,7 @@ void xDrawIso(){
 
   //sieie
   TH1F *H_sieieFull5x5 = new TH1F("H_sieieFull5x5", "H_sieieFull5x5", 40, 0.001, 0.021); 
-  H_sieieFull5x5->GetYaxis()->SetRangeUser(.01, 60000);//60EWK, 800nng
+  H_sieieFull5x5->GetYaxis()->SetRangeUser(.01, 800000);//60EWK, 800nng
   t->Draw("sieieFull5x5>>H_sieieFull5x5");
   title = H_sieieFull5x5->GetName();
   //c1->SaveAs(Form("%s/%s.pdf", saveto, title));
@@ -86,7 +86,7 @@ void xDrawIso(){
 
   //sieip
   TH1F *H_sieipFull5x5 = new TH1F("H_sieipFull5x5", "H_sieipFull5x5", 40, 0.001, 0.021); 
-  H_sieipFull5x5->GetYaxis()->SetRangeUser(.01, 60000);//60EWK, 800nng
+  H_sieipFull5x5->GetYaxis()->SetRangeUser(.01, 800000);//60EWK, 800nng
   t->Draw("sieipFull5x5>>H_sieipFull5x5");
   title = H_sieipFull5x5->GetName();
   //c1->SaveAs(Form("%s/%s.pdf", saveto, title));
@@ -150,7 +150,7 @@ void xDrawIso(){
 
   //sipip
   TH1F *H_sipipFull5x5 = new TH1F("H_sipipFull5x5", "H_sipipFull5x5", 40, 0.001, 0.021); 
-  H_sipipFull5x5->GetYaxis()->SetRangeUser(.01, 60000);//60EWK, 800nng
+  H_sipipFull5x5->GetYaxis()->SetRangeUser(.01, 800000);//60EWK, 800nng
   t->Draw("sipipFull5x5>>H_sipipFull5x5");
   title = H_sipipFull5x5->GetName();
   //c1->SaveAs(Form("%s/%s.pdf", saveto, title));
