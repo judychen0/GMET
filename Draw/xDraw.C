@@ -38,6 +38,11 @@ void xDraw(){
   title = H_nrealphoEB->GetName();
   c1->SaveAs(Form("%s/%s.pdf", saveto, title));
 
+  TH1F *H_nrealphoEB_M = (TH1F*)fopen->Get("h_nrealphoEB_M");
+  H_nrealphoEB_M->Draw();
+  title = H_nrealphoEB_M->GetName();
+  c1->SaveAs(Form("%s/%s.pdf", saveto, title));
+
   Int_t nbins;
   nbins = H_nmcpho->GetNbinsX();
   Double_t mcpho_count = H_nmcpho->Integral(2, nbins);
@@ -56,7 +61,9 @@ void xDraw(){
 
   nbins = H_nrealphoEB->GetNbinsX();
   Double_t nrealphoEB_count = H_nrealphoEB->Integral(2, nbins);
-  Double_t MIDcut_eff = (nrealphoEB_count/matchpho_count);
+  nbins = H_nrealphoEB_M->GetNbinsX();
+  Double_t nrealphoEBM_count = H_nrealphoEB_M->Integral(2, nbins);
+  Double_t MIDcut_eff = (nrealphoEBM_count/nrealphoEB_count);
 
   cout << "M-ID cut eff : " << MIDcut_eff << endl;
   ftext.open("eff.txt", ios::out | ios::app);
@@ -77,7 +84,7 @@ void xDraw(){
   title = H_mcphoEta->GetName();
   c1->SaveAs(Form("%s/%s.pdf", saveto, title));
 
-  TH1F *H_mcphoPhi = new TH1F("H_mcphoPhi", "H_mcphoPhi", 8, -3.14, 3.14);
+  TH1F *H_mcphoPhi = new TH1F("H_mcphoPhi", "H_mcphoPhi", 8, -4, 4);
   t->Draw("mcphoPhi>>H_mcphoPhi");
   title = H_mcphoPhi->GetName();
   c1->SaveAs(Form("%s/%s.pdf", saveto, title));
@@ -87,7 +94,7 @@ void xDraw(){
   title = H_realphoEta->GetName();
   c1->SaveAs(Form("%s/%s.pdf", saveto, title));
 
-  TH1F *H_realphoPhi = new TH1F("H_realphoPhi", "H_realphoPhi", 8, -3.14, 3.14);
+  TH1F *H_realphoPhi = new TH1F("H_realphoPhi", "H_realphoPhi", 8, -4, 4);
   t->Draw("realphoPhi>>H_realphoPhi");
   title = H_realphoPhi->GetName();
   c1->SaveAs(Form("%s/%s.pdf", saveto, title));
