@@ -29,7 +29,7 @@ with open(remotepath, "r") as pathfile:
         script += "\n"
     
         script += "cd $workdir \n"
-        script += "tmp=$(date +%Y%m%d_%H%M%S) \n"
+        script += "tmp=$(date +%y%m%d_%H%M%S) \n"
         script += "mkdir -p $tmp \n"
         script += "cd $tmp \n"
         script += "count=$(ls $datadir | wc -l) \n"
