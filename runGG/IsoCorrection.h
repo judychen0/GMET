@@ -21,17 +21,17 @@ void rhoCorrection(Int_t iso, TreeReader &data, vector<Float_t>& rcIso){
   Int_t iEA = 0;
   
   //[type ch=0, pho=1, nh=2][eta section : iEA]
-  /*
+  
   Float_t EA[3][7] = {{0.0112, 0.0108, 0.0106, 0.01002, 0.0098, 0.0089, 0.000087},
 		      {0.0668, 0.1054, 0.0786, 0.0223, 0.0078, 0.0028, 0.0137},
 		      {0.1113, 0.0953, 0.0619, 0.0837, 0.1070, 0.1212, 0.1446}
   };//Fall17
-  */
+  /*
   Float_t EA[3][7] = {{ 0.036 , 0.0377 , 0.0306 , 0.0283 , 0.0254 , 0.0217 , 0.0167 },
 		      { 0.121 , 0.1107 , 0.0699 , 0.1056 , 0.1457 , 0.1719 , 0.1998 },
 		      { 0.0597 , 0.0807 , 0.0629 , 0.0197 , 0.0184 , 0.0284 , 0.0591 }
   };//spring16 
- 
+  */
 
   for(Int_t ipho=0; ipho<nPho; ipho++){
     
@@ -47,7 +47,7 @@ void rhoCorrection(Int_t iso, TreeReader &data, vector<Float_t>& rcIso){
     if(iso == 0) rcIso.push_back(phoPFChIso[ipho] - rho*EA[iso][iEA]);
     else if(iso == 1) rcIso.push_back(phoPFPhoIso[ipho] - rho*EA[iso][iEA]);
     else if(iso == 2) rcIso.push_back(phoPFNeuIso[ipho] - rho*EA[iso][iEA]);
-    else if(iso == 3) rcIso.push_back(phoPFChWorstIso[ipho] - rho*EA[iso-3][iEA]);
+    else if(iso == 3) rcIso.push_back(phoPFChWorstIso[ipho] - rho*EA[0][iEA]);
   }
 }
 
