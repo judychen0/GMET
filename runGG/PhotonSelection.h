@@ -4,6 +4,24 @@
 #include <vector>
 using namespace std;
 
+Int_t pho_preselection(TreeReader &data, Int_t ipho, Bool_t eleVeto=kTRUE){
+  Int_t phoID=1;
+  Float_t* phoEt = data.GetPtrFloat("phoEt");
+  Float_t* phoEta = data.GetPtrFloat("phoEta");
+  Int_t*   phoEleVeto          = data.GetPtrInt("phoEleVeto");
+  Float_t* phoSigmaIEtaIEta    = data.GetPtrFloat("phoSigmaIEtaIEtaFull5x5");
+  Float_t* phoHoverE           = data.GetPtrFloat("phoHoverE");
+  Float_t* phoPFPhoIso         = data.GetPtrFloat("phoPFPhoIso");
+  Float_t* phoPFChWorstIso   = data.GetPtrFloat("phoPFChWorstIso");
+  Long64_t* phoFiredTrgs = data.GetPtrLong64("phoFiredSingleTrgs");
+
+  if(fabs(phoEta[ipho]) > 1.4442) phoID=0;
+  if((phoFiredTrgs[ipho]>>6&1) == 0) phoID=0;
+  if(phoPFChWorstIso[ipho] > 15.) phoID=0;
+  if(phoEt[ipho] < 200) phoID=0;
+  return phoID;
+}
+
 void pho_selection(Int_t iWP, Int_t region, TreeReader &data, vector<int>& passed){
 
   passed.clear();
@@ -105,6 +123,7 @@ void phoIDcut(Int_t iWP, TreeReader &data,  vector<int>& passed){
     //if((phoID[ipho]>>iWP&1) == 0) continue;
     //passed.push_back(ipho);
     Int_t pass =0;
+    //if()
     if((phoID[ipho]>>iWP&1) == 1) pass =1;
     else pass =0;
     passed.push_back(pass);
