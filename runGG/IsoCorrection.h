@@ -44,10 +44,10 @@ void rhoCorrection(Int_t iso, TreeReader &data, vector<Float_t>& rcIso){
     else if(fabs(phoEta[ipho]) > 2.4) iEA = 6;
 
     
-    if(iso == 0) rcIso.push_back(phoPFChIso[ipho] - rho*EA[iso][iEA]);
-    else if(iso == 1) rcIso.push_back(phoPFPhoIso[ipho] - rho*EA[iso][iEA]);
-    else if(iso == 2) rcIso.push_back(phoPFNeuIso[ipho] - rho*EA[iso][iEA]);
-    else if(iso == 3) rcIso.push_back(phoPFChWorstIso[ipho] - rho*EA[0][iEA]);
+    if(iso == 0) rcIso.push_back(fmax(phoPFChIso[ipho] - rho*EA[iso][iEA], 0.0));
+    else if(iso == 1) rcIso.push_back(fmax(phoPFPhoIso[ipho] - rho*EA[iso][iEA], 0.0));
+    else if(iso == 2) rcIso.push_back(fmax(phoPFNeuIso[ipho] - rho*EA[iso][iEA], 0.0));
+    else if(iso == 3) rcIso.push_back(fmax(phoPFChWorstIso[ipho] - rho*EA[0][iEA], 0.0));
   }
 }
 
