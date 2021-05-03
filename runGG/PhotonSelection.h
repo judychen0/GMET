@@ -22,6 +22,18 @@ Int_t pho_preselection(TreeReader &data, Int_t ipho, Bool_t eleVeto=kTRUE){
   return phoID;
 }
 
+Int_t pho_chselection(TreeReader &data, Int_t ipho, Bool_t eleVeto=kTRUE){
+  Int_t phoID=1;
+  Float_t* phoEt = data.GetPtrFloat("phoEt");
+  Float_t* phoEta = data.GetPtrFloat("phoEta");
+  Short_t* phoIDbit       = data.GetPtrShort("phoIDbit");
+
+  if(phoEt[ipho] <15) phoID = 0;
+  if(phoEta[ipho] >1.4442) phoID = 0;
+  if((phoIDbit[ipho]>>1&1) == 0) phoID = 0;//pass M ID
+
+  return phoID;
+}
 void pho_selection(Int_t iWP, Int_t region, TreeReader &data, vector<int>& passed){
 
   passed.clear();
