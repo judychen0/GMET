@@ -49,7 +49,7 @@ void xZg(char* pathes){
   //create histograms in output .root file
   TH1F *h_npho = new TH1F("h_npho", "n pho", 10, 0., 10);
   TH1F *h_nmcpho = new TH1F("h_nmcpho", "n mcpho", 10, 0., 10);
-  TH1F *h_matchpho = new TH1F("h_matchpho", "n matchpho", 10, 0., 10);
+  TH1F *h_nmatchpho = new TH1F("h_nmatchpho", "n matchpho", 10, 0., 10);
   TH1F *h_dr_pho = new TH1F("h_dr_pho", "dr of photon", 100, 0., 0.2);
   TH1F *h_dpt_pho = new TH1F("h_dpt_pho", "dpt of photon", 100, 0., 1);
   TH2F *h_dptdr_pho = new TH2F("h_dptdr_pho", "dptdr of photon", 100, 0., 1, 100, 0., 2);
@@ -58,21 +58,41 @@ void xZg(char* pathes){
   h_dpt_pho->Sumw2();
   h_dptdr_pho->Sumw2();
 
-  Double_t ptcut[30] = {22, 30, 36, 50, 75, 90, 120, 170, 175, 180, 185, 190, 200,
+  Float_t EAbin[10] = {0.0, 1.0, 1.479, 2.0, 2.2, 2.3, 2.4, 3};//8 bins
+  TH2F *h_chIso_rho[7];
+  TH2F *h_chworst_rho[7];
+  for(Int_t i=0; i<7; i++){
+    h_chIso_rho[i] = new TH2F(Form("h_chIso_rho_eta%f", EAbin[i+1]), Form("h_chIso_rho_eta%f", EAbin[i+1]), 120, 0, 60, 30, 0, 3);
+    h_chworst_rho[i] = new TH2F(Form("h_chworst_rho_eta%f", EAbin[i+1]), Form("h_chworst_rho_eta%f", EAbin[i+1]), 120, 0, 60, 30, 0, 3);
+  }
+
+  Double_t ptbin[30] = {22, 30, 36, 50, 75, 90, 120, 170, 175, 180, 185, 190, 200,
 		     210, 220, 230, 250, 300, 350, 400, 500, 750, 1000, 1500, 2000, 3000, 10000};//24 bins, 2016
   Double_t etabin[10] = {-1.566, -1.4442, -0.8, 0, 0.8, 1.4442, 1.566};//6bins
 
-  TH1F *h_phoEB_pt = new TH1F("h_phoEB_pt", "matched phoEB pt", 24, ptcut);
-  TH1F *h_phoEB_pt_HLT = new TH1F("h_phoEB_pt_HLT", "matched phoEB pt HLT trgs", 24, ptcut);
-  TH1F *h_phoEB_pt_200 = new TH1F("h_phoEB_pt_200", "matched phoEB pt pt200 cut", 24, ptcut);
-  TH1F *h_phoEB_pt_M = new TH1F("h_phoEB_pt_M", "matched phoEB pt M IDcut", 24, ptcut);
-  TH1F *h_phoEB_pt_chworst = new TH1F("h_phoEB_pt_chworst", "matched phoEB pt chworst cut", 24, ptcut);
-  TH1F *h_phoEB_pt_HoverE = new TH1F("h_phoEB_pt_HoverE", "matched phoEB pt HoverEc cut", 24, ptcut);
-  TH1F *h_phoEB_pt_r9 = new TH1F("h_phoEB_pt_r9", "matched phoEB pt r9 cut", 24, ptcut);
-  TH1F *h_phoEB_pt_SeedTime = new TH1F("h_phoEB_pt_SeedTime", "matched phoEB pt SeedTime cut", 24, ptcut);
-  TH1F *h_phoEB_pt_MET = new TH1F("h_phoEB_pt_MET", "matched phoEB pt MET cut", 24, ptcut);
-  TH1F *h_phoEB_pt_dphoMETPhi = new TH1F("h_phoEB_pt_dphoMETPhi", "matched phoEB pt dphoMETPhi cut", 24, ptcut);
-  //TH1F *h_phoEB_pt_MIPEn2 = new TH1F("h_phoEB_pt_MIPEn2", "matched phoEB pt MIP energy cut", 24, ptcut);
+  TH1F *h_phoEB_pt = new TH1F("h_phoEB_pt", "matched phoEB pt", 24, ptbin);
+  TH1F *h_phoEB_pt_HLT = new TH1F("h_phoEB_pt_HLT", "matched phoEB pt HLT trgs", 24, ptbin);
+  
+  Float_t chbin[30] = {0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0, 2.2, 2.4, 2.6, 2.8, 3.0, 3.5, 4.0, 5.0, 6.0, 7.0, 8.0, 10, 12, 15};//24 bins
+  TH1F *h_phoEB_pt_chIsocut[22];
+  TH1F *h_phoEB_pt_chworstcut[22];
+  for(Int_t j=0; j<22; j++){
+    h_phoEB_pt_chIsocut[j] = new TH1F(Form("h_phoEB_pt_chIsocut_%i", j), Form("h_phoEB_pt_chIsocut_%i", j), 24, ptbin);
+    h_phoEB_pt_chworstcut[j] = new TH1F(Form("h_phoEB_pt_chworstcut_%i", j), Form("h_phoEB_pt_chworstcut_%i", j), 24, ptbin);
+
+    h_phoEB_pt_chIsocut[j]->Sumw2();
+    h_phoEB_pt_chworstcut[j]->Sumw2();
+  }
+
+  TH1F *h_phoEB_pt_200 = new TH1F("h_phoEB_pt_200", "matched phoEB pt pt200 cut", 24, ptbin);
+  TH1F *h_phoEB_pt_M = new TH1F("h_phoEB_pt_M", "matched phoEB pt M IDcut", 24, ptbin);
+  //TH1F *h_phoEB_pt_chworst = new TH1F("h_phoEB_pt_chworst", "matched phoEB pt chworst cut", 24, ptbin);
+  //TH1F *h_phoEB_pt_HoverE = new TH1F("h_phoEB_pt_HoverE", "matched phoEB pt HoverEc cut", 24, ptbin);
+  TH1F *h_phoEB_pt_r9 = new TH1F("h_phoEB_pt_r9", "matched phoEB pt r9 cut", 24, ptbin);
+  //TH1F *h_phoEB_pt_SeedTime = new TH1F("h_phoEB_pt_SeedTime", "matched phoEB pt SeedTime cut", 24, ptbin);
+  TH1F *h_phoEB_pt_MET = new TH1F("h_phoEB_pt_MET", "matched phoEB pt MET cut", 24, ptbin);
+  TH1F *h_phoEB_pt_dphoMETPhi = new TH1F("h_phoEB_pt_dphoMETPhi", "matched phoEB pt dphoMETPhi cut", 24, ptbin);
+  //TH1F *h_phoEB_pt_MIPEn2 = new TH1F("h_phoEB_pt_MIPEn2", "matched phoEB pt MIP energy cut", 24, ptbin);
 
   TH1F *h_phoEB_ptoverMET = new TH1F("h_phoEB_ptoverMET", "phoEB pt/MET", 20, 0, 4);
   TH1F *h_phoEB_eta = new TH1F("h_phoEB_eta", "matched phoEB eta varbins", 6, etabin);
@@ -81,10 +101,10 @@ void xZg(char* pathes){
   h_phoEB_pt->Sumw2();
   h_phoEB_pt_200->Sumw2();
   h_phoEB_pt_M->Sumw2();
-  h_phoEB_pt_chworst->Sumw2();
-  h_phoEB_pt_HoverE->Sumw2();
+  //h_phoEB_pt_chworst->Sumw2();
+  //h_phoEB_pt_HoverE->Sumw2();
   h_phoEB_pt_r9->Sumw2();
-  h_phoEB_pt_SeedTime->Sumw2();
+  //h_phoEB_pt_SeedTime->Sumw2();
   //h_phoEB_pt_MIPEn2->Sumw2();
   h_phoEB_eta->Sumw2();
   h_phoEB_eta_M->Sumw2();
@@ -103,20 +123,25 @@ void xZg(char* pathes){
   Long64_t event;
   Int_t nVtx;
   Float_t npho_, nmcpho_, matchpho_;
+  Int_t isMatched;
   Long64_t HLT, HLTIsPrescaled;
   //Float_t MIPE;
   Float_t  pfMET =0;
   Float_t  pfMETPhi =0;
+  Float_t  pfMET_sig =0;
+  Float_t  pfMETPhi_sig =0;
   Float_t genMET =0;
   Float_t genMETPhi =0;
 
   Float_t SeedTime_, SeedEnergy_, MIPTotEnergy_;
   Float_t mcphoEt, mcphoEta, mcphoPhi, realphoEt, realphoEta, realphoPhi;
-  Float_t HoverE, sieie, chIso, phoIso, nhIso, chWorst, eleVeto, rho;
+  Float_t HoverE, sieie, chIso, phoIso, nhIso, chWorst, eleVeto, rho_;
   Float_t chIso_, phoIso_, nhIso_, chWorst_;
   Float_t sieieFull5x5, sieipFull5x5, sipipFull5x5, r9Full5x5;
-  Float_t HoverE_sig, chIso_sig, phoIso_sig, nhIso_sig, chWorst_sig;
+  Float_t HoverE_sig, chIso_sig, phoIso_sig, nhIso_sig, chWorst_sig, rho_sig;
   Float_t sieieFull5x5_sig, sieipFull5x5_sig, sipipFull5x5_sig, r9Full5x5_sig;
+
+  Float_t chcut[30] = {0.1, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0, 2.2, 2.4, 2.6, 2.8, 3.0, 3.5, 4.0, 5.0, 6.0, 7.0, 8.0, 10, 12, 15};//22 cut
   
   TTree *outtree_;
   outtree_ = new TTree("t", "mini tree");
@@ -135,7 +160,9 @@ void xZg(char* pathes){
   outtree_->Branch("realphoPhi",  &realphoPhi, "realphoPhi/F");
   
   outtree_->Branch("eleVeto",     &eleVeto,      "eleVeto/I");
+  
   outtree_->Branch("HoverE",      &HoverE,       "HoverE/F");
+  outtree_->Branch("rho",         &rho_,         "rho/F");
   outtree_->Branch("chIso",       &chIso,        "chIso/F");
   outtree_->Branch("phoIso",      &phoIso,       "phoIso/F");
   outtree_->Branch("nhIso",       &nhIso,        "nhIso/F");
@@ -151,14 +178,16 @@ void xZg(char* pathes){
   outtree_->Branch("r9Full5x5",           &r9Full5x5,           "r9Full5x5/F");
 
   outtree_->Branch("HoverE_sig",       &HoverE_sig, "HoverE_sig/F");
-  outtree_->Branch("r9Full5x5_sig",    &r9Full5x5_sig, "r9Full5x5_sig/F");
-  outtree_->Branch("sieieFull5x5_sig", &sieieFull5x5_sig, "sieieFull5x5_sig/F");
-  outtree_->Branch("sieipFull5x5_sig", &sieipFull5x5_sig, "sieipFull5x5_sig/F");
-  outtree_->Branch("sipipFull5x5_sig", &sipipFull5x5_sig, "sipipFull5x5_sig/F");
+  outtree_->Branch("rho_sig",          &rho_sig,    "rho_sig/F");
   outtree_->Branch("chIso_sig",        &chIso_sig, "chIso_sig/F");
   outtree_->Branch("phoIso_sig",       &phoIso_sig, "phoIso_sig/F");
   outtree_->Branch("nhIso_sig",        &nhIso_sig, "nhIso_sig/F");
   outtree_->Branch("chWorst_sig",      &chWorst_sig, "chWorst_sig/F");
+  outtree_->Branch("sieieFull5x5_sig", &sieieFull5x5_sig, "sieieFull5x5_sig/F");
+  outtree_->Branch("sieipFull5x5_sig", &sieipFull5x5_sig, "sieipFull5x5_sig/F");
+  outtree_->Branch("sipipFull5x5_sig", &sipipFull5x5_sig, "sipipFull5x5_sig/F");
+  outtree_->Branch("r9Full5x5_sig",    &r9Full5x5_sig, "r9Full5x5_sig/F");
+  
   
   //outtree_->Branch("MIPTotEnergy", &MIPTotEnergy_, "MIPTotEnergy/F");
 
@@ -166,6 +195,8 @@ void xZg(char* pathes){
   outtree_->Branch("genMETPhi", &genMETPhi, "genMETPhi/F");
   outtree_->Branch("pfMET", &pfMET, "pfMET/F");
   outtree_->Branch("pfMETPhi", &pfMETPhi, "pfMETPhi/F");
+  outtree_->Branch("pfMET_sig", &pfMET_sig, "pfMET_sig/F");
+  outtree_->Branch("pfMETPhi_sig", &pfMETPhi_sig, "pfMETPhi_sig/F");
 
   //***********************Loop***********************//
   for (Long64_t ev = 0; ev < data.GetEntriesFast(); ev++){
@@ -200,7 +231,7 @@ void xZg(char* pathes){
     Float_t* phoSigmaIPhiIPhiFull5x5  = 0;
     Float_t* phoR9Full5x5           = 0;
     Float_t* phoPFChWorst   = 0; 
-    Float_t  rho                    = 0; 
+    Float_t  rho           = 0; 
     Short_t* phoID         = 0;
 
     Long64_t* phoFiredTrgs = 0;
@@ -286,9 +317,9 @@ void xZg(char* pathes){
     vector<Int_t> mc_phoid; mc_phoid.clear();
     Int_t nMCpho =0;
     for(Int_t k=0; k < nMC; k++){
-      if(fabs(mcMomPID[k]) >= 25) continue;
-      if(fabs(mcMomPID[k]) > 6 && fabs(mcMomPID[k]) < 22) continue;
-      if((mcStatus[k]>>1&1) == 0) continue;
+      if(fabs(mcMomPID[k]) > 6) continue;
+      //if(fabs(mcMomPID[k]) > 6 && fabs(mcMomPID[k]) < 22) continue;
+      if((mcStatus[k]>>1&1) == 0) continue;//isPromptFinalState passed 
       if(mcPID[k] == 22){
 	mc_phoid.push_back(k);
 	nMCpho++;
@@ -321,21 +352,29 @@ void xZg(char* pathes){
       }
       match.push_back(isMatched);
     }
-    h_matchpho->Fill(nmatchpho);
+    h_nmatchpho->Fill(nmatchpho);
 
     vector<Int_t> cutIDpho_list; cutIDpho_list.clear();//Medium Id
     phoIDcut(1, data, cutIDpho_list);
 
     Int_t nphotrgs =0;
+    if(nmatchpho == 0 || nmatchpho > 1) continue;//match to single pho
     for(Int_t ipho=0; ipho<nPho; ipho++){
       if(isPVGood==0) continue;
       if(match[ipho] ==1){
-	//if(fabs(phoEta[ipho]) < 1.4442 && (phoFiredTrgs[ipho]>>6&1) == 1){
-	//nphotrgs++;
+	
+	for(Int_t j=0; j<7; j++){
+	  if(fabs(phoEta[ipho]) >= EAbin[j] && fabs(phoEta[ipho]) < EAbin[j+1]){
+	    h_chIso_rho[j]->Fill(rho, Iso_raw[0][ipho]);
+	    h_chworst_rho[j]->Fill(rho, Iso_raw[3][ipho]);
+	  }
+	}
+	
 	if(fabs(phoEta[ipho]) < 1.4442){
 	  h_phoEB_pt->Fill(phoEt[ipho]);
 	  h_phoEB_eta->Fill(phoEta[ipho]);
 	}
+	
 	Int_t pho_presel = pho_preselection(data, ipho, kTRUE);
 	if(pho_presel ==1){
 	  h_phoEB_pt_HLT->Fill(phoEt[ipho]);
@@ -345,6 +384,7 @@ void xZg(char* pathes){
 
 	  r9Full5x5    =  phoR9Full5x5[ipho];
 	  HoverE       =  phoHoverE[ipho];
+	  rho_         =  rho;
 	  sieieFull5x5 =  phoSigmaIEtaIEtaFull5x5[ipho];
 	  sieipFull5x5 =  phoSigmaIEtaIPhiFull5x5[ipho];
 	  sipipFull5x5 =  phoSigmaIPhiIPhiFull5x5[ipho];
@@ -356,7 +396,12 @@ void xZg(char* pathes){
 	  phoIso_  = Iso_rc[1][ipho];
 	  nhIso_   = Iso_rc[2][ipho];
 	  chWorst_ = Iso_rc[3][ipho];
-	    
+
+	  for(Int_t j=0; j<22; j++){
+	    if(chIso_ < chcut[j]) h_phoEB_pt_chIsocut[j]->Fill(phoEt[ipho]);
+	    if(chWorst_ < chcut[j]) h_phoEB_pt_chworstcut[j]->Fill(phoEt[ipho]);
+	  }
+	  
 	  if(cutIDpho_list[ipho] != 1) continue;
 	  h_phoEB_pt_M->Fill(phoEt[ipho]);
 	  h_phoEB_eta_M->Fill(phoEta[ipho]);
@@ -364,8 +409,9 @@ void xZg(char* pathes){
 	  //if(chWorst_ < 1.5) h_phoEB_pt_chworst->Fill(phoEt[ipho]);
 	  //if(chWorst_ < 1.5 && HoverE < 0.05) h_phoEB_pt_HoverE->Fill(phoEt[ipho]);
 	  //if(chWorst_ < 1.5 && HoverE < 0.05 && r9Full5x5 < 1){
-	  if(HoverE < 0.05) h_phoEB_pt_HoverE->Fill(phoEt[ipho]);
-	  if(HoverE < 0.05 && r9Full5x5 < 1){
+	  //if(HoverE < 0.05) h_phoEB_pt_HoverE->Fill(phoEt[ipho]);
+	  //if(HoverE < 0.05 && r9Full5x5 < 1){
+	  if(r9Full5x5 < 1){
 	    h_phoEB_pt_r9->Fill(phoEt[ipho]);
 	    if(pfMET >140) h_phoEB_pt_MET->Fill(phoEt[ipho]);
 	    if(fabs(deltaPhi(phoPhi[ipho], pfMETPhi)) > 1.6) {
@@ -394,11 +440,14 @@ void xZg(char* pathes){
 	      phoIso_sig = Iso_rc[1][ipho];
 	      nhIso_sig = Iso_rc[2][ipho];
 	      chWorst_sig = Iso_rc[3][ipho];
+
+	      pfMET_sig = pfMET;
+	      pfMETPhi_sig = pfMETPhi;
 	    }
 	  }
 	}
 	  
-      }//matched pho
+      }//isMatched pho
     }
     h_nphotrgs->Fill(nphotrgs);
     outtree_->Fill();
@@ -411,7 +460,7 @@ void xZg(char* pathes){
 
   h_npho->Write();
   h_nmcpho->Write();
-  h_matchpho->Write(); 
+  h_nmatchpho->Write(); 
   h_dr_pho->Write();
   h_dpt_pho->Write();
   h_dptdr_pho->Write();
@@ -420,8 +469,8 @@ void xZg(char* pathes){
   h_phoEB_pt_HLT->Write();
   h_phoEB_pt_200->Write();
   h_phoEB_pt_M->Write();
-  h_phoEB_pt_chworst->Write();
-  h_phoEB_pt_HoverE->Write();
+  //h_phoEB_pt_chworst->Write();
+  //h_phoEB_pt_HoverE->Write();
   h_phoEB_pt_r9->Write();
   h_phoEB_pt_dphoMETPhi->Write();
   h_phoEB_pt_MET->Write();
@@ -436,7 +485,30 @@ void xZg(char* pathes){
   h_dphoMETPhi->Write();
   h_nphotrgs->Write();
   //h_MIPEn2->Write();
+  fout_->mkdir("h_phoEB_pt_chIsocut");
+  fout_->cd("h_phoEB_pt_chIsocut");
+  for(Int_t i=0; i<22; i++){
+    h_phoEB_pt_chIsocut[i]->Write();
+  }
 
+  fout_->mkdir("h_phoEB_pt_chworstcut");
+  fout_->cd("h_phoEB_pt_chworstcut");
+  for(Int_t i=0; i<22; i++){
+    h_phoEB_pt_chworstcut[i]->Write();
+  }
+
+  fout_->mkdir("h_chIso_rho");
+  fout_->cd("h_chIso_rho");
+  for(Int_t i=0; i<7; i++){
+    h_chIso_rho[i]->Write();
+  }
+
+  fout_->mkdir("h_chworst_rho");
+  fout_->cd("h_chworst_rho");
+  for(Int_t i=0; i<7; i++){
+    h_chworst_rho[i]->Write();
+  }
+  
   fout_->Close();
   fprintf(stderr, "Processed all events\n");
 }
