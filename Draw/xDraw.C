@@ -11,6 +11,7 @@ void xDraw(){
   TFile *fopen = new TFile(rootname);
   TCanvas *c1 = new TCanvas("c1");
   TTree *t =(TTree*)fopen->Get("t");
+  Int_t Events = t->GetEntries();
 
   const char *title;
   //const char *saveto = "/home/judy/ntuhep/GJet/summer16_Zg_EWK/"; 
@@ -33,15 +34,15 @@ void xDraw(){
   title = H_matchpho->GetName();
   c1->SaveAs(Form("%s/%s.pdf", saveto, title));
 
-  TH1F *H_nrealphoEB = (TH1F*)fopen->Get("h_nrealphoEB");
-  H_nrealphoEB->Draw();
-  title = H_nrealphoEB->GetName();
-  c1->SaveAs(Form("%s/%s.pdf", saveto, title));
+  //TH1F *H_nrealphoEB = (TH1F*)fopen->Get("h_nrealphoEB");
+  //H_nrealphoEB->Draw();
+  //title = H_nrealphoEB->GetName();
+  //c1->SaveAs(Form("%s/%s.pdf", saveto, title));
 
-  TH1F *H_nrealphoEB_M = (TH1F*)fopen->Get("h_nrealphoEB_M");
-  H_nrealphoEB_M->Draw();
-  title = H_nrealphoEB_M->GetName();
-  c1->SaveAs(Form("%s/%s.pdf", saveto, title));
+  //TH1F *H_nrealphoEB_M = (TH1F*)fopen->Get("h_nrealphoEB_M");
+  //H_nrealphoEB_M->Draw();
+  //title = H_nrealphoEB_M->GetName();
+  //c1->SaveAs(Form("%s/%s.pdf", saveto, title));
 
   Int_t nbins;
   nbins = H_nmcpho->GetNbinsX();
@@ -59,20 +60,20 @@ void xDraw(){
   ftext <<  "gen-matched eff : " << genmatch_eff << endl;
   ftext.close();
 
-  nbins = H_nrealphoEB->GetNbinsX();
-  Double_t nrealphoEB_count = H_nrealphoEB->Integral(2, nbins);
-  nbins = H_nrealphoEB_M->GetNbinsX();
-  Double_t nrealphoEBM_count = H_nrealphoEB_M->Integral(2, nbins);
-  Double_t MIDcut_eff = (nrealphoEBM_count/nrealphoEB_count);
+  //nbins = H_nrealphoEB->GetNbinsX();
+  //Double_t nrealphoEB_count = H_nrealphoEB->Integral(2, nbins);
+  //nbins = H_nrealphoEB_M->GetNbinsX();
+  //Double_t nrealphoEBM_count = H_nrealphoEB_M->Integral(2, nbins);
+  //Double_t MIDcut_eff = (nrealphoEBM_count/nrealphoEB_count);
 
-  cout << "M-ID cut eff : " << MIDcut_eff << endl;
-  ftext.open("eff.txt", ios::out | ios::app);
-  if(!ftext){
-    cerr << "Can't open file !" << endl;
-    exit(1);
-  }
-  ftext <<  "M-ID cut eff : " << MIDcut_eff << endl;
-  ftext.close();
+  //cout << "M-ID cut eff : " << MIDcut_eff << endl;
+  //ftext.open("eff.txt", ios::out | ios::app);
+  //if(!ftext){
+  //cerr << "Can't open file !" << endl;
+  //exit(1);
+  //}
+  //ftext <<  "M-ID cut eff : " << MIDcut_eff << endl;
+  //ftext.close();
   
   
   Double_t ptcut[30] = {22, 30, 36, 50, 75, 90, 120, 170, 175, 180, 185, 190, 200,
@@ -99,27 +100,22 @@ void xDraw(){
   title = H_realphoPhi->GetName();
   c1->SaveAs(Form("%s/%s.pdf", saveto, title));
 
+  TH1F *H_dphoMETPhi = (TH1F*)fopen->Get("h_dphoMETPhi");
+  H_dphoMETPhi->Draw();
+  title = H_dphoMETPhi->GetName();
+  c1->SaveAs(Form("%s/%s.pdf", saveto, title));
+
   c1->SetLogy();
   c1->Update();
 
-  TH1F *H_mcphoEt = new TH1F("H_mcphoEt", "H_mcphoEt", 24, ptcut);
+  TH1F *H_mcphoEt = new TH1F("H_mcphoEt", "H_mcphoEt", 1, 100., 1100);
   t->Draw("mcphoEt>>H_mcphoEt");
   title = H_mcphoEt->GetName();
   c1->SaveAs(Form("%s/%s.pdf", saveto, title));
   
-  TH1F *H_realphoEt = new TH1F("H_realphoEt", "H_realphoEt", 24, ptcut);
+  TH1F *H_realphoEt = new TH1F("H_realphoEt", "H_realphoEt", 10, 100., 1100);
   t->Draw("realphoEt>>H_realphoEt");
   title = H_realphoEt->GetName();
-  c1->SaveAs(Form("%s/%s.pdf", saveto, title));
-
-  TH1F *H_genMET = (TH1F*)fopen->Get("h_genMET");
-  H_genMET->Draw();
-  title = H_genMET->GetName();
-  c1->SaveAs(Form("%s/%s.pdf", saveto, title));
-  
-  TH1F *H_genMETPhi = (TH1F*)fopen->Get("h_genMETPhi");
-  H_genMETPhi->Draw();
-  title = H_genMETPhi->GetName();
   c1->SaveAs(Form("%s/%s.pdf", saveto, title));
 
   TH1F *H_MET = (TH1F*)fopen->Get("h_MET");
@@ -127,11 +123,7 @@ void xDraw(){
   title = H_MET->GetName();
   c1->SaveAs(Form("%s/%s.pdf", saveto, title));
 
-  TH1F *H_METPhi = (TH1F*)fopen->Get("h_METPhi");
-  H_METPhi->Draw();
-  title = H_METPhi->GetName();
-  c1->SaveAs(Form("%s/%s.pdf", saveto, title));
-  
+ 
   TH1F *H_dr_pho = (TH1F*)fopen->Get("h_dr_pho");
   H_dr_pho->Draw();
   title = H_dr_pho->GetName();
@@ -141,7 +133,6 @@ void xDraw(){
   H_dpt_pho->Draw();
   title = H_dpt_pho->GetName();
   c1->SaveAs(Form("%s/%s.pdf", saveto, title));
-
   
   TH1F *H_dptdr_pho = (TH1F*)fopen->Get("h_dptdr_pho");
   c1->SetLogz(); c1->Update();
