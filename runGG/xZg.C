@@ -91,8 +91,9 @@ void xZg(char* pathes){
   TH1F *h_phoEB_pt_r9 = new TH1F("h_phoEB_pt_r9", "matched phoEB pt r9 cut", 24, ptbin);
   //TH1F *h_phoEB_pt_SeedTime = new TH1F("h_phoEB_pt_SeedTime", "matched phoEB pt SeedTime cut", 24, ptbin);
   TH1F *h_phoEB_pt_MET = new TH1F("h_phoEB_pt_MET", "matched phoEB pt MET cut", 24, ptbin);
+  TH1F *h_phoEB_pt_SeedTime = new TH1F("h_phoEB_pt_SeedTime", "matched phoEB pt SeedTime cut", 24, ptbin);
   TH1F *h_phoEB_pt_dphoMETPhi = new TH1F("h_phoEB_pt_dphoMETPhi", "matched phoEB pt dphoMETPhi cut", 24, ptbin);
-  //TH1F *h_phoEB_pt_MIPEn2 = new TH1F("h_phoEB_pt_MIPEn2", "matched phoEB pt MIP energy cut", 24, ptbin);
+  TH1F *h_phoEB_pt_MIPEn2 = new TH1F("h_phoEB_pt_MIPEn2", "matched phoEB pt MIP energy cut", 24, ptbin);
 
   TH1F *h_phoEB_ptoverMET = new TH1F("h_phoEB_ptoverMET", "phoEB pt/MET", 20, 0, 4);
   TH1F *h_phoEB_eta = new TH1F("h_phoEB_eta", "matched phoEB eta varbins", 6, etabin);
@@ -104,18 +105,22 @@ void xZg(char* pathes){
   //h_phoEB_pt_chworst->Sumw2();
   //h_phoEB_pt_HoverE->Sumw2();
   h_phoEB_pt_r9->Sumw2();
-  //h_phoEB_pt_SeedTime->Sumw2();
+  h_phoEB_pt_SeedTime->Sumw2();
   //h_phoEB_pt_MIPEn2->Sumw2();
   h_phoEB_eta->Sumw2();
   h_phoEB_eta_M->Sumw2();
   h_phoEB_pt_dphoMETPhi->Sumw2();
   h_phoEB_pt_MET->Sumw2();
   
-  TH1F *h_nphotrgs = new TH1F("h_nphotrgs", "n HLT pho", 10, 0, 10);
-  //TH1F *h_MIPEn2 = new TH1F("h_MIPEn2","squared MIPEn", 100, 0, 10);
+  //TH1F *h_nphotrgs = new TH1F("h_nphotrgs", "n HLT pho", 10, 0, 10);
+  TH1F *h_MIPEn2 = new TH1F("h_MIPEn2","squared MIPEn", 100, 0, 10);
   TH1F *h_MET = new TH1F("h_MET", "pf MET cut dphoMETPhi", 40, 0, 800);
   //TH1F *h_METPhi = new TH1F("h_METPhi", "pf MET Phi", 8, -4, 4);
   TH1F *h_dphoMETPhi = new TH1F("h_dphoMETPhi", "deltaPhi of matched pho and MET", 80, -4, 4);
+
+  h_MIPEn2->Sumw2();
+  h_MET->Sumw2();
+  h_dphoMETPhi->Sumw2();
 
   //define branch variables
   Bool_t   isData, isPVGood;
@@ -128,18 +133,20 @@ void xZg(char* pathes){
   //Float_t MIPE;
   Float_t  pfMET =0;
   Float_t  pfMETPhi =0;
-  Float_t  pfMET_sig =0;
-  Float_t  pfMETPhi_sig =0;
+  Float_t  pfMET_cut =0;
+  Float_t  pfMETPhi_cut =0;
   Float_t genMET =0;
   Float_t genMETPhi =0;
 
-  Float_t SeedTime_, SeedEnergy_, MIPTotEnergy_;
+  Float_t SeedTime_, SeedEnergy_, MIPEnergy_;
+  Float_t SeedTime_cut, SeedEnergy_cut, MIPEnergy_cut;
   Float_t mcphoEt, mcphoEta, mcphoPhi, realphoEt, realphoEta, realphoPhi;
-  Float_t HoverE, sieie, chIso, phoIso, nhIso, chWorst, eleVeto, rho_;
+  Int_t   eleVeto, hasSeed;
+  Float_t HoverE, sieie, chIso, phoIso, nhIso, chWorst, rho_;
   Float_t chIso_, phoIso_, nhIso_, chWorst_;
   Float_t sieieFull5x5, sieipFull5x5, sipipFull5x5, r9Full5x5;
-  Float_t HoverE_sig, chIso_sig, phoIso_sig, nhIso_sig, chWorst_sig, rho_sig;
-  Float_t sieieFull5x5_sig, sieipFull5x5_sig, sipipFull5x5_sig, r9Full5x5_sig;
+  Float_t HoverE_cut, chIso_cut, phoIso_cut, nhIso_cut, chWorst_cut, rho_cut;
+  Float_t sieieFull5x5_cut, sieipFull5x5_cut, sipipFull5x5_cut, r9Full5x5_cut;
 
   Float_t chcut[30] = {0.1, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0, 2.2, 2.4, 2.6, 2.8, 3.0, 3.5, 4.0, 5.0, 6.0, 7.0, 8.0, 10, 12, 15};//22 cut
   
@@ -160,6 +167,7 @@ void xZg(char* pathes){
   outtree_->Branch("realphoPhi",  &realphoPhi, "realphoPhi/F");
   
   outtree_->Branch("eleVeto",     &eleVeto,      "eleVeto/I");
+  outtree_->Branch("hasSeed",     &hasSeed,      "hasSeed/I");
   
   outtree_->Branch("HoverE",      &HoverE,       "HoverE/F");
   outtree_->Branch("rho",         &rho_,         "rho/F");
@@ -177,26 +185,30 @@ void xZg(char* pathes){
   outtree_->Branch("sipipFull5x5",        &sipipFull5x5,        "sipipFull5x5/F");
   outtree_->Branch("r9Full5x5",           &r9Full5x5,           "r9Full5x5/F");
 
-  outtree_->Branch("HoverE_sig",       &HoverE_sig, "HoverE_sig/F");
-  outtree_->Branch("rho_sig",          &rho_sig,    "rho_sig/F");
-  outtree_->Branch("chIso_sig",        &chIso_sig, "chIso_sig/F");
-  outtree_->Branch("phoIso_sig",       &phoIso_sig, "phoIso_sig/F");
-  outtree_->Branch("nhIso_sig",        &nhIso_sig, "nhIso_sig/F");
-  outtree_->Branch("chWorst_sig",      &chWorst_sig, "chWorst_sig/F");
-  outtree_->Branch("sieieFull5x5_sig", &sieieFull5x5_sig, "sieieFull5x5_sig/F");
-  outtree_->Branch("sieipFull5x5_sig", &sieipFull5x5_sig, "sieipFull5x5_sig/F");
-  outtree_->Branch("sipipFull5x5_sig", &sipipFull5x5_sig, "sipipFull5x5_sig/F");
-  outtree_->Branch("r9Full5x5_sig",    &r9Full5x5_sig, "r9Full5x5_sig/F");
+  outtree_->Branch("HoverE_cut",       &HoverE_cut, "HoverE_cut/F");
+  outtree_->Branch("rho_cut",          &rho_cut,    "rho_cut/F");
+  outtree_->Branch("chIso_cut",        &chIso_cut, "chIso_cut/F");
+  outtree_->Branch("phoIso_cut",       &phoIso_cut, "phoIso_cut/F");
+  outtree_->Branch("nhIso_cut",        &nhIso_cut, "nhIso_cut/F");
+  outtree_->Branch("chWorst_cut",      &chWorst_cut, "chWorst_cut/F");
+  outtree_->Branch("sieieFull5x5_cut", &sieieFull5x5_cut, "sieieFull5x5_cut/F");
+  outtree_->Branch("sieipFull5x5_cut", &sieipFull5x5_cut, "sieipFull5x5_cut/F");
+  outtree_->Branch("sipipFull5x5_cut", &sipipFull5x5_cut, "sipipFull5x5_cut/F");
+  outtree_->Branch("r9Full5x5_cut",    &r9Full5x5_cut, "r9Full5x5_cut/F");
   
-  
-  //outtree_->Branch("MIPTotEnergy", &MIPTotEnergy_, "MIPTotEnergy/F");
+  outtree_->Branch("SeedTime",     &SeedTime_,     "SeedTime/F");
+  outtree_->Branch("SeedEnergy",   &SeedEnergy_,   "SeedEnergy/F");
+  outtree_->Branch("MIPEnergy", &MIPEnergy_, "MIPEnergy/F");
+  outtree_->Branch("SeedTime_cut",     &SeedTime_cut,     "SeedTime_cut/F");
+  outtree_->Branch("SeedEnergy_cut",   &SeedEnergy_cut,   "SeedEnergy_cut/F");
+  outtree_->Branch("MIPEnergy_cut", &MIPEnergy_cut, "MIPEnergy_cut/F");
 
   outtree_->Branch("genMET", &genMET, "genMET/F");
   outtree_->Branch("genMETPhi", &genMETPhi, "genMETPhi/F");
   outtree_->Branch("pfMET", &pfMET, "pfMET/F");
   outtree_->Branch("pfMETPhi", &pfMETPhi, "pfMETPhi/F");
-  outtree_->Branch("pfMET_sig", &pfMET_sig, "pfMET_sig/F");
-  outtree_->Branch("pfMETPhi_sig", &pfMETPhi_sig, "pfMETPhi_sig/F");
+  outtree_->Branch("pfMET_cut", &pfMET_cut, "pfMET_cut/F");
+  outtree_->Branch("pfMETPhi_cut", &pfMETPhi_cut, "pfMETPhi_cut/F");
 
   //***********************Loop***********************//
   for (Long64_t ev = 0; ev < data.GetEntriesFast(); ev++){
@@ -224,7 +236,8 @@ void xZg(char* pathes){
     Float_t* phoHoverE = 0; 
     Float_t* phoPFChIso          = 0; 
     Float_t* phoPFNeuIso         = 0; 
-    Float_t* phoPFPhoIso         = 0; 
+    Float_t* phoPFPhoIso         = 0;
+    Int_t*   phohasPixelSeed     = 0;
     Int_t*   phoEleVeto          = 0; 
     Float_t* phoSigmaIEtaIEtaFull5x5  = 0;
     Float_t* phoSigmaIEtaIPhiFull5x5  = 0;
@@ -235,6 +248,8 @@ void xZg(char* pathes){
     Short_t* phoID         = 0;
 
     Long64_t* phoFiredTrgs = 0;
+    Float_t* phoSeedTime    =0;
+    Float_t* phoSeedEnergy  =0;
     Float_t* phoMIPTotEnergy= 0;
 
     phoE = data.GetPtrFloat("phoE");
@@ -246,6 +261,7 @@ void xZg(char* pathes){
     phoPFChIso          = data.GetPtrFloat("phoPFChIso");
     phoPFNeuIso         = data.GetPtrFloat("phoPFNeuIso");
     phoPFPhoIso         = data.GetPtrFloat("phoPFPhoIso");
+    phohasPixelSeed     = data.GetPtrInt("phohasPixelSeed");
     phoEleVeto          = data.GetPtrInt("phoEleVeto");
     phoSigmaIEtaIEtaFull5x5  = data.GetPtrFloat("phoSigmaIEtaIEtaFull5x5");
     phoSigmaIEtaIPhiFull5x5  = data.GetPtrFloat("phoSigmaIEtaIPhiFull5x5");
@@ -255,8 +271,10 @@ void xZg(char* pathes){
     rho                    = data.GetFloat("rho");
     phoID         = data.GetPtrShort("phoIDbit");
     phoFiredTrgs = data.GetPtrLong64("phoFiredSingleTrgs");
-    
-    //phoMIPTotEnergy = data.GetPtrFloat("phoMIPTotEnergy");
+
+    phoSeedTime     = data.GetPtrFloat("phoSeedTime");
+    phoSeedEnergy   = data.GetPtrFloat("phoSeedEnergy");
+    phoMIPTotEnergy = data.GetPtrFloat("phoMIPTotEnergy");
       
     pfMET     = data.GetFloat("pfMET");
     pfMETPhi  = data.GetFloat("pfMETPhi");
@@ -356,11 +374,56 @@ void xZg(char* pathes){
 
     vector<Int_t> cutIDpho_list; cutIDpho_list.clear();//Medium Id
     phoIDcut(1, data, cutIDpho_list);
+    vector<Int_t> phoEB_pt, phoEB_pt_cut;
+    phoEB_pt.clear();
+    phoEB_pt_cut.clear();
 
     Int_t nphotrgs =0;
     if(nmatchpho == 0 || nmatchpho > 1) continue;//match to single pho
     for(Int_t ipho=0; ipho<nPho; ipho++){
       if(isPVGood==0) continue;
+      if(match[ipho] == 0) continue;
+      
+      if(fabs(phoEta[ipho]) > 1.4442) continue;
+      h_phoEB_pt->Fill(phoEt[ipho]);
+      h_phoEB_eta->Fill(phoEta[ipho]);
+      
+      for(Int_t j=0; j<7; j++){
+	if(fabs(phoEta[ipho]) >= EAbin[j] && fabs(phoEta[ipho]) < EAbin[j+1]){
+	  h_chIso_rho[j]->Fill(rho, Iso_raw[0][ipho]);
+	  h_chworst_rho[j]->Fill(rho, Iso_raw[3][ipho]);
+	}
+      }
+
+      for(Int_t j=0; j<22; j++){
+	if(Iso_rc[0][ipho] < chcut[j]) h_phoEB_pt_chIsocut[j]->Fill(phoEt[ipho]);//chIso
+	if(Iso_rc[3][ipho] < chcut[j]) h_phoEB_pt_chworstcut[j]->Fill(phoEt[ipho]);//chWorst
+      }
+
+      phoEB_pt.push_back(ipho);
+      
+      if((phoFiredTrgs[ipho]>>6&1) == 0) continue;
+      h_phoEB_pt_HLT->Fill(phoEt[ipho]);
+
+      if(phoEt[ipho] < 200) continue;
+      h_phoEB_pt_200->Fill(phoEt[ipho]);
+      h_dphoMETPhi->Fill(deltaPhi(phoPhi[ipho], pfMETPhi));
+      h_MET->Fill(pfMET);
+
+      if(cutIDpho_list[ipho] != 1) continue;
+      h_phoEB_pt_M->Fill(phoEt[ipho]);
+      h_phoEB_eta_M->Fill(phoEta[ipho]);
+
+      if(fabs(deltaPhi(phoPhi[ipho], pfMETPhi)) < 1.6) continue;
+      h_phoEB_pt_dphoMETPhi->Fill(phoEt[ipho]);
+
+      if(pfMET < 80) continue;
+      h_phoEB_pt_MET->Fill(phoEt[ipho]);
+      h_phoEB_ptoverMET->Fill(phoEt[ipho]/pfMET);
+      
+      phoEB_pt_cut.push_back(ipho);
+    }
+      /*
       if(match[ipho] ==1){
 	
 	for(Int_t j=0; j<7; j++){
@@ -369,12 +432,18 @@ void xZg(char* pathes){
 	    h_chworst_rho[j]->Fill(rho, Iso_raw[3][ipho]);
 	  }
 	}
-	
+	Int_t phoEB = 0;
 	if(fabs(phoEta[ipho]) < 1.4442){
 	  h_phoEB_pt->Fill(phoEt[ipho]);
 	  h_phoEB_eta->Fill(phoEta[ipho]);
+	  phoEB = 1;
 	}
-	
+	if(phoEB == 0) continue;
+	if((phoFiredTrgs[ipho]>>6&1) == 1) h_phoEB_pt_HLT->Fill(phoEt[ipho]);
+	if((phoFiredTrgs[ipho]>>6&1) == 0) continue;
+	h_phoEB_pt_200->Fill(phoEt[ipho]);
+	h_dphoMETPhi->Fill(deltaPhi(phoPhi[ipho], pfMETPhi));
+
 	Int_t pho_presel = pho_preselection(data, ipho, kTRUE);
 	if(pho_presel ==1){
 	  h_phoEB_pt_HLT->Fill(phoEt[ipho]);
@@ -397,6 +466,11 @@ void xZg(char* pathes){
 	  nhIso_   = Iso_rc[2][ipho];
 	  chWorst_ = Iso_rc[3][ipho];
 
+	  SeedTime_ = phoSeedTime[ipho];
+	  SeedEnergy_ = phoSeedEnergy[ipho];
+	  MIPEnergy_ = phoMIPTotEnergy[ipho];
+	  
+
 	  for(Int_t j=0; j<22; j++){
 	    if(chIso_ < chcut[j]) h_phoEB_pt_chIsocut[j]->Fill(phoEt[ipho]);
 	    if(chWorst_ < chcut[j]) h_phoEB_pt_chworstcut[j]->Fill(phoEt[ipho]);
@@ -413,43 +487,139 @@ void xZg(char* pathes){
 	  //if(HoverE < 0.05 && r9Full5x5 < 1){
 	  if(r9Full5x5 < 1){
 	    h_phoEB_pt_r9->Fill(phoEt[ipho]);
-	    if(pfMET >140) h_phoEB_pt_MET->Fill(phoEt[ipho]);
+	    //if(pfMET >140) h_phoEB_pt_MET->Fill(phoEt[ipho]);
 	    if(fabs(deltaPhi(phoPhi[ipho], pfMETPhi)) > 1.6) {
 	      h_phoEB_pt_dphoMETPhi->Fill(phoEt[ipho]);
 	      h_MET->Fill(pfMET);
 	    }
+	    if(fabs(SeedTime_)<5) h_phoEB_pt_SeedTime->Fill(phoEt[ipho]);
 	    
-	    //Float_t MIPE = fabs(phoMIPTotEnergy[ipho]*phoMIPTotEnergy[ipho]);
-	    //h_MIPEn2->Fill(MIPE);
-	    if(fabs(deltaPhi(phoPhi[ipho], pfMETPhi)) > 1.6 && (pfMET > 140)){
-	      //h_phoEB_pt_MIPEn2->Fill(phoEt[ipho]);
+	    
+	    Float_t MIPE = fabs(MIPEnergy_*MIPEnergy_);
+	    h_MIPEn2->Fill(MIPE);//pass M ID
+	    if(fabs(deltaPhi(phoPhi[ipho], pfMETPhi)) > 1.6 && (pfMET > 140) && fabs(SeedTime_)<5){
+	      
+	      if(MIPE < 7)h_phoEB_pt_MIPEn2->Fill(phoEt[ipho]);
+	      h_phoEB_pt_MET->Fill(phoEt[ipho]);
 	      h_phoEB_ptoverMET->Fill(phoEt[ipho]/pfMET);
+	      
 	      mcphoEt = mcPt[ipho];
 	      mcphoEta = mcEta[ipho];
 	      mcphoPhi = mcPhi[ipho];
 	      realphoEt = phoEt[ipho];
 	      realphoEta = phoEta[ipho];
 	      realphoPhi = phoPhi[ipho];
-      
-	      r9Full5x5_sig = phoR9Full5x5[ipho];
-	      HoverE_sig = phoHoverE[ipho];
-	      sieieFull5x5_sig = phoSigmaIEtaIEtaFull5x5[ipho];
-	      sieipFull5x5_sig = phoSigmaIEtaIPhiFull5x5[ipho];
-	      sipipFull5x5_sig = phoSigmaIPhiIPhiFull5x5[ipho];
-	      chIso_sig = Iso_rc[0][ipho];
-	      phoIso_sig = Iso_rc[1][ipho];
-	      nhIso_sig = Iso_rc[2][ipho];
-	      chWorst_sig = Iso_rc[3][ipho];
 
-	      pfMET_sig = pfMET;
-	      pfMETPhi_sig = pfMETPhi;
+	      hasSeed = phohasPixelSeed[ipho];
+      
+	      r9Full5x5_cut = phoR9Full5x5[ipho];
+	      HoverE_cut = phoHoverE[ipho];
+	      sieieFull5x5_cut = phoSigmaIEtaIEtaFull5x5[ipho];
+	      sieipFull5x5_cut = phoSigmaIEtaIPhiFull5x5[ipho];
+	      sipipFull5x5_cut = phoSigmaIPhiIPhiFull5x5[ipho];
+	      chIso_cut = Iso_rc[0][ipho];
+	      phoIso_cut = Iso_rc[1][ipho];
+	      nhIso_cut = Iso_rc[2][ipho];
+	      chWorst_cut = Iso_rc[3][ipho];
+
+	      SeedTime_cut = phoSeedTime[ipho];
+	      SeedEnergy_cut = phoSeedEnergy[ipho];
+	      MIPEnergy_cut  = phoMIPTotEnergy[ipho];
+	      
+	      pfMET_cut = pfMET;
+	      pfMETPhi_cut = pfMETPhi;
 	    }
 	  }
 	}
-	  
+	 
       }//isMatched pho
+	*/
+    
+    
+    //for(Int_t ipho=0; ipho<nPho; ipho++){
+    for(Int_t ii=0; ii<phoEB_pt.size(); ii++){
+      Int_t ipho = phoEB_pt[ii];
+      if(phoEB_pt.size()==1){
+	r9Full5x5    =  phoR9Full5x5[ipho];
+	HoverE       =  phoHoverE[ipho];
+	rho_         =  rho;
+	sieieFull5x5 =  phoSigmaIEtaIEtaFull5x5[ipho];
+	sieipFull5x5 =  phoSigmaIEtaIPhiFull5x5[ipho];
+	sipipFull5x5 =  phoSigmaIPhiIPhiFull5x5[ipho];
+	chIso    = Iso_raw[0][ipho];
+	phoIso   = Iso_raw[1][ipho];
+	nhIso    = Iso_raw[2][ipho];
+	chWorst  = Iso_raw[3][ipho];
+	chIso_   = Iso_rc[0][ipho];
+	phoIso_  = Iso_rc[1][ipho];
+	nhIso_   = Iso_rc[2][ipho];
+	chWorst_ = Iso_rc[3][ipho];
+
+	SeedTime_ = phoSeedTime[ipho];
+	SeedEnergy_ = phoSeedEnergy[ipho];
+	MIPEnergy_ = phoMIPTotEnergy[ipho];
+      }
+      
+	//for(Int_t jj=0; jj<phoEB_pt_cut.size(); jj++){
+      //if(phoEB_pt_cut.size() < 1) continue;
+      if(ipho == phoEB_pt_cut[0]){
+	  mcphoEt = mcPt[ipho];
+	  mcphoEta = mcEta[ipho];
+	  mcphoPhi = mcPhi[ipho];
+	  realphoEt = phoEt[ipho];
+	  realphoEta = phoEta[ipho];
+	  realphoPhi = phoPhi[ipho];
+
+	  hasSeed = phohasPixelSeed[ipho];
+      
+	  r9Full5x5_cut = phoR9Full5x5[ipho];
+	  HoverE_cut = phoHoverE[ipho];
+	  sieieFull5x5_cut = phoSigmaIEtaIEtaFull5x5[ipho];
+	  sieipFull5x5_cut = phoSigmaIEtaIPhiFull5x5[ipho];
+	  sipipFull5x5_cut = phoSigmaIPhiIPhiFull5x5[ipho];
+	  chIso_cut = Iso_rc[0][ipho];
+	  phoIso_cut = Iso_rc[1][ipho];
+	  nhIso_cut = Iso_rc[2][ipho];
+	  chWorst_cut = Iso_rc[3][ipho];
+
+	  SeedTime_cut = phoSeedTime[ipho];
+	  SeedEnergy_cut = phoSeedEnergy[ipho];
+	  MIPEnergy_cut  = phoMIPTotEnergy[ipho];
+	      
+	  pfMET_cut = pfMET;
+	  pfMETPhi_cut = pfMETPhi;
+      }
+      
+      else{
+	mcphoEt = -999;
+	mcphoEta = -999;
+	mcphoPhi = -999;
+	realphoEt = -999;
+	realphoEta = -999;
+	realphoPhi = -999;
+
+	hasSeed = -999;
+      
+	r9Full5x5_cut = -999;
+	HoverE_cut = -999;
+	sieieFull5x5_cut = -999;
+	sieipFull5x5_cut = -999;
+	sipipFull5x5_cut = -999;
+	chIso_cut = -999;
+	phoIso_cut = -999;
+	nhIso_cut = -999;
+	chWorst_cut = -999;
+
+	SeedTime_cut = -999;
+	SeedEnergy_cut = -999;
+	MIPEnergy_cut  = -999;
+	      
+	pfMET_cut = -999;
+	pfMETPhi_cut = -999;
+      }
+      
     }
-    h_nphotrgs->Fill(nphotrgs);
+    //h_nphotrgs->Fill(nphotrgs);
     outtree_->Fill();
   }//event loop
   //****************END LOOP**********************//
@@ -471,9 +641,10 @@ void xZg(char* pathes){
   h_phoEB_pt_M->Write();
   //h_phoEB_pt_chworst->Write();
   //h_phoEB_pt_HoverE->Write();
-  h_phoEB_pt_r9->Write();
+  //h_phoEB_pt_r9->Write();
   h_phoEB_pt_dphoMETPhi->Write();
   h_phoEB_pt_MET->Write();
+  //h_phoEB_pt_SeedTime->Write();
   //h_phoEB_pt_MIPEn2->Write();
   h_phoEB_ptoverMET->Write();
   
@@ -483,7 +654,7 @@ void xZg(char* pathes){
   h_MET->Write();
   //h_METPhi->Write();
   h_dphoMETPhi->Write();
-  h_nphotrgs->Write();
+  //h_nphotrgs->Write();
   //h_MIPEn2->Write();
   fout_->mkdir("h_phoEB_pt_chIsocut");
   fout_->cd("h_phoEB_pt_chIsocut");
