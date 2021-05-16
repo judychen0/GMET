@@ -75,17 +75,21 @@ void xZg(char* pathes){
   Double_t etabin[10] = {-1.566, -1.4442, -0.8, 0, 0.8, 1.4442, 1.566};//6bins
 
   TH1F *h_phoEB_pt = new TH1F("h_phoEB_pt", "matched phoEB pt", 24, ptbin);
+  TH1F *h_phoEB_M = new TH1F("h_phoEB_M", "phoEB M IDcut", 24, ptbin);
   TH1F *h_phoEB_pt_HLT = new TH1F("h_phoEB_pt_HLT", "matched phoEB pt HLT trgs", 24, ptbin);
   
   Float_t chbin[30] = {0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0, 2.2, 2.4, 2.6, 2.8, 3.0, 3.5, 4.0, 5.0, 6.0, 7.0, 8.0, 10, 12, 15};//24 bins
   TH1F *h_phoEB_pt_chIsocut[22];
   TH1F *h_phoEB_pt_chworstcut[22];
+  TH1F *h_phoEB_pt_chworstcut_newEA[22];
   for(Int_t j=0; j<22; j++){
     h_phoEB_pt_chIsocut[j] = new TH1F(Form("h_phoEB_pt_chIsocut_%i", j), Form("h_phoEB_pt_chIsocut_%i", j), 24, ptbin);
     h_phoEB_pt_chworstcut[j] = new TH1F(Form("h_phoEB_pt_chworstcut_%i", j), Form("h_phoEB_pt_chworstcut_%i", j), 24, ptbin);
+    h_phoEB_pt_chworstcut_newEA[j] = new TH1F(Form("h_phoEB_pt_chworstcut_newEA_%i", j), Form("h_phoEB_pt_chworstcut_newEA_%i", j), 24, ptbin);
 
     h_phoEB_pt_chIsocut[j]->Sumw2();
     h_phoEB_pt_chworstcut[j]->Sumw2();
+    h_phoEB_pt_chworstcut_newEA[j]->Sumw2();
   }
 
   TH1F *h_phoEB_pt_200 = new TH1F("h_phoEB_pt_200", "matched phoEB pt pt200 cut", 24, ptbin);
@@ -147,9 +151,9 @@ void xZg(char* pathes){
   Float_t mcphoEt, mcphoEta, mcphoPhi, realphoEt, realphoEta, realphoPhi;
   Int_t   eleVeto, hasSeed;
   Float_t HoverE, sieie, chIso, phoIso, nhIso, chWorst, rho_;
-  Float_t chIso_, phoIso_, nhIso_, chWorst_;
+  Float_t chIso_, phoIso_, nhIso_, chWorst_, chWorst_newEA;
   Float_t sieieFull5x5, sieipFull5x5, sipipFull5x5, r9Full5x5;
-  Float_t HoverE_cut, chIso_cut, phoIso_cut, nhIso_cut, chWorst_cut, rho_cut;
+  Float_t HoverE_cut, chIso_cut, phoIso_cut, nhIso_cut, chWorst_cut, chWorst_newEA_cut, rho_cut;
   Float_t sieieFull5x5_cut, sieipFull5x5_cut, sipipFull5x5_cut, r9Full5x5_cut;
 
   Float_t chcut[30] = {0.1, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0, 2.2, 2.4, 2.6, 2.8, 3.0, 3.5, 4.0, 5.0, 6.0, 7.0, 8.0, 10, 12, 15};//22 cut
@@ -183,6 +187,7 @@ void xZg(char* pathes){
   outtree_->Branch("phoIso_rc",   &phoIso_,      "phoIso_rc/F");
   outtree_->Branch("nhIso_rc",    &nhIso_,       "nhIso_rc/F");
   outtree_->Branch("chWorst_rc",  &chWorst_,     "chWorst_rc/F");
+  outtree_->Branch("chWorst_rcnewEA", &chWorst_newEA, "chWorst_rcnewEA/F");
   
   outtree_->Branch("sieieFull5x5",        &sieieFull5x5,        "sieieFull5x5/F");
   outtree_->Branch("sieipFull5x5",        &sieipFull5x5,        "sieipFull5x5/F");
@@ -195,6 +200,7 @@ void xZg(char* pathes){
   outtree_->Branch("phoIso_cut",       &phoIso_cut, "phoIso_cut/F");
   outtree_->Branch("nhIso_cut",        &nhIso_cut, "nhIso_cut/F");
   outtree_->Branch("chWorst_cut",      &chWorst_cut, "chWorst_cut/F");
+  outtree_->Branch("chWorst_newEA_cut", &chWorst_newEA_cut, "chWorst_newEA_cut/F");
   outtree_->Branch("sieieFull5x5_cut", &sieieFull5x5_cut, "sieieFull5x5_cut/F");
   outtree_->Branch("sieipFull5x5_cut", &sieipFull5x5_cut, "sieipFull5x5_cut/F");
   outtree_->Branch("sipipFull5x5_cut", &sipipFull5x5_cut, "sipipFull5x5_cut/F");
@@ -286,10 +292,10 @@ void xZg(char* pathes){
     
     //rho correction
     vector<vector<Float_t>> Iso_raw; //[ch, pho, nh, chw]
-    vector<vector<Float_t>> Iso_rc; //[ch, pho, nh, chw]
+    vector<vector<Float_t>> Iso_rc; //[ch, pho, nh, chw, chw_newEA]
     Iso_raw.clear();
     Iso_rc.clear();
-    for(Int_t iso = 0; iso < 4; iso++){
+    for(Int_t iso = 0; iso < 5; iso++){
       vector <Float_t> isolist;
       rhoCorrection(iso, data, isolist);
       Iso_rc.push_back(isolist);
@@ -392,6 +398,7 @@ void xZg(char* pathes){
       if(fabs(phoEta[ipho]) > 1.4442) continue;
       h_phoEB_pt->Fill(phoEt[ipho]);
       h_phoEB_eta->Fill(phoEta[ipho]);
+      if(cutIDpho_list[ipho] == 1) h_phoEB_M->Fill(phoEt[ipho]);
       
       for(Int_t j=0; j<7; j++){
 	if(fabs(phoEta[ipho]) >= EAbin[j] && fabs(phoEta[ipho]) < EAbin[j+1]){
@@ -403,6 +410,7 @@ void xZg(char* pathes){
       for(Int_t j=0; j<22; j++){
 	if(Iso_rc[0][ipho] < chcut[j]) h_phoEB_pt_chIsocut[j]->Fill(phoEt[ipho]);//chIso
 	if(Iso_rc[3][ipho] < chcut[j]) h_phoEB_pt_chworstcut[j]->Fill(phoEt[ipho]);//chWorst
+	if(Iso_rc[4][ipho] < chcut[j]) h_phoEB_pt_chworstcut_newEA[j]->Fill(phoEt[ipho]);//chWorst_newEA
       }
 
       phoEB_pt.push_back(ipho);
@@ -443,6 +451,7 @@ void xZg(char* pathes){
     phoIso_  = -999;
     nhIso_   = -999;
     chWorst_ = -999;
+    chWorst_newEA = -999;
 
     SeedTime_ = -999;
     SeedEnergy_ = -999;
@@ -492,6 +501,7 @@ void xZg(char* pathes){
 	phoIso_  = Iso_rc[1][ipho];
 	nhIso_   = Iso_rc[2][ipho];
 	chWorst_ = Iso_rc[3][ipho];
+	chWorst_newEA = Iso_rc[4][ipho];
 
 	SeedTime_ = phoSeedTime[ipho];
 	SeedEnergy_ = phoSeedEnergy[ipho];
@@ -519,6 +529,7 @@ void xZg(char* pathes){
 	  phoIso_cut = Iso_rc[1][ipho];
 	  nhIso_cut = Iso_rc[2][ipho];
 	  chWorst_cut = Iso_rc[3][ipho];
+	  chWorst_newEA_cut = Iso_rc[4][ipho];
 
 	  SeedTime_cut = phoSeedTime[ipho];
 	  SeedEnergy_cut = phoSeedEnergy[ipho];
@@ -547,6 +558,7 @@ void xZg(char* pathes){
   h_dptdr_pho->Write();
 
   h_phoEB_pt->Write();
+  h_phoEB_M->Write();
   h_phoEB_pt_HLT->Write();
   h_phoEB_pt_200->Write();
   h_phoEB_pt_M->Write();
@@ -579,6 +591,12 @@ void xZg(char* pathes){
     h_phoEB_pt_chworstcut[i]->Write();
   }
 
+  fout_->mkdir("h_phoEB_pt_chworstcut_newEA");
+  fout_->cd("h_phoEB_pt_chworstcut_newEA");
+  for(Int_t i=0; i<22; i++){
+    h_phoEB_pt_chworstcut_newEA[i]->Write();
+  }
+
   fout_->mkdir("h_chIso_rho");
   fout_->cd("h_chIso_rho");
   for(Int_t i=0; i<7; i++){
@@ -590,6 +608,7 @@ void xZg(char* pathes){
   for(Int_t i=0; i<7; i++){
     h_chworst_rho[i]->Write();
   }
+
   
   fout_->Close();
   fprintf(stderr, "Processed all events\n");
