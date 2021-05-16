@@ -49,7 +49,8 @@ void rhoCorrection(Int_t iso, TreeReader &data, vector<Float_t>& rcIso){
     if(iso == 0) rcIso.push_back(fmax(phoPFChIso[ipho] - rho*EA[iso][iEA], 0.0));
     else if(iso == 1) rcIso.push_back(fmax(phoPFPhoIso[ipho] - rho*EA[iso][iEA], 0.0));
     else if(iso == 2) rcIso.push_back(fmax(phoPFNeuIso[ipho] - rho*EA[iso][iEA], 0.0));
-    else if(iso == 3) rcIso.push_back(fmax(phoPFChWorstIso[ipho] - rho*EAworst[iEA], 0.0));
+    else if(iso == 3) rcIso.push_back(fmax(phoPFChWorstIso[ipho] - rho*EA[0][iEA], 0.0));
+    else if(iso == 4) rcIso.push_back(fmax(phoPFChWorstIso[ipho] - rho*EAworst[iEA], 0.0));
   }
 }
 
@@ -68,6 +69,7 @@ void rawIsolation(Int_t iso, TreeReader &data, vector<Float_t>& rcIso){
     else if(iso == 1) rcIso.push_back(phoPFPhoIso[ipho]);
     else if(iso == 2) rcIso.push_back(phoPFNeuIso[ipho]);
     else if(iso == 3) rcIso.push_back(phoPFChWorstIso[ipho]);
+    else if(ios == 4) rcIso.push_back(0);
   }
   
   
