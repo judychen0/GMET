@@ -26,6 +26,8 @@ void rhoCorrection(Int_t iso, TreeReader &data, vector<Float_t>& rcIso){
 		      {0.0668, 0.1054, 0.0786, 0.0223, 0.0078, 0.0028, 0.0137},
 		      {0.1113, 0.0953, 0.0619, 0.0837, 0.1070, 0.1212, 0.1446}
   };//Fall17
+
+  Float_t EAworst[7] = {0.0728, 0.0709, 0.0106, 0.01002, 0.0098, 0.0089, 0.000087};
   /*
   Float_t EA[3][7] = {{ 0.036 , 0.0377 , 0.0306 , 0.0283 , 0.0254 , 0.0217 , 0.0167 },
 		      { 0.121 , 0.1107 , 0.0699 , 0.1056 , 0.1457 , 0.1719 , 0.1998 },
@@ -47,7 +49,7 @@ void rhoCorrection(Int_t iso, TreeReader &data, vector<Float_t>& rcIso){
     if(iso == 0) rcIso.push_back(fmax(phoPFChIso[ipho] - rho*EA[iso][iEA], 0.0));
     else if(iso == 1) rcIso.push_back(fmax(phoPFPhoIso[ipho] - rho*EA[iso][iEA], 0.0));
     else if(iso == 2) rcIso.push_back(fmax(phoPFNeuIso[ipho] - rho*EA[iso][iEA], 0.0));
-    else if(iso == 3) rcIso.push_back(fmax(phoPFChWorstIso[ipho] - rho*EA[0][iEA], 0.0));
+    else if(iso == 3) rcIso.push_back(fmax(phoPFChWorstIso[ipho] - rho*EAworst[iEA], 0.0));
   }
 }
 

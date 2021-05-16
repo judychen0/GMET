@@ -4,10 +4,11 @@
 #include <vector>
 using namespace std;
 
-Int_t pho_preselection(TreeReader &data, Int_t ipho, Bool_t eleVeto=kTRUE){
+Int_t pho_preselection(TreeReader &data, Int_t ipho, Bool_t hasSeed=kTRUE){
   Int_t phoID=1;
   Float_t* phoEt = data.GetPtrFloat("phoEt");
   Float_t* phoEta = data.GetPtrFloat("phoEta");
+  Int_t*   phohasPixelSeed     = data.GetPtrInt("phohasPixelSeed");
   Int_t*   phoEleVeto          = data.GetPtrInt("phoEleVeto");
   Float_t* phoSigmaIEtaIEta    = data.GetPtrFloat("phoSigmaIEtaIEtaFull5x5");
   Float_t* phoHoverE           = data.GetPtrFloat("phoHoverE");
@@ -16,9 +17,10 @@ Int_t pho_preselection(TreeReader &data, Int_t ipho, Bool_t eleVeto=kTRUE){
   Long64_t* phoFiredTrgs = data.GetPtrLong64("phoFiredSingleTrgs");
 
   if(fabs(phoEta[ipho]) > 1.4442) phoID=0;
-  if((phoFiredTrgs[ipho]>>6&1) == 0) phoID=0;
-  if(phoPFChWorstIso[ipho] > 15.) phoID=0;
-  if(phoEt[ipho] < 200) phoID=0;
+  if((phoFiredTrgs[ipho]>>6&1) == 0) phoID=0;//102X 2016 HLT_175
+  //if(phoPFChWorstIso[ipho] > 15.) phoID=0;
+  if(hasSeed && phohasPixelSeed[ipho] == 1) phoID=0;
+  //if(phoEt[ipho] < 200) phoID=0;
   return phoID;
 }
 
@@ -141,60 +143,3 @@ void phoIDcut(Int_t iWP, TreeReader &data,  vector<int>& passed){
     passed.push_back(pass);
   }
 }
-
-
-
-
-
-/*
-void realpho_selection_var(Int_t region, TTree *tree, TreeReader &data, vector<Float_t>& realpho, vector<Int_t>& passlist, vector<vector<Int_t>> realwp){
-  Int_t nPho = dqtq.GetPtrFloat("nPho");
-  Float_t* phoEta = data.GetPtrFloat("phoEta");
-  Float_t* phoHoverE = data.GetPtrFloat("phoHoverE");
-  Float_t* phoSigmaIEtaIEtaFull5x5 = data.GetPtrFloat("phoSigmaIEtaIEtaFull5x5");
-  Float_t* phoPFChIso = data.GetPtrFloat("phoPFChIso");
-  Float_t* phoPFPhoIso = data.GetPtrFloat("phoPFPhoIso");
-  Float_t* phoPFNeuIso = data.GetPtrFloat("phoPFNeuIso");
-
-  Float_t HoverE_Lwp, sieieFull5x5_Lwp, chIso_Lwp, phoIso_Lwp, nhIso_Lwp;
-  Float_t HoverE_Mwp, sieieFull5x5_Mwp, chIso_Mwp, phoIso_Mwp, nhIso_Mwp;
-  Float_t HoverE_Twp, sieieFull5x5_Twp, chIso_Twp, phoIso_Twp, nhIso_Twp;
-  
-  Int_t nrealpho = realpho.size();
-  for(Int_t wp=0; wp<3; wp++){
-    vector<Int_t> list;
-    for(Int_t i=0; i<nPho; i++){
-      Int_t ebpho = passlist[wp][i];
-      for(Int_t ii=0; ii<nrealpho; ii++){
-	Int_t ipho = realpho[ii];
-	if(ebpho!=ipho) continue;
-
-	if(wp == 0){
-	  HoverE_Lwp = phoHoverE[ipho];
-	  sieieFull5x5_Lwp = phoSigmaIEtaIEtaFull5x5[ipho];
-	  chIso_Lwp = phoPFChIso[ipho];
-	  phoIso_Lwp = phoPFPhoIso[ipho];
-	  nhIso_Lwp = phoPFNeuIso[ipho];
-	}
-	else if(wp == 1){
-	  HoverE_Mwp = phoHoverE[ipho];
-	  sieieFull5x5_Mwp = phoSigmaIEtaIEtaFull5x5[ipho];
-	  chIso_Mwp = phoPFChIso[ipho];
-	  phoIso_Mwp = phoPFPhoIso[ipho];
-	  nhIso_Mwp = phoPFNeuIso[ipho];
-	}
-	else if(wp == 2){
-	  HoverE_Twp = phoHoverE[ipho];
-	  sieieFull5x5_Twp = phoSigmaIEtaIEtaFull5x5[ipho];
-	  chIso_Twp = phoPFChIso[ipho];
-	  phoIso_Twp = phoPFPhoIso[ipho];
-	  nhIso_Twp = phoPFNeuIso[ipho];
-	}
-	tree->Fill();
-	list.push_back(ipho);
-      }
-    }
-    realwp.push_back(list);
-  }
-}
-*/
