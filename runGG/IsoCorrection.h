@@ -69,7 +69,7 @@ void rawIsolation(Int_t iso, TreeReader &data, vector<Float_t>& rcIso){
     else if(iso == 1) rcIso.push_back(phoPFPhoIso[ipho]);
     else if(iso == 2) rcIso.push_back(phoPFNeuIso[ipho]);
     else if(iso == 3) rcIso.push_back(phoPFChWorstIso[ipho]);
-    else if(ios == 4) rcIso.push_back(0);
+    else if(iso == 4) rcIso.push_back(0);
   }
   
   
