@@ -1,3 +1,4 @@
+
 #include <TH1D.h>
 #include <TLorentzVector.h>
 #include <TFile.h>
@@ -21,6 +22,9 @@ using namespace std;
 #include "TTreeReaderArray.h"
 #include "IsoCorrection.h"
 #include "PhotonSelection.h"
+#include "ElectronSelection.h"
+#include "MuonSelection.h"
+#include "puweicalc.h"
 
 Double_t deltaPhi(Double_t phi1, Double_t phi2) {
   Double_t dPhi = phi1 - phi2;
@@ -58,9 +62,26 @@ void xZg(char* pathes){
   TH1F *h_dpt_pho = new TH1F("h_dpt_pho", "dpt of photon", 100, 0., 1);
   TH2F *h_dptdr_pho = new TH2F("h_dptdr_pho", "dptdr of photon", 100, 0., 1, 100, 0., 2);
 
+  TH1F *h_nele = new TH1F("h_nele", "n ele", 10, 0., 10); 
+  TH1F *h_nmatchele = new TH1F("h_nmatchele", "n matchele", 10, 0., 10);
+  TH2F *h_dptdr_ele = new TH2F("h_dptdr_ele", "dptdr of ele", 100, 0., 1, 100, 0., 2);
+  TH1F *h_nmu = new TH1F("h_nmu", "n mu", 10, 0., 10);
+  TH1F *h_nmatchmu = new TH1F("h_nmatchmu", "n matchmu", 10, 0., 10);
+  TH2F *h_dptdr_mu = new TH2F("h_dptdr_mu", "dptdr of mu", 100, 0., 1, 100, 0., 2);
+  
   h_dr_pho->Sumw2();
   h_dpt_pho->Sumw2();
   h_dptdr_pho->Sumw2();
+  h_dptdr_ele->Sumw2();
+  h_dptdr_mu->Sumw2();
+
+  TH1F *h_dr_epho = new TH1F("h_dr_epho", "dr of e&pho", 1000, 0., 1);
+  TH1F *h_dr_mpho = new TH1F("h_dr_mpho", "dr of m&pho", 1000, 0., 1);
+  TH1F *h_nclose_e = new TH1F("h_nclose_e", "close e2pho", 10, 0., 10);
+  TH1F *h_nclose_m = new TH1F("h_nclose_m", "close m2pho", 10, 0., 10);
+
+  h_dr_epho->Sumw2();
+  h_dr_mpho->Sumw2();
 
   Float_t EAbin[10] = {0.0, 1.0, 1.479, 2.0, 2.2, 2.3, 2.4, 3};//8 bins
   TH2F *h_chIso_rho[7];
@@ -108,6 +129,7 @@ void xZg(char* pathes){
   TH1F *h_phoEB_eta_M = new TH1F("h_phoEB_eta_M", "matched phoEB eta with M-cut varbins", 6, etabin);
 
   h_phoEB_pt->Sumw2();
+  h_phoEB_M->Sumw2();
   h_phoEB_pt_200->Sumw2();
   h_phoEB_pt_M->Sumw2();
   //h_phoEB_pt_chworst->Sumw2();
@@ -132,9 +154,10 @@ void xZg(char* pathes){
 
   //define branch variables
   Bool_t   isData, isPVGood;
+  Float_t puwei_ = 1.;
   Int_t    run;
   Long64_t event;
-  Int_t nVtx;
+  Int_t nVtx, nPU;
   Float_t npho_, nmcpho_, matchpho_;
   Int_t isMatched;
   Long64_t HLT, HLTIsPrescaled;
@@ -166,6 +189,7 @@ void xZg(char* pathes){
   outtree_->Branch("isData", &isData, "isData/O");
   outtree_->Branch("HLT",         &HLT,        "HLT/L");
   outtree_->Branch("HLTIsPrescaled", &HLTIsPrescaled,        "HLTIsPrescaled/L");
+  outtree_->Branch("puwei",       &puwei_, "puwei/F");
   
   outtree_->Branch("mcphoEt",     &mcphoEt, "mcphoEt/F");
   outtree_->Branch("mcphoEta",    &mcphoEta, "mcphoEta/F");
@@ -220,6 +244,12 @@ void xZg(char* pathes){
   outtree_->Branch("pfMET_cut", &pfMET_cut, "pfMET_cut/F");
   outtree_->Branch("pfMETPhi_cut", &pfMETPhi_cut, "pfMETPhi_cut/F");
 
+  // pileup reweighting
+  PUWeightCalculator puCalc;
+  puCalc.Init("external/puweights/102X/autum18/PU_histo_13TeV_2018_GoldenJSON_69200nb.root");
+  Int_t nphohasPixelSeed=0;
+  Int_t nmatch=0;
+  Int_t nlep=0;
   //***********************Loop***********************//
   for (Long64_t ev = 0; ev < data.GetEntriesFast(); ev++){
     if (ev % 100000 == 0){
@@ -236,6 +266,19 @@ void xZg(char* pathes){
     Int_t nPho     = data.GetInt("nPho");
     Int_t nJet     = data.GetInt("nJet");
     h_npho->Fill(nPho);
+    
+    Int_t    nPUInfo =0;
+    Int_t*   puBX=0; 
+    Float_t* puTrue=0;
+    nPUInfo = data.GetInt("nPUInfo");
+    puBX    = data.GetPtrInt("puBX");
+    puTrue  = data.GetPtrFloat("puTrue");
+    for (Int_t i=0; i<nPUInfo; ++i) {
+      if (puBX[i] == 0) nPU = puTrue[i];
+    }      
+    puwei_ = 1.;
+    puwei_ = (Float_t)puCalc.GetWeight(run, puTrue[1]);
+    
     
     //reco
     Float_t* phoE = 0; 
@@ -282,9 +325,9 @@ void xZg(char* pathes){
     phoID         = data.GetPtrShort("phoIDbit");
     phoFiredTrgs = data.GetPtrLong64("phoFiredSingleTrgs");
 
-    phoSeedTime     = data.GetPtrFloat("phoSeedTime");
-    phoSeedEnergy   = data.GetPtrFloat("phoSeedEnergy");
-    phoMIPTotEnergy = data.GetPtrFloat("phoMIPTotEnergy");
+    //phoSeedTime     = data.GetPtrFloat("phoSeedTime");
+    //phoSeedEnergy   = data.GetPtrFloat("phoSeedEnergy");
+    //phoMIPTotEnergy = data.GetPtrFloat("phoMIPTotEnergy");
       
     pfMET     = data.GetFloat("pfMET");
     pfMETPhi  = data.GetFloat("pfMETPhi");
@@ -341,7 +384,7 @@ void xZg(char* pathes){
     genMET    = data.GetFloat("genMET");
     genMETPhi = data.GetFloat("genMETPhi");
 
-    //get mc photon id
+      //get mc photon id
     vector<Int_t> mc_phoid; mc_phoid.clear();
     Int_t nMCpho =0;
     for(Int_t k=0; k < nMC; k++){
@@ -350,6 +393,7 @@ void xZg(char* pathes){
       if((mcStatus[k]>>1&1) == 0) continue;//isPromptFinalState passed 
       if(mcPID[k] == 22){
 	mc_phoid.push_back(k);
+	//cout << "isPrompt" << (mcStatus[k]>>1&1) << endl;;
 	nMCpho++;
       }
     }
@@ -357,7 +401,8 @@ void xZg(char* pathes){
 
     //gen-matching
     vector <Int_t> matchpho_list; matchpho_list.clear();
-    vector <Int_t> match;
+    vector <Int_t> match; match.clear();
+    vector <Int_t> match_status; match_status.clear();
     Int_t nmatchpho=0;
     Int_t isMatched;
     for(Int_t ipho=0; ipho < nPho; ipho++){
@@ -374,31 +419,249 @@ void xZg(char* pathes){
 	  isMatched = 1;
 	  //printf("MC phomatched !");
 	  matchpho_list.push_back(ipho);
+	  
+	  //match_status.push_back(st);
 	  nmatchpho++;
 	  break;
 	}
       }
+      if(nmatchpho > 1) break;
       match.push_back(isMatched);
     }
     h_nmatchpho->Fill(nmatchpho);
+
+    Int_t nEle = data.GetInt("nEle");
+    h_nele->Fill(nEle);
+    Float_t *elePt = data.GetPtrFloat("elePt");
+    Float_t *eleEta = data.GetPtrFloat("eleEta");
+    Float_t *elePhi = data.GetPtrFloat("elePhi");
+    
+    vector <Int_t> mc_eleid; mc_eleid.clear();
+    Int_t nMCele =0;
+    for(Int_t k=0; k<nMC; k++){
+      //if((mcStatus[k]>>2&1) == 0) continue;
+      //if(fabs(mcMomPID[k]) > 24 || fabs(mcMomPID[k]) < 23) continue;
+      if(fabs(mcPID[k]) == 11 && (fabs(mcMomPID[k]) == 24 || fabs(mcMomPID[k]) == 23)){
+	mc_eleid.push_back(k);
+	nMCele++;
+      }
+    }
+      
+    vector <Int_t> matchele_list; matchele_list.clear();
+    vector <Int_t> matcheleMC_list; matcheleMC_list.clear();
+    vector <Int_t> match_ele;
+    Int_t nLep_e=0;
+    Int_t deZee =0;
+    Int_t deWen =0;
+    for(Int_t iele=0; iele < nEle; iele++){
+      isMatched = 0;
+      if(nMCele ==0 ) break;
+      for(Int_t nn=0; nn < nMCele; nn++){
+	Int_t k = mc_eleid[nn];
+	Float_t dr = deltaR(eleEta[iele], elePhi[iele], mcEta[k], mcPhi[k]);
+	Float_t dpt = fabs((elePt[iele] - mcPt[k])/mcPt[k]);
+	h_dptdr_ele->Fill(dr, dpt);
+	if(dr < 0.3){
+	  isMatched = 1;
+	  //printf("MC phomatched !");
+	  matchele_list.push_back(iele);
+	  
+	  if(mcMomPID[k] ==23) deZee+=1;
+	  else if(fabs(mcMomPID[k]) ==24) deWen+=1;
+	  else{
+	    deZee-=1;
+	    deWen-=1;
+	  }
+	  
+	  matcheleMC_list.push_back(k);
+	  nLep_e++;
+	  break;
+	}
+      }
+    }
+    h_nmatchele->Fill(nLep_e);
+
+    Int_t nMu = data.GetInt("nMu");
+    h_nmu->Fill(nMu);
+    Float_t *muPt = data.GetPtrFloat("muPt");
+    Float_t *muEta = data.GetPtrFloat("muEta");
+    Float_t *muPhi = data.GetPtrFloat("muPhi");
+
+    vector <Int_t> mc_muid; mc_muid.clear();
+    Int_t nMCmu =0;
+    for(Int_t k=0; k<nMC; k++){
+      //if((mcStatus[k]>>2&1) == 0) continue;
+      //if(fabs(mcMomPID[k]) > 24 || fabs(mcMomPID[k]) < 23) continue;
+      if(fabs(mcPID[k]) == 13 && (fabs(mcMomPID[k]) == 24 || fabs(mcMomPID[k]) == 23)){
+	mc_muid.push_back(k);
+	nMCmu++;
+      }
+    }
+    //cout << nMCmu << " " << nMCele << endl;
+    vector <Int_t> matchmu_list; matchmu_list.clear();
+    vector <Int_t> matchmuMC_list; matchmuMC_list.clear();
+    vector <Int_t> match_mu;
+    Int_t nLep_m =0;
+    Int_t deZmm =0;
+    Int_t deWmn =0;
+    for(Int_t imu=0; imu < nMu; imu++){
+      isMatched =0;
+      if(nMCmu ==0) break;
+      for(Int_t nn=0; nn < nMCmu; nn++){
+	Int_t k = mc_muid[nn];
+	Float_t dr = deltaR(muEta[imu], muPhi[imu], mcEta[k], mcPhi[k]);
+	Float_t dpt = fabs((muPt[imu] - mcPt[k])/mcPt[k]);
+	h_dptdr_mu->Fill(dr, dpt);
+	if(dr < 0.3){
+	  isMatched = 1;
+	  //printf("MC phomatched !");
+	  matchmu_list.push_back(imu);
+	  
+	  if(mcMomPID[k] ==23) deZmm+=1;
+	  else if(fabs(mcMomPID[k]) ==24) deWmn+=1;
+	  else{
+	    deZmm-=1;
+	    deWmn-=1;
+	  }
+	  
+	  matchmuMC_list.push_back(k);
+	  nLep_m++;
+	  break;
+	}
+      }
+    }
+    h_nmatchmu->Fill(nLep_m);
+  
+    vector <Int_t> Zee_list; Zee_list.clear();
+    vector <Int_t> Zmm_list; Zmm_list.clear();
+    vector <Int_t> Wen_list; Wen_list.clear();
+    vector <Int_t> Wmn_list; Wmn_list.clear();
+    Int_t nclose_e =0;
+
+    Int_t elist = matchele_list.size();
+    //cout << "elist " << elist << endl; 
+    for(Int_t ii=0; ii<elist; ii++){
+      //if(deZee < 2 && deWen !=1) break;
+      
+      Int_t iele = matchele_list[ii];
+      if(matchpho_list.size() == 0) break;
+      Int_t ipho = matchpho_list[0];
+      Float_t dr_epho = deltaR(eleEta[iele], elePhi[iele], phoEta[ipho], phoPhi[ipho]);
+      //cout << "dr_epho" << dr_epho << endl;
+      h_dr_epho->Fill(dr_epho);
+      if(dr_epho < 0.4 && (deZee == 2 || deWen == 1)) nclose_e++;
+    }
+    /*
+    if(deZee == 2 && nLep_e >=2){
+      
+      
+    }
+    if(deWen == 1 && nLep_e == 1){
+      for(Int_t ii=0; ii<matchele_list.size(); ii++){
+	Int_t iele = matchele_list[ii];
+	Int_t ipho = matchpho_list[0];
+	Float_t dr_epho = deltaR(eleEta[iele], elePhi[iele], phoEta[ipho], phoPhi[ipho]);
+	h_dr_epho->Fill(dr_epho);
+	if(dr_epho < 0.3) nclose++;
+      }
+    }
+    */
+    h_nclose_e->Fill(nclose_e);
+
+    Int_t nclose_m = 0;
+    Int_t mlist = matchmu_list.size();
+    
+    for(Int_t ii=0; ii<mlist; ii++){
+      //if(deZmm < 2 && deWmn != 1) break;
+      if(mlist == 0) break;
+      //cout << "mlist " << mlist << endl; 
+      
+      Int_t imu = matchmu_list[ii];
+      if(matchpho_list.size() == 0) break;
+      Int_t ipho = matchpho_list[0];
+      Float_t dr_mpho = deltaR(muEta[imu], muPhi[imu], phoEta[ipho], phoPhi[ipho]);
+      //cout << "dr_mpho" << dr_mpho << endl;
+      h_dr_mpho->Fill(dr_mpho);
+      if(dr_mpho < 0.4 && (deZmm == 2 || deWmn ==1)) nclose_m++;
+    }
+    /*
+    if(deZmm == 2 && nLep_m >=2){
+      
+      
+    }
+    if(deWmn == 1 && nLep_m == 1){
+      
+      for(Int_t ii=0; ii<matchmu_list.size(); ii++){
+	Int_t imu = matchmu_list[ii];
+	Int_t ipho = matchpho_list[0];
+	Float_t dr_mpho = deltaR(muEta[imu], muPhi[imu], phoEta[ipho], phoPhi[ipho]);
+	h_dr_mpho->Fill(dr_mpho);
+	if(dr_mpho < 0.3) nclose++;
+      }
+    }
+    */
+    h_nclose_m->Fill(nclose_m);
+
+    
+    Float_t *eleSCEta = data.GetPtrFloat("eleSCEta");
+    Int_t *eleConvVeto = data.GetPtrInt("eleConvVeto");
+    Long64_t *eleFired2Trgs = data.GetPtrLong64("eleFiredDoubleTrgs");
+
+    vector<Int_t> cutIDele_list; cutIDele_list.clear();//Loose Id
+    eleIDcut(1, data, cutIDele_list);
+    vector<Int_t> ele_pass;
+    ele_pass.clear();
+    Int_t npasse = 0;
+    Int_t elepass = 0;
+    for(Int_t iele=0; iele < nEle; iele++){
+      //if(fabs(eleSCEta[iele]) > 2.5) continue;
+      //if(fabs(eleEta[iele]) > 1.4442 && fabs(eleEta[iele]) < 1.566) continue;
+      //if(eleConvVeto == 0) continue;
+      //ele_pt.push_back(iele);
+      if(cutIDele_list[iele] != 1) continue;
+      if(elePt[iele] < 10) continue;
+      npasse++;
+    }
+    if(npasse > 0) elepass = 1;
+    
+    vector<Int_t> cutIDmu_list; cutIDmu_list.clear();//Loose Id
+    muIDcut(0, data, cutIDmu_list);
+
+    Int_t npassm = 0;
+    Int_t mupass = 0;
+    for(Int_t imu=0; imu < nMu; imu++){
+      if(cutIDmu_list[imu] != 1) continue;
+      if(muPt[imu] < 10) continue;
+      npassm++;
+    }
+    if(npassm > 0) mupass = 1;
 
     vector<Int_t> cutIDpho_list; cutIDpho_list.clear();//Medium Id
     phoIDcut(1, data, cutIDpho_list);
     vector<Int_t> phoEB_pt, phoEB_pt_cut;
     phoEB_pt.clear();
     phoEB_pt_cut.clear();
-
-    Int_t nphotrgs =0;
+    //cout<< "Im here!" << endl; 
+    Int_t nfill =0;
+  
     //if(nmatchpho == 0 || nmatchpho > 1) continue;//match to single pho
     for(Int_t ipho=0; ipho<nPho; ipho++){
       //if(isPVGood==0) continue;
+      
       if(match[ipho] == 0) continue;
-      if(phohasPixelSeed[ipho] == 1) continue;
+      nmatch++;
+      nfill++;
+      if(nfill > 1) continue;
+      //if(npasse == 1 || npassm == 1) continue;
+      nlep++;
+      //cout << match[ipho] << endl;
+      //if(phohasPixelSeed[ipho] == 1) continue;
+      nphohasPixelSeed++;
+      
       
       if(fabs(phoEta[ipho]) > 1.4442) continue;
-      h_phoEB_pt->Fill(phoEt[ipho]);
-      h_phoEB_eta->Fill(phoEta[ipho]);
-      if(cutIDpho_list[ipho] == 1) h_phoEB_M->Fill(phoEt[ipho]);
+      h_phoEB_pt->Fill(phoEt[ipho], puwei_);
+      h_phoEB_eta->Fill(phoEta[ipho], puwei_);
       
       for(Int_t j=0; j<7; j++){
 	if(fabs(phoEta[ipho]) >= EAbin[j] && fabs(phoEta[ipho]) < EAbin[j+1]){
@@ -408,33 +671,35 @@ void xZg(char* pathes){
       }
 
       for(Int_t j=0; j<22; j++){
-	if(Iso_rc[0][ipho] < chcut[j]) h_phoEB_pt_chIsocut[j]->Fill(phoEt[ipho]);//chIso
-	if(Iso_rc[3][ipho] < chcut[j]) h_phoEB_pt_chworstcut[j]->Fill(phoEt[ipho]);//chWorst
-	if(Iso_rc[4][ipho] < chcut[j]) h_phoEB_pt_chworstcut_newEA[j]->Fill(phoEt[ipho]);//chWorst_newEA
+	if(Iso_rc[0][ipho] < chcut[j]) h_phoEB_pt_chIsocut[j]->Fill(phoEt[ipho], puwei_);//chIso
+	if(Iso_rc[3][ipho] < chcut[j]) h_phoEB_pt_chworstcut[j]->Fill(phoEt[ipho], puwei_);//chWorst
+	if(Iso_rc[4][ipho] < chcut[j]) h_phoEB_pt_chworstcut_newEA[j]->Fill(phoEt[ipho], puwei_);//chWorst_newEA
       }
 
       phoEB_pt.push_back(ipho);
-      
-      if((phoFiredTrgs[ipho]>>6&1) == 0) continue;
-      h_phoEB_pt_HLT->Fill(phoEt[ipho]);
+      if(cutIDpho_list[ipho] == 1){
+	h_phoEB_M->Fill(phoEt[ipho], puwei_);
+	phoEB_pt_cut.push_back(ipho);
+      }
 
       if(phoEt[ipho] < 200) continue;
-      h_phoEB_pt_200->Fill(phoEt[ipho]);
+      h_phoEB_pt_200->Fill(phoEt[ipho], puwei_);
       h_dphoMETPhi->Fill(deltaPhi(phoPhi[ipho], pfMETPhi));
       h_MET->Fill(pfMET);
 
       if(cutIDpho_list[ipho] != 1) continue;
-      h_phoEB_pt_M->Fill(phoEt[ipho]);
+      h_phoEB_pt_M->Fill(phoEt[ipho], puwei_);
       h_phoEB_eta_M->Fill(phoEta[ipho]);
 
       if(fabs(deltaPhi(phoPhi[ipho], pfMETPhi)) < 1.2) continue;
-      h_phoEB_pt_dphoMETPhi->Fill(phoEt[ipho]);
+      h_phoEB_pt_dphoMETPhi->Fill(phoEt[ipho], puwei_);
 
       if(pfMET < 80) continue;
-      h_phoEB_pt_MET->Fill(phoEt[ipho]);
+      h_phoEB_pt_MET->Fill(phoEt[ipho], puwei_);
       h_phoEB_ptoverMET->Fill(phoEt[ipho]/pfMET);
-      
-      phoEB_pt_cut.push_back(ipho);
+
+      if((phoFiredTrgs[ipho]>>6&1) == 0) continue;
+      h_phoEB_pt_HLT->Fill(phoEt[ipho], puwei_);    
     }
      
     r9Full5x5    =  -999;
@@ -476,75 +741,77 @@ void xZg(char* pathes){
     nhIso_cut = -999;
     chWorst_cut = -999;
 
-    SeedTime_cut = -999;
-    SeedEnergy_cut = -999;
-    MIPEnergy_cut  = -999;
+    //SeedTime_cut = -999;
+    //SeedEnergy_cut = -999;
+    //MIPEnergy_cut  = -999;
 	      
     pfMET_cut = -999;
     pfMETPhi_cut = -999;
     
     //for(Int_t ipho=0; ipho<nPho; ipho++){
-      for(Int_t ii=0; ii<phoEB_pt.size(); ii++){
-	Int_t ipho = phoEB_pt[ii];
-	if(phoEB_pt.size() > 1) continue;
-	r9Full5x5    =  phoR9Full5x5[ipho];
-	HoverE       =  phoHoverE[ipho];
-	rho_         =  rho;
-	sieieFull5x5 =  phoSigmaIEtaIEtaFull5x5[ipho];
-	sieipFull5x5 =  phoSigmaIEtaIPhiFull5x5[ipho];
-	sipipFull5x5 =  phoSigmaIPhiIPhiFull5x5[ipho];
-	chIso    = Iso_raw[0][ipho];
-	phoIso   = Iso_raw[1][ipho];
-	nhIso    = Iso_raw[2][ipho];
-	chWorst  = Iso_raw[3][ipho];
-	chIso_   = Iso_rc[0][ipho];
-	phoIso_  = Iso_rc[1][ipho];
-	nhIso_   = Iso_rc[2][ipho];
-	chWorst_ = Iso_rc[3][ipho];
-	chWorst_newEA = Iso_rc[4][ipho];
+    for(Int_t ii=0; ii<phoEB_pt.size(); ii++){
+      Int_t ipho = phoEB_pt[ii];
+      if(ii>0) continue;
+      r9Full5x5    =  phoR9Full5x5[ipho]                                                   ;
+      HoverE       =  phoHoverE[ipho];
+      rho_         =  rho;
+      sieieFull5x5 =  phoSigmaIEtaIEtaFull5x5[ipho];
+      sieipFull5x5 =  phoSigmaIEtaIPhiFull5x5[ipho];
+      sipipFull5x5 =  phoSigmaIPhiIPhiFull5x5[ipho];
+      chIso    = Iso_raw[0][ipho];
+      phoIso   = Iso_raw[1][ipho];
+      nhIso    = Iso_raw[2][ipho];
+      chWorst  = Iso_raw[3][ipho];
+      chIso_   = Iso_rc[0][ipho];
+      phoIso_  = Iso_rc[1][ipho];
+      nhIso_   = Iso_rc[2][ipho];
+      chWorst_ = Iso_rc[3][ipho];
+      chWorst_newEA = Iso_rc[4][ipho];
 
-	SeedTime_ = phoSeedTime[ipho];
-	SeedEnergy_ = phoSeedEnergy[ipho];
-	MIPEnergy_ = phoMIPTotEnergy[ipho];
+      //SeedTime_ = phoSeedTime[ipho];
+      //SeedEnergy_ = phoSeedEnergy[ipho];
+      //MIPEnergy_ = phoMIPTotEnergy[ipho];
       
       
-	//for(Int_t jj=0; jj<phoEB_pt_cut.size(); jj++){
-	if(phoEB_pt_cut.size() < 1) continue;
-	if(ipho == phoEB_pt_cut[0]){
-	  mcphoEt = mcPt[ipho];
-	  mcphoEta = mcEta[ipho];
-	  mcphoPhi = mcPhi[ipho];
-	  realphoEt = phoEt[ipho];
-	  realphoEta = phoEta[ipho];
-	  realphoPhi = phoPhi[ipho];
+      //for(Int_t jj=0; jj<phoEB_pt_cut.size(); jj++){
+      if(phoEB_pt_cut.size() < 1) continue;
+      if(ipho == phoEB_pt_cut[0]){
+	mcphoEt = mcPt[ipho];
+	mcphoEta = mcEta[ipho];
+	mcphoPhi = mcPhi[ipho];
+	realphoEt = phoEt[ipho];
+	realphoEta = phoEta[ipho];
+	realphoPhi = phoPhi[ipho];
 
-	  hasSeed = phohasPixelSeed[ipho];
+	//hasSeed = phohasPixelSeed[ipho];
       
-	  r9Full5x5_cut = phoR9Full5x5[ipho];
-	  HoverE_cut = phoHoverE[ipho];
-	  sieieFull5x5_cut = phoSigmaIEtaIEtaFull5x5[ipho];
-	  sieipFull5x5_cut = phoSigmaIEtaIPhiFull5x5[ipho];
-	  sipipFull5x5_cut = phoSigmaIPhiIPhiFull5x5[ipho];
-	  chIso_cut = Iso_rc[0][ipho];
-	  phoIso_cut = Iso_rc[1][ipho];
-	  nhIso_cut = Iso_rc[2][ipho];
-	  chWorst_cut = Iso_rc[3][ipho];
-	  chWorst_newEA_cut = Iso_rc[4][ipho];
+	r9Full5x5_cut = phoR9Full5x5[ipho];
+	HoverE_cut = phoHoverE[ipho];
+	sieieFull5x5_cut = phoSigmaIEtaIEtaFull5x5[ipho];
+	sieipFull5x5_cut = phoSigmaIEtaIPhiFull5x5[ipho];
+	sipipFull5x5_cut = phoSigmaIPhiIPhiFull5x5[ipho];
+	chIso_cut = Iso_rc[0][ipho];
+	phoIso_cut = Iso_rc[1][ipho];
+	nhIso_cut = Iso_rc[2][ipho];
+	chWorst_cut = Iso_rc[3][ipho];
+	chWorst_newEA_cut = Iso_rc[4][ipho];
 
-	  SeedTime_cut = phoSeedTime[ipho];
-	  SeedEnergy_cut = phoSeedEnergy[ipho];
-	  MIPEnergy_cut  = phoMIPTotEnergy[ipho];
+	//SeedTime_cut = phoSeedTime[ipho];
+	//SeedEnergy_cut = phoSeedEnergy[ipho];
+	//MIPEnergy_cut  = phoMIPTotEnergy[ipho];
 	      
-	  pfMET_cut = pfMET;
-	  pfMETPhi_cut = pfMETPhi;
-	}
+	pfMET_cut = pfMET;
+	pfMETPhi_cut = pfMETPhi;
       }
+    }
     
     //h_nphotrgs->Fill(nphotrgs);
     outtree_->Fill();
   }//event loop
   //****************END LOOP**********************//
 
+  cout <<nphohasPixelSeed << " " << nlep << " " << nmatch << " " << float(nphohasPixelSeed)/float(nmatch) << " " <<float(nlep)/float(nmatch) << endl;
+    
   //****************Terminate*********************//
   fout_->cd();
   outtree_->Write();
@@ -552,10 +819,23 @@ void xZg(char* pathes){
   hEvents->Write();
   h_npho->Write();
   h_nmcpho->Write();
-  h_nmatchpho->Write(); 
+  h_nmatchpho->Write();
   h_dr_pho->Write();
   h_dpt_pho->Write();
   h_dptdr_pho->Write();
+
+  h_nele->Write();
+  h_nmatchele->Write();
+  h_nclose_e->Write();
+  h_dptdr_ele->Write();
+  h_dr_epho->Write();
+
+  h_nmu->Write();
+  h_nmatchmu->Write();
+  h_nclose_m->Write();
+  h_dptdr_mu->Write();
+  h_dr_mpho->Write();
+  
 
   h_phoEB_pt->Write();
   h_phoEB_M->Write();
