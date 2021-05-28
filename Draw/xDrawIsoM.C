@@ -4,17 +4,17 @@
 #include <string>
 #include "TH1F.h"
 using namespace std;
-#define nfile 3
+#define nfile 6
 #define eqevents 1000000
 
 
 void xDrawIsoM(){
   ofstream ftext;
     
-  TString rootname[5] = {
-			 "/home/judy/ntuhep/GMET/output_file/summer16/mc/summer16_WGToLNuG_01J_5f_PtG_130_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_0000/210521_124657/output_ggtree.root",
-			 "/home/judy/ntuhep/GMET/output_file/summer16/mc/summer16_ZLLGJets_MonoPhoton_PtG-130_TuneCUETP8M1_13TeV-madgraph_0000/210521_151019/output_ggtree.root",
-			 "/home/judy/ntuhep/GMET/output_file/summer16/mc/summer16_ZGTo2NuG_PtG-130_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_0000/210521_123946/output_ggtree.root"
+ TString rootname[5] = {
+			 "/home/judy/ntuhep/GMET/output_file/summer16/mc/summer16_WGToLNuG_01J_5f_PtG_130_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_0000/210527_065337/output_ggtree.root",
+			 "/home/judy/ntuhep/GMET/output_file/summer16/mc/summer16_ZLLGJets_MonoPhoton_PtG-130_TuneCUETP8M1_13TeV-madgraph_0000/210527_072853/output_ggtree.root",
+			 "/home/judy/ntuhep/GMET/output_file/summer16/mc/summer16_ZNuNuGJets_MonoPhoton_PtG-130_TuneCUETP8M1_13TeV-madgraph-pythia8_0000/210527_064105/output_ggtree.root"
   };//[0,1,2,3][GJet,WG, ZG,ZNuNu]
   Float_t mclumi[5] = {0.002744,311.6,2.786,583.9};//(fb-1) [0,1,2,3,4][GJet,WG,ZG,ZNuNu]
   //Float_t mccross[5] = {}
@@ -94,10 +94,10 @@ void xDrawIsoM(){
     H_sieieFull5x5[i]->SetDirectory(0);
     //HoverE
 
-    H_HoverE[i] = new TH1F(Form("H_HoverE_%i", i), Form("H_HoverE_%i", i), 10, 0., 1);
+    H_HoverE[i] = new TH1F(Form("H_HoverE_%i", i), Form("H_HoverE_%i", i), 20, 0., 0.2);
     t->Draw(Form("HoverE>>H_HoverE_%i", i), "HoverE>0");
 
-    H_HoverE_M[i] = new TH1F(Form("H_HoverE_M%i", i), Form("H_HoverE_M%i", i), 10, 0., 1);
+    H_HoverE_M[i] = new TH1F(Form("H_HoverE_M%i", i), Form("H_HoverE_M%i", i), 20, 0., 0.2);
     t->Draw(Form("HoverE_cut>>H_HoverE_M%i", i), "HoverE_cut>0");
     c1->SetLogy();
     c1->Update();
