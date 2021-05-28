@@ -23,7 +23,7 @@ with open(remotepath, "r") as pathfile:
         script += "\n"
         script += "workdir=/afs/cern.ch/work/j/jou/runGG \n"
         script += "homedir=/afs/cern.ch/user/j/jou/runGG \n"
-        script += "mkdir /afs/cern.ch/user/j/jou/ana/summer16/"+str(dirname)+" \n"
+        script += "mkdir /afs/cern.ch/work/j/jou/ana/summer16/"+str(dirname)+" \n"
         script += "returndir=/afs/cern.ch/work/j/jou/ana/summer16/"+str(dirname)+" \n"
         script += "datadir="+str(line)+" \n"
         script += "\n"
