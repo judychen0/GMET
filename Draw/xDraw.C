@@ -7,15 +7,15 @@ void xDraw(){
   //TFile *fopen = new TFile("output_ggtree_mc.root");
   ofstream ftext;
 
-  TString rootname = "./output_ggtree.root";
+  TString rootname = "/home/judy/ntuhep/GMET/output_file/summer16/mc/summer16_ZNuNuGJets_MonoPhoton_PtG-130_TuneCUETP8M1_13TeV-madgraph-pythia8_0000/210527_064105/output_ggtree.root";
   TFile *fopen = new TFile(rootname);
   TCanvas *c1 = new TCanvas("c1");
   TTree *t =(TTree*)fopen->Get("t");
-  Int_t Events = t->GetEntries();
+  //Int_t Events = t->GetEntries();
 
   const char *title;
   //const char *saveto = "/home/judy/ntuhep/GJet/summer16_Zg_EWK/"; 
-  const char *saveto = "./graph"; 
+  const char *saveto = "."; 
   //draw TH1F non-logY histograms
   TH1F *H_npho = (TH1F*)fopen->Get("h_npho");
   H_npho->GetXaxis()->SetTitle("photon number");
@@ -29,8 +29,8 @@ void xDraw(){
   title = H_nmcpho->GetName();
   c1->SaveAs(Form("%s/%s.pdf", saveto, title));
 
-  TH1F *H_matchpho = (TH1F*)fopen->Get("h_matchpho");
-  H_matchpho->Draw();
+  TH1F *H_matchpho = (TH1F*)fopen->Get("h_nmatchpho");
+  H_matchpho->Draw("HIST");
   title = H_matchpho->GetName();
   c1->SaveAs(Form("%s/%s.pdf", saveto, title));
 
@@ -75,7 +75,7 @@ void xDraw(){
   //ftext <<  "M-ID cut eff : " << MIDcut_eff << endl;
   //ftext.close();
   
-  
+  /*  
   Double_t ptcut[30] = {22, 30, 36, 50, 75, 90, 120, 170, 175, 180, 185, 190, 200,
 		     210, 220, 230, 250, 300, 350, 400, 500, 750, 1000, 1500, 2000, 3000, 10000};//24 bins, 2016
 
@@ -108,12 +108,12 @@ void xDraw(){
   c1->SetLogy();
   c1->Update();
 
-  TH1F *H_mcphoEt = new TH1F("H_mcphoEt", "H_mcphoEt", 1, 100., 1100);
+  TH1F *H_mcphoEt = new TH1F("H_mcphoEt", "H_mcphoEt", 20, 0., 800);
   t->Draw("mcphoEt>>H_mcphoEt");
   title = H_mcphoEt->GetName();
   c1->SaveAs(Form("%s/%s.pdf", saveto, title));
   
-  TH1F *H_realphoEt = new TH1F("H_realphoEt", "H_realphoEt", 10, 100., 1100);
+  TH1F *H_realphoEt = new TH1F("H_realphoEt", "H_realphoEt", 20, 0., 1100);
   t->Draw("realphoEt>>H_realphoEt");
   title = H_realphoEt->GetName();
   c1->SaveAs(Form("%s/%s.pdf", saveto, title));
@@ -147,7 +147,7 @@ void xDraw(){
   c1->Update();
   
   
-  /*
+  
   TH1F *H_jetCEF = new TH1F("H_jetCEF", "H_jetCEF", 40, 0, 1);
   H_jetCEF->GetYaxis()->SetRangeUser(.01, 1000000);
   t->Draw("jetCEF>>H_jetCEF");
