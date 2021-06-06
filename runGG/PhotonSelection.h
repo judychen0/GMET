@@ -77,6 +77,7 @@ void pho_selection(Int_t iWP, Int_t region, TreeReader &data, vector<int>& passe
 		      { 0.030 , 0.057 , 0.039 , 0.015 , 0.024 , 0.039 , 0.072 }
   };//2015
   */
+  vector<Int_t> pho_MID; pho_MID.clear();
   for(Int_t ipho=0; ipho<nPho; ipho++){
 
     if(fabs(phoEt[ipho]) < 15.) continue;
@@ -90,9 +91,11 @@ void pho_selection(Int_t iWP, Int_t region, TreeReader &data, vector<int>& passe
     else if(fabs(phoEta[ipho]) > 2.4) iEA = 6;
 
     if( fabs(phoEta[ipho]) > 1.4442) continue;
-    //else if(region ==1 && (fabs(phoEta[ipho]) < 1.566 || fabs(phoEta[ipho]) > 2.5)) continue;
+    //else if(region ==1 && (fabs(phoEta[ipho]) < 1.566 || fabs(phoEta[ipho]) > 2.5)) continue;"/home/judy/ntuhep/GMET/output_file/summer16/mc/summer16_WGToLNuG_01J_5f_PtG_130_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/210531_110600/output_ggtree.root",
+			 "/home/judy/ntuhep/GMET/output_file/summer16/mc/summer16_ZLLGJets_MonoPhoton_PtG-130_TuneCUETP8M1_13TeV-madgraph/210531_120250/output_ggtree.root",
+			 "/home/judy/ntuhep/GMET/output_file/summer16/mc/summer16_ZNuNuGJets_MonoPhoton_PtG-130_TuneCUETP8M1_13TeV-madgraph-pythia8/210531_164904/output_ggtree.root",
     
-    if(phoHoverE[ipho] > 0.05) continue;
+    if(phoHoverE[ipho] > HoverE_WP[iWP][region]) continue;
     
     Float_t corr = 0.0;
     //chIso cut
@@ -118,8 +121,15 @@ void pho_selection(Int_t iWP, Int_t region, TreeReader &data, vector<int>& passe
 
     
     if( phoSigmaIEtaIEtaFull5x5[ipho] > sieie_WP[iWP][region]) continue;
-    
-    passed.push_back(ipho);
+    pho_MID.push_back(ipho);
+  }
+
+  for(Int_t ipho=0; ipho<nPho; ipho++){
+    Int_t pass =0;
+    for(Int_t ii=0; ii<pho_MID.size(); ii++){
+      if(ipho == pho_MID[ii]) pass = 1;
+    }
+    passed.push_back(pass);
   }
 }
 
