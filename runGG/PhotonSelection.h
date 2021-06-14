@@ -91,9 +91,7 @@ void pho_selection(Int_t iWP, Int_t region, TreeReader &data, vector<int>& passe
     else if(fabs(phoEta[ipho]) > 2.4) iEA = 6;
 
     if( fabs(phoEta[ipho]) > 1.4442) continue;
-    //else if(region ==1 && (fabs(phoEta[ipho]) < 1.566 || fabs(phoEta[ipho]) > 2.5)) continue;"/home/judy/ntuhep/GMET/output_file/summer16/mc/summer16_WGToLNuG_01J_5f_PtG_130_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/210531_110600/output_ggtree.root",
-			 "/home/judy/ntuhep/GMET/output_file/summer16/mc/summer16_ZLLGJets_MonoPhoton_PtG-130_TuneCUETP8M1_13TeV-madgraph/210531_120250/output_ggtree.root",
-			 "/home/judy/ntuhep/GMET/output_file/summer16/mc/summer16_ZNuNuGJets_MonoPhoton_PtG-130_TuneCUETP8M1_13TeV-madgraph-pythia8/210531_164904/output_ggtree.root",
+    //else if(region ==1 && (fabs(phoEta[ipho]) < 1.566 || fabs(phoEta[ipho]) > 2.5)) continue;
     
     if(phoHoverE[ipho] > HoverE_WP[iWP][region]) continue;
     
