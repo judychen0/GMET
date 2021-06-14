@@ -35,15 +35,15 @@ void setTDRStyle() {
   // tdrStyle->SetHistFillStyle(0);
   tdrStyle->SetHistLineColor(1);
   tdrStyle->SetHistLineStyle(0);
-  tdrStyle->SetHistLineWidth(1);
+  tdrStyle->SetHistLineWidth(2);
   // tdrStyle->SetLegoInnerR(Float_t rad = 0.5);
   // tdrStyle->SetNumberContours(Int_t number = 20);
 
   tdrStyle->SetEndErrorSize(2);
   //tdrStyle->SetErrorMarker(20);
-  tdrStyle->SetErrorX(0.);
-  
-  tdrStyle->SetMarkerStyle(20);
+  tdrStyle->SetErrorX();  
+  tdrStyle->SetMarkerStyle(8);
+  tdrStyle->SetMarkerSize(0.9);
 
   //For the fit/function:
   tdrStyle->SetOptFit(1);
@@ -59,6 +59,7 @@ void setTDRStyle() {
 
   // For the statistics box:
   tdrStyle->SetOptFile(0);
+  tdrStyle->SetOptFit(0);
   tdrStyle->SetOptStat(0); // To display the mean and RMS:   SetOptStat("mr");
   tdrStyle->SetStatColor(kWhite);
   tdrStyle->SetStatFont(42);
@@ -79,40 +80,37 @@ void setTDRStyle() {
   tdrStyle->SetPadRightMargin(0.05);
 
   // For the Global title:
-
-  //  tdrStyle->SetOptTitle(0);
-  tdrStyle->SetTitleFont(42);
+  tdrStyle->SetOptTitle(0);
+  tdrStyle->SetTitleFont(43);
   tdrStyle->SetTitleColor(1);
   tdrStyle->SetTitleTextColor(1);
   tdrStyle->SetTitleFillColor(10);
   tdrStyle->SetTitleFontSize(0.05);
   // tdrStyle->SetTitleH(0); // Set the height of the title box
   // tdrStyle->SetTitleW(0); // Set the width of the title box
+
   // tdrStyle->SetTitleX(0); // Set the position of the title box
   // tdrStyle->SetTitleY(0.985); // Set the position of the title box
   // tdrStyle->SetTitleStyle(Style_t style = 1001);
   // tdrStyle->SetTitleBorderSize(2);
 
   // For the axis titles:
-
   tdrStyle->SetTitleColor(1, "XYZ");
   tdrStyle->SetTitleFont(42, "XYZ");
-  tdrStyle->SetTitleSize(0.06, "XYZ");
+  tdrStyle->SetTitleSize(0.04, "XYZ");
   // tdrStyle->SetTitleXSize(Float_t size = 0.02); // Another way to set the size?
   // tdrStyle->SetTitleYSize(Float_t size = 0.02);
-  tdrStyle->SetTitleXOffset(0.9);
+  tdrStyle->SetTitleXOffset(1.05);
   tdrStyle->SetTitleYOffset(1.05);
   // tdrStyle->SetTitleOffset(1.1, "Y"); // Another way to set the Offset
 
   // For the axis labels:
-
   tdrStyle->SetLabelColor(1, "XYZ");
   tdrStyle->SetLabelFont(42, "XYZ");
   tdrStyle->SetLabelOffset(0.007, "XYZ");
-  tdrStyle->SetLabelSize(0.05, "XYZ");
+  tdrStyle->SetLabelSize(0.035, "XYZ");
 
   // For the axis:
-
   tdrStyle->SetAxisColor(1, "XYZ");
   tdrStyle->SetStripDecimals(kTRUE);
   tdrStyle->SetTickLength(0.03, "XYZ");
@@ -122,9 +120,14 @@ void setTDRStyle() {
 
   // Change for log plots:
   tdrStyle->SetOptLogx(0);
-  tdrStyle->SetOptLogy(0);
+  //tdrStyle->SetOptLogy(0);
   tdrStyle->SetOptLogz(0);
 
+  // For legend
+  tdrStyle->SetLegendBorderSize(0);
+  //tdrStyle->SetLegendFillColor(0);
+  tdrStyle->SetLegendFont(42);
+  //tdrStyle->SetLegendTextSize(0.035);
   // Postscript options:
   // tdrStyle->SetPaperSize(15.,15.);
   // tdrStyle->SetLineScalePS(Float_t scale = 3);
