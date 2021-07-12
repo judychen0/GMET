@@ -4,39 +4,7 @@
 #include <vector>
 using namespace std;
 
-Int_t pho_preselection(TreeReader &data, Int_t ipho, Bool_t hasSeed=kTRUE){
-  Int_t phoID=1;
-  Float_t* phoEt = data.GetPtrFloat("phoEt");
-  Float_t* phoEta = data.GetPtrFloat("phoEta");
-  Int_t*   phohasPixelSeed     = data.GetPtrInt("phohasPixelSeed");
-  Int_t*   phoEleVeto          = data.GetPtrInt("phoEleVeto");
-  Float_t* phoSigmaIEtaIEta    = data.GetPtrFloat("phoSigmaIEtaIEtaFull5x5");
-  Float_t* phoHoverE           = data.GetPtrFloat("phoHoverE");
-  Float_t* phoPFPhoIso         = data.GetPtrFloat("phoPFPhoIso");
-  Float_t* phoPFChWorstIso   = data.GetPtrFloat("phoPFChWorstIso");
-  Long64_t* phoFiredTrgs = data.GetPtrLong64("phoFiredSingleTrgs");
-
-  if(fabs(phoEta[ipho]) > 1.4442) phoID=0;
-  if((phoFiredTrgs[ipho]>>6&1) == 0) phoID=0;//102X 2016 HLT_175
-  //if(phoPFChWorstIso[ipho] > 15.) phoID=0;
-  if(hasSeed && phohasPixelSeed[ipho] == 1) phoID=0;
-  //if(phoEt[ipho] < 200) phoID=0;
-  return phoID;
-}
-
-Int_t pho_chselection(TreeReader &data, Int_t ipho, Bool_t eleVeto=kTRUE){
-  Int_t phoID=1;
-  Float_t* phoEt = data.GetPtrFloat("phoEt");
-  Float_t* phoEta = data.GetPtrFloat("phoEta");
-  Short_t* phoIDbit       = data.GetPtrShort("phoIDbit");
-
-  if(phoEt[ipho] <15) phoID = 0;
-  if(phoEta[ipho] >1.4442) phoID = 0;
-  if((phoIDbit[ipho]>>1&1) == 0) phoID = 0;//pass M ID
-
-  return phoID;
-}
-void pho_selection(Int_t iWP, Int_t region, TreeReader &data, vector<int>& passed){
+void pho_IDselection(Int_t iWP, Int_t region, TreeReader &data, vector<int>& passed){
 
   passed.clear();
   //load from data
@@ -150,4 +118,30 @@ void phoIDcut(Int_t iWP, TreeReader &data,  vector<int>& passed){
     else pass =0;
     passed.push_back(pass);
   }
+}
+
+Int_t pho_sel(Int_t IDbit, Int_t ibit){
+  Int_t ncut = 12;
+  Int_t testbit=0;
+  
+  for(Int_t i=0; i<ncut; i++){
+    if(i<=ibit) testbit |= (1<<i);
+  }
+  Int_t compare = (IDbit ^ testbit);
+  Int_t npass=0;
+  for(Int_t i=0; i<ibit; i++){
+    if((compare>>i&1) == 0) npass++;
+  }
+  if(npass > ibit) return 1;
+  else return 0;
+}
+
+Int_t Nm1_sel(Int_t IDbit, Int_t ibit){
+  Int_t ncut = 12;
+  Long64_t testbit=0;
+  for(Int_t i=0; i<12; i++){
+    testbit |= (1<<i);
+  }
+  testbit &= ~(1<<(ibit-1));
+  if(IDbit == testbit) return 1;
 }
