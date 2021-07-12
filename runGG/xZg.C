@@ -41,15 +41,27 @@ Double_t deltaR(Double_t eta1, Double_t phi1, Double_t eta2, Double_t phi2) {
   return sqrt(dEta*dEta+dPhi*dPhi);
 }
 
+Double_t deltaEta(Double_t eta1, Double_t eta2){
+  Double_t dEta;
+  dEta = eta1 - eta2;
+  return dEta;
+}
+void InitBit(Int_t bit, Int_t nbit){
+  for(Int_t i=0; i<nbit; i++){
+    bit &= ~(1<<i);
+  }
+}
+
 Int_t SetBit(Int_t nbit, Int_t bit){
   return (bit | (1<<nbit));
+  //return nbit;
 }
 
 Int_t ResetBit(Int_t nbit, Int_t bit){
   return (bit & ~(1<<nbit));
 }
 
-void xZg(char* pathes){
+void xZg(char* pathes, char* PUpathes, char* IDpathes, char* CSEVpathes){
 
   //***********************Initialization***********************//
   TFile *fopen = new TFile(pathes, "READ");
@@ -58,13 +70,15 @@ void xZg(char* pathes){
   fopen->Close();
 
   //Get phoID SF
-  fopen = new TFile("2016_PhotonsMedium.root", "READ");
+  //fopen = new TFile("2016_PhotonsMedium.root", "READ");
+  fopen = new TFile(IDpathes, "READ");
   TH2F *h_phoIDSF = (TH2F*)fopen->Get("EGamma_SF2D")->Clone();
   h_phoIDSF->SetDirectory(0);
   fopen->Close();
 
   //Get EleVeto SF
-  fopen = new TFile("CSEV_ScaleFactors_2016.root", "READ");
+  //fopen = new TFile("CSEV_ScaleFactors_2016.root", "READ");
+  fopen = new TFile(CSEVpathes, "READ");
   TH2F *h_CSVSF = (TH2F*)fopen->Get("Scaling_Factors_CSEV_R9_Inclusive")->Clone();
   h_CSVSF->SetDirectory(0);
   fopen->Close();
@@ -89,8 +103,10 @@ void xZg(char* pathes){
   h_dptdr_pho->Sumw2();
 
   TH1F *h_mcStatus = new TH1F("h_mcStatus", "check isPrompt pho is also fromHardProcess", 5, 0, 5);
-  TH2F *h2_phoEt_MET = new TH2F("h2_phoEt_MET", "h2_phoEt_MET", 20, 200, 1000, 50, 0, 1000);
-  h2_phoEt_MET->Sumw2();
+  TH2F *h2_MET_phoEt = new TH2F("h2_MET_phoEt", "h2_MET_phoEt", 50, 0, 1000, 80, 200, 1000);
+  h2_MET_phoEt->Sumw2();
+  TH2F *h2_phoEt_ptoverMET = new TH2F("h2_phoEt_ptoverMET", "h2_phoEt_ptoverMET", 80, 200, 1000, 20, 0, 4);
+  h2_phoEt_ptoverMET->Sumw2();
   
   Float_t EAbin[10] = {0.0, 1.0, 1.479, 2.0, 2.2, 2.3, 2.4, 3};//8 bins
   TH2F *h_chIso_rho[7];
@@ -149,9 +165,11 @@ void xZg(char* pathes){
   TH1F *h_phoEB_pt_jetveto[2];
   TH1F *h_phoEB_pt_HLT[2];
 
+ 
+
   TH1F *h_phoEB_ptcut[2];
   TH1F *h_phoEB_etacut[2];
-  TH1F *h_dr_phojet[2];
+  
   
   TH1F *h_phoEB_ptoverMET_Nm1[2];
   TH1F *h_phoEB_ptoverMET_cut[2];
@@ -199,10 +217,10 @@ void xZg(char* pathes){
     
     h_phoEB_ptcut[j] = new TH1F(Form("h_phoEB_ptcut_%i", j), "phoEB pt cut all pas varbin", 20, 200, 1000);
     h_phoEB_etacut[j] = new TH1F(Form("h_phoEB_eta_%i", j), "matched phoEB eta varbins", 6, etabin);
-    h_dr_phojet[j] = new TH1F(Form("h_dr_phojet_%i", j), "selected pho jet dr", 100, 0., 1.);
+    
     h_phoEB_ptcut[j]->Sumw2();
     h_phoEB_etacut[j]->Sumw2();
-    h_dr_phojet[j]->Sumw2();
+    
 
     h_phoEB_ptoverMET_Nm1[j] = new TH1F(Form("h_phoEB_ptoverMET_Nm1_%i", j), "phoEB pt/MET N-1 cut", 20, 0, 4);
     h_phoEB_ptoverMET_cut[j] = new TH1F(Form("h_phoEB_ptoverMET_cut_%i", j), "phoEB pt/MET N cut", 20, 0, 4);
@@ -248,6 +266,58 @@ void xZg(char* pathes){
   h2_rho_phoEB_pt_chworst->Sumw2();
   h2_rho_phoEB_pt_chworst_newEA->Sumw2();
 
+  //[0,1][jet1, jet2]
+  TH1F *h_jetpt[2];
+  TH1F *h_jetpt_200[2];
+  TH1F *h_jetpt_M[2];
+  TH1F *h_jetpt_chworst[2];
+  TH1F *h_jetpt_SeedTime[2];
+  TH1F *h_jetpt_phoptoverMET[2];
+  TH1F *h_jetpt_MET[2];
+  TH1F *h_jetpt_dphoMETPhi[2];
+  TH1F *h_jetpt_djetMETPhi[2];
+  TH1F *h_jetpt_jetveto[2];
+  TH1F *h_jetpt_HLT[2];
+  TH1F *h_dr_phojet[2];
+  TH1F *h_dEta_phojet[2];
+  TH1F *h_dr_jetjet;
+  TH1F *h_dEta_jetjet;
+
+  for(Int_t j=0; j<2; j++){
+    h_jetpt[j] = new TH1F(Form("h_jetpt_jet%i", j), "jetpt phoEB cut", 25, 30, 1030);
+    h_jetpt_200[j] = new TH1F(Form("h_jetpt_200_jet%i", j), "jetpt phoEB 200 cut", 25, 30, 1030);
+    h_jetpt_M[j] = new TH1F(Form("h_jetpt_M_jet%i", j), "jetpt phoEB M cut", 25, 30, 1030);
+    h_jetpt_chworst[j] = new TH1F(Form("h_jetpt_chworst_jet%i", j), "jetpt phoEB chworst cut", 25, 30, 1030);
+    h_jetpt_SeedTime[j] = new TH1F(Form("h_jetpt_SeedTime_jet%i", j), "jetpt phoEB SeedTime cut", 25, 30, 1030);
+    h_jetpt_phoptoverMET[j] = new TH1F(Form("h_jetpt_phoptoverMET_jet%i", j), "jetpt phoEB phoptoverMET cut", 25, 30, 1030);
+    h_jetpt_MET[j] = new TH1F(Form("h_jetpt_MET_jet%i", j), "jetpt phoEB MET cut", 25, 30, 1030);
+    h_jetpt_dphoMETPhi[j] = new TH1F(Form("h_jetpt_dphoMETPhi_jet%i", j), "jetpt phoEB dphoMETPhi cut", 25, 30, 1030);
+    h_jetpt_djetMETPhi[j] = new TH1F(Form("h_jetpt_djetMETPhi_jet%i", j), "jetpt phoEB djetMETPhi cut", 25, 30, 1030);
+    h_jetpt_jetveto[j] = new TH1F(Form("h_jetpt_jetveto_jet%i_%", j), "jetpt phoEB jetveto cut", 25, 30, 1030);
+    h_jetpt_HLT[j] = new TH1F(Form("h_jetpt_HLT_jet%i", j), "jetpt phoEB HLT", 25, 30, 1030);
+    h_dr_phojet[j] = new TH1F(Form("h_dr_phojet_jet%i", j), "pho jet dr", 14, 0., 7);
+    h_dEta_phojet[j] = new TH1F(Form("h_dEta_phojet_jet%i", j), "pho jet dEta", 14, 0., 7);
+    
+    h_jetpt[j]->Sumw2();
+    h_jetpt_200[j]->Sumw2();
+    h_jetpt_M[j]->Sumw2();
+    h_jetpt_chworst[j]->Sumw2();
+    h_jetpt_SeedTime[j]->Sumw2();
+    h_jetpt_phoptoverMET[j]->Sumw2();
+    h_jetpt_MET[j]->Sumw2();
+    h_jetpt_dphoMETPhi[j]->Sumw2();
+    h_jetpt_djetMETPhi[j]->Sumw2();
+    h_jetpt_jetveto[j]->Sumw2();
+    h_jetpt_HLT[j]->Sumw2();
+    h_dr_phojet[j]->Sumw2();
+    h_dEta_phojet[j]->Sumw2(); 
+  }
+  
+  h_dr_jetjet = new TH1F("h_dr_jetjet", "jet jet dR", 14, 0, 7);
+  h_dEta_jetjet = new TH1F("h_dEta_jetjet", "jet jet dEta", 14, 0, 7);
+  h_dr_jetjet->Sumw2();
+  h_dEta_jetjet->Sumw2();
+  
   //tree variables
   Bool_t isData;
   Float_t puwei_ = 1.;
@@ -336,7 +406,8 @@ void xZg(char* pathes){
 
   // pileup reweighting
   PUWeightCalculator puCalc;
-  puCalc.Init("external/puweights/94X/summer16/PU_histo_13TeV_2016_GoldenJSON_69200nb.root");
+  //puCalc.Init("external/puweights/94X/summer16/PU_histo_13TeV_2016_GoldenJSON_69200nb.root");
+  puCalc.Init(PUpathes);
 
   //***********************Loop***********************//
   for (Long64_t ev = 0; ev < data.GetEntriesFast(); ev++){
@@ -537,8 +608,16 @@ void xZg(char* pathes){
     Float_t *jetPt = data.GetPtrFloat("jetPt");
     Float_t *jetEta = data.GetPtrFloat("jetEta");
     Float_t *jetPhi = data.GetPtrFloat("jetPhi");
+    Float_t *jetEn = data.GetPtrFloat("jetEn");
+    Float_t *jetSmear = data.GetPtrFloat("jetP4Smear");
     Int_t *jetPUFullID = data.GetPtrInt("jetPUFullID");
     Int_t *jetID = data.GetPtrInt("jetID");
+
+    //jet smearing
+    for(Int_t ijet=0; ijet<nJet; ijet++){
+      jetPt[ijet]  = jetPt[ijet]*jetSmear[ijet];
+      if(jetPt[ijet]<0) jetPt[ijet] = 0;
+    }
     
     Int_t njetVeto =0;
     Int_t npfjet =0;
@@ -550,10 +629,10 @@ void xZg(char* pathes){
     vector<Int_t> jetVBS_list; jetVBS_list.clear();
     for(Int_t i=0; i<nJet; i++){
       if(fabs(deltaPhi(jetPhi[i], pfMETPhi)) < mindjetMETPhi) mindjetMETPhi = fabs(deltaPhi(jetPhi[i], pfMETPhi));
-      if(jetPUFullID[i] == 0){
+      if(jetPUFullID[i] == 4 && jetPt[i] > 30){
 	jetveto_list.push_back(i);
 	npfjet++;
-	if(jetPt[i] > 30) njetVeto++;
+	njetVeto++;
       }
 
       if((jetPUFullID[i] == 6) && (jetPt[i] > 30) && fabs(jetEta[i]) < 4.7 && (jetID[i] == 6)){
@@ -562,7 +641,7 @@ void xZg(char* pathes){
       }
     }
     if(njetVeto > 1) jetpass = 1;
-    if(nVBSjet > 2) jetpassVBS = 1;
+    if(nVBSjet > 1) jetpassVBS = 1;
 
     //phoID selection
     vector<Int_t> cutIDpho_list; cutIDpho_list.clear();//Medium Id
@@ -571,34 +650,53 @@ void xZg(char* pathes){
     //set cutflow ID
     vector<Int_t> cutflowSMID; cutflowSMID.clear();
     vector<Int_t> cutflowVBSID; cutflowVBSID.clear();
+    
+    Int_t bit=0;
+    Double_t djetEta = 0.0;
+    if(jetVBS_list.size() > 1){
+      //djetEta = deltaEta(jetEta[jetVBS_list[0]], jetEta[jetVBS_list[1]]);
+      djetEta = jetEta[jetVBS_list[0]] - jetEta[jetVBS_list[1]];
+    }
+    else djetEta = 999;
     for(Int_t ipho=0; ipho<nPho; ipho++){
-      Int_t bit=0;
+      bit=0;
+      InitBit(bit, 12);
       if(match[ipho] == 1) bit = SetBit(0, bit);
       if(phoEleVeto[ipho] == 1) bit = SetBit(1, bit);
-      if(fabs(phoSCEta[ipho]) > 1.4442) bit = SetBit(2, bit);
+      if(fabs(phoSCEta[ipho]) < 1.4442) bit = SetBit(2, bit);
       if(phoEt[ipho] > 200) bit = SetBit(3, bit);
       if(cutIDpho_list[ipho] == 1) bit = SetBit(4, bit);
       if(Iso_rc[4][ipho] < 1.3) bit = SetBit(5, bit);
-      if((phoEt[ipho]/pfMET - phoEt[ipho]*0.01) > 2.2) bit = SetBit(6, bit);
-      if(pfMET > 140) bit = SetBit(7, bit);
-      if(fabs(deltaPhi(phoPhi[ipho], pfMETPhi)) > 1.2) bit = SetBit(8, bit);
-      if(mindjetMETPhi > 0.5) bit = SetBit(9, bit);
-      if(jetpass < 1) bit = SetBit(10, bit);
-      if((phoFiredTrgs[ipho]>>6&1) == 1) bit = SetBit(11, bit);
+      //if(phoEt[ipho]/pfMET<(1.014+0.00475*phoEt[ipho])) bit = SetBit(6, bit);
+      if(pfMET > 140+(0.138*(phoEt[ipho]-500))) bit = SetBit(6, bit);
+      if(fabs(deltaPhi(phoPhi[ipho], pfMETPhi)) > 1.2) bit = SetBit(7, bit);
+      if(mindjetMETPhi > 0.5) bit = SetBit(8, bit);
+      if(jetpass < 1) bit = SetBit(9, bit);
+      if((phoFiredTrgs[ipho]>>7&1) == 1) bit = SetBit(10, bit);
       //if((phoFiredTrgs[ipho]>>6&1) == 1) bit = SetBit(14, bit);
       cutflowSMID.push_back(bit);
 
-      bit = ResetBit(10, bit);
-      if(jetpassVBS > 0) bit = SetBit(10, bit);
+      
+      bit = ResetBit(9, bit);
+      Double_t dr_phojet1, dr_phojet2, dr_jetjet;
+      if(jetVBS_list.size() > 1){
+	dr_phojet1 = deltaR(phoEta[ipho], phoPhi[ipho], jetEta[jetVBS_list[0]], jetPhi[jetVBS_list[0]]);
+	dr_phojet2 = deltaR(phoEta[ipho], phoPhi[ipho], jetEta[jetVBS_list[1]], jetPhi[jetVBS_list[1]]);
+	dr_jetjet = deltaR(jetEta[jetVBS_list[0]], jetPhi[jetVBS_list[0]], jetEta[jetVBS_list[1]], jetPhi[jetVBS_list[1]]);
+      }
+      else{dr_phojet1 = -999; dr_phojet2 = -999; dr_jetjet = -999;}
+      if(jetpassVBS > 0 && fabs(djetEta) > 2.5 && (dr_phojet1 > 0.5) && (dr_phojet2 > 0.5) && (dr_jetjet > 0.5)) bit = SetBit(9, bit);
       cutflowVBSID.push_back(bit);
     }
+    
     
     vector<Int_t> phoEB_pt, phoEB_pt_cut;
     phoEB_pt.clear();
     phoEB_pt_cut.clear();
 
-    Int_t leading_pho = 1;
-    for(Int_t ipho=0; ipho<leading_pho; ipho++){
+    Int_t leadingpho = 1;
+    if(nPho<1) continue;
+    for(Int_t ipho=0; ipho<leadingpho; ipho++){
       WEIGHT = wei_list[ipho];
       Int_t cutflow[2];
       cutflow[0] = cutflowSMID[ipho];
@@ -621,10 +719,10 @@ void xZg(char* pathes){
 	}
       }
 
-      if(pho_sel(cutflow[0], 6) == 1){
+      if(pho_sel(cutflow[0], 5) == 1){
 	phoEB_pt_cut.push_back(ipho);
-	h2_phoEt_MET->Fill(phoEt[ipho], pfMET, WEIGHT);
-	
+	h2_MET_phoEt->Fill(pfMET, phoEt[ipho], WEIGHT);
+	h2_phoEt_ptoverMET->Fill(phoEt[ipho], phoEt[ipho]/pfMET, WEIGHT);
 	for(Int_t j=0; j<12; j++){
 	  if((phoEt[ipho]/pfMET) < ptoverMETbin[j]) h_phoEB_pt_phoMET_vcut[j]->Fill(phoEt[ipho], WEIGHT);
 	}
@@ -633,140 +731,122 @@ void xZg(char* pathes){
 	  if(pfMET>METbin[j]) h_phoEB_pt_MET_vcut[j]->Fill(phoEt[ipho], WEIGHT);
 	}
       }
-    }
-      /*
+
+      
+      
       for(Int_t j=0; j<2; j++){
-	if(pho_sel(cutflow[j], 2)) h_phoEB_pt[j]->Fill(phoEt[ipho], WEIGHT);
-	if(pho_sel(cutflow[j], 3)) h_phoEB_pt_200[j]->Fill(phoEt[ipho], WEIGHT);
-	if(pho_sel(cutflow[j], 4)) h_phoEB_pt_M[j]->Fill(phoEt[ipho], WEIGHT);
-	if(pho_sel(cutflow[j], 5)) h_phoEB_pt_chworst[j]->Fill(phoEt[ipho], WEIGHT);
-	if(pho_sel(cutflow[j], 6)) h_phoEB_pt_phoptoverMET[j]->Fill(phoEt[ipho], WEIGHT);
-	if(pho_sel(cutflow[j], 7)) h_phoEB_pt_MET[j]->Fill(phoEt[ipho], WEIGHT);
-	if(pho_sel(cutflow[j], 8)) h_phoEB_pt_dphoMETPhi[j]->Fill(phoEt[ipho], WEIGHT);
-	if(pho_sel(cutflow[j], 9)) h_phoEB_pt_djetMETPhi[j]->Fill(phoEt[ipho], WEIGHT);
-	if(pho_sel(cutflow[j], 10)) h_phoEB_pt_jetveto[j]->Fill(phoEt[ipho], WEIGHT);
-	if(pho_sel(cutflow[j], 11)) h_phoEB_pt_HLT[j]->Fill(phoEt[ipho], WEIGHT);
+	//cutflow start
+	if(pho_sel(cutflow[j], 2) == 1) h_phoEB_pt[j]->Fill(phoEt[ipho], WEIGHT);
+	if(pho_sel(cutflow[j], 3) == 1) h_phoEB_pt_200[j]->Fill(phoEt[ipho], WEIGHT);
+	if(pho_sel(cutflow[j], 4) == 1) h_phoEB_pt_M[j]->Fill(phoEt[ipho], WEIGHT);
+	if(pho_sel(cutflow[j], 5) == 1) h_phoEB_pt_chworst[j]->Fill(phoEt[ipho], WEIGHT);
+	//if(pho_sel(cutflow[j], 6) == 1) h_phoEB_pt_phoptoverMET[j]->Fill(phoEt[ipho], WEIGHT);
+	//if(pho_sel(cutflow[j], 5) == 1 && (phoEt[ipho]/pfMET) < (0.22+0.008*phoEt[ipho])) h_phoEB_pt_phoptoverMET[j]->Fill(phoEt[ipho], WEIGHT);
+	if(pho_sel(cutflow[j], 6) == 1) h_phoEB_pt_MET[j]->Fill(phoEt[ipho], WEIGHT);
+	if(pho_sel(cutflow[j], 7) == 1) h_phoEB_pt_dphoMETPhi[j]->Fill(phoEt[ipho], WEIGHT);
+	if(pho_sel(cutflow[j], 8) == 1) h_phoEB_pt_djetMETPhi[j]->Fill(phoEt[ipho], WEIGHT);
+	if(pho_sel(cutflow[j], 9) == 1) h_phoEB_pt_jetveto[j]->Fill(phoEt[ipho], WEIGHT);
+	if(pho_sel(cutflow[j], 10) == 1) h_phoEB_pt_HLT[j]->Fill(phoEt[ipho], WEIGHT);
+
+	//result
+	if(pho_sel(cutflow[j], 10) == 1){
+	  h_phoEB_ptcut[j]->Fill(phoEt[ipho], WEIGHT);
+	  h_phoEB_etacut[j]->Fill(phoEt[ipho], WEIGHT);
+	  h_phoEB_ptoverMET_cut[j]->Fill(phoEt[ipho]/pfMET, WEIGHT);
+	  h_MET_cut[j]->Fill(pfMET, WEIGHT);
+	  h_dphoMETPhi_cut[j]->Fill(deltaPhi(phoPhi[ipho], pfMETPhi), WEIGHT);
+	  h_nvtx_cut[j]->Fill(nVtx, WEIGHT);
+	}
+
+	if(j==0 && pho_sel(cutflow[j], 10) == 1){
+	  h_njet_cut[j]->Fill(npfjet, WEIGHT);
+	  for(Int_t jj=0; jj<npfjet; jj++){
+	    Int_t ijet = jetveto_list[jj];
+	    h_jetpt_cut[j]->Fill(jetPt[ijet], WEIGHT);
+	    h_djetMETPhi_cut[j]->Fill(deltaPhi(jetPhi[ijet], pfMETPhi), WEIGHT);
+	  }
+	}
+
+	if(j==1 && pho_sel(cutflow[j], 10) == 1){
+	  h_njet_cut[j]->Fill(nVBSjet, WEIGHT);
+	  for(Int_t jj=0; jj<nVBSjet; jj++){
+	    Int_t ijet = jetVBS_list[jj];
+	    h_jetpt_cut[j]->Fill(jetPt[ijet], WEIGHT);
+	    h_djetMETPhi_cut[j]->Fill(deltaPhi(jetPhi[ijet], pfMETPhi), WEIGHT);
+	  }
+	}
+	
+	//Nm1 plot
+	//if(Nm1_sel(cutflow[j], 6) == 1) h_phoEB_ptoverMET_Nm1[j]->Fill(phoEt[ipho]/pfMET, WEIGHT);
+	if(Nm1_sel(cutflow[j], 6) == 1) h_MET_Nm1[j]->Fill(pfMET, WEIGHT);
+	if(Nm1_sel(cutflow[j], 7) == 1) h_dphoMETPhi_Nm1[j]->Fill(deltaPhi(phoPhi[ipho], pfMETPhi), WEIGHT);
+
+	if(j==0 && Nm1_sel(cutflow[j], 8) == 1){
+	  //h_njet_Nm1[j]->Fill(npfjet, WEIGHT);
+	  for(Int_t jj=0; jj<npfjet; jj++){
+	    Int_t ijet = jetveto_list[jj];
+	    //h_jetpt_Nm1[j]->Fill(jetPt[ijet], WEIGHT);
+	    h_djetMETPhi_Nm1[j]->Fill(deltaPhi(jetPhi[ijet], pfMETPhi), WEIGHT);
+	  }
+	}
+
+	if(j==0 && Nm1_sel(cutflow[j], 9) == 1){
+	  h_njet_Nm1[j]->Fill(npfjet, WEIGHT);
+	  for(Int_t jj=0; jj<npfjet; jj++){
+	    Int_t ijet = jetveto_list[jj];
+	    h_jetpt_Nm1[j]->Fill(jetPt[ijet], WEIGHT);
+	    //h_djetMETPhi_Nm1[j]->Fill(deltaPhi(jetPhi[ijet], pfMETPhi), WEIGHT);
+	  }
+	}
+
+	if(j==1 && Nm1_sel(cutflow[j], 8) == 1){
+	  //h_njet_Nm1[j]->Fill(npfjet, WEIGHT);
+	  for(Int_t jj=0; jj<nVBSjet; jj++){
+	    Int_t ijet = jetVBS_list[jj];
+	    //h_jetpt_Nm1[j]->Fill(jetPt[ijet], WEIGHT);
+	    h_djetMETPhi_Nm1[j]->Fill(deltaPhi(jetPhi[ijet], pfMETPhi), WEIGHT);
+	  }
+	}
+
+	if(j==1 && Nm1_sel(cutflow[j], 9) == 1){
+	  h_njet_Nm1[j]->Fill(nVBSjet, WEIGHT);
+	  for(Int_t jj=0; jj<nVBSjet; jj++){
+	    Int_t ijet = jetVBS_list[jj];
+	    h_jetpt_Nm1[j]->Fill(jetPt[ijet], WEIGHT);
+	    //h_djetMETPhi_Nm1[j]->Fill(deltaPhi(jetPhi[ijet], pfMETPhi), WEIGHT);
+	  }
+	}
+	
+	//jetpt
+	if(j==1 && jetVBS_list.size()>1){
+	  for(Int_t jj=0; jj<2; jj++){
+	    Int_t ijet = jetVBS_list[jj];
+
+	    if(pho_sel(cutflow[j], 2) == 1) h_jetpt[jj]->Fill(jetPt[ijet], WEIGHT);
+	    if(pho_sel(cutflow[j], 3) == 1) h_jetpt_200[jj]->Fill(jetPt[ijet], WEIGHT);
+	    if(pho_sel(cutflow[j], 4) == 1) h_jetpt_M[jj]->Fill(jetPt[ijet], WEIGHT);
+	    if(pho_sel(cutflow[j], 5) == 1) h_jetpt_chworst[jj]->Fill(jetPt[ijet], WEIGHT);
+	    //if(pho_sel(cutflow[j], 6) == 1) h_jetpt_phoptoverMET[jj]->Fill(jetPt[ijet], WEIGHT);
+	    //if(pho_sel(cutflow[j], 5) == 1 && (jetPt[ijet]/pfMET) < (0.22+0.008*jetPt[ijet])) h_jetpt_phoptoverMET[jj]->Fill(jetPt[ijet], WEIGHT);
+	    if(pho_sel(cutflow[j], 6) == 1) h_jetpt_MET[jj]->Fill(jetPt[ijet], WEIGHT);
+	    if(pho_sel(cutflow[j], 7) == 1) h_jetpt_dphoMETPhi[jj]->Fill(jetPt[ijet], WEIGHT);
+	    if(pho_sel(cutflow[j], 8) == 1) h_jetpt_djetMETPhi[jj]->Fill(jetPt[ijet], WEIGHT);
+	    if(pho_sel(cutflow[j], 9) == 1) h_jetpt_jetveto[jj]->Fill(jetPt[ijet], WEIGHT);
+	    if(pho_sel(cutflow[j], 10) == 1) {
+	      h_jetpt_HLT[jj]->Fill(jetPt[ijet], WEIGHT);
+	      h_dEta_phojet[jj]->Fill(fabs(deltaEta(phoSCEta[ipho], jetEta[ijet])), WEIGHT);
+	      h_dr_phojet[jj]->Fill(deltaR(phoSCEta[ipho], phoPhi[ipho], jetEta[ijet], jetPhi[ijet]), WEIGHT);
+	    }
+	  }
+
+	  if(pho_sel(cutflow[j], 10) == 1){
+	  h_dr_jetjet->Fill(deltaR(jetEta[jetVBS_list[0]], jetPhi[jetVBS_list[0]], jetEta[jetVBS_list[1]], jetPhi[jetVBS_list[1]]), WEIGHT);
+	  h_dEta_jetjet->Fill(fabs(deltaEta(jetEta[jetVBS_list[0]], jetEta[jetVBS_list[1]])), WEIGHT);
+	  }
+	}
+	
       }
     }
-      */
-
-    /*
-    Int_t nfill =0;
-    for(Int_t ipho=0; ipho<nPho; ipho++){
-      WEIGHT = wei_list[ipho];
-      if(match[ipho] == 0) continue;
-      nfill++;
-      if(nfill > 1) continue;
-      if(phoEleVeto[ipho] == 0) continue;
-      if(phoSigmaIEtaIEtaFull5x5[ipho]<0.001 || phoSigmaIPhiIPhiFull5x5[ipho]<0.001) continue;
-      //if(npasse == 1 || npassm == 1) continue;
-
-      //barrel region 
-      if(fabs(phoSCEta[ipho]) > 1.4442) continue;
-      h_phoEB_pt->Fill(phoEt[ipho], WEIGHT);
-      h_phoEB_eta->Fill(phoSCEta[ipho], WEIGHT);
-
-      for(Int_t j=0; j<7; j++){
-	if(fabs(phoSCEta[ipho]) >= EAbin[j] && fabs(phoSCEta[ipho]) < EAbin[j+1]){
-	  h_chIso_rho[j]->Fill(rho, Iso_raw[0][ipho], WEIGHT);
-	  h_chworst_rho[j]->Fill(rho, Iso_raw[3][ipho], WEIGHT);
-	}
-      }
-
-      for(Int_t j=0; j<22; j++){
-	if(Iso_rc[0][ipho] < chcut[j]) h_phoEB_pt_chIsocut[j]->Fill(phoEt[ipho], WEIGHT);//chIso
-	if(Iso_rc[3][ipho] < chcut[j]) h_phoEB_pt_chworstcut[j]->Fill(phoEt[ipho], WEIGHT);//chWorst
-	if(Iso_rc[4][ipho] < chcut[j]) h_phoEB_pt_chworstcut_newEA[j]->Fill(phoEt[ipho], WEIGHT);//chWorst_newEA
-      }
-
-      //pT200
-      if(phoEt[ipho] < 200) continue;
-      h_phoEB_pt_200->Fill(phoEt[ipho], WEIGHT);
-      phoEB_pt.push_back(ipho);
-      
-      //phoID cut
-      if(cutIDpho_list[ipho] != 1) continue;
-      h_phoEB_pt_M->Fill(phoEt[ipho], WEIGHT);
-      h2_rho_phoEB_pt_M->Fill(rho, phoEt[ipho], WEIGHT);
-      if(Iso_rc[3][ipho] > 1.3) h2_rho_phoEB_pt_chworst->Fill(rho, phoEt[ipho], WEIGHT);
-
-      //chworst_newEA cut
-      if(Iso_rc[4][ipho] > 1.3) continue;
-      //cout << njetVeto << " " << phoSeedTime[ipho] << endl;
-      h_phoEB_pt_chworst->Fill(phoEt[ipho], WEIGHT);
-      h2_rho_phoEB_pt_chworst_newEA->Fill(rho, phoEt[ipho], WEIGHT);
-
-      //r9 cut
-      if(phoR9Full5x5[ipho] > 1) continue;
-      h_phoEB_pt_r9->Fill(phoEt[ipho], WEIGHT);
-
-      //pho pT/MET cut
-      if((phoEt[ipho]/pfMET) > 2.2) continue;
-      h_phoEB_pt_phoptoverMET->Fill(phoEt[ipho], WEIGHT);
-
-      if(fabs(deltaPhi(phoPhi[ipho], pfMETPhi)) >= 1.2 && (jetpass < 1) && mindjetMETPhi > 0.5 && (phoFiredTrgs[ipho]>>6&1) == 0) h_MET_Nm1->Fill(pfMET, WEIGHT);
-      //if(fabs(deltaPhi(phoPhi[ipho], pfMETPhi)) >= 1.2 && jetpass < 1) h_MET_Nm1->Fill(pfMET, WEIGHT);
-
-      //MET cut
-      if(pfMET < 140) continue;
-      h_phoEB_pt_MET->Fill(phoEt[ipho], WEIGHT);
-      
-      if((jetpass < 1) && mindjetMETPhi > 0.5 && (phoFiredTrgs[ipho]>>6&1) == 0) h_dphoMETPhi_Nm1->Fill(deltaPhi(phoPhi[ipho], pfMETPhi), WEIGHT);
-      //if(jetpass < 1) h_dphoMETPhi_Nm1->Fill(deltaPhi(phoPhi[ipho], pfMETPhi), WEIGHT);
-
-      //dphoMETPhi cut
-      if(fabs(deltaPhi(phoPhi[ipho], pfMETPhi)) < 1.2) continue;
-      h_phoEB_pt_dphoMETPhi->Fill(phoEt[ipho], WEIGHT);
-
-      if(mindjetMETPhi > 0.5 && (phoFiredTrgs[ipho]>>6&1) == 0){
-	h_njet_Nm1->Fill(njetVeto, WEIGHT);
-	h_nvtx_Nm1->Fill(nVtx, WEIGHT);
-      }
-
-      for(Int_t jj =0; jj<npfjet; jj++){
-	Int_t ijet = jetveto_list[jj];
-	//Int_t ijet = jj;
-	if(mindjetMETPhi > 0.5 && (phoFiredTrgs[ipho]>>6&1) == 0){
-	  h_jetpt_Nm1->Fill(jetPt[ijet], WEIGHT);
-	  h_dr_phojet->Fill(deltaR(phoEta[ipho], phoPhi[ipho], jetEta[ipho], jetPhi[ipho]), WEIGHT);
-	}
-      }
-
-      //jet veto
-      if(jetpass == 1) continue;
-      h_phoEB_pt_jetveto->Fill(phoEt[ipho], WEIGHT);
-      cout << nJet << " " << njetVeto << endl;
-      for(Int_t jj =0; jj<npfjet; jj++){	
-	Int_t ijet = jetveto_list[jj];
-	//Int_t ijet = jj;
-	if((phoFiredTrgs[ipho]>>6&1) == 0)h_djetMETPhi_Nm1->Fill(deltaPhi(jetPhi[ijet], pfMETPhi), WEIGHT);
-      }
-
-      //djetMETPhi cut
-      if(mindjetMETPhi < 0.5) continue;
-      h_phoEB_pt_djetMETPhi->Fill(phoEt[ipho], WEIGHT);
-      
-
-      //HLT
-      if((phoFiredTrgs[ipho]>>6&1) == 0) continue;
-      h_phoEB_pt_HLT->Fill(phoEt[ipho], WEIGHT);
-      h_phoEB_ptoverMET->Fill(phoEt[ipho]/pfMET, WEIGHT);
-      h_phoEB_ptcut->Fill(phoEt[ipho], WEIGHT);
-      h_MET_cut->Fill(pfMET, WEIGHT);
-      h_dphoMETPhi_cut->Fill(deltaPhi(phoPhi[ipho], pfMETPhi), WEIGHT);
-      h_njet_cut->Fill(njetVeto, WEIGHT);
-      h_nvtx_cut->Fill(nVtx, WEIGHT);
-      for(Int_t jj =0; jj<npfjet; jj++){	
-	Int_t ijet = jetveto_list[jj];
-	//Int_t ijet = jj;
-	cout<< "min djetMETPhi " << mindjetMETPhi << endl;
-	h_jetpt_cut->Fill(jetPt[ijet], WEIGHT);
-	h_djetMETPhi_cut->Fill(deltaPhi(jetPhi[ijet], pfMETPhi));
-	h_phoEB_ptoverjetpt->Fill(jetPt[ijet]/phoEt[ipho], WEIGHT);
-      }
-      phoEB_pt_cut.push_back(ipho);
-    }
-    */
 
     r9Full5x5    =  -999;
     HoverE       =  -999;
@@ -834,9 +914,6 @@ void xZg(char* pathes){
       chWorst_newEA = Iso_rc[4][ipho];
 
       SeedTime_ = phoSeedTime[ipho];
-      //SeedEnergy_ = phoSeedEnergy[ipho];
-      //MIPEnergy_ = phoMIPTotEnergy[ipho];
-      
       
       //for(Int_t jj=0; jj<phoEB_pt_cut.size(); jj++){
       if(phoEB_pt_cut.size() < 1) continue;
@@ -847,8 +924,6 @@ void xZg(char* pathes){
 	realphoEt = phoEt[ipho];
 	realphoEta = phoEta[ipho];
 	realphoPhi = phoPhi[ipho];
-
-	//hasSeed = phoEleVeto[ipho];
       
 	r9Full5x5_cut = phoR9Full5x5[ipho];
 	HoverE_cut = phoHoverE[ipho];
@@ -862,8 +937,6 @@ void xZg(char* pathes){
 	chWorst_newEA_cut = Iso_rc[4][ipho];
 
 	SeedTime_cut = phoSeedTime[ipho];
-	//SeedEnergy_cut = phoSeedEnergy[ipho];
-	//MIPEnergy_cut  = phoMIPTotEnergy[ipho];
 	      
 	pfMET_cut = pfMET;
 	pfMETPhi_cut = pfMETPhi;
@@ -873,8 +946,6 @@ void xZg(char* pathes){
   }
   //****************END LOOP**********************//
 
-  //cout <<nphoEleVeto << " " << nlep << " " << nmatch << " " << float(nphoEleVeto)/float(nmatch) << " " <<float(nlep)/float(nmatch) << endl;
-    
   //****************Terminate*********************//
   fout_->cd();
   outtree_->Write();
@@ -889,11 +960,15 @@ void xZg(char* pathes){
   h_mcStatus->Write();
 
   h_njet->Write();
-  h2_phoEt_MET->Write();
+  h2_MET_phoEt->Write();
+  h2_phoEt_ptoverMET->Write();
 
   h2_rho_phoEB_pt_M->Write();
   h2_rho_phoEB_pt_chworst->Write();
   h2_rho_phoEB_pt_chworst_newEA->Write();
+
+  h_dr_jetjet->Write();
+  h_dEta_jetjet->Write();
 
   fout_->mkdir("SMandVBS");
   fout_->cd("SMandVBS");
@@ -934,6 +1009,25 @@ void xZg(char* pathes){
   
     h_phoEB_ptoverjetpt_cut[i]->Write();
     h_nvtx_cut[i]->Write();
+  }
+
+  fout_->mkdir("h_jetpt");
+  fout_->cd("h_jetpt");
+  for(Int_t i=0; i<2; i++){
+    h_jetpt[i]->Write();
+    h_jetpt_200[i]->Write();
+    h_jetpt_M[i]->Write();
+    h_jetpt_chworst[i]->Write();
+    h_jetpt_SeedTime[i]->Write();
+    h_jetpt_phoptoverMET[i]->Write();
+    h_jetpt_MET[i]->Write();
+    h_jetpt_dphoMETPhi[i]->Write();
+    h_jetpt_djetMETPhi[i]->Write();
+    h_jetpt_jetveto[i]->Write();
+    h_jetpt_HLT[i]->Write();
+
+    h_dr_phojet[i]->Write();
+    h_dEta_phojet[i]->Write();
   }
 
   fout_->mkdir("h_phoEB_pt_phoMET_vcut");
