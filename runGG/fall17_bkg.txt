@@ -1,0 +1,13 @@
+/data1/GMET/ggNtuples/job_fall17_Wg_aMCatNLO/
+/data1/GMET/ggNtuples/job_fall17_Wg_aMCatNLO_ext1/
+/data1/GMET/ggNtuples/job_fall17_Zg_aMCatNLO/
+/data1/GMET/ggNtuples/GJet/job_fall17_GJets_MG_HT100to200/
+/data1/GMET/ggNtuples/GJet/job_fall17_GJets_MG_HT200to400/
+/data1/GMET/ggNtuples/GJet/job_fall17_GJets_MG_HT400to600/
+/data1/GMET/ggNtuples/GJet/job_fall17_GJets_MG_HT600toInf/
+/data1/ggNtuples/V10_02_10_07/job_SinglePho_Run2017B_MarReminiAOD/
+/data1/ggNtuples/V10_02_10_07/job_SinglePho_Run2017C_MarReminiAOD/
+/data1/ggNtuples/V10_02_10_07/job_SinglePho_Run2017D_MarReminiAOD/
+/data1/ggNtuples/V10_02_10_07/job_SinglePho_Run2017E_MarReminiAOD/
+/data1/ggNtuples/V10_02_10_07/job_SinglePho_Run2017F_MarReminiAOD/
+

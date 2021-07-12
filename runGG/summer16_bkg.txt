@@ -1,0 +1,15 @@
+/data1/GMET/ggNtuples/job_summer16_Wg_aMCatNLO/
+/data1/GMET/ggNtuples/job_summer16_Wg_aMCatNLO_ext1/
+/data1/GMET/ggNtuples/job_summer16_Zg_aMCatNLO/
+/data1/GMET/ggNtuples/GJet/job_summer16_GJets_MG_HT100to200/
+/data1/GMET/ggNtuples/GJet/job_summer16_GJets_MG_HT200to400/
+/data1/GMET/ggNtuples/GJet/job_summer16_GJets_MG_HT400to600/
+/data1/GMET/ggNtuples/GJet/job_summer16_GJets_MG_HT600toInf/
+/data1/ggNtuples/V10_02_10_07/job_SinglePho_Run2016B_Legacy/
+/data1/ggNtuples/V10_02_10_07/job_SinglePho_Run2016C_Legacy/
+/data1/ggNtuples/V10_02_10_07/job_SinglePho_Run2016D_Legacy/
+/data1/ggNtuples/V10_02_10_07/job_SinglePho_Run2016E_Legacy/
+/data1/ggNtuples/V10_02_10_07/job_SinglePho_Run2016F_Legacy/
+/data1/ggNtuples/V10_02_10_07/job_SinglePho_Run2016G_Legacy/
+/data1/ggNtuples/V10_02_10_07/job_SinglePho_Run2016H_Legacy/
+

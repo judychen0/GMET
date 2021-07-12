@@ -1,8 +1,2 @@
-/eos/cms/store/group/phys_smp/ggNtuples/13TeV/mc/V09_04_13_04/job_summer16_Znunug_pt130/ZNuNuGJets_MonoPhoton_PtG-130_TuneCUETP8M1_13TeV-madgraph-pythia8/crab_job_summer16_Znunug_pt130/210417_111641/0000/
-/eos/cms/store/group/phys_smp/ggNtuples/13TeV/mc/V09_04_13_04/job_summer16_Zg_aMCatNLO/ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/crab_job_summer16_Zg_aMCatNLO/190730_075158/0000/
-/eos/cms/store/group/phys_smp/ggNtuples/13TeV/mc/V09_04_13_04/job_summer16_Zg_aMCatNLO/ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/crab_job_summer16_Zg_aMCatNLO/190730_075158/0001/
-/eos/cms/store/group/phys_smp/ggNtuples/13TeV/mc/V09_04_13_04/job_summer16_Zg_aMCatNLO/ZGToLLG_01J_LoosePtlPtg_5f_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/crab_job_summer16_Zg_aMCatNLO/190805_204624/0000/
-/eos/cms/store/group/phys_smp/ggNtuples/13TeV/mc/V09_04_13_04/job_summer16_Zg_aMCatNLO/ZGToLLG_01J_LoosePtlPtg_5f_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/crab_job_summer16_Zg_aMCatNLO/190805_204624/0001/
-/eos/cms/store/group/phys_smp/ggNtuples/13TeV/mc/V09_04_13_04/job_summer16_Zg_lowMll_lowGPt_aMCatNLO/ZGToLLG_01J_5f_lowMLL_lowGPt_TuneCP5_13TeV-amcatnloFXFX-pythia8/crab_job_summer16_Zg_lowMll_lowGPt_aMCatNLO/210207_100101/0000/
-/eos/cms/store/group/phys_smp/ggNtuples/13TeV/mc/V09_04_13_04/job_summer16_Wg_pt130/WGToLNuG_01J_5f_PtG_130_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/crab_job_summer16_Wg_pt130/210417_111733/0000/
-/eos/cms/store/group/phys_smp/ggNtuples/13TeV/mc/V09_04_13_04/job_summer16_gjet_pt15to6000/GJet_Pt-15To6000_TuneCUETP8M1-Flat_13TeV_pythia8_20M/crab_job_summer16_gjet_pt15to6000/190807_093405/0000/
+/data6/ggNtuples/V10_02_10_07/job_summer16_Znunug_pt130/
+
