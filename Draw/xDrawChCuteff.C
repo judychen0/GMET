@@ -4,16 +4,13 @@
 #include <string>
 #include "TH1F.h"
 using namespace std;
-#define nfile 3
+#define nfile 2
 #define nhisto 22
 
 void xDrawChCuteff(){
   ofstream ftext;
   TString rootname[5] = {
-			
-			 "/home/judy/ntuhep/GMET/output_file/summer16/mc/summer16_WGToLNuG_01J_5f_PtG_130_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/210602_180734/output_ggtree.root",
-			 "/home/judy/ntuhep/GMET/output_file/summer16/mc/summer16_ZLLGJets_MonoPhoton_PtG-130_TuneCUETP8M1_13TeV-madgraph/210602_184359/output_ggtree.root",
-			 "/home/judy/ntuhep/GMET/output_file/summer16/mc/summer16_ZNuNuGJets_MonoPhoton_PtG-130_TuneCUETP8M1_13TeV-madgraph-pythia8/210602_163537/output_ggtree.root",
+			 "/home/judy/ntuhep/GMET/output_file/summer16/mc/summer16_ZNuNuGJets_MonoPhoton_PtG-130_TuneCUETP8M1_13TeV-madgraph-pythia8/210614_100645/output_ggtree.root",
 			 "/home/judy/ntuhep/GMET/output_file/summer16/data/output_ggtree.root"
   };//[0,1,2,3][GJet,WG, ZG,ZNuNu]
 
@@ -149,7 +146,7 @@ void xDrawChCuteff(){
   TMultiGraph *mg_phoEB_pt_chcut[nfile];
   TMultiGraph *mg_phoEB_pt_chwcut[nfile];
   TLegend *lmg_phoEB_pt = new TLegend(0.65,0.63, 0.75, 0.75);
-  lmg_phoEB_pt->SetBorderSize(0);
+  lmg_phoEB_pt->SetTextSize(0.03);
   lmg_phoEB_pt->SetFillStyle(0);
   
   for(Int_t i=0; i<nfile; i++){
