@@ -293,7 +293,7 @@ void xZg(char* pathes, char* PUpathes, char* IDpathes, char* CSEVpathes){
     h_jetpt_MET[j] = new TH1F(Form("h_jetpt_MET_jet%i", j), "jetpt phoEB MET cut", 25, 30, 1030);
     h_jetpt_dphoMETPhi[j] = new TH1F(Form("h_jetpt_dphoMETPhi_jet%i", j), "jetpt phoEB dphoMETPhi cut", 25, 30, 1030);
     h_jetpt_djetMETPhi[j] = new TH1F(Form("h_jetpt_djetMETPhi_jet%i", j), "jetpt phoEB djetMETPhi cut", 25, 30, 1030);
-    h_jetpt_jetveto[j] = new TH1F(Form("h_jetpt_jetveto_jet%i_%", j), "jetpt phoEB jetveto cut", 25, 30, 1030);
+    h_jetpt_jetveto[j] = new TH1F(Form("h_jetpt_jetveto_jet%i", j), "jetpt phoEB jetveto cut", 25, 30, 1030);
     h_jetpt_HLT[j] = new TH1F(Form("h_jetpt_HLT_jet%i", j), "jetpt phoEB HLT", 25, 30, 1030);
     h_dr_phojet[j] = new TH1F(Form("h_dr_phojet_jet%i", j), "pho jet dr", 14, 0., 7);
     h_dEta_phojet[j] = new TH1F(Form("h_dEta_phojet_jet%i", j), "pho jet dEta", 14, 0., 7);
@@ -427,6 +427,8 @@ void xZg(char* pathes, char* PUpathes, char* IDpathes, char* CSEVpathes){
     h_npho->Fill(nPho);
     h_njet->Fill(nJet);
 
+    Float_t genWeight = data.GetFloat("genWeight");
+
     Int_t    nPUInfo =0;
     Int_t*   puBX=0; 
     Float_t* puTrue=0;
@@ -517,7 +519,7 @@ void xZg(char* pathes, char* PUpathes, char* IDpathes, char* CSEVpathes){
       //if(phoR9Full5x5[ipho] >= 0.94) CSVSF = h_CSVSF->GetBinContent(2);
       //else if (phoR9Full5x5[ipho] < 0.94) CSVSF = h_CSVSF->GetBinContent(3);
 
-      Double_t tot_wei = phoSF*CSVSF*puwei_;
+      Double_t tot_wei = phoSF*CSVSF*puwei_*genWeight;
       wei_list.push_back(tot_wei);
     }
 
