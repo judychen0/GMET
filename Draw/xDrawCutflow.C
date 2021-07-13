@@ -3,12 +3,13 @@
 #include <cstring>
 #include <string>
 #include "TH1F.h"
+#include "./Drawlumi/CMS_lumi.C"
 using namespace std;
 //#define nfile 4
 #define nfile 4
 #define nhisto 2
 #define ncolor 10
-void xDrawCutflow(){
+void xDrawCutflow(Int_t year){
   ofstream ftext;
   /*
   TString rootname[5] = {"/home/judy/ntuhep/GMET/output_file/summer16/mc/210505/summer16_GJet_Pt-15To6000_TuneCUETP8M1-Flat_13TeV_pythia8_20M_0000/210505_040352/output_ggtree.root",
@@ -106,8 +107,7 @@ string hexcolor[ncolor] = {"#9297db", "#ffea00", "#4caf50", "#ff9e00", "#03a9f4"
       tgAE_phoEB_pt_djetMETPhi[i][jj] = new TGraphAsymmErrors();
       tgAE_phoEB_pt_HLT[i][jj] = new TGraphAsymmErrors();
       tgAE_phoEB_pt_Meff[i][jj] = new TGraphAsymmErrors();
-    
-    
+      
       tgAE_phoEB_pt_200[i][jj]->Divide(H_phoEB_pt_200[i][jj], H_phoEB_pt_200[i][jj]);
       tgAE_phoEB_pt_M[i][jj]->Divide(H_phoEB_pt_M[i][jj], H_phoEB_pt_200[i][jj]);
       tgAE_phoEB_pt_chworst[i][jj]->Divide(H_phoEB_pt_chworst[i][jj], H_phoEB_pt_200[i][jj]);
@@ -220,7 +220,7 @@ string hexcolor[ncolor] = {"#9297db", "#ffea00", "#4caf50", "#ff9e00", "#03a9f4"
   TF1 *fitresult = new TF1("fitresult", "pol0", 20, 500);
   Double_t yinter[15][nfile][nhisto], err[15][nfile][nhisto];
   
-
+  writeExtraText = true;
   for(Int_t i=0; i<nfile; i++){
     for(Int_t jj=0; jj<nhisto; jj++){
     mg[i][jj] = new TMultiGraph();
@@ -229,7 +229,7 @@ string hexcolor[ncolor] = {"#9297db", "#ffea00", "#4caf50", "#ff9e00", "#03a9f4"
     //mg[i][jj]->Add(tgAE_phoEB_pt_200[i][jj]);
     mg[i][jj]->Add(tgAE_phoEB_pt_M[i][jj]);
     mg[i][jj]->Add(tgAE_phoEB_pt_chworst[i][jj]);
-    mg[i][jj]->Add(tgAE_phoEB_pt_phoptoverMET[i][jj]);
+    //mg[i][jj]->Add(tgAE_phoEB_pt_phoptoverMET[i][jj]);
     mg[i][jj]->Add(tgAE_phoEB_pt_MET[i][jj]);
     mg[i][jj]->Add(tgAE_phoEB_pt_dphoMETPhi[i][jj]);
     mg[i][jj]->Add(tgAE_phoEB_pt_jetveto[i][jj]);
@@ -249,7 +249,7 @@ string hexcolor[ncolor] = {"#9297db", "#ffea00", "#4caf50", "#ff9e00", "#03a9f4"
     //lmg->AddEntry(tgAE_phoEB_pt_200[i][jj], "pt > 200", "PE");
     lmg->AddEntry(tgAE_phoEB_pt_M[i][jj], "Medium ID", "PE");
     lmg->AddEntry(tgAE_phoEB_pt_chworst[i][jj], "chworst < 1.3", "PE");
-    lmg->AddEntry(tgAE_phoEB_pt_phoptoverMET[i][jj], "P_{T}^{#gamma}/MET < 2.344+0.00475#times(P_{T}^{#gamma}-280)", "PE");
+    //lmg->AddEntry(tgAE_phoEB_pt_phoptoverMET[i][jj], "P_{T}^{#gamma}/MET < 2.344+0.00475#times(P_{T}^{#gamma}-280)", "PE");
     lmg->AddEntry(tgAE_phoEB_pt_MET[i][jj], "MET > 140+0.138#times(P_{T}^{#gamma}-500) GeV", "PE");
     lmg->AddEntry(tgAE_phoEB_pt_dphoMETPhi[i][jj], "#Delta#phi(#gamma, MET) > 1.2", "PE");
     lmg->AddEntry(tgAE_phoEB_pt_djetMETPhi[i][jj], "#Delta#phi(jet, MET) > 0.5", "PE");
@@ -257,6 +257,9 @@ string hexcolor[ncolor] = {"#9297db", "#ffea00", "#4caf50", "#ff9e00", "#03a9f4"
     else if(jj==1)lmg->AddEntry(tgAE_phoEB_pt_jetveto[i][jj], "jet selection", "PE");
     lmg->Draw("SAME");
     title = mg[i][jj]->GetTitle();
+    CMS_lumi(c1, year, 0);
+    c1->Update();
+    c1->RedrawAxis();
     c1->SaveAs(Form("%s/%s.pdf", saveto, title));
 
     tgAE_phoEB_pt_200[i][jj]->Fit(fitresult,"", "", 200, 500);
