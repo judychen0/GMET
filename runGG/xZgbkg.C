@@ -414,7 +414,10 @@ void xZgbkg(char* pathes, char* PUpathes, char* IDpathes, char* CSEVpathes){
     h_npho->Fill(nPho);
     h_njet->Fill(nJet);
 
-    Float_t genWeight = data.GetFloat("genWeight");
+    Float_t genWeight = 1.0;
+    if(isData==0){
+      genWeight = data.GetFloat("genWeight");
+    }
     
     Int_t    nPUInfo =0;
     Int_t*   puBX=0; 
@@ -512,8 +515,7 @@ void xZgbkg(char* pathes, char* PUpathes, char* IDpathes, char* CSEVpathes){
       wei_list.push_back(tot_wei);
     }
 
-    if(isData==0){
-      //MC 
+    //MC 
       Int_t    nMC   =0;     
       Int_t*   mcPID =0;
       Int_t*   mcMomPID =0;
@@ -529,8 +531,9 @@ void xZgbkg(char* pathes, char* PUpathes, char* IDpathes, char* CSEVpathes){
       Float_t* mcMomEta  =0;
       Float_t* mcMomPhi  =0;
       Float_t* mcMomE    =0;
-
-      nMC       = data.GetInt("nMC");
+      
+    if(isData==0){
+            nMC       = data.GetInt("nMC");
       mcPID     = data.GetPtrInt("mcPID");
       mcPt      = data.GetPtrFloat("mcPt");
       mcEta     = data.GetPtrFloat("mcEta");
@@ -552,12 +555,14 @@ void xZgbkg(char* pathes, char* PUpathes, char* IDpathes, char* CSEVpathes){
     Float_t	*jetEta		= data.GetPtrFloat("jetEta");
     Float_t	*jetPhi		= data.GetPtrFloat("jetPhi");
     Float_t	*jetEn		= data.GetPtrFloat("jetEn");
-    Float_t	*jetSmear	= data.GetPtrFloat("jetP4Smear");
+   
     Int_t	*jetPUFullID	= data.GetPtrInt("jetPUFullID");
     Int_t	*jetID		= data.GetPtrInt("jetID");
 
+    Float_t	*jetSmear;
     //jet smearing
     if(isData==0){
+      jetSmear = data.GetPtrFloat("jetP4Smear");
       for(Int_t ijet=0; ijet<nJet; ijet++){
 	jetPt[ijet]  = jetPt[ijet]*jetSmear[ijet];
 	if(jetPt[ijet]<0) jetPt[ijet] = 0;
@@ -605,8 +610,9 @@ void xZgbkg(char* pathes, char* PUpathes, char* IDpathes, char* CSEVpathes){
     else djetEta = 999;
     for(Int_t ipho=0; ipho<nPho; ipho++){
       bit=0;
-      InitBit(bit, 12);
-      if(match[ipho] == 1) bit = SetBit(0, bit);
+      //InitBit(bit, 12);
+      //if(match[ipho] == 1) bit = SetBit(0, bit);
+      bit = SetBit(0, bit);
       if(phoEleVeto[ipho] == 1) bit = SetBit(1, bit);
       if(fabs(phoSCEta[ipho]) < 1.4442) bit = SetBit(2, bit);
       if(phoEt[ipho] > 200) bit = SetBit(3, bit);
@@ -863,9 +869,11 @@ void xZgbkg(char* pathes, char* PUpathes, char* IDpathes, char* CSEVpathes){
       //for(Int_t jj=0; jj<phoEB_pt_cut.size(); jj++){
       if(phoEB_pt_cut.size() < 1) continue;
       if(ipho == phoEB_pt_cut[0]){
-	mcphoEt = mcPt[ipho];
-	mcphoEta = mcEta[ipho];
-	mcphoPhi = mcPhi[ipho];
+	if(isData==0){
+	  mcphoEt = mcPt[ipho];
+	  mcphoEta = mcEta[ipho];
+	  mcphoPhi = mcPhi[ipho];
+	}
 	realphoEt = phoEt[ipho];
 	realphoEta = phoEta[ipho];
 	realphoPhi = phoPhi[ipho];
