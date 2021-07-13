@@ -3,6 +3,7 @@
 #include <cstring>
 #include <string>
 #include "TH1F.h"
+#include "./Drawlumi/CMS_lumi.C"
 using namespace std;
 #define nfile 5
 #define nhisto 2
@@ -63,7 +64,7 @@ TH1F* ratioplot(THStack* st, TH1F* h1){
   return ratio;
 }
 
-void xDrawStack_Nm1(){
+void xDrawStack_Nm1(Int_t year){
   TString rootname[5] = {
 			 "/home/judy/ntuhep/GMET/output_file/summer16/mc/output_merge.root",
 			 "/home/judy/ntuhep/GMET/output_file/summer16/mc/summer16_job_summer16_Wg_aMCatNLO/210707_180617/output_ggtree.root",
@@ -237,7 +238,8 @@ void xDrawStack_Nm1(){
   pad2->SetTopMargin(0);
   pad2->SetBottomMargin(0.3);
   pad2->Draw();
-
+  
+  writeExtraText = true;
   for(Int_t jj=0; jj<2; jj++){
     pad1->cd();
     HS_MET_Nm1[jj]->Draw("HIST");
@@ -263,6 +265,9 @@ void xDrawStack_Nm1(){
     hratio->GetXaxis()->SetTitle("MET");
     hratio->Draw("EP");
     tg->Draw("LSAME");
+    CMS_lumi(pad1, year, 0);
+    c1->Update();
+    c1->RedrawAxis();
     c1->SaveAs(Form("%s/%s.pdf", saveto, title));
 
     pad1->cd();  
@@ -288,6 +293,9 @@ void xDrawStack_Nm1(){
     hratio->GetXaxis()->SetTitle("#Delta#phi(#gamma,MET)");
     hratio->Draw("EP");
     tg->Draw("LSAME");
+    CMS_lumi(pad1, year, 0);
+    c1->Update();
+    c1->RedrawAxis();
     c1->SaveAs(Form("%s/%s.pdf", saveto, title));
 
     pad1->cd();
@@ -313,6 +321,9 @@ void xDrawStack_Nm1(){
     hratio->GetXaxis()->SetTitle("njet");
     hratio->Draw("EP");
     tg->Draw("LSAME");
+    CMS_lumi(pad1, year, 0);
+    c1->Update();
+    c1->RedrawAxis();
     c1->SaveAs(Form("%s/%s.pdf", saveto, title));
 
     pad1->cd();
@@ -337,6 +348,9 @@ void xDrawStack_Nm1(){
     hratio->GetXaxis()->SetTitle("P_{T}^{jet}");
     hratio->Draw("EP");
     tg->Draw("LSAME");
+    CMS_lumi(pad1, year, 0);
+    c1->Update();
+    c1->RedrawAxis();
     c1->SaveAs(Form("%s/%s.pdf", saveto, title));
 
     pad1->cd();
@@ -361,6 +375,9 @@ void xDrawStack_Nm1(){
     hratio->GetXaxis()->SetTitle("#Delta#phi(jet, MET)");
     hratio->Draw("EP");
     tg->Draw("LSAME");
+    CMS_lumi(pad1, year, 0);
+    c1->Update();
+    c1->RedrawAxis();
     c1->SaveAs(Form("%s/%s.pdf", saveto, title));
 
     pad1->cd();
@@ -387,6 +404,9 @@ void xDrawStack_Nm1(){
     hratio->GetXaxis()->SetTitle("P_{T}^{#gamma}/MET");
     hratio->Draw("EP");
     tg->Draw("LSAME");
+    CMS_lumi(pad1, year, 0);
+    c1->Update();
+    c1->RedrawAxis();
     c1->SaveAs(Form("%s/%s.pdf", saveto, title));
   }
   
