@@ -124,24 +124,39 @@ Int_t pho_sel(Int_t IDbit, Int_t ibit){
   Int_t ncut = 12;
   Int_t testbit=0;
   
-  for(Int_t i=0; i<ncut; i++){
-    if(i<=ibit) testbit |= (1<<i);
-  }
-  Int_t compare = (IDbit ^ testbit);
   Int_t npass=0;
-  for(Int_t i=0; i<ibit; i++){
-    if((compare>>i&1) == 0) npass++;
+  for(Int_t i=0; i<ibit+1; i++){
+    if((IDbit>>i&1) == 0) npass++;
+    //cout << (IDbit>>i&1);
+
+    //else continue;
   }
-  if(npass > ibit) return 1;
-  else return 0;
+  //cout << " " << npass << endl;
+  if(npass > 0) return 0;
+  else return 1;
+    //if(npass == ibit+1) return 1;
+  //else return 0;
 }
 
 Int_t Nm1_sel(Int_t IDbit, Int_t ibit){
-  Int_t ncut = 12;
-  Long64_t testbit=0;
-  for(Int_t i=0; i<12; i++){
+  Int_t ncut = 11;
+  Int_t testbit =0;
+
+  for(Int_t i=0; i<ncut; i++){
     testbit |= (1<<i);
   }
-  testbit &= ~(1<<(ibit-1));
-  if(IDbit == testbit) return 1;
+  Int_t compare = (IDbit ^ testbit);
+  
+  Int_t npass=0;
+  for(Int_t i=0; i<ncut; i++){
+    if(i!=ibit){
+      if((IDbit>>i&1) == 1) npass++;
+    }
+    //cout<< (compare>>i&1);
+    //if(((IDbit>>i&1)==1 || (IDbit>>i&1)==0 ) && i==ibit) npass++;
+  }
+  //cout << " " << npass << endl;
+  if(npass == ncut-1) return 1;
+  else return 0;
+ 
 }
