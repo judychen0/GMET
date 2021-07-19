@@ -6,12 +6,9 @@
 #include "./Drawlumi/CMS_lumi.C"
 
 using namespace std;
-#define nfile 5
+#define nfile 7
 #define nhisto 2
-#define nGJet 8
 #define ncolor 10
-
-#define eqevents 1000000
 
 TH1F* ratioplot(THStack* st, TH1F* h1){
 
@@ -69,32 +66,49 @@ TH1F* ratioplot(THStack* st, TH1F* h1){
 }
 
 void xDrawStack(Int_t year){
- TString rootname[5] = {
-			 "/home/judy/ntuhep/GMET/output_file/summer16/mc/output_merge.root",
-			 "/home/judy/ntuhep/GMET/output_file/summer16/mc/summer16_job_summer16_Wg_aMCatNLO/210707_180617/output_ggtree.root",
-			 "/home/judy/ntuhep/GMET/output_file/summer16/mc/summer16_job_summer16_Zg_aMCatNLO/210708_013510/output_ggtree.root",
-			 "/home/judy/ntuhep/GMET/output_file/summer16/mc/summer16_job_summer16_Znunug_pt130/210707_175756/output_ggtree.root",
-			 "/home/judy/ntuhep/GMET/output_file/summer16/data/output_ggtree.root"
-  };//[0,1,2,3][GJet,WG, ZG,ZNuNu]
-
+  TString rootname[5];
+  if(year==2016){
+    rootname[0] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/output_merge_GJet.root";
+    rootname[1] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/output_merge_WJet.root";
+    rootname[2] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/output_merge_ZJet.root";
+    rootname[3] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/job_summer16_Wg_aMCatNLO/210715_133645/output_ggtree.root";
+    rootname[4] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/job_summer16_Zg_aMCatNLO/210715_163036/output_ggtree.root";
+    rootname[5] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/job_summer16_Znunug_pt130/210715_132601/output_ggtree.root";
+    rootname[6] = "/home/judy/ntuhep/GMET/output_file/summer16/data/output_ggtree.root";
+  }
+  else if(year==2017){
+    rootname[0] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/output_merge_GJet.root";
+    rootname[1] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/output_merge_WJet.root";
+    rootname[2] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/output_merge_ZJet.root";
+    rootname[3] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_Wg_aMCatNLO/210715_133645/output_ggtree.root";
+    rootname[4] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_Zg_aMCatNLO/210715_163036/output_ggtree.root";
+    rootname[5] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_Znunug_pt130/210715_132601/output_ggtree.root";
+    rootname[6] = "/home/judy/ntuhep/GMET/output_file/fall17/data/output_ggtree.root";
+  }
   //Float_t mclumi[5] = {0.31,311.6,6750,989.7};//(fb-1) [0,1,2,3,4][GJet,WG,ZG,ZNuNu]
   //Float_t mclumi[5] = {311.6,6750,989.7};//(fb-1) [1,2,3,4][WG,ZG,ZNuNu]
-  Float_t gjetXsec[10] = {9319, 9155, 2323, 2314, 278.5, 271.8, 93.85, 94.7};
   Float_t lumi16 = 36.33;
-  Float_t Xsec = 2323.0;
-
-  Float_t xsec[10] = {1125, 192.3, 123.3, 0.19};
-  Float_t filter[10] = {1., 1., 1., 1.};
-  Float_t kfactor[10] = {1., 1., 1., 1.557};
+  Float_t lumi17 = 41.48;
+  Float_t lumi = 1.0;
+  if(year==2016){
+    lumi = lumi16;
+  }
+  else if(year==2017){
+    lumi = lumi17;
+  }
+ 
+  Float_t xsec[10] = {1, 1, 1, 192.3, 123.3, 0.19};//[GJet, WJet, ZJet, Wg, Zg, Znng]
+  Float_t filter[10] = {1., 1., 1., 1., 1., 1.};
+  Float_t kfactor[10] = {1., 1., 1., 1., 1., 1.557};
   //color name
   //{"#1C2A60","#7FB5F5","#2F81A3","#FA6D5F","#91A81E","#DCF563", "#1C6040","#EFE2C9"}
   //{""}
   //string hexcolor[ncolor] = {"#7FB5F5","#EFE2C9","#1C2A60","#96DC9E","#1C6040", "#FA6D5F","#DCF563", "#2F81A3","#91A81E"};
-  string hexcolor[ncolor] = {"#fff176", "#03a9f4","#ff3360", "#67ccc1","#1C2A60", "#DCDB06", "#FA6D5F", "#F0F5E1","#DCF563", "#2F81A3" };
+  string hexcolor[ncolor] = {"#fff176", "#03a9f4","#ff3360", "#4caf50 ", "#ff9e00", "#0066ff", "#67ccc1" };
   TColor *color[ncolor];
   Int_t cnum[ncolor];
    
-  for(Int_t j=0; j<8; j++){
+  for(Int_t j=0; j<ncolor; j++){
     color[j] = new TColor();
     Int_t n = hexcolor[j].length();
     char chararray[n+1];
@@ -109,12 +123,13 @@ void xDrawStack(Int_t year){
   //c1->Divide(1, 2);
   TTree *t;
   
-  Int_t entries;
+  Float_t entries = 1.0;
   Float_t outentries = 0.;
   Float_t scale = 0.;
 
   TH1F *H_Events[10];
-
+  TH1F *HSumofGenW[nfile];
+  
   TH1F *H_MET_cut[nfile][nhisto];
   TH1F *H_dphoMETPhi_cut[nfile][nhisto];
   TH1F *H_njet_cut[nfile][nhisto];
@@ -133,15 +148,17 @@ void xDrawStack(Int_t year){
   for(Int_t i=0; i<nfile; i++){
     fopen = new TFile(rootname[i]);
     for(Int_t jj=0; jj<nhisto; jj++){
-      if(i<nfile-1){
+      if(i<nfile-1 && i>2){
 	H_Events[i] = (TH1F*)fopen->Get("hEvents");
-	entries = H_Events[i]->GetBinContent(1);
-	outentries = xsec[i]*kfactor[i]*1000*lumi16*filter[i];
-	scale = outentries/entries;
+	HSumofGenW[i] = (TH1F*)fopen->Get("hSumofGenW");
+	//entries = H_Events[i]->GetBinContent(1);
+	entries = 1.0;
+	entries = HSumofGenW[i]->GetBinContent(1);
+	outentries = xsec[i]*kfactor[i]*1000*lumi*filter[i];
+	scale = fabs(outentries/entries);
 	cout << "print " << entries << " " << outentries << " " << scale<< endl;
-	//if(i==4) scale*=100000;
       }
-      if(i==4) scale = 1.0;
+      if(i==nfile-1 || i<3) scale = 1.0;
       
       H_MET_cut[i][jj] = (TH1F*)fopen->Get(Form("SMandVBS/h_MET_cut_%i", jj));
       H_dphoMETPhi_cut[i][jj] = (TH1F*)fopen->Get(Form("SMandVBS/h_dphoMETPhi_cut_%i", jj));
@@ -168,7 +185,7 @@ void xDrawStack(Int_t year){
       //}
     
       //fopen->Close();
-      if(i<4){
+      if(i<nfile-1){
 	H_MET_cut[i][jj]->SetFillColor(cnum[i]);
 	H_dphoMETPhi_cut[i][jj]->SetFillColor(cnum[i]);
 	H_njet_cut[i][jj]->SetFillColor(cnum[i]);
@@ -193,7 +210,7 @@ void xDrawStack(Int_t year){
 	H_phoEB_ptoverMET[i][jj]->SetLineColor(cnum[i]);
 	H_phoEB_ptoverjetpt[i][jj]->SetLineColor(cnum[i]);
       */
-      if(i==4){
+      if(i==nfile-1){
 	H_MET_cut[i][jj]->SetLineWidth(2);
 	H_dphoMETPhi_cut[i][jj]->SetLineWidth(2);
 	H_njet_cut[i][jj]->SetLineWidth(2);
@@ -265,9 +282,10 @@ void xDrawStack(Int_t year){
   
   for(Int_t i=0; i<nfile-1; i++){
     //if(i==4)continue;
-    for(Int_t jj=0; jj<2; jj++){
+    for(Int_t jj=0; jj<nhisto; jj++){
       HS_MET_cut[jj]->Add(H_MET_cut[i][jj]);
       HS_njet_cut[jj]->Add(H_njet_cut[i][jj]);
+      cout << "njets : " << H_njet_cut[i][0]->GetBinContent(1) << " " << H_njet_cut[i][0]->GetBinContent(2) << endl;
       HS_jetpt_cut[jj]->Add(H_jetpt_cut[i][jj]);
       HS_phoEB_ptcut[jj]->Add(H_phoEB_ptcut[i][jj]);
       HS_nvtx_cut[jj]->Add(H_nvtx_cut[i][jj]);
@@ -285,6 +303,7 @@ void xDrawStack(Int_t year){
   TLegend *lhs = new TLegend(0.65,0.72, 0.75, 0.88);
   lhs->SetTextSize(0.04);
   lhs->SetFillStyle(0);
+  TString ltext[10] = {"#gamma+jet", "W+jets", "Z+jets","Wg#rightarrowl#nug", "Zg#rightarrowllg", "Zg#rightarrow#nu#nug", "DATA"};
   
   //HS_dphoMETPhi->Draw("HIST");
   TH1F *hratio;
@@ -306,9 +325,16 @@ void xDrawStack(Int_t year){
   pad2->SetBottomMargin(0.3);
   pad2->Draw();
 
+ 
+
   writeExtraText = true;
-  extraText  = "Preliminary";
-  
+  Int_t period;
+  if(year==2016){
+    period = 1;
+  }
+  else if(year==2017){
+    period = 2;
+  }
   for(Int_t jj=0; jj<2; jj++){
     pad1->cd();
     HS_MET_cut[jj]->Draw("HIST");
@@ -321,11 +347,16 @@ void xDrawStack(Int_t year){
     HS_MET_cut[jj]->SetMinimum(1);
     if(jj==1){HS_MET_cut[jj]->SetMaximum(1); HS_MET_cut[jj]->SetMinimum(0.001);}
     lhs->Clear();
-    lhs->AddEntry(H_MET_cut[0][jj], "#gamma+jet", "F");
-    lhs->AddEntry(H_MET_cut[1][jj], "Wg#rightarrowl#nug", "F");
-    lhs->AddEntry(H_MET_cut[2][jj], "Zg#rightarrowllg", "F");
-    lhs->AddEntry(H_MET_cut[3][jj], "Zg#rightarrow#nu#nug", "F");
-    lhs->AddEntry(H_MET_cut[4][jj], "DATA", "PL");
+    for(Int_t ifile=0; ifile<nfile; ifile++){
+      lhs->AddEntry(H_MET_cut[ifile][jj], ltext[ifile], "F");
+    }
+    //lhs->AddEntry(H_MET_cut[0][jj], "#gamma+jet", "F");
+    //lhs->AddEntry(H_MET_cut[1][jj], "W+jets", "F");
+    //lhs->AddEntry(H_MET_cut[2][jj], "Z+jets", "F");
+    //lhs->AddEntry(H_MET_cut[3][jj], "Wg#rightarrowl#nug", "F");
+    //lhs->AddEntry(H_MET_cut[4][jj], "Zg#rightarrowllg", "F");
+    //lhs->AddEntry(H_MET_cut[5][jj], "Zg#rightarrow#nu#nug", "F");
+    //lhs->AddEntry(H_MET_cut[6][jj], "DATA", "PL");
     lhs->Draw("SAME");
     title = HS_MET_cut[jj]->GetName();
     pad2->cd();
@@ -334,7 +365,7 @@ void xDrawStack(Int_t year){
     hratio->GetXaxis()->SetTitle("MET");
     hratio->Draw("EP");
     tg->Draw("LSAME");
-    CMS_lumi(pad1, year, 0);
+    CMS_lumi(pad1, period, 0);
     c1->Update();
     c1->RedrawAxis();
     //c1->GetFrame()->Draw();
@@ -350,11 +381,14 @@ void xDrawStack(Int_t year){
     HS_dphoMETPhi_cut[jj]->GetYaxis()->SetTitle("Events");
     //HS_dphoMETPhi_cut[jj]->GetYaxis()->ChangeLabel(1, -1, 0, -1, -1, -1, "");
     lhs->Clear();
-    lhs->AddEntry(H_dphoMETPhi_cut[0][jj], "#gamma+jet", "F");
-    lhs->AddEntry(H_dphoMETPhi_cut[1][jj], "Wg#rightarrowl#nug", "F");
-    lhs->AddEntry(H_dphoMETPhi_cut[2][jj], "Zg#rightarrowllg", "F");
-    lhs->AddEntry(H_dphoMETPhi_cut[3][jj], "Zg#rightarrow#nu#nug", "F");
-    lhs->AddEntry(H_dphoMETPhi_cut[4][jj], "DATA", "PL");
+    for(Int_t ifile=0; ifile<nfile; ifile++){
+      lhs->AddEntry(H_dphoMETPhi_cut[ifile][jj], ltext[ifile], "F");
+    }
+    //lhs->AddEntry(H_dphoMETPhi_cut[0][jj], "#gamma+jet", "F");
+    //lhs->AddEntry(H_dphoMETPhi_cut[1][jj], "Wg#rightarrowl#nug", "F");
+    //lhs->AddEntry(H_dphoMETPhi_cut[2][jj], "Zg#rightarrowllg", "F");
+    //lhs->AddEntry(H_dphoMETPhi_cut[3][jj], "Zg#rightarrow#nu#nug", "F");
+    //lhs->AddEntry(H_dphoMETPhi_cut[4][jj], "DATA", "PL");
     lhs->Draw("SAME");
     title = HS_dphoMETPhi_cut[jj]->GetName();
     pad2->cd();
@@ -363,7 +397,7 @@ void xDrawStack(Int_t year){
     hratio->GetXaxis()->SetTitle("#Delta#phi(#gamma,MET)");
     hratio->Draw("EP");
     tg->Draw("LSAME");
-    CMS_lumi(pad1, year, 0);
+    CMS_lumi(pad1, period, 0);
     c1->Update();
     c1->RedrawAxis();
     c1->SaveAs(Form("%s/%s.pdf", saveto, title));
@@ -378,11 +412,14 @@ void xDrawStack(Int_t year){
     HS_njet_cut[jj]->SetMinimum(10);
     if(jj==1){HS_njet_cut[jj]->SetMaximum(10); HS_njet_cut[jj]->SetMinimum(0.01);}
     lhs->Clear();
-    lhs->AddEntry(H_njet_cut[0][jj], "#gamma+jet", "F");
-    lhs->AddEntry(H_njet_cut[1][jj], "Wg#rightarrowl#nug", "F");
-    lhs->AddEntry(H_njet_cut[2][jj], "Zg#rightarrowllg", "F");
-    lhs->AddEntry(H_njet_cut[3][jj], "Zg#rightarrow#nu#nug", "F");
-    lhs->AddEntry(H_njet_cut[4][jj], "DATA", "PL");
+     for(Int_t ifile=0; ifile<nfile; ifile++){
+      lhs->AddEntry(H_njet_cut[ifile][jj], ltext[ifile], "F");
+    }
+    //lhs->AddEntry(H_njet_cut[0][jj], "#gamma+jet", "F");
+    //lhs->AddEntry(H_njet_cut[1][jj], "Wg#rightarrowl#nug", "F");
+    //lhs->AddEntry(H_njet_cut[2][jj], "Zg#rightarrowllg", "F");
+    //lhs->AddEntry(H_njet_cut[3][jj], "Zg#rightarrow#nu#nug", "F");
+    //lhs->AddEntry(H_njet_cut[4][jj], "DATA", "PL");
     lhs->Draw("SAME");
     title = HS_njet_cut[jj]->GetName();
     pad2->cd();
@@ -391,11 +428,11 @@ void xDrawStack(Int_t year){
     hratio->GetXaxis()->SetTitle("njet");
     hratio->Draw("EP");
     tg->Draw("LSAME");
-    CMS_lumi(pad1, year, 0);
+    CMS_lumi(pad1, period, 0);
     c1->Update();
     c1->RedrawAxis();
     c1->SaveAs(Form("%s/%s.pdf", saveto, title));
-
+    
     pad1->cd();
     HS_jetpt_cut[jj]->Draw("HIST");
     H_jetpt_cut[nfile-1][jj]->Draw("SAME");
@@ -405,11 +442,11 @@ void xDrawStack(Int_t year){
     HS_jetpt_cut[jj]->SetMaximum(500);
     HS_jetpt_cut[jj]->SetMinimum(0.1);
     lhs->Clear();
-    lhs->AddEntry(H_jetpt_cut[0][jj], "#gamma+jet", "F");
-    lhs->AddEntry(H_jetpt_cut[1][jj], "Wg#rightarrowl#nug", "F");
-    lhs->AddEntry(H_jetpt_cut[2][jj], "Zg#rightarrowllg", "F");
-    lhs->AddEntry(H_jetpt_cut[3][jj], "Zg#rightarrow#nu#nug", "F");
-    lhs->AddEntry(H_jetpt_cut[4][jj], "DATA", "PL");
+    //lhs->AddEntry(H_jetpt_cut[0][jj], "#gamma+jet", "F");
+    //lhs->AddEntry(H_jetpt_cut[1][jj], "Wg#rightarrowl#nug", "F");
+    //lhs->AddEntry(H_jetpt_cut[2][jj], "Zg#rightarrowllg", "F");
+    //lhs->AddEntry(H_jetpt_cut[3][jj], "Zg#rightarrow#nu#nug", "F");
+    //lhs->AddEntry(H_jetpt_cut[4][jj], "DATA", "PL");
     lhs->Draw("SAME");
     title = HS_jetpt_cut[jj]->GetName();
     pad2->cd();
@@ -418,7 +455,7 @@ void xDrawStack(Int_t year){
     hratio->GetXaxis()->SetTitle("P_{T}^{jet}");
     hratio->Draw("EP");
     tg->Draw("LSAME");
-    CMS_lumi(pad1, year, 0);
+    CMS_lumi(pad1, period, 0);
     c1->Update();
     c1->RedrawAxis();
     c1->SaveAs(Form("%s/%s.pdf", saveto, title));
@@ -432,11 +469,14 @@ void xDrawStack(Int_t year){
     HS_djetMETPhi_cut[jj]->SetMaximum(1000);
     HS_djetMETPhi_cut[jj]->SetMinimum(0.5);
     lhs->Clear();
-    lhs->AddEntry(H_djetMETPhi_cut[0][jj], "#gamma+jet", "F");
-    lhs->AddEntry(H_djetMETPhi_cut[1][jj], "Wg#rightarrowl#nug", "F");
-    lhs->AddEntry(H_djetMETPhi_cut[2][jj], "Zg#rightarrowllg", "F");
-    lhs->AddEntry(H_djetMETPhi_cut[3][jj], "Zg#rightarrow#nu#nug", "F");
-    lhs->AddEntry(H_djetMETPhi_cut[4][jj], "DATA", "PL");
+     for(Int_t ifile=0; ifile<nfile; ifile++){
+      lhs->AddEntry(H_djetMETPhi_cut[ifile][jj], ltext[ifile], "F");
+    }
+    //lhs->AddEntry(H_djetMETPhi_cut[0][jj], "#gamma+jet", "F");
+    //lhs->AddEntry(H_djetMETPhi_cut[1][jj], "Wg#rightarrowl#nug", "F");
+    //lhs->AddEntry(H_djetMETPhi_cut[2][jj], "Zg#rightarrowllg", "F");
+    //lhs->AddEntry(H_djetMETPhi_cut[3][jj], "Zg#rightarrow#nu#nug", "F");
+    //lhs->AddEntry(H_djetMETPhi_cut[4][jj], "DATA", "PL");
     lhs->Draw("SAME");
     title = HS_djetMETPhi_cut[jj]->GetName();
     pad2->cd();
@@ -445,7 +485,7 @@ void xDrawStack(Int_t year){
     hratio->GetXaxis()->SetTitle("#Delta#phi(jet, MET)");
     hratio->Draw("EP");
     tg->Draw("LSAME");
-    CMS_lumi(pad1, year, 0);
+    CMS_lumi(pad1, period, 0);
     c1->Update();
     c1->RedrawAxis();
     c1->SaveAs(Form("%s/%s.pdf", saveto, title));
@@ -462,11 +502,14 @@ void xDrawStack(Int_t year){
     HS_nvtx_cut[jj]->SetMinimum(1);
     if(jj==1){HS_nvtx_cut[jj]->SetMaximum(1); HS_nvtx_cut[jj]->SetMinimum(0.001);}
     lhs->Clear();
-    lhs->AddEntry(H_nvtx_cut[0][jj], "#gamma+jet", "F");
-    lhs->AddEntry(H_nvtx_cut[1][jj], "Wg#rightarrowl#nug", "F");
-    lhs->AddEntry(H_nvtx_cut[2][jj], "Zg#rightarrowllg", "F");
-    lhs->AddEntry(H_nvtx_cut[3][jj], "Zg#rightarrow#nu#nug", "F");
-    lhs->AddEntry(H_nvtx_cut[4][jj], "DATA", "PL");
+    for(Int_t ifile=0; ifile<nfile; ifile++){
+      lhs->AddEntry(H_nvtx_cut[ifile][jj], ltext[ifile], "F");
+    }
+    //lhs->AddEntry(H_nvtx_cut[0][jj], "#gamma+jet", "F");
+    //lhs->AddEntry(H_nvtx_cut[1][jj], "Wg#rightarrowl#nug", "F");
+    //lhs->AddEntry(H_nvtx_cut[2][jj], "Zg#rightarrowllg", "F");
+    //lhs->AddEntry(H_nvtx_cut[3][jj], "Zg#rightarrow#nu#nug", "F");
+    //lhs->AddEntry(H_nvtx_cut[4][jj], "DATA", "PL");
     lhs->Draw("SAME");
     title = HS_nvtx_cut[jj]->GetName();
     pad2->cd();
@@ -475,7 +518,7 @@ void xDrawStack(Int_t year){
     hratio->GetXaxis()->SetTitle("nVtx");
     hratio->Draw("EP");
     tg->Draw("LSAME");
-    CMS_lumi(pad1, year, 0);
+    CMS_lumi(pad1, period, 0);
     c1->Update();
     c1->RedrawAxis();
     c1->SaveAs(Form("%s/%s.pdf", saveto, title));
@@ -489,11 +532,14 @@ void xDrawStack(Int_t year){
     HS_phoEB_ptoverjetpt[jj]->SetMaximum(1000);
     HS_phoEB_ptoverjetpt[jj]->SetMinimum(0.01);
     lhs->Clear();
-    lhs->AddEntry(H_phoEB_ptoverjetpt[0][jj], "#gamma+jet", "F");
-    lhs->AddEntry(H_phoEB_ptoverjetpt[1][jj], "Wg#rightarrowl#nug", "F");
-    lhs->AddEntry(H_phoEB_ptoverjetpt[2][jj], "Zg#rightarrowllg", "F");
-    lhs->AddEntry(H_phoEB_ptoverjetpt[3][jj], "Zg#rightarrow#nu#nug", "F");
-    lhs->AddEntry(H_phoEB_ptoverjetpt[4][jj], "DATA", "PL");
+    for(Int_t ifile=0; ifile<nfile; ifile++){
+      lhs->AddEntry(H_phoEB_ptoverjetpt[ifile][jj], ltext[ifile], "F");
+    }
+    //lhs->AddEntry(H_phoEB_ptoverjetpt[0][jj], "#gamma+jet", "F");
+    //lhs->AddEntry(H_phoEB_ptoverjetpt[1][jj], "Wg#rightarrowl#nug", "F");
+    //lhs->AddEntry(H_phoEB_ptoverjetpt[2][jj], "Zg#rightarrowllg", "F");
+    //lhs->AddEntry(H_phoEB_ptoverjetpt[3][jj], "Zg#rightarrow#nu#nug", "F");
+    //lhs->AddEntry(H_phoEB_ptoverjetpt[4][jj], "DATA", "PL");
     lhs->Draw("SAME");
     //HS_phoEB_ptoverjetpt[jj]->GetYaxis()->SetRangeUser(0.01, 100);
     title = HS_phoEB_ptoverjetpt[jj]->GetName();
@@ -503,7 +549,7 @@ void xDrawStack(Int_t year){
     hratio->GetXaxis()->SetTitle("P_{T}^{#gamma}/P_{T}^{jet}");
     hratio->Draw("EP");
     tg->Draw("LSAME");
-    CMS_lumi(pad1, year, 0);
+    CMS_lumi(pad1, period, 0);
     c1->Update();
     c1->RedrawAxis();
     c1->SaveAs(Form("%s/%s.pdf", saveto, title)); 
@@ -519,11 +565,14 @@ void xDrawStack(Int_t year){
     HS_phoEB_ptcut[jj]->SetMinimum(0.1);
     if(jj==1){HS_phoEB_ptcut[jj]->SetMinimum(0.001);}
     lhs->Clear();
-    lhs->AddEntry(H_phoEB_ptcut[0][jj], "#gamma+jet", "F");
-    lhs->AddEntry(H_phoEB_ptcut[1][jj], "Wg#rightarrowl#nug", "F");
-    lhs->AddEntry(H_phoEB_ptcut[2][jj], "Zg#rightarrowllg", "F");
-    lhs->AddEntry(H_phoEB_ptcut[3][jj], "Zg#rightarrow#nu#nug", "F");
-    lhs->AddEntry(H_phoEB_ptcut[4][jj], "DATA", "PL");
+     for(Int_t ifile=0; ifile<nfile; ifile++){
+      lhs->AddEntry(H_phoEB_ptcut[ifile][jj], ltext[ifile], "F");
+    }
+    //lhs->AddEntry(H_phoEB_ptcut[0][jj], "#gamma+jet", "F");
+    //lhs->AddEntry(H_phoEB_ptcut[1][jj], "Wg#rightarrowl#nug", "F");
+    //lhs->AddEntry(H_phoEB_ptcut[2][jj], "Zg#rightarrowllg", "F");
+    //lhs->AddEntry(H_phoEB_ptcut[3][jj], "Zg#rightarrow#nu#nug", "F");
+    //lhs->AddEntry(H_phoEB_ptcut[4][jj], "DATA", "PL");
     lhs->Draw("SAME");
     title = HS_phoEB_ptcut[jj]->GetName();
     pad2->cd();
@@ -533,7 +582,7 @@ void xDrawStack(Int_t year){
     hratio->Draw("EP");
     hratio->GetXaxis()->SetRangeUser(100, 900);
     tg->Draw("LSAME");
-    CMS_lumi(pad1, year, 0);
+    CMS_lumi(pad1, period, 0);
     c1->Update();
     c1->RedrawAxis();
     c1->SaveAs(Form("%s/%s.pdf", saveto, title));
@@ -548,11 +597,14 @@ void xDrawStack(Int_t year){
     HS_phoEB_ptoverMET[jj]->SetMinimum(0.1);
     if(jj==1){HS_phoEB_ptoverMET[jj]->SetMaximum(10); HS_phoEB_ptoverMET[jj]->SetMinimum(0.001);}
     lhs->Clear();
-    lhs->AddEntry(H_phoEB_ptoverMET[0][jj], "#gamma+jet", "F");
-    lhs->AddEntry(H_phoEB_ptoverMET[1][jj], "Wg#rightarrowl#nug", "F");
-    lhs->AddEntry(H_phoEB_ptoverMET[2][jj], "Zg#rightarrowllg", "F");
-    lhs->AddEntry(H_phoEB_ptoverMET[3][jj], "Zg#rightarrow#nu#nug", "F");
-    lhs->AddEntry(H_phoEB_ptoverMET[4][jj], "DATA", "PL");
+     for(Int_t ifile=0; ifile<nfile; ifile++){
+      lhs->AddEntry(H_phoEB_ptoverMET[ifile][jj], ltext[ifile], "F");
+    }
+    //lhs->AddEntry(H_phoEB_ptoverMET[0][jj], "#gamma+jet", "F");
+    //lhs->AddEntry(H_phoEB_ptoverMET[1][jj], "Wg#rightarrowl#nug", "F");
+    //lhs->AddEntry(H_phoEB_ptoverMET[2][jj], "Zg#rightarrowllg", "F");
+    //lhs->AddEntry(H_phoEB_ptoverMET[3][jj], "Zg#rightarrow#nu#nug", "F");
+    //lhs->AddEntry(H_phoEB_ptoverMET[4][jj], "DATA", "PL");
     lhs->Draw("SAME");
     //HS_phoEB_ptoverMET[jj]->GetYaxis()->SetRangeUser(0.01, 100);
     title = HS_phoEB_ptoverMET[jj]->GetName();
@@ -562,7 +614,7 @@ void xDrawStack(Int_t year){
     hratio->GetXaxis()->SetTitle("P_{T}^{#gamma}/MET");
     hratio->Draw("EP");
     tg->Draw("LSAME");
-    CMS_lumi(pad1, year, 0);
+    CMS_lumi(pad1, period, 0);
     c1->Update();
     c1->RedrawAxis();
     c1->SaveAs(Form("%s/%s.pdf", saveto, title));
