@@ -12,14 +12,17 @@ import sys
 
 #remotepath = raw_input("Data path(enter the mc/data path list filename HERE) : ")
 yearrun = raw_input("Year of run : ")
+isZJet = raw_input("Is Z+Jet? (T==1; F==0) : ")
 if int(yearrun) == 2016:
-    remotepath = "summer16_mc.txt"
+    if int(isZJet) == 1: remotepath = "summer16_ZJet.txt"
+    else: remotepath = "summer16_mc.txt"
     yeardir = "summer16"
     pupath = "external/puweights/94X/summer16/PU_histo_13TeV_2016_GoldenJSON_69200nb.root"
     IDSFpath = "2016_PhotonsMedium.root"
     CSEVpath = "CSEV_ScaleFactors_2016.root"
 elif int(yearrun) == 2017:
-    remotepath = "fall17_mc.txt"
+    if int(isZJet) == 1:  remotepath = "fall17_ZJet.txt"
+    else: remotepath = "fall17_mc.txt"
     yeardir = "fall17"
     pupath = "external/puweights/102X/fall17/PU_histo_13TeV_2018_GoldenJSON_69200nb.root"
     IDSFpath = "2017_PhotonsMedium.root"
@@ -45,6 +48,7 @@ with open(remotepath, "r") as pathfile:
         script += "PUpath="+str(pupath)+" \n"
         script += "IDSFpath="+str(IDSFpath)+" \n"
         script += "CSEVpath="+str(CSEVpath)+" \n"
+        script += "isZjet="+str(isZJet)+" \n"
         script += "\n"
     
         script += "cd $workdir \n"
@@ -56,8 +60,8 @@ with open(remotepath, "r") as pathfile:
         script += "cp -r $homedir/* . \n"
         script += "mkdir -p $returndir/$tmp \n"
         script += "ls $datadir | grep root > path.txt \n"
-        script += """for filename in $(cat path.txt); do outfile=output_$filename; fullpath=$datadir/$filename; sleep 5; root -b -q "xZg.C(\\\"$fullpath\\\", \\\"$PUpath\\\", \\\"$IDSFpath\\\", \\\"$CSEVpath\\\")"; cp output_ggtree_mc.root $outfile; rm output_ggtree_mc.root; done; \n"""
-        script += """echo "Processed all $count ggtrees!!!" \n"""
+        script += """for filename in $(cat path.txt); do outfile=output_$filename; fullpath=$datadir/$filename; sleep 5; root -b -q "xZg.C(\\\"$fullpath\\\", \\\"$PUpath\\\", \\\"$IDSFpath\\\", \\\"$CSEVpath\\\", $isZjet )"; cp output_ggtree_mc.root $outfile; rm output_ggtree_mc.root; done; \n"""
+        script += "echo Processed all $count ggtrees!!! \n"
         script += "for i in {0..9}; do hadd output_ggtree_$i.root *mc_*$i.root; done \n"
         script += "rm -r *mc* \n"
         script += "hadd tmp1.root *{0..4}.root; hadd tmp2.root *{5..9}.root; rm -r output*; hadd output_ggtree.root tmp1.root tmp2.root \n"
