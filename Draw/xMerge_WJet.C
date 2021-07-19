@@ -5,28 +5,30 @@
 #include "TH1F.h"
 using namespace std;
 //#define nfile 4
-#define nGJet 4
+#define nWJet 5
 #define nhisto 2
 
 void xMerge_GJet(Int_t year){
-  TString rootname[10];
+  TString rootname[20];
   if(year==2016){
-    rootname[0] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/job_summer16_GJets_MG_HT100to200/210715_170847/output_ggtree.root";
-    rootname[1] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/job_summer16_GJets_MG_HT200to400/210715_215123/output_ggtree.root";
-    rootname[2] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/job_summer16_GJets_MG_HT400to600/210716_020208/output_ggtree.root";
-    rootname[3] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/job_summer16_GJets_MG_HT600toInf/210716_024207/output_ggtree.root";
+    rootname[0] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/job_summer16_GJets_MG_HT200to400/210715_170847/output_ggtree.root";
+    rootname[1] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/job_summer16_GJets_MG_HT400to600/210715_215123/output_ggtree.root";
+    rootname[2] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/job_summer16_GJets_MG_HT600to800/210716_020208/output_ggtree.root";
+    rootname[3] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/job_summer16_GJets_MG_HT800to1200/210716_024207/output_ggtree.root";
+    rootname[4] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/job_summer16_GJets_MG_HT1200to2500/210716_024207/output_ggtree.root";
   }
   else if(year==2017){
-    rootname[0] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_GJets_MG_HT100to200/210714_212148/output_ggtree.root";
-    rootname[1] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_GJets_MG_HT200to400/210714_230920/output_ggtree.root";
-    rootname[2] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_GJets_MG_HT400to600/210715_012330/output_ggtree.root";
-    rootname[3] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_GJets_MG_HT600toInf/210715_023758/output_ggtree.root";
+    rootname[0] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_GJets_MG_HT200to400/210714_212148/output_ggtree.root";
+    rootname[1] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_GJets_MG_HT400to600/210714_230920/output_ggtree.root";
+    rootname[2] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_GJets_MG_HT600to800/210715_012330/output_ggtree.root";
+    rootname[3] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_GJets_MG_HT800to1200/210715_023758/output_ggtree.root";
+    rootname[4] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_GJets_MG_HT1200to2500/210715_023758/output_ggtree.root";
   }
   
 
   //Float_t mcXsec[10] = {9319, 9155, 2323, 2314, 278.5, 271.8, 93.85, 94.7};
   //Float_t mcXsec[10] = {9155, 2314, 271.8, 94.7};
-  Float_t mcXsec[10] = {4984, 1125, 128.1, 41.69};//GJet
+  Float_t mcXsec[10] = {336.4, 45.21, 10.89, 5.019, 1.159};//WJet
   
   Float_t lumi16 = 36.33;
   Float_t lumi17 = 41.48;
@@ -408,7 +410,7 @@ void xMerge_GJet(Int_t year){
       
   }
 
-  fout = new TFile("output_merge_GJet.root", "RECREATE");
+  fout = new TFile("output_merge_WJet.root", "RECREATE");
 
   HAGenWeight->Write();
   HASumofGenW->Write();
