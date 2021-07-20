@@ -12,9 +12,11 @@ import sys
 
 #remotepath = raw_input("Data path(enter the mc/data path list filename HERE) : ")
 yearrun = raw_input("Year of run : ")
-isZJet = raw_input("Is Z+Jet? (T==1; F==0) : ")
+isZJet = raw_input("Is Z+Jet or W+Jet? (T==1; F==0) : ")
+isWJet = raw_input("Is W+Jet?(T==1; F==0) : ")
 if int(yearrun) == 2016:
     if int(isZJet) == 1: remotepath = "summer16_ZJet.txt"
+    else if int(isWJet) == 1: remotepath = "summer16_WJet.txt"
     else: remotepath = "summer16_mc.txt"
     yeardir = "summer16"
     pupath = "external/puweights/94X/summer16/PU_histo_13TeV_2016_GoldenJSON_69200nb.root"
@@ -22,6 +24,7 @@ if int(yearrun) == 2016:
     CSEVpath = "CSEV_ScaleFactors_2016.root"
 elif int(yearrun) == 2017:
     if int(isZJet) == 1:  remotepath = "fall17_ZJet.txt"
+    else if int(isWJet) == 1: remotepaht = "fall17_WJet.txt"
     else: remotepath = "fall17_mc.txt"
     yeardir = "fall17"
     pupath = "external/puweights/102X/fall17/PU_histo_13TeV_2018_GoldenJSON_69200nb.root"
