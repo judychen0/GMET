@@ -5,19 +5,18 @@
 #include "TH1F.h"
 using namespace std;
 //#define nfile 4
-#define nGJet 3
+#define nDYJet 6
 #define nhisto 2
 
-void xMerge_GJet(Int_t year){
+void xMerge_DYJet(Int_t year){
   TString rootname[10];
-
   TFile *fopen, *fout;
   //TCanvas *c1 = new TCanvas("c1");
   TTree *t;
   Int_t entries = 1.0;
   Float_t outentries = 0.;
-  Float_t scale[nGJet] = {0};
-  
+  Float_t scale[nDYJet] = {0};
+
   Float_t lumi16 = 36.33;
   Float_t lumi17 = 41.48;
   Float_t lumi18 = 59.83;
@@ -31,59 +30,73 @@ void xMerge_GJet(Int_t year){
   else if(year==2018){
     lumi = lumi18;
   }
-
-  TH1F *HSumofGenW[nGJet];
-  TH1F *H_Events[nGJet];
-  TH1F *HASumofGenW;
-  TH1F *HA_Events;
   
-  Float_t mcXsec[10] = {1125, 128.1, 41.69};//GJet
+  TH1F *HSumofGenW[nDYJet];
+  TH1F *H_Events[nDYJet];
+
+  Float_t mcXsec[10] = {38.83, 5.342, 1.286, 0.5668, 0.1361, 0.003019};//DYJet
   /*
   if(year==2016){
-    rootname[0] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/GJet/job_summer16_GJets_MG_HT200to400/sumGenW.root";
-    rootname[1] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/GJet/job_summer16_GJets_MG_HT400to600/sumGenW.root";
-    rootname[2] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/GJet/job_summer16_GJets_MG_HT600toInf/sumGenW.root";
+    rootname[0] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/DYJet/job_summer16_DYJetsToLL_m50_MG_HT200to400/sumGenW.root";
+    rootname[1] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/DYJet/job_summer16_DYJetsToLL_m50_MG_HT400to600/sumGenW.root";
+    rootname[2] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/DYJet/job_summer16_DYJetsToLL_m50_MG_HT600to800/sumGenW.root";
+    rootname[3] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/DYJet/job_summer16_DYJetsToLL_m50_MG_HT800to1200/sumGenW.root";
+    rootname[4] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/DYJet/job_summer16_DYJetsToLL_m50_MG_HT1200to2500/sumGenW.root";
+    rootname[5] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/DYJet/job_summer16_DYJetsToLL_m50_MG_HT2500toInf/sumGenW.root";
   }
   else if(year==2017){
-    rootname[0] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/GJet/job_fall17_GJets_MG_HT200to400/sumGenW.root";
-    rootname[1] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/GJet/job_fall17_GJets_MG_HT400to600/sumGenW.root";
-    rootname[2] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/GJet/job_fall17_GJets_MG_HT600toInf/sumGenW.root";
+    rootname[0] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/DYJet/job_fall17_DYJetsToLL_m50_MG_HT200to400/sumGenW.root";
+    rootname[1] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/DYJet/job_fall17_DYJetsToLL_m50_MG_HT400to600/sumGenW.root";
+    rootname[2] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/DYJet/job_fall17_DYJetsToLL_m50_MG_HT600to800/sumGenW.root";
+    rootname[3] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/DYJet/job_fall17_DYJetsToLL_m50_MG_HT800to1200/sumGenW.root";
+    rootname[4] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/DYJet/job_fall17_DYJetsToLL_m50_MG_HT1200to2500/sumGenW.root";
+    rootname[5] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/DYJet/job_fall17_DYJetsToLL_m50_MG_HT2500toInf/sumGenW.root";
   }
   else if(year==2018){
-    rootname[0] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/GJet/job_autumn18_GJets_MG_HT200to400/sumGenW.root";
-    rootname[1] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/GJet/job_autumn18_GJets_MG_HT400to600/sumGenW.root";
-    rootname[2] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/GJet/job_autumn18_GJets_MG_HT600toInf/sumGenW.root";
+    rootname[0] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/DYJet/job_autumn18_DYJetsToLL_m50_MG_HT200to400/sumGenW.root";
+    rootname[1] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/DYJet/job_autumn18_DYJetsToLL_m50_MG_HT400to600/sumGenW.root";
+    rootname[2] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/DYJet/job_autumn18_DYJetsToLL_m50_MG_HT600to800/sumGenW.root";
+    rootname[3] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/DYJet/job_autumn18_DYJetsToLL_m50_MG_HT800to1200/sumGenW.root";
+    rootname[4] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/DYJet/job_autumn18_DYJetsToLL_m50_MG_HT1200to2500/sumGenW.root";
+    rootname[5] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/DYJet/job_autumn18_DYJetsToLL_m50_MG_HT2500toInf/sumGenW.root";
   }
   */
   
-
+  
   if(year==2016){
-    rootname[0] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/GJet/job_summer16_GJets_MG_HT200to400/output_ggtree.root";
-    rootname[1] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/GJet/job_summer16_GJets_MG_HT400to600/output_ggtree.root";
-    rootname[2] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/GJet/job_summer16_GJets_MG_HT600toInf/output_ggtree.root";
+    rootname[0] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/DYJet/job_summer16_DYJetsToLL_m50_MG_HT200to400/output_ggtree.root";
+    rootname[1] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/DYJet/job_summer16_DYJetsToLL_m50_MG_HT400to600/output_ggtree.root";
+    rootname[2] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/DYJet/job_summer16_DYJetsToLL_m50_MG_HT600to800/output_ggtree.root";
+    rootname[3] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/DYJet/job_summer16_DYJetsToLL_m50_MG_HT800to1200/output_ggtree.root";
+    rootname[4] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/DYJet/job_summer16_DYJetsToLL_m50_MG_HT1200to2500/output_ggtree.root";
+    rootname[5] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/DYJet/job_summer16_DYJetsToLL_m50_MG_HT2500toInf/output_ggtree.root";
   }
   else if(year==2017){
-    rootname[0] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/GJet/job_fall17_GJets_MG_HT200to400/output_ggtree.root";
-    rootname[1] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/GJet/job_fall17_GJets_MG_HT400to600/output_ggtree.root";
-    rootname[2] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/GJet/job_fall17_GJets_MG_HT600toInf/output_ggtree.root";
+    rootname[0] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/DYJet/job_fall17_DYJetsToLL_m50_MG_HT200to400/output_ggtree.root";
+    rootname[1] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/DYJet/job_fall17_DYJetsToLL_m50_MG_HT400to600/output_ggtree.root";
+    rootname[2] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/DYJet/job_fall17_DYJetsToLL_m50_MG_HT600to800/output_ggtree.root";
+    rootname[3] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/DYJet/job_fall17_DYJetsToLL_m50_MG_HT800to1200/output_ggtree.root";
+    rootname[4] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/DYJet/job_fall17_DYJetsToLL_m50_MG_HT1200to2500/output_ggtree.root";
+    rootname[5] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/DYJet/job_fall17_DYJetsToLL_m50_MG_HT2500toInf/output_ggtree.root";
   }
   else if(year==2018){
-    rootname[0] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/GJet/job_autumn18_GJets_MG_HT200to400/output_ggtree.root";
-    rootname[1] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/GJet/job_autumn18_GJets_MG_HT400to600/output_ggtree.root";
-    rootname[2] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/GJet/job_autumn18_GJets_MG_HT600toInf/output_ggtree.root";
+    rootname[0] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/DYJet/job_autumn18_DYJetsToLL_m50_MG_HT200to400/output_ggtree.root";
+    rootname[1] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/DYJet/job_autumn18_DYJetsToLL_m50_MG_HT400to600/output_ggtree.root";
+    rootname[2] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/DYJet/job_autumn18_DYJetsToLL_m50_MG_HT600to800/output_ggtree.root";
+    rootname[3] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/DYJet/job_autumn18_DYJetsToLL_m50_MG_HT800to1200/output_ggtree.root";
+    rootname[4] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/DYJet/job_autumn18_DYJetsToLL_m50_MG_HT1200to2500/output_ggtree.root";
+    rootname[5] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/DYJet/job_autumn18_DYJetsToLL_m50_MG_HT2500toInf/output_ggtree.root";
   }
-  
-  for(Int_t i=0; i<nGJet; i++){
+
+  for(Int_t i=0; i<nDYJet; i++){
     fopen = new TFile(rootname[i]);
     H_Events[i] = (TH1F*)fopen->Get("hEvents");
     //HSumofGenW[i] = (TH1F*)fopen->Get("hSumofGenW");
     HSumofGenW[i] = (TH1F*)fopen->Get("hSumGenWeight");
-        
     entries = 1.0;
     //entries = H_Events[i]->GetBinContent(1);
     entries = HSumofGenW[i]->GetBinContent(1);
     outentries = mcXsec[i]*1000*lumi;
-    
     scale[i] = 0;
     scale[i] = fabs(outentries/entries);
     cout << "print " << entries << " " << outentries << " " << scale[i]<< endl;
@@ -200,9 +213,8 @@ void xMerge_GJet(Int_t year){
   TH1F *HA_dr_phojet[2][2];
   TH1F *HA_dEta_phojet[2][2];
   TH1F *HA_dPhi_phojet[2][2];
- 
 
-  for(Int_t i=0; i<nGJet;i++){
+  for(Int_t i=0; i<nDYJet;i++){
     fopen = new TFile(rootname[i]);
     if(i==0){
       HA_dr_jetjet = (TH1F*)fopen->Get("h_dr_jetjet")->Clone();
@@ -622,9 +634,8 @@ void xMerge_GJet(Int_t year){
     
   }
 
-  fout = new TFile("output_merge_GJet.root", "RECREATE");
+  fout = new TFile("output_merge_DYJet.root", "RECREATE");
 
-  
   HA_dr_jetjet->Write();
   HA_dEta_jetjet->Write();
   HA_dPhi_jetjet->Write();

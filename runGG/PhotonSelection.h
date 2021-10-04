@@ -4,6 +4,22 @@
 #include <vector>
 using namespace std;
 
+/*
+Bool_t pho_presel(Int_t iWP, TreeReader &data){
+  Int_t    nPho = data.GetInt("nPho");
+  Int_t* hasSeed = data.GetPtrInt("phohasPixelSeed");
+  Float_t* phoEt = data.GetPtrFloat("phoEt");
+  Float_t* phoSCEta = data.GetPtrFloat("phoSCEta");
+  Short_t* phoID         = data.GetPtrShort("phoIDbit");
+
+  Int_t pass =0;
+  for(Int_t ipho=0; ipho<nPho; ipho++){
+    if(hasSeed[ipho] == 1 && phoEt[ipho]>210 && phoSCEta[ipho]<1.4442 && ((phoID[ipho]>>iWP&1) == 1)) pass =1;
+    else pass=0;
+  }
+}
+*/
+
 void pho_IDselection(Int_t iWP, Int_t region, TreeReader &data, vector<int>& passed){
 
   passed.clear();
@@ -99,6 +115,7 @@ void pho_IDselection(Int_t iWP, Int_t region, TreeReader &data, vector<int>& pas
   }
 }
 
+
 void phoIDcut(Int_t iWP, TreeReader &data,  vector<int>& passed){
   //iWP[L/M/T][0/1/2]
   passed.clear();
@@ -121,25 +138,19 @@ void phoIDcut(Int_t iWP, TreeReader &data,  vector<int>& passed){
 }
 
 Int_t pho_sel(Int_t IDbit, Int_t ibit){
-  Int_t ncut = 12;
+  Int_t ncut = 13;
   Int_t testbit=0;
   
-  Int_t npass=0;
+  Int_t nfail=0;
   for(Int_t i=0; i<ibit+1; i++){
-    if((IDbit>>i&1) == 0) npass++;
-    //cout << (IDbit>>i&1);
-
-    //else continue;
+    if((IDbit>>i&1) == 0) nfail++;
   }
-  //cout << " " << npass << endl;
-  if(npass > 0) return 0;
+  if(nfail > 0) return 0;
   else return 1;
-    //if(npass == ibit+1) return 1;
-  //else return 0;
 }
 
 Int_t Nm1_sel(Int_t IDbit, Int_t ibit){
-  Int_t ncut = 11;
+  Int_t ncut = 13;
   Int_t testbit =0;
 
   for(Int_t i=0; i<ncut; i++){
@@ -152,10 +163,7 @@ Int_t Nm1_sel(Int_t IDbit, Int_t ibit){
     if(i!=ibit){
       if((IDbit>>i&1) == 1) npass++;
     }
-    //cout<< (compare>>i&1);
-    //if(((IDbit>>i&1)==1 || (IDbit>>i&1)==0 ) && i==ibit) npass++;
   }
-  //cout << " " << npass << endl;
   if(npass == ncut-1) return 1;
   else return 0;
  

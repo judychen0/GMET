@@ -5,10 +5,10 @@
 #include "TH1F.h"
 using namespace std;
 //#define nfile 4
-#define nGJet 3
+#define nQCD 7
 #define nhisto 2
 
-void xMerge_GJet(Int_t year){
+void xMerge_QCD(Int_t year){
   TString rootname[10];
 
   TFile *fopen, *fout;
@@ -16,7 +16,7 @@ void xMerge_GJet(Int_t year){
   TTree *t;
   Int_t entries = 1.0;
   Float_t outentries = 0.;
-  Float_t scale[nGJet] = {0};
+  Float_t scale[nQCD] = {0};
   
   Float_t lumi16 = 36.33;
   Float_t lumi17 = 41.48;
@@ -32,12 +32,12 @@ void xMerge_GJet(Int_t year){
     lumi = lumi18;
   }
 
-  TH1F *HSumofGenW[nGJet];
-  TH1F *H_Events[nGJet];
+  TH1F *HSumofGenW[nQCD];
+  TH1F *H_Events[nQCD];
   TH1F *HASumofGenW;
   TH1F *HA_Events;
   
-  Float_t mcXsec[10] = {1125, 128.1, 41.69};//GJet
+  Float_t mcXsec[10] = {1547000, 322600, 29980, 6334, 1088, 99.11, 20.23};//QCD
   /*
   if(year==2016){
     rootname[0] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/GJet/job_summer16_GJets_MG_HT200to400/sumGenW.root";
@@ -63,17 +63,25 @@ void xMerge_GJet(Int_t year){
     rootname[2] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/GJet/job_summer16_GJets_MG_HT600toInf/output_ggtree.root";
   }
   else if(year==2017){
-    rootname[0] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/GJet/job_fall17_GJets_MG_HT200to400/output_ggtree.root";
-    rootname[1] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/GJet/job_fall17_GJets_MG_HT400to600/output_ggtree.root";
-    rootname[2] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/GJet/job_fall17_GJets_MG_HT600toInf/output_ggtree.root";
+    rootname[0] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/QCD/job_fall17_QCD_HT200to300/output_ggtree.root";
+    rootname[1] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/QCD/job_fall17_QCD_HT300to500/output_ggtree.root";
+    rootname[2] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/QCD/job_fall17_QCD_HT500to700/output_ggtree.root";
+    rootname[3] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/QCD/job_fall17_QCD_HT700to1000/output_ggtree.root";
+    rootname[4] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/QCD/job_fall17_QCD_HT1000to1500/output_ggtree.root";
+    rootname[5] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/QCD/job_fall17_QCD_HT1500to2000/output_ggtree.root";
+    rootname[6] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/QCD/job_fall17_QCD_HT2000toInf/output_ggtree.root";
   }
   else if(year==2018){
-    rootname[0] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/GJet/job_autumn18_GJets_MG_HT200to400/output_ggtree.root";
-    rootname[1] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/GJet/job_autumn18_GJets_MG_HT400to600/output_ggtree.root";
-    rootname[2] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/GJet/job_autumn18_GJets_MG_HT600toInf/output_ggtree.root";
+    rootname[0] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/QCD/job_autumn18_QCD_HT200to300/output_ggtree.root";
+    rootname[1] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/QCD/job_autumn18_QCD_HT300to500/output_ggtree.root";
+    rootname[2] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/QCD/job_autumn18_QCD_HT500to700/output_ggtree.root";
+    rootname[3] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/QCD/job_autumn18_QCD_HT700to1000/output_ggtree.root";
+    rootname[4] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/QCD/job_autumn18_QCD_HT1000to1500/output_ggtree.root";
+    rootname[5] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/QCD/job_autumn18_QCD_HT1500to2000/output_ggtree.root";
+    rootname[6] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/QCD/job_autumn18_QCD_HT2000toInf/output_ggtree.root";
   }
   
-  for(Int_t i=0; i<nGJet; i++){
+  for(Int_t i=0; i<nQCD; i++){
     fopen = new TFile(rootname[i]);
     H_Events[i] = (TH1F*)fopen->Get("hEvents");
     //HSumofGenW[i] = (TH1F*)fopen->Get("hSumofGenW");
@@ -200,9 +208,11 @@ void xMerge_GJet(Int_t year){
   TH1F *HA_dr_phojet[2][2];
   TH1F *HA_dEta_phojet[2][2];
   TH1F *HA_dPhi_phojet[2][2];
+
+  
  
 
-  for(Int_t i=0; i<nGJet;i++){
+  for(Int_t i=0; i<nQCD;i++){
     fopen = new TFile(rootname[i]);
     if(i==0){
       HA_dr_jetjet = (TH1F*)fopen->Get("h_dr_jetjet")->Clone();
@@ -622,7 +632,7 @@ void xMerge_GJet(Int_t year){
     
   }
 
-  fout = new TFile("output_merge_GJet.root", "RECREATE");
+  fout = new TFile("output_merge_QCD.root", "RECREATE");
 
   
   HA_dr_jetjet->Write();
