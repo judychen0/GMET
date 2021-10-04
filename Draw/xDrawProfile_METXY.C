@@ -1,0 +1,318 @@
+#include <iostream>
+#include <fstream>
+#include <cstring>
+#include <string>
+#include "TH1F.h"
+using namespace std;
+#define nfile 7
+
+
+void xDrawProfile_METXY(){
+  ofstream ftext;
+  /*
+  TString rootname[20] = {
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/GJet/job_summer16_GJets_MG_HT200to400/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/GJet/job_summer16_GJets_MG_HT400to600/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/GJet/job_summer16_GJets_MG_HT600toInf/METcorr_ggtree.root",			  
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/job_summer16_Wg_aMCatNLO/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/job_summer16_Wg_aMCatNLO_ext1/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/job_summer16_Zg_aMCatNLO/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/job_summer16_TT_aMCatNLO/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/job_summer16_Znunug_pt130/METcorr_ggtree.root"
+  
+  };
+  */
+  /*
+  TString rootname[20] = {
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/GJet/job_fall17_GJets_MG_HT200to400/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/GJet/job_fall17_GJets_MG_HT400to600/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/GJet/job_fall17_GJets_MG_HT600toInf/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_Wg_aMCatNLO/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_Wg_aMCatNLO_ext1/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_Zg_aMCatNLO/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_TT_aMCatNLO/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_Znunug_pt130/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_UL17_Znunug_VBS/METcorr_ggtree.root"
+  };
+  */
+  /*
+  TString rootname[20] = {
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/mc/GJet/job_autumn18_GJets_MG_HT200to400/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/mc/GJet/job_autumn18_GJets_MG_HT400to600/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/mc/GJet/job_autumn18_GJets_MG_HT600toInf/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/mc/job_autumn18_Wg_aMCatNLO/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/mc/job_autumn18_Wg_aMCatNLO_ext1/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/mc/job_autumn18_Zg_aMCatNLO/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/mc/job_autumn18_TT_aMCatNLO_ext1/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/mc/job_autumn18_TT_aMCatNLO_ext2/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/mc/job_autumn18_Znunug_pt130/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/mc/job_UL18_Znunug_VBS/METcorr_ggtree.root"
+  };
+  */
+  /*
+  TString rootname[20] = {
+			  "/home/judy/ntuhep/GMET/output_file/summer16/data/job_SinglePho_Run2016B_UL/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/data/job_SinglePho_Run2016C_UL/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/data/job_SinglePho_Run2016D_UL/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/data/job_SinglePho_Run2016E_UL/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/data/job_SinglePho_Run2016F1_UL/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/data/job_SinglePho_Run2016F2_UL/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/data/job_SinglePho_Run2016G_UL/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/data/job_SinglePho_Run2016H_UL/METcorr_ggtree.root"
+  };
+  */
+  /*
+  TString rootname[20] = {
+			  "/home/judy/ntuhep/GMET/output_file/fall17/data/job_SinglePho_Run2017B_UL/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/data/job_SinglePho_Run2017C_UL/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/data/job_SinglePho_Run2017D_UL/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/data/job_SinglePho_Run2017E_UL/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/data/job_SinglePho_Run2017F_UL/METcorr_ggtree.root"
+  };
+  */
+  /*
+  TString rootname[20] = {
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/data/job_EGamma_Run2018A_UL/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/data/job_EGamma_Run2018B_UL/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/data/job_EGamma_Run2018C_UL/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/data/job_EGamma_Run2018D_UL/METcorr_ggtree.root"
+  };
+  */
+  /*
+  TString rootname[20] = {
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/WJet/job_summer16_WJetsToLNu_MG_HT200to400/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/WJet/job_summer16_WJetsToLNu_MG_HT200to400_ext1/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/WJet/job_summer16_WJetsToLNu_MG_HT200to400_ext2/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/WJet/job_summer16_WJetsToLNu_MG_HT400to600/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/WJet/job_summer16_WJetsToLNu_MG_HT400to600_ext1/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/WJet/job_summer16_WJetsToLNu_MG_HT600to800/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/WJet/job_summer16_WJetsToLNu_MG_HT600to800_ext1/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/WJet/job_summer16_WJetsToLNu_MG_HT800to1200/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/WJet/job_summer16_WJetsToLNu_MG_HT800to1200_ext1/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/WJet/job_summer16_WJetsToLNu_MG_HT1200to2500/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/WJet/job_summer16_WJetsToLNu_MG_HT1200to2500_ext1/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/WJet/job_summer16_WJetsToLNu_MG_HT2500toInf/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/WJet/job_summer16_WJetsToLNu_MG_HT2500toInf_ext1/METcorr_ggtree.root"
+  };
+  */
+  /*
+  TString rootname[20] = {
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/WJet/job_fall17_WJetsToLNu_MG_HT200to400/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/WJet/job_fall17_WJetsToLNu_MG_HT400to600/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/WJet/job_fall17_WJetsToLNu_MG_HT600to800/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/WJet/job_fall17_WJetsToLNu_MG_HT800to1200/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/WJet/job_fall17_WJetsToLNu_MG_HT1200to2500/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/WJet/job_fall17_WJetsToLNu_MG_HT2500toInf/METcorr_ggtree.root"
+  };
+  */  
+  /*
+  TString rootname[20] = {
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/mc/WJet/job_autumn18_WJetsToLNu_MG_HT200to400/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/mc/WJet/job_autumn18_WJetsToLNu_MG_HT400to600/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/mc/WJet/job_autumn18_WJetsToLNu_MG_HT600to800/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/mc/WJet/job_autumn18_WJetsToLNu_MG_HT800to1200/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/mc/WJet/job_autumn18_WJetsToLNu_MG_HT1200to2500/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/mc/WJet/job_autumn18_WJetsToLNu_MG_HT2500toInf/METcorr_ggtree.root",
+  };
+  */
+  /*
+  TString rootname[20] = {
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/ZJet/job_summer16_ZvvJets_HT200to400/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/ZJet/job_summer16_ZvvJets_HT200to400_ext1/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/ZJet/job_summer16_ZvvJets_HT400to600/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/ZJet/job_summer16_ZvvJets_HT400to600_ext1/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/ZJet/job_summer16_ZvvJets_HT600to800/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/ZJet/job_summer16_ZvvJets_HT800to1200/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/ZJet/job_summer16_ZvvJets_HT1200to2500/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/ZJet/job_summer16_ZvvJets_HT1200to2500_ext1/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/ZJet/job_summer16_ZvvJets_HT2500toInf/METcorr_ggtree.root"
+  };
+  */
+  /*
+  TString rootname[20] = {
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/ZJet/job_fall17_ZvvJets_HT200to400/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/ZJet/job_fall17_ZvvJets_HT400to600/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/ZJet/job_fall17_ZvvJets_HT600to800/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/ZJet/job_fall17_ZvvJets_HT800to1200/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/ZJet/job_fall17_ZvvJets_HT1200to2500/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/ZJet/job_fall17_ZvvJets_HT1200to2500_ext1/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/ZJet/job_fall17_ZvvJets_HT2500toInf/METcorr_ggtree.root"
+  };
+  */
+  /*
+   TString rootname[20] = {
+			   "/home/judy/ntuhep/GMET/output_file/autumn18/mc/ZJet/job_autumn18_ZvvJets_HT200to400/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/mc/ZJet/job_autumn18_ZvvJets_HT400to600/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/mc/ZJet/job_autumn18_ZvvJets_HT600to800/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/mc/ZJet/job_autumn18_ZvvJets_HT800to1200/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/mc/ZJet/job_autumn18_ZvvJets_HT1200to2500/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/mc/ZJet/job_autumn18_ZvvJets_HT2500toInf/METcorr_ggtree.root"
+  };
+  */  
+  /*
+  TString rootname[20] = {
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/DYJet/job_summer16_DYJetsToLL_m50_MG_HT200to400/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/DYJet/job_summer16_DYJetsToLL_m50_MG_HT200to400_ext1/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/DYJet/job_summer16_DYJetsToLL_m50_MG_HT400to600/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/DYJet/job_summer16_DYJetsToLL_m50_MG_HT400to600_ext1/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/DYJet/job_summer16_DYJetsToLL_m50_MG_HT600to800/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/DYJet/job_summer16_DYJetsToLL_m50_MG_HT800to1200/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/DYJet/job_summer16_DYJetsToLL_m50_MG_HT1200to2500/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/DYJet/job_summer16_DYJetsToLL_m50_MG_HT2500toInf/METcorr_ggtree.root"
+  };
+  */
+  /*
+  TString rootname[20] = {
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/DYJet/job_fall17_DYJetsToLL_m50_MG_HT200to400/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/DYJet/job_fall17_DYJetsToLL_m50_MG_HT200to400_ext1/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/DYJet/job_fall17_DYJetsToLL_m50_MG_HT400to600/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/DYJet/job_fall17_DYJetsToLL_m50_MG_HT400to600_ext1/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/DYJet/job_fall17_DYJetsToLL_m50_MG_HT600to800/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/DYJet/job_fall17_DYJetsToLL_m50_MG_HT800to1200/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/DYJet/job_fall17_DYJetsToLL_m50_MG_HT1200to2500/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/DYJet/job_fall17_DYJetsToLL_m50_MG_HT2500toInf/METcorr_ggtree.root"
+  };
+  */
+  /*
+  TString rootname[20] = {
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/mc/DYJet/job_autumn18_DYJetsToLL_m50_MG_HT200to400/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/mc/DYJet/job_autumn18_DYJetsToLL_m50_MG_HT400to600/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/mc/DYJet/job_autumn18_DYJetsToLL_m50_MG_HT400to600_ext2/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/mc/DYJet/job_autumn18_DYJetsToLL_m50_MG_HT600to800/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/mc/DYJet/job_autumn18_DYJetsToLL_m50_MG_HT800to1200/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/mc/DYJet/job_autumn18_DYJetsToLL_m50_MG_HT1200to2500/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/mc/DYJet/job_autumn18_DYJetsToLL_m50_MG_HT2500toInf/METcorr_ggtree.root"
+  };
+  */
+  /*
+  TString rootname[20] = {
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/QCD/job_summer16_QCD_HT200to300/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/QCD/job_summer16_QCD_HT200to300_ext1/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/QCD/job_summer16_QCD_HT300to500/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/QCD/job_summer16_QCD_HT300to500_ext1/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/QCD/job_summer16_QCD_HT500to700/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/QCD/job_summer16_QCD_HT500to700_ext1/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/QCD/job_summer16_QCD_HT700to1000/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/QCD/job_summer16_QCD_HT700to1000_ext1/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/QCD/job_summer16_QCD_HT1000to1500/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/QCD/job_summer16_QCD_HT1000to1500_ext1/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/QCD/job_summer16_QCD_HT1500to2000/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/QCD/job_summer16_QCD_HT1500to2000_ext1/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/QCD/job_summer16_QCD_HT2000toInf/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/summer16/mc/QCD/job_summer16_QCD_HT2000toInf_ext1/METcorr_ggtree.root"
+  };
+  */
+  /*
+  TString rootname[20] = {
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/QCD/job_fall17_QCD_HT200to300/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/QCD/job_fall17_QCD_HT300to500/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/QCD/job_fall17_QCD_HT500to700/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/QCD/job_fall17_QCD_HT700to1000/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/QCD/job_fall17_QCD_HT1000to1500/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/QCD/job_fall17_QCD_HT1500to2000/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/mc/QCD/job_fall17_QCD_HT2000toInf/METcorr_ggtree.root"
+  };
+  */
+  
+  TString rootname[20] = {
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/mc/QCD/job_autumn18_QCD_HT200to300/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/mc/QCD/job_autumn18_QCD_HT300to500/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/mc/QCD/job_autumn18_QCD_HT500to700/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/mc/QCD/job_autumn18_QCD_HT700to1000/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/mc/QCD/job_autumn18_QCD_HT1000to1500/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/mc/QCD/job_autumn18_QCD_HT1500to2000/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/mc/QCD/job_autumn18_QCD_HT2000toInf/METcorr_ggtree.root"
+  };
+  
+  TFile *fopen;
+  TCanvas *c1 = new TCanvas("c1");
+
+  const char *title;
+  //const char *saveto = "/home/judy/ntuhep/GJet/summer16_Zg_EWK/"; 
+  const char *saveto = ".";
+
+  TH2F *H2_nvtx_METX[nfile];
+  TH2F *H2_nvtx_METY[nfile];
+
+  TProfile *tp_nvtx_METX[nfile];
+  TProfile *tp_nvtx_METY[nfile];
+
+  Double_t slope, err;
+  Double_t par[3];
+  TF1 *fitresult = new TF1("fitresult", "pol1", 0, 80);
+  TLatex *latp = new TLatex();
+  
+  for(Int_t i=0; i<nfile; i++){
+    fopen = new TFile(rootname[i]);
+    
+    H2_nvtx_METX[i] = (TH2F*)fopen->Get("h2_nvtx_METX");
+    H2_nvtx_METY[i] = (TH2F*)fopen->Get("h2_nvtx_METY");
+
+    tp_nvtx_METX[i] = H2_nvtx_METX[i]->ProfileX(Form("tp_nvtx_METX_%i", i), 1, -1);
+    tp_nvtx_METY[i] = H2_nvtx_METY[i]->ProfileX(Form("tp_nvtx_METY_%i", i), 1, -1);
+
+    tp_nvtx_METX[i]->SetMarkerStyle(8);
+    tp_nvtx_METY[i]->SetMarkerStyle(8);
+
+    tp_nvtx_METX[i]->SetMarkerColor(1);
+    tp_nvtx_METY[i]->SetMarkerColor(1);
+
+    tp_nvtx_METX[i]->SetTitle(Form("tp_nvtx_METX_%i", i));
+    tp_nvtx_METY[i]->SetTitle(Form("tp_nvtx_METY_%i", i));
+
+    tp_nvtx_METX[i]->GetXaxis()->SetTitle("nVtx");
+    tp_nvtx_METY[i]->GetXaxis()->SetTitle("nVtx");
+
+    tp_nvtx_METX[i]->GetYaxis()->SetTitle("METx");
+    tp_nvtx_METY[i]->GetYaxis()->SetTitle("METy");
+
+    //H2_nvtx_METX[i]->Draw("colz");
+    tp_nvtx_METX[i]->Draw();
+    tp_nvtx_METX[i]->SetMinimum(-100);
+    tp_nvtx_METX[i]->SetMaximum(100);
+    tp_nvtx_METX[i]->GetXaxis()->SetRangeUser(0, 100);
+    tp_nvtx_METX[i]->Fit(fitresult, "", "", 0, 80);
+    
+
+    for(Int_t i=0; i<2; i++){par[i] = fitresult->GetParameter(i);}
+    latp->SetTextAlign(12);
+    latp->SetTextSize(0.035);
+    latp->DrawLatex(10, 30, Form("fit = %.3fnvtx+%.3f", par[0], par[1]));
+    title = tp_nvtx_METX[i]->GetTitle();
+    c1->SaveAs(Form("%s/%s.pdf", saveto, title));
+
+    ftext.open("METXcorr.txt", ios::out | ios::app);
+    if(!ftext){
+      cerr << "Can't open file !" << endl;
+      exit(1);
+    }
+    ftext << "file " << i << endl;
+    ftext << "fit = " << par[1] << "x nVtx + " << par[0] << endl;
+    ftext.close();
+    
+    //H2_nvtx_METY[i]->Draw("colz");
+    tp_nvtx_METY[i]->Draw();
+    tp_nvtx_METY[i]->SetMinimum(-100);
+    tp_nvtx_METY[i]->SetMaximum(100);
+    tp_nvtx_METY[i]->GetXaxis()->SetRangeUser(0, 100);
+    tp_nvtx_METY[i]->Fit(fitresult, "", "", 0, 80);
+    
+
+    for(Int_t i=0; i<2; i++){par[i] = fitresult->GetParameter(i);}
+    latp->SetTextAlign(12);
+    latp->SetTextSize(0.035);
+    latp->DrawLatex(10, 30, Form("fit = %.3fnvtx+%.3f", par[1], par[0]));
+    title = tp_nvtx_METY[i]->GetTitle();
+    c1->SaveAs(Form("%s/%s.pdf", saveto, title));
+
+    ftext.open("METYcorr.txt", ios::out | ios::app);
+    if(!ftext){
+      cerr << "Can't open file !" << endl;
+      exit(1);
+    }
+    ftext << "file " << i << endl;
+    ftext << "fit = " << par[1] << "x nVtx + " << par[0] << endl;
+    ftext.close();
+  }
+  
+}
