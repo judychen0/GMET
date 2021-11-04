@@ -10,14 +10,12 @@ using namespace std;
 
 void xMerge_GJet(Int_t year){
   TString rootname[10];
-
   TFile *fopen, *fout;
-  //TCanvas *c1 = new TCanvas("c1");
-  TTree *t;
+
   Int_t entries = 1.0;
   Float_t outentries = 0.;
   Float_t scale[nGJet] = {0};
-  
+
   Float_t lumi16 = 36.33;
   Float_t lumi17 = 41.48;
   Float_t lumi18 = 59.83;
@@ -32,31 +30,11 @@ void xMerge_GJet(Int_t year){
     lumi = lumi18;
   }
 
-  TH1F *HSumofGenW[nGJet];
-  TH1F *H_Events[nGJet];
-  TH1F *HASumofGenW;
-  TH1F *HA_Events;
-  
-  Float_t mcXsec[10] = {1125, 128.1, 41.69};//GJet
-  /*
-  if(year==2016){
-    rootname[0] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/GJet/job_summer16_GJets_MG_HT200to400/sumGenW.root";
-    rootname[1] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/GJet/job_summer16_GJets_MG_HT400to600/sumGenW.root";
-    rootname[2] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/GJet/job_summer16_GJets_MG_HT600toInf/sumGenW.root";
-  }
-  else if(year==2017){
-    rootname[0] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/GJet/job_fall17_GJets_MG_HT200to400/sumGenW.root";
-    rootname[1] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/GJet/job_fall17_GJets_MG_HT400to600/sumGenW.root";
-    rootname[2] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/GJet/job_fall17_GJets_MG_HT600toInf/sumGenW.root";
-  }
-  else if(year==2018){
-    rootname[0] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/GJet/job_autumn18_GJets_MG_HT200to400/sumGenW.root";
-    rootname[1] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/GJet/job_autumn18_GJets_MG_HT400to600/sumGenW.root";
-    rootname[2] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/GJet/job_autumn18_GJets_MG_HT600toInf/sumGenW.root";
-  }
-  */
-  
+  TH1F *hEvents = new TH1F("hEvents", "total processed and skimmed events",2,0,2);
+  TH1F *hSumofGenW = new TH1F("hSumGenWeight", "Sum of Gen weights",1,0,1);
 
+  Float_t mcXsec[10] = {1125, 128.1, 41.69};//GJet
+  
   if(year==2016){
     rootname[0] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/GJet/job_summer16_GJets_MG_HT200to400/output_ggtree.root";
     rootname[1] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/GJet/job_summer16_GJets_MG_HT400to600/output_ggtree.root";
@@ -72,623 +50,347 @@ void xMerge_GJet(Int_t year){
     rootname[1] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/GJet/job_autumn18_GJets_MG_HT400to600/output_ggtree.root";
     rootname[2] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/GJet/job_autumn18_GJets_MG_HT600toInf/output_ggtree.root";
   }
-  
+
   for(Int_t i=0; i<nGJet; i++){
     fopen = new TFile(rootname[i]);
-    H_Events[i] = (TH1F*)fopen->Get("hEvents");
-    //HSumofGenW[i] = (TH1F*)fopen->Get("hSumofGenW");
-    HSumofGenW[i] = (TH1F*)fopen->Get("hSumGenWeight");
-        
-    entries = 1.0;
-    //entries = H_Events[i]->GetBinContent(1);
-    entries = HSumofGenW[i]->GetBinContent(1);
-    outentries = mcXsec[i]*1000*lumi;
-    
-    scale[i] = 0;
+    hEvents = (TH1F*)fopen->Get("hEvents");
+    hSumofGenW = (TH1F*)fopen->Get("hSumGenWeight");
+    entries = hSumofGenW->GetBinContent(1);
+    //entries = hEvents->GetBinContent(1);
+    outentries = mcXsec[1]*1000*lumi;
+
     scale[i] = fabs(outentries/entries);
     cout << "print " << entries << " " << outentries << " " << scale[i]<< endl;
   }
+
+  TH1F* h_dr_jetjet = new TH1F("h_dr_jetjet", "jet jet dR", 20, 0., 8);
+  TH1F* h_dEta_jetjet = new TH1F("h_dEta_jetjet", "jet jet dEta", 20, 0., 8);
+  TH1F* h_dPhi_jetjet = new TH1F("h_dPhi_jetjet", "jet jet dPhi", 30, -3.14, 3.14);
+  TH1F* h_dijetMass = new TH1F("h_dijetMass", "dijet mass", 80, 0, 2000);
+
+  Double_t ptbin[30] = {22, 30, 36, 50, 75, 90, 120, 170, 175, 180, 185, 190, 210,
+			230, 250, 300, 350, 400, 500, 750, 1000, 1500, 2000, 3000, 10000};//22 bins, 2016
+  Double_t etabin[10] = {-1.566, -1.4442, -0.8, 0, 0.8, 1.4442, 1.566};//6bins
+
+  //[0, 1][SM, VBS]
+  TH1F *h_phoEB_pt_210[2];
+  TH1F *h_phoEB_pt_M[2];
+  TH1F *h_phoEB_pt_leptonveto[2];
+  TH1F *h_phoEB_pt_MET[2];
+  TH1F *h_phoEB_pt_dphoMETPhi[2];
+  TH1F *h_phoEB_pt_djetMETPhi[2];
+  TH1F *h_phoEB_pt_jetveto[2];
   
-  TH1F *H_dr_jetjet;
-  TH1F *H_dEta_jetjet;
-  TH1F *H_dPhi_jetjet;
-  TH1F *H_dijetMass;
-  
-  TH1F *H_phoEB_pt_210[2];
-  TH1F *H_phoEB_pt_M[2];
-  TH1F *H_phoEB_pt_chworst[2];
-  TH1F *H_phoEB_pt_MchWorst[2];
-  TH1F *H_phoEB_pt_SeedTime[2];
-  TH1F *H_phoEB_pt_leptonveto[2];
-  TH1F *H_phoEB_pt_MET[2];
-  TH1F *H_phoEB_pt_fixMET[2];
-  TH1F *H_phoEB_pt_dphoMETPhi[2];
-  TH1F *H_phoEB_pt_djetMETPhi[2];
-  TH1F *H_phoEB_pt_jetveto[2];
+  TH1F *h_phoEB_ptcut[2];
+  TH1F *h_phoEB_Etacut[2];
+  TH1F *h_phoEB_Phicut[2];
     
-  TH1F *H_phoEB_ptcut[2];
-  TH1F *H_phoEB_Etacut[2];
-  TH1F *H_phoEB_Phicut[2];
-  TH1F *H_SeedTime_cut[2];
-  TH1F *H_MIP_Nm1[2];
-  TH1F *H_MIP_cut[2];
-  TH1F *H_MET_Nm1[2];
-  TH1F *H_MET_cut[2];
-  TH1F *H_MET_Nm1_djetMETPhim0p5[2];
-  TH1F *H_MET_Nm1_METm100[2];
-  TH1F *H_METPhi_Nm1[2];
-  TH1F *H_METPhi_cut[2];
-  TH1F *H_dphoMETPhi_Nm1[2];
-  TH1F *H_dphoMETPhi_cut[2];
-  TH1F *H_phoEB_ptoverMET_cut[2];
-  TH1F *H_njet_Nm1[2];
-  TH1F *H_njet_cut[2];
-  TH1F *H_nvtx_cut[2];
-  TH1F *H_phoIsMatch[2];
-  TH1F *H_jetpt_210[2];
-  TH1F *H_jetpt_M[2];
-  TH1F *H_jetpt_chworst[2];
-  TH1F *H_jetpt_SeedTime[2];
-  TH1F *H_jetpt_leptonveto[2];
-  TH1F *H_jetpt_MET[2];
-  TH1F *H_jetpt_dphoMETPhi[2];
-  TH1F *H_jetpt_djetMETPhi[2];
-  TH1F *H_jetpt_jetveto[2];
+  TH1F *h_phoIsMatch[2];
   
-  TH1F *H_jetpt_cut[2][2];
-  TH1F *H_jetEta_cut[2][2];
-  TH1F *H_jetPhi_cut[2][2];
-  TH1F *H_djetMETPhi_Nm1[2][2];
-  TH1F *H_djetMETPhi_cut[2][2];
-  TH1F *H_dr_phojet[2][2];
-  TH1F *H_dEta_phojet[2][2];
-  TH1F *H_dPhi_phojet[2][2];
+  TH1F *h_MIP_Nm1[2];
+  TH1F *h_MIP_cut[2];
+  
+  TH1F *h_MET_Nm1[2];
+  TH1F *h_MET_cut[2];
+  TH1F *h_MET_Nm1_djetMETPhim0p5[2];
+  TH1F *h_MET_Nm1_djetMETPhi_SB[2][8];
+  TH1F *h_MET_test[2][4];
+  
+  TH1F *h_METPhi_Nm1[2];
+  TH1F *h_METPhi_cut[2];
 
+  TH1F *h_dphoMETPhi_Nm1[2];
+  TH1F *h_dphoMETPhi_cut[2];
+  TH1F *h_dphoMETPhi_test[2][4];
   
+  TH1F *h_phoEB_ptoverMET_cut[2];
   
-  TH1F *HA_dr_jetjet;
-  TH1F *HA_dEta_jetjet;
-  TH1F *HA_dPhi_jetjet;
-  TH1F *HA_dijetMass;
-  
-  TH1F *HA_phoEB_pt_210[2];
-  TH1F *HA_phoEB_pt_M[2];
-  TH1F *HA_phoEB_pt_MchWorst[2];
-  TH1F *HA_phoEB_pt_chworst[2];
-  TH1F *HA_phoEB_pt_SeedTime[2];
-  TH1F *HA_phoEB_pt_leptonveto[2];
-  TH1F *HA_phoEB_pt_MET[2];
-  TH1F *HA_phoEB_pt_fixMET[2];
-  TH1F *HA_phoEB_pt_dphoMETPhi[2];
-  TH1F *HA_phoEB_pt_djetMETPhi[2];
-  TH1F *HA_phoEB_pt_jetveto[2];
+  TH1F *h_nvtx_cut[2];
 
-  TH1F *HA_phoEB_ptcut[2];
-  TH1F *HA_phoEB_Etacut[2];
-  TH1F *HA_phoEB_Phicut[2];
-  TH1F *HA_SeedTime_cut[2];
-  TH1F *HA_MIP_Nm1[2];
-  TH1F *HA_MIP_cut[2];
-  TH1F *HA_MET_Nm1[2];
-  TH1F *HA_MET_cut[2];
-  TH1F *HA_MET_Nm1_djetMETPhim0p5[2];
-  TH1F *HA_MET_Nm1_METm100[2];
-  TH1F *HA_METPhi_Nm1[2];
-  TH1F *HA_METPhi_cut[2];
-  TH1F *HA_dphoMETPhi_Nm1[2];
-  TH1F *HA_dphoMETPhi_cut[2];
-  TH1F *HA_phoEB_ptoverMET_cut[2];
-  TH1F *HA_njet_Nm1[2];
-  TH1F *HA_njet_cut[2];
-  TH1F *HA_nvtx_cut[2];
-  TH1F *HA_phoIsMatch[2];
-  TH1F *HA_jetpt_210[2];
-  TH1F *HA_jetpt_M[2];
-  TH1F *HA_jetpt_chworst[2];
-  TH1F *HA_jetpt_SeedTime[2];
-  TH1F *HA_jetpt_leptonveto[2];
-  TH1F *HA_jetpt_MET[2];
-  TH1F *HA_jetpt_dphoMETPhi[2];
-  TH1F *HA_jetpt_djetMETPhi[2];
-  TH1F *HA_jetpt_jetveto[2];
-  
-  TH1F *HA_jetpt_cut[2][2];
-  TH1F *HA_jetEta_cut[2][2];
-  TH1F *HA_jetPhi_cut[2][2];
-  TH1F *HA_djetMETPhi_Nm1[2][2];
-  TH1F *HA_djetMETPhi_cut[2][2];
-  TH1F *HA_dr_phojet[2][2];
-  TH1F *HA_dEta_phojet[2][2];
-  TH1F *HA_dPhi_phojet[2][2];
- 
+  TH1F *h_njet_Nm1[2];
+  TH1F *h_njet_cut[2];
 
-  for(Int_t i=0; i<nGJet;i++){
+  TH1F *h_nlep_cut[2];
+
+  TH2F *h2_MET_djetMETPhi[2][4];
+  
+  for(Int_t j=0; j<2; j++){
+    h_phoEB_pt_210[j] = new TH1F(Form("h_phoEB_pt_210_%i", j), "matched phoEB pt pt200 cut", 22, ptbin);
+    h_phoEB_pt_M[j] = new TH1F(Form("h_phoEB_pt_M_%i", j), "matched phoEB pt M IDcut", 22, ptbin);
+    h_phoEB_pt_leptonveto[j] = new TH1F(Form("h_phoEB_pt_leptonveto_%i", j), "leptonveto cut", 22, ptbin);
+    h_phoEB_pt_MET[j] = new TH1F(Form("h_phoEB_pt_MET_%i", j), "matched phoEB pt MET cut", 22, ptbin);
+    h_phoEB_pt_dphoMETPhi[j] = new TH1F(Form("h_phoEB_pt_dphoMETPhi_%i", j), "matched phoEB pt dphoMETPhi cut", 22, ptbin);
+    h_phoEB_pt_djetMETPhi[j] = new TH1F(Form("h_phoEB_pt_djetMETPhi_%i", j), "matched phoEB pt djetMETPhi cut", 22, ptbin);
+    h_phoEB_pt_jetveto[j] = new TH1F(Form("h_phoEB_pt_jetveto_%i", j), Form("h_phoEB_pt_jetveto_%i", j), 22, ptbin);  
+
+    h_phoEB_ptcut[j] = new TH1F(Form("h_phoEB_ptcut_%i", j), "phoEB pt cut all pas varbin", 20, 200, 1000);
+    h_phoEB_Etacut[j] = new TH1F(Form("h_phoEB_Etacut_%i", j), "phoEB eta cut all pas varbins", 6, etabin);
+    h_phoEB_Phicut[j] = new TH1F(Form("h_phoEB_Phicut_%i", j), "phoEB phi cut all pas varbins", 30, -3.14, 3.14);
+    h_MIP_Nm1[j] = new TH1F(Form("h_MIP_Nm1_%i", j), "MIP energy N-1 cut", 50, 0, 10);
+    h_MIP_cut[j] = new TH1F(Form("h_MIP_cut_%i", j), "MIP energy N cut", 50, 0, 10);
+    h_MET_Nm1[j] = new TH1F(Form("h_MET_Nm1_%i", j), "pf MET N-1 cut", 60, 0, 1200);
+    h_MET_cut[j] = new TH1F(Form("h_MET_cut_%i", j), "pf MET N cut", 60, 0, 1200);
+    h_MET_Nm1_djetMETPhim0p5[j] = new TH1F(Form("h_MET_Nm1_djetMETPhim0p5_%i", j), "pf MET N-1 cut with djetMETPhi<0.5", 60, 0, 1200);
+    for(Int_t ii=0; ii<8; ii++){
+      h_MET_Nm1_djetMETPhi_SB[j][ii] = new TH1F(Form("h_MET_Nm1_djetMETPhi_SB0p%i_%i", ii+2, j), Form("pfMET N-1 cut with djetMETPhi<0.%i", ii+2), 60, 0, 1200);
+    }
+    h_METPhi_Nm1[j] = new TH1F(Form("h_METPhi_Nm1_%i", j), "pf MET N-1 cut", 30, -3.14, 3.14);
+    h_METPhi_cut[j] = new TH1F(Form("h_METPhi_cut_%i", j), "pf MET N cut", 30, -3.14, 3.14);
+    h_dphoMETPhi_Nm1[j] = new TH1F(Form("h_dphoMETPhi_Nm1_%i", j), "deltaPhi of pho and MET N-1 cut", 30, -3.14, 3.14);
+    h_dphoMETPhi_cut[j] = new TH1F(Form("h_dphoMETPhi_cut_%i", j), "deltaPhi of pho and MET N cut", 30, -3.14, 3.14);
+    h_phoEB_ptoverMET_cut[j] = new TH1F(Form("h_phoEB_ptoverMET_cut_%i", j), "phoEB pt/MET N cut", 20, 0, 4);
+    h_njet_Nm1[j] = new TH1F(Form("h_njet_Nm1_%i", j), "njet N-1 cut", 10, 0, 10);
+    h_njet_cut[j] = new TH1F(Form("h_njet_cut_%i", j), "njet N cut", 10, 0, 10);
+    h_nvtx_cut[j] = new TH1F(Form("h_nvtx_cut_%i", j), "#vtx N cut", 100, 0, 100);
+    h_nlep_cut[j] = new TH1F(Form("h_nlep_cut_%i", j), "nlep N cut", 10, 0, 10);
+    h_phoIsMatch[j] = new TH1F(Form("h_phoIsMatch_%i", j), "phoIsMatch N cut", 2, 0, 2);
+    for(Int_t ii=0; ii<4; ii++){
+      h_MET_test[j][ii] = new TH1F(Form("h_MET_test_cut%i_%i", ii, j), "MET cut at diff val", 22, ptbin);
+      h_dphoMETPhi_test[j][ii] = new TH1F(Form("h_dphoMETPhi_test_cut%i_%i", ii, j), "dphoMETPhi cut at diff val", 22, ptbin);
+      h2_MET_djetMETPhi[j][ii] = new TH2F(Form("h2_MET_djetMETPhi_MET%i_%i", ii, j), "MET and djetMETPhi relation at diff MET cut", 60, 0, 1200, 30, -3.14, 3.14);
+    }
+  }
+
+  //[0, 1][SM, VBS][0,1][jet1, jet2]
+  TH1F *h_jetpt_210[2];
+  TH1F *h_jetpt_M[2];
+  TH1F *h_jetpt_leptonveto[2];
+  TH1F *h_jetpt_MET[2];
+  TH1F *h_jetpt_dphoMETPhi[2];
+  TH1F *h_jetpt_djetMETPhi[2];
+  //detail jet cut
+  TH1F *h_jetpt_jetID[2];
+  TH1F *h_jetpt_jetPUID[2];
+  TH1F *h_jetpt_jetjetdEta[2];
+  TH1F *h_jetpt_dijetMass[2];
+  TH1F *h_jetpt_phojetdR[2];
+  TH1F *h_jetpt_jetjetdR[2];
+  //detail jet cut
+  TH1F *h_jetpt_jetveto[2];
+  
+  TH1F *h_jetpt_cut[2][2];
+  TH1F *h_jetEta_cut[2][2];
+  TH1F *h_jetPhi_cut[2][2];
+  
+  TH1F *h_djetMETPhi_Nm1[2][2];
+  TH1F *h_djetMETPhi_cut[2][2];
+
+  TH1F *h_mindjetMETPhi_Nm1[2];
+  TH1F *h_mindjetMETPhi_cut[2];
+
+  TH1F *h_dr_phojet[2][2];
+  TH1F *h_dEta_phojet[2][2];
+  TH1F *h_dPhi_phojet[2][2];
+  
+  for(Int_t ii=0; ii<2; ii++){
+    h_jetpt_210[ii] = new TH1F(Form("h_jetpt_210_%i", ii), "jetpt phoEB 200 cut", 25, 30, 1030);
+    h_jetpt_M[ii] = new TH1F(Form("h_jetpt_M_%i", ii), "jetpt phoEB M cut", 25, 30, 1030);
+    h_jetpt_leptonveto[ii] = new TH1F(Form("h_jetpt_leptonveto_%i", ii), "jetpt phoEB leptonveto", 25, 30, 1030);
+    h_jetpt_MET[ii] = new TH1F(Form("h_jetpt_MET_%i", ii), "jetpt phoEB MET cut", 25, 30, 1030);
+    h_jetpt_dphoMETPhi[ii] = new TH1F(Form("h_jetpt_dphoMETPhi_%i", ii), "jetpt phoEB dphoMETPhi cut", 25, 30, 1030);
+    h_jetpt_djetMETPhi[ii] = new TH1F(Form("h_jetpt_djetMETPhi_%i", ii), "jetpt phoEB djetMETPhi cut", 25, 30, 1030);
+    h_jetpt_jetID[ii] = new TH1F(Form("h_jetpt_jetID_%i", ii), "jetpt phoEB jetID cut", 25, 30, 1030);
+    h_jetpt_jetPUID[ii] = new TH1F(Form("h_jetpt_jetPUID_%i", ii), "jetpt phoEB jetPUID cut", 25, 30, 1030);
+    h_jetpt_jetjetdEta[ii] = new TH1F(Form("h_jetpt_jetjetdEta_%i", ii), "jetpt phoEB jetjetdEta cut", 25, 30, 1030);
+    h_jetpt_dijetMass[ii] = new TH1F(Form("h_jetpt_dijetMass_%i", ii), "jetpt phoEB dijetMass", 25, 30, 1030);
+    h_jetpt_phojetdR[ii] = new TH1F(Form("h_jetpt_phojetdR_%i", ii), "jetpt phoEB phojetdR cut", 25, 30, 1030);
+    h_jetpt_jetjetdR[ii] = new TH1F(Form("h_jetpt_jetjetdR_%i", ii), "jetpt phoEB jetjetdR cut", 25, 30, 1030);
+    h_jetpt_jetveto[ii] = new TH1F(Form("h_jetpt_jetveto_%i", ii), "jetpt phoEB jetveto cut", 25, 30, 1030);
+    
+    h_mindjetMETPhi_Nm1[ii] = new TH1F(Form("h_mindjetMETPhi_Nm1_%i", ii), "mindjetMETPhi N-1 cut", 30, -3.14, 3.14);
+    h_mindjetMETPhi_cut[ii] = new TH1F(Form("h_mindjetMETPhi_cut_%i", ii), "mindjetMETPhi cut all", 30, -3.14, 3.14);
+    
+    for(Int_t jj=0; jj<2; jj++){
+      
+      h_jetpt_cut[ii][jj] = new TH1F(Form("h_jetpt_cut_%i_jet%i", ii, jj), "jetpt cut all", 25, 30, 1030);
+      h_jetEta_cut[ii][jj] = new TH1F(Form("h_jetEta_cut_%i_jet%i", ii, jj), "jetEta cut all", 20, -5, 5);
+      h_jetPhi_cut[ii][jj] = new TH1F(Form("h_jetPhi_cut_%i_jet%i", ii, jj), "jetphi cut all", 30, -3.14, 3.14);
+      h_jetpt_cut[ii][jj]->Sumw2();
+      h_jetEta_cut[ii][jj]->Sumw2();
+      h_jetPhi_cut[ii][jj]->Sumw2();
+
+      h_djetMETPhi_Nm1[ii][jj] = new TH1F(Form("h_djetMETPhi_Nm1_%i_jet%i", ii, jj), "deltaPhi of jet and MET N-1 cut", 30, -3.14, 3.14);
+      h_djetMETPhi_cut[ii][jj] = new TH1F(Form("h_djetMETPhi_cut_%i_jet%i", ii, jj), "deltaPhi of jet and MET N cut", 30, -3.14, 3.14);
+      h_djetMETPhi_Nm1[ii][jj]->Sumw2();
+      h_djetMETPhi_cut[ii][jj]->Sumw2();
+
+      h_dr_phojet[ii][jj] = new TH1F(Form("h_dr_phojet_%i_jet%i", ii, jj), "pho jet dr", 20, 0., 8);
+      h_dEta_phojet[ii][jj] = new TH1F(Form("h_dEta_phojet_%i_jet%i", ii, jj), "pho jet dEta", 20, 0., 8);
+      h_dPhi_phojet[ii][jj] = new TH1F(Form("h_dPhi_phojet_%i_jet%i", ii, jj), "pho jet dPhi", 30, -3.14, 3.14);
+      h_dr_phojet[ii][jj]->Sumw2();
+      h_dEta_phojet[ii][jj]->Sumw2();
+      h_dPhi_phojet[ii][jj]->Sumw2();
+    }
+  }
+
+  for(Int_t i=0; i<nGJet; i++){
     fopen = new TFile(rootname[i]);
-    if(i==0){
-      HA_dr_jetjet = (TH1F*)fopen->Get("h_dr_jetjet")->Clone();
-      HA_dEta_jetjet = (TH1F*)fopen->Get("h_dEta_jetjet")->Clone();
-      HA_dPhi_jetjet = (TH1F*)fopen->Get("h_dPhi_jetjet")->Clone();
-      HA_dijetMass = (TH1F*)fopen->Get("h_dijetMass")->Clone();
-      
-      for(Int_t j=0; j<nhisto; j++){
-	HA_phoEB_pt_210[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_pt_210_%i", j))->Clone();
-	HA_phoEB_pt_M[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_pt_M_%i", j))->Clone();
-	HA_phoEB_pt_MchWorst[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_pt_MchWorst_%i", j))->Clone();
-	HA_phoEB_pt_chworst[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_pt_chworst_%i", j))->Clone();
-	HA_phoEB_pt_SeedTime[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_pt_SeedTime_%i", j))->Clone();
-	HA_phoEB_pt_leptonveto[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_pt_leptonveto_%i", j))->Clone();
-	HA_phoEB_pt_MET[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_pt_MET_%i", j))->Clone();
-	HA_phoEB_pt_fixMET[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_pt_fixMET_%i", j))->Clone();
-	HA_phoEB_pt_dphoMETPhi[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_pt_dphoMETPhi_%i", j))->Clone();
-	HA_phoEB_pt_djetMETPhi[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_pt_djetMETPhi_%i", j))->Clone();
-	HA_phoEB_pt_jetveto[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_pt_jetveto_%i", j))->Clone();
+ 
+    h_dr_jetjet->Add((TH1F*)fopen->Get("h_dr_jetjet"), scale[i]);
+    h_dEta_jetjet->Add((TH1F*)fopen->Get("h_dEta_jetjet"), scale[i]);
+    h_dPhi_jetjet->Add((TH1F*)fopen->Get("h_dPhi_jetjet"), scale[i]);
+    h_dijetMass->Add((TH1F*)fopen->Get("h_dijetMass"), scale[i]);
 
-	HA_phoEB_ptcut[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_ptcut_%i", j))->Clone();
-	HA_phoEB_Etacut[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_Etacut_%i", j))->Clone();
-	HA_phoEB_Phicut[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_Phicut_%i", j))->Clone();
-	HA_SeedTime_cut[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_SeedTime_cut_%i", j))->Clone();
-	HA_MIP_Nm1[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_MIP_Nm1_%i", j))->Clone();
-	HA_MIP_cut[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_MIP_cut_%i", j))->Clone();
-	HA_MET_Nm1[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_MET_Nm1_%i", j))->Clone();
-	HA_MET_cut[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_MET_cut_%i", j))->Clone();
-	HA_MET_Nm1_djetMETPhim0p5[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_MET_Nm1_djetMETPhim0p5_%i", j))->Clone();
-	HA_MET_Nm1_METm100[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_MET_Nm1_METm100_%i", j))->Clone();
-	HA_METPhi_Nm1[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_METPhi_Nm1_%i", j))->Clone();
-	HA_METPhi_cut[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_METPhi_cut_%i", j))->Clone();
-	HA_dphoMETPhi_Nm1[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_dphoMETPhi_Nm1_%i", j))->Clone();
-	HA_dphoMETPhi_cut[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_dphoMETPhi_cut_%i", j))->Clone();
-	HA_phoEB_ptoverMET_cut[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_ptoverMET_cut_%i", j))->Clone();
-	HA_njet_Nm1[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_njet_Nm1_%i", j))->Clone();
-	HA_njet_cut[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_njet_cut_%i", j))->Clone();
-	HA_nvtx_cut[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_nvtx_cut_%i", j))->Clone();
-	HA_phoIsMatch[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_phoIsMatch_%i", j))->Clone();
-	
-	HA_jetpt_210[j] = (TH1F*)fopen->Get(Form("h_jetpt/h_jetpt_210_%i", j))->Clone();
-	HA_jetpt_M[j] = (TH1F*)fopen->Get(Form("h_jetpt/h_jetpt_M_%i", j))->Clone();
-	HA_jetpt_chworst[j] = (TH1F*)fopen->Get(Form("h_jetpt/h_jetpt_chworst_%i", j))->Clone();
-	HA_jetpt_SeedTime[j] = (TH1F*)fopen->Get(Form("h_jetpt/h_jetpt_SeedTime_%i", j))->Clone();
-	HA_jetpt_leptonveto[j] = (TH1F*)fopen->Get(Form("h_jetpt/h_jetpt_leptonveto_%i", j))->Clone();
-	HA_jetpt_MET[j] = (TH1F*)fopen->Get(Form("h_jetpt/h_jetpt_MET_%i", j))->Clone();
-	HA_jetpt_dphoMETPhi[j] = (TH1F*)fopen->Get(Form("h_jetpt/h_jetpt_dphoMETPhi_%i", j))->Clone();
-	HA_jetpt_djetMETPhi[j] = (TH1F*)fopen->Get(Form("h_jetpt/h_jetpt_djetMETPhi_%i", j))->Clone();
-	HA_jetpt_jetveto[j] = (TH1F*)fopen->Get(Form("h_jetpt/h_jetpt_jetveto_%i", j))->Clone();
-	
-	for(Int_t jj=0; jj<2; jj++){
-	  HA_jetpt_cut[j][jj] = (TH1F*)fopen->Get(Form("h_jetpt/h_jetpt_cut_%i_jet%i", j, jj))->Clone();
-	  HA_jetEta_cut[j][jj] = (TH1F*)fopen->Get(Form("h_jetpt/h_jetEta_cut_%i_jet%i", j, jj))->Clone();
-	  HA_jetPhi_cut[j][jj] = (TH1F*)fopen->Get(Form("h_jetpt/h_jetPhi_cut_%i_jet%i", j, jj))->Clone();
-	  HA_djetMETPhi_Nm1[j][jj] = (TH1F*)fopen->Get(Form("h_jetpt/h_djetMETPhi_Nm1_%i_jet%i", j, jj))->Clone();
-	  HA_djetMETPhi_cut[j][jj] = (TH1F*)fopen->Get(Form("h_jetpt/h_djetMETPhi_cut_%i_jet%i", j, jj))->Clone();
-	  HA_dr_phojet[j][jj] = (TH1F*)fopen->Get(Form("h_jetpt/h_dr_phojet_%i_jet%i", j, jj))->Clone();
-	  HA_dEta_phojet[j][jj] = (TH1F*)fopen->Get(Form("h_jetpt/h_dEta_phojet_%i_jet%i", j, jj))->Clone();
-	  HA_dPhi_phojet[j][jj] = (TH1F*)fopen->Get(Form("h_jetpt/h_dPhi_phojet_%i_jet%i", j, jj))->Clone();
-	}
-      }
-
-      HA_dr_jetjet->Scale(scale[i]);
-      HA_dEta_jetjet->Scale(scale[i]);
-      HA_dPhi_jetjet->Scale(scale[i]);
-      HA_dijetMass->Scale(scale[i]);
-      
-      for(Int_t j=0; j<nhisto; j++){
-	HA_phoEB_pt_210[j]->Scale(scale[i]);
-	HA_phoEB_pt_M[j]->Scale(scale[i]);
-	HA_phoEB_pt_MchWorst[j]->Scale(scale[i]);
-	HA_phoEB_pt_chworst[j]->Scale(scale[i]);
-	HA_phoEB_pt_SeedTime[j]->Scale(scale[i]);
-	HA_phoEB_pt_leptonveto[j]->Scale(scale[i]);
-	HA_phoEB_pt_MET[j]->Scale(scale[i]);
-	HA_phoEB_pt_fixMET[j]->Scale(scale[i]);
-	HA_phoEB_pt_dphoMETPhi[j]->Scale(scale[i]);
-	HA_phoEB_pt_djetMETPhi[j]->Scale(scale[i]);
-	HA_phoEB_pt_jetveto[j]->Scale(scale[i]);
-	HA_phoEB_ptcut[j]->Scale(scale[i]);
-	HA_phoEB_Etacut[j]->Scale(scale[i]);
-	HA_phoEB_Phicut[j]->Scale(scale[i]);
-	HA_SeedTime_cut[j]->Scale(scale[i]);
-	HA_MIP_Nm1[j]->Scale(scale[i]);
-	HA_MIP_cut[j]->Scale(scale[i]);
-	HA_MET_Nm1[j]->Scale(scale[i]);
-	HA_MET_cut[j]->Scale(scale[i]);
-	HA_MET_Nm1_djetMETPhim0p5[j]->Scale(scale[i]);
-	HA_MET_Nm1_METm100[j]->Scale(scale[i]);
-	HA_METPhi_Nm1[j]->Scale(scale[i]);
-	HA_METPhi_cut[j]->Scale(scale[i]);
-	HA_dphoMETPhi_Nm1[j]->Scale(scale[i]);
-	HA_dphoMETPhi_cut[j]->Scale(scale[i]);
-	HA_njet_Nm1[j]->Scale(scale[i]);
-	HA_njet_cut[j]->Scale(scale[i]);
-	HA_phoEB_ptoverMET_cut[j]->Scale(scale[i]);
-	HA_nvtx_cut[j]->Scale(scale[i]);
-	HA_phoIsMatch[j]->Scale(scale[i]);
-	HA_jetpt_210[j]->Scale(scale[i]);
-	HA_jetpt_M[j]->Scale(scale[i]);
-	HA_jetpt_chworst[j]->Scale(scale[i]);
-	HA_jetpt_SeedTime[j]->Scale(scale[i]);
-	HA_jetpt_leptonveto[j]->Scale(scale[i]);
-	HA_jetpt_MET[j]->Scale(scale[i]);
-	HA_jetpt_dphoMETPhi[j]->Scale(scale[i]);
-	HA_jetpt_djetMETPhi[j]->Scale(scale[i]);
-	HA_jetpt_jetveto[j]->Scale(scale[i]);
-	
-	for(Int_t jj=0; jj<nhisto; jj++){
-	  HA_jetpt_cut[j][jj]->Scale(scale[i]);
-	  HA_jetEta_cut[j][jj]->Scale(scale[i]);
-	  HA_jetPhi_cut[j][jj]->Scale(scale[i]);
-	  HA_djetMETPhi_Nm1[j][jj]->Scale(scale[i]);
-	  HA_djetMETPhi_cut[j][jj]->Scale(scale[i]);
-	  HA_dr_phojet[j][jj]->Scale(scale[i]);
-	  HA_dEta_phojet[j][jj]->Scale(scale[i]);
-	  HA_dPhi_phojet[j][jj]->Scale(scale[i]);
-	}
-      }
-
-      HA_dr_jetjet->SetDirectory(0);
-      HA_dEta_jetjet->SetDirectory(0);
-      HA_dPhi_jetjet->SetDirectory(0);
-      HA_dijetMass->SetDirectory(0);
-  
-      for(Int_t j=0; j<nhisto; j++){
-	HA_phoEB_pt_210[j]->SetDirectory(0);
-	HA_phoEB_pt_M[j]->SetDirectory(0);
-	HA_phoEB_pt_MchWorst[j]->SetDirectory(0);
-	HA_phoEB_pt_chworst[j]->SetDirectory(0);
-	HA_phoEB_pt_SeedTime[j]->SetDirectory(0);
-	HA_phoEB_pt_leptonveto[j]->SetDirectory(0);
-	HA_phoEB_pt_MET[j]->SetDirectory(0);
-	HA_phoEB_pt_fixMET[j]->SetDirectory(0);
-	HA_phoEB_pt_dphoMETPhi[j]->SetDirectory(0);
-	HA_phoEB_pt_djetMETPhi[j]->SetDirectory(0);
-	HA_phoEB_pt_jetveto[j]->SetDirectory(0);
-	HA_phoEB_ptcut[j]->SetDirectory(0);
-	HA_phoEB_Etacut[j]->SetDirectory(0);
-	HA_phoEB_Phicut[j]->SetDirectory(0);
-	HA_SeedTime_cut[j]->SetDirectory(0);
-	HA_MIP_Nm1[j]->SetDirectory(0);
-	HA_MIP_cut[j]->SetDirectory(0);
-	HA_MET_Nm1[j]->SetDirectory(0);
-	HA_MET_cut[j]->SetDirectory(0);
-	HA_MET_Nm1_djetMETPhim0p5[j]->SetDirectory(0);
-	HA_MET_Nm1_METm100[j]->SetDirectory(0);
-	HA_METPhi_Nm1[j]->SetDirectory(0);
-	HA_METPhi_cut[j]->SetDirectory(0);
-	HA_dphoMETPhi_Nm1[j]->SetDirectory(0);
-	HA_dphoMETPhi_cut[j]->SetDirectory(0);
-	HA_njet_Nm1[j]->SetDirectory(0);
-	HA_njet_cut[j]->SetDirectory(0);
-	HA_phoEB_ptoverMET_cut[j]->SetDirectory(0);
-	HA_nvtx_cut[j]->SetDirectory(0);
-	HA_phoIsMatch[j]->SetDirectory(0);
-	HA_jetpt_210[j]->SetDirectory(0);
-	HA_jetpt_M[j]->SetDirectory(0);
-	HA_jetpt_chworst[j]->SetDirectory(0);
-	HA_jetpt_SeedTime[j]->SetDirectory(0);
-	HA_jetpt_leptonveto[j]->SetDirectory(0);
-	HA_jetpt_MET[j]->SetDirectory(0);
-	HA_jetpt_dphoMETPhi[j]->SetDirectory(0);
-	HA_jetpt_djetMETPhi[j]->SetDirectory(0);
-	HA_jetpt_jetveto[j]->SetDirectory(0);
-	
-	for(Int_t jj=0; jj<nhisto; jj++){
-	  HA_jetpt_cut[j][jj]->SetDirectory(0);
-	  HA_jetEta_cut[j][jj]->SetDirectory(0);
-	  HA_jetPhi_cut[j][jj]->SetDirectory(0);
-	  HA_djetMETPhi_Nm1[j][jj]->SetDirectory(0);
-	  HA_djetMETPhi_cut[j][jj]->SetDirectory(0);
-	  HA_dr_phojet[j][jj]->SetDirectory(0);
-	  HA_dEta_phojet[j][jj]->SetDirectory(0);
-	  HA_dPhi_phojet[j][jj]->SetDirectory(0);
-	}
-      }
-    }
-      
-    H_dr_jetjet = (TH1F*)fopen->Get("h_dr_jetjet")->Clone();
-    H_dEta_jetjet = (TH1F*)fopen->Get("h_dEta_jetjet")->Clone();
-    H_dPhi_jetjet = (TH1F*)fopen->Get("h_dPhi_jetjet")->Clone();
-    H_dijetMass = (TH1F*)fopen->Get("h_dijetMass")->Clone();
-    
     for(Int_t j=0; j<nhisto; j++){
-      H_phoEB_pt_210[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_pt_210_%i", j))->Clone();
-      H_phoEB_pt_M[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_pt_M_%i", j))->Clone();
-      H_phoEB_pt_MchWorst[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_pt_MchWorst_%i", j))->Clone();
-      H_phoEB_pt_chworst[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_pt_chworst_%i", j))->Clone();
-      H_phoEB_pt_SeedTime[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_pt_SeedTime_%i", j))->Clone();
-      H_phoEB_pt_leptonveto[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_pt_leptonveto_%i", j))->Clone();
-      H_phoEB_pt_MET[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_pt_MET_%i", j))->Clone();
-      H_phoEB_pt_fixMET[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_pt_fixMET_%i", j))->Clone();
-      H_phoEB_pt_dphoMETPhi[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_pt_dphoMETPhi_%i", j))->Clone();
-      H_phoEB_pt_djetMETPhi[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_pt_djetMETPhi_%i", j))->Clone();
-      H_phoEB_pt_jetveto[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_pt_jetveto_%i", j))->Clone();
-	
-      H_phoEB_ptcut[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_ptcut_%i", j))->Clone();
-      H_phoEB_Etacut[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_Etacut_%i", j))->Clone();
-      H_phoEB_Phicut[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_Phicut_%i", j))->Clone();
-      H_SeedTime_cut[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_SeedTime_cut_%i", j))->Clone();
-      H_MIP_Nm1[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_MIP_Nm1_%i", j))->Clone();
-      H_MIP_cut[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_MIP_cut_%i", j))->Clone();
-      H_MET_Nm1[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_MET_Nm1_%i", j))->Clone();
-      H_MET_cut[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_MET_cut_%i", j))->Clone();
-      H_MET_Nm1_djetMETPhim0p5[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_MET_Nm1_djetMETPhim0p5_%i", j))->Clone();
-      H_MET_Nm1_METm100[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_MET_Nm1_METm100_%i", j))->Clone();
-      H_METPhi_Nm1[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_METPhi_Nm1_%i", j))->Clone();
-      H_METPhi_cut[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_METPhi_cut_%i", j))->Clone();
-      H_dphoMETPhi_Nm1[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_dphoMETPhi_Nm1_%i", j))->Clone();
-      H_dphoMETPhi_cut[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_dphoMETPhi_cut_%i", j))->Clone();
-      H_phoEB_ptoverMET_cut[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_ptoverMET_cut_%i", j))->Clone();
-      H_njet_Nm1[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_njet_Nm1_%i", j))->Clone();
-      H_njet_cut[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_njet_cut_%i", j))->Clone();
-      H_nvtx_cut[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_nvtx_cut_%i", j))->Clone();
-      H_phoIsMatch[j] = (TH1F*)fopen->Get(Form("SMandVBS/h_phoIsMatch_%i", j))->Clone();
+      h_phoEB_pt_210[j]->Add((TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_pt_210_%i", j)), scale[i]);
+      h_phoEB_pt_M[j]->Add((TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_pt_M_%i", j)), scale[i]);
+      h_phoEB_pt_leptonveto[j]->Add((TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_pt_leptonveto_%i", j)), scale[i]);
+      h_phoEB_pt_MET[j]->Add((TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_pt_MET_%i", j)), scale[i]);
+      h_phoEB_pt_dphoMETPhi[j]->Add((TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_pt_dphoMETPhi_%i", j)), scale[i]);
+      h_phoEB_pt_djetMETPhi[j]->Add((TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_pt_djetMETPhi_%i", j)), scale[i]);
+      h_phoEB_pt_jetveto[j]->Add((TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_pt_jetveto_%i", j)), scale[i]);
+
+      h_phoEB_ptcut[j]->Add((TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_ptcut_%i", j)), scale[i]);
+      h_phoEB_Etacut[j]->Add((TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_Etacut_%i", j)), scale[i]);
+      h_phoEB_Phicut[j]->Add((TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_Phicut_%i", j)), scale[i]);
+      h_MIP_Nm1[j]->Add((TH1F*)fopen->Get(Form("SMandVBS/h_MIP_Nm1_%i", j)), scale[i]);
+      h_MIP_cut[j]->Add((TH1F*)fopen->Get(Form("SMandVBS/h_MIP_cut_%i", j)), scale[i]);
+      h_MET_Nm1[j]->Add((TH1F*)fopen->Get(Form("SMandVBS/h_MET_Nm1_%i", j)), scale[i]);
+      h_MET_cut[j]->Add((TH1F*)fopen->Get(Form("SMandVBS/h_MET_cut_%i", j)), scale[i]);
+      //h_MET_Nm1_djetMETPhim0p5[j]->Add((TH1F*)fopen->Get(Form("SMandVBS/h_MET_Nm1_djetMETPhim0p5_%i", j)), scale[i]);
+      h_METPhi_Nm1[j]->Add((TH1F*)fopen->Get(Form("SMandVBS/h_METPhi_Nm1_%i", j)), scale[i]);
+      h_METPhi_cut[j]->Add((TH1F*)fopen->Get(Form("SMandVBS/h_METPhi_cut_%i", j)), scale[i]);
+      h_dphoMETPhi_Nm1[j]->Add((TH1F*)fopen->Get(Form("SMandVBS/h_dphoMETPhi_Nm1_%i", j)), scale[i]);
+      h_dphoMETPhi_cut[j]->Add((TH1F*)fopen->Get(Form("SMandVBS/h_dphoMETPhi_cut_%i", j)), scale[i]);
+      h_phoEB_ptoverMET_cut[j]->Add((TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_ptoverMET_cut_%i", j)), scale[i]);
+      h_njet_Nm1[j]->Add((TH1F*)fopen->Get(Form("SMandVBS/h_njet_Nm1_%i", j)), scale[i]);
+      h_njet_cut[j]->Add((TH1F*)fopen->Get(Form("SMandVBS/h_njet_cut_%i", j)), scale[i]);
+      h_nvtx_cut[j]->Add((TH1F*)fopen->Get(Form("SMandVBS/h_nvtx_cut_%i", j)), scale[i]);
+      h_phoIsMatch[j]->Add((TH1F*)fopen->Get(Form("SMandVBS/h_phoIsMatch_%i", j)), scale[i]);
+
+      for(Int_t ii=0; ii<8; ii++){
+	h_MET_Nm1_djetMETPhi_SB[j][ii]->Add((TH1F*)fopen->Get(Form("h_MET_Nm1/h_MET_Nm1_djetMETPhi_SB0p%i_%i", ii+2, j)), scale[i]);
+      }
+
+      for(Int_t ii=0; ii<4; ii++){
+	h_MET_test[j][ii]->Add((TH1F*)fopen->Get(Form("SMandVBS/h_MET_test_cut%i_%i", ii, j)), scale[i]);
+	h_dphoMETPhi_test[j][ii]->Add((TH1F*)fopen->Get(Form("SMandVBS/h_dphoMETPhi_test_cut%i_%i", ii, j)), scale[i]);
+	h2_MET_djetMETPhi[j][ii]->Add((TH2F*)fopen->Get(Form("SMandVBS/h2_MET_djetMETPhi_MET%i_%i", ii, j)), scale[i]);
+      }
       
-      H_jetpt_210[j] = (TH1F*)fopen->Get(Form("h_jetpt/h_jetpt_210_%i", j))->Clone();
-      H_jetpt_M[j] = (TH1F*)fopen->Get(Form("h_jetpt/h_jetpt_M_%i", j))->Clone();
-      H_jetpt_chworst[j] = (TH1F*)fopen->Get(Form("h_jetpt/h_jetpt_chworst_%i", j))->Clone();
-      H_jetpt_SeedTime[j] = (TH1F*)fopen->Get(Form("h_jetpt/h_jetpt_SeedTime_%i", j))->Clone();
-      H_jetpt_leptonveto[j] = (TH1F*)fopen->Get(Form("h_jetpt/h_jetpt_leptonveto_%i", j))->Clone();
-      H_jetpt_MET[j] = (TH1F*)fopen->Get(Form("h_jetpt/h_jetpt_MET_%i", j))->Clone();
-      H_jetpt_dphoMETPhi[j] = (TH1F*)fopen->Get(Form("h_jetpt/h_jetpt_dphoMETPhi_%i", j))->Clone();
-      H_jetpt_djetMETPhi[j] = (TH1F*)fopen->Get(Form("h_jetpt/h_jetpt_djetMETPhi_%i", j))->Clone();
-      H_jetpt_jetveto[j] = (TH1F*)fopen->Get(Form("h_jetpt/h_jetpt_jetveto_%i", j))->Clone();
+      h_jetpt_210[j]->Add((TH1F*)fopen->Get(Form("h_jetpt/h_jetpt_210_%i", j)), scale[i]);
+      h_jetpt_M[j]->Add((TH1F*)fopen->Get(Form("h_jetpt/h_jetpt_M_%i", j)), scale[i]);
+      h_jetpt_leptonveto[j]->Add((TH1F*)fopen->Get(Form("h_jetpt/h_jetpt_leptonveto_%i", j)), scale[i]);
+      h_jetpt_MET[j]->Add((TH1F*)fopen->Get(Form("h_jetpt/h_jetpt_MET_%i", j)), scale[i]);
+      h_jetpt_dphoMETPhi[j]->Add((TH1F*)fopen->Get(Form("h_jetpt/h_jetpt_dphoMETPhi_%i", j)), scale[i]);
+      h_jetpt_djetMETPhi[j]->Add((TH1F*)fopen->Get(Form("h_jetpt/h_jetpt_jetveto_%i", j)), scale[i]);
+      h_jetpt_jetveto[j]->Add((TH1F*)fopen->Get(Form("h_jetpt/h_jetpt_jetveto_%i", j)), scale[i]);
+
+      h_mindjetMETPhi_Nm1[j]->Add((TH1F*)fopen->Get(Form("h_jetpt/h_mindjetMETPhi_Nm1_%i", j)), scale[i]);
+      h_mindjetMETPhi_cut[j]->Add((TH1F*)fopen->Get(Form("h_jetpt/h_mindjetMETPhi_cut_%i", j)), scale[i]);
+
       for(Int_t jj=0; jj<2; jj++){
-	H_jetpt_cut[j][jj] = (TH1F*)fopen->Get(Form("h_jetpt/h_jetpt_cut_%i_jet%i", j, jj))->Clone();
-	H_jetEta_cut[j][jj] = (TH1F*)fopen->Get(Form("h_jetpt/h_jetEta_cut_%i_jet%i", j, jj))->Clone();
-	H_jetPhi_cut[j][jj] = (TH1F*)fopen->Get(Form("h_jetpt/h_jetPhi_cut_%i_jet%i", j, jj))->Clone();
-	H_djetMETPhi_Nm1[j][jj] = (TH1F*)fopen->Get(Form("h_jetpt/h_djetMETPhi_Nm1_%i_jet%i", j, jj))->Clone();
-	H_djetMETPhi_cut[j][jj] = (TH1F*)fopen->Get(Form("h_jetpt/h_djetMETPhi_cut_%i_jet%i", j, jj))->Clone();
-	H_dr_phojet[j][jj] = (TH1F*)fopen->Get(Form("h_jetpt/h_dr_phojet_%i_jet%i", j, jj))->Clone();
-	H_dEta_phojet[j][jj] = (TH1F*)fopen->Get(Form("h_jetpt/h_dEta_phojet_%i_jet%i", j, jj))->Clone();
-	H_dPhi_phojet[j][jj] = (TH1F*)fopen->Get(Form("h_jetpt/h_dPhi_phojet_%i_jet%i", j, jj))->Clone();
+	h_jetpt_cut[j][jj]->Add((TH1F*)fopen->Get(Form("h_jetpt/h_jetpt_cut_%i_jet%i", j, jj)), scale[i]);
+	h_jetEta_cut[j][jj]->Add((TH1F*)fopen->Get(Form("h_jetpt/h_jetEta_cut_%i_jet%i", j, jj)), scale[i]);
+	h_jetPhi_cut[j][jj]->Add((TH1F*)fopen->Get(Form("h_jetpt/h_jetPhi_cut_%i_jet%i", j, jj)), scale[i]);
+	h_djetMETPhi_Nm1[j][jj]->Add((TH1F*)fopen->Get(Form("h_jetpt/h_djetMETPhi_Nm1_%i_jet%i", j, jj)), scale[i]);
+	h_djetMETPhi_cut[j][jj]->Add((TH1F*)fopen->Get(Form("h_jetpt/h_djetMETPhi_cut_%i_jet%i", j, jj)), scale[i]);
+	h_dr_phojet[j][jj]->Add((TH1F*)fopen->Get(Form("h_jetpt/h_dr_phojet_%i_jet%i", j, jj)), scale[i]);
+	h_dEta_phojet[j][jj]->Add((TH1F*)fopen->Get(Form("h_jetpt/h_dEta_phojet_%i_jet%i", j, jj)), scale[i]);
+	h_dPhi_phojet[j][jj]->Add((TH1F*)fopen->Get(Form("h_jetpt/h_dPhi_phojet_%i_jet%i", j, jj)), scale[i]);
       }
-    }
-
-    H_dr_jetjet->Scale(scale[i]);
-    H_dEta_jetjet->Scale(scale[i]);
-    H_dPhi_jetjet->Scale(scale[i]);
-    H_dijetMass->Scale(scale[i]);
-      
-    for(Int_t j=0; j<nhisto; j++){
-      H_phoEB_pt_210[j]->Scale(scale[i]);
-      H_phoEB_pt_M[j]->Scale(scale[i]);
-      H_phoEB_pt_MchWorst[j]->Scale(scale[i]);
-      H_phoEB_pt_chworst[j]->Scale(scale[i]);
-      H_phoEB_pt_SeedTime[j]->Scale(scale[i]);
-      H_phoEB_pt_leptonveto[j]->Scale(scale[i]);
-      H_phoEB_pt_MET[j]->Scale(scale[i]);
-      H_phoEB_pt_fixMET[j]->Scale(scale[i]);
-      H_phoEB_pt_dphoMETPhi[j]->Scale(scale[i]);
-      H_phoEB_pt_djetMETPhi[j]->Scale(scale[i]);
-      H_phoEB_pt_jetveto[j]->Scale(scale[i]);
-	
-      H_phoEB_ptcut[j]->Scale(scale[i]);
-      H_phoEB_Etacut[j]->Scale(scale[i]);
-      H_phoEB_Phicut[j]->Scale(scale[i]);
-      H_SeedTime_cut[j]->Scale(scale[i]);
-      H_MIP_Nm1[j]->Scale(scale[i]);
-      H_MIP_cut[j]->Scale(scale[i]);
-      H_MET_Nm1[j]->Scale(scale[i]);
-      H_MET_cut[j]->Scale(scale[i]);
-      H_MET_Nm1_djetMETPhim0p5[j]->Scale(scale[i]);
-      H_MET_Nm1_METm100[j]->Scale(scale[i]);
-      H_METPhi_Nm1[j]->Scale(scale[i]);
-      H_METPhi_cut[j]->Scale(scale[i]);
-      H_dphoMETPhi_Nm1[j]->Scale(scale[i]);
-      H_dphoMETPhi_cut[j]->Scale(scale[i]);
-      H_njet_Nm1[j]->Scale(scale[i]);
-      H_njet_cut[j]->Scale(scale[i]);
-      H_phoEB_ptoverMET_cut[j]->Scale(scale[i]);
-      H_nvtx_cut[j]->Scale(scale[i]);
-      H_phoIsMatch[j]->Scale(scale[i]);
-      H_jetpt_210[j]->Scale(scale[i]);
-      H_jetpt_M[j]->Scale(scale[i]);
-      H_jetpt_chworst[j]->Scale(scale[i]);
-      H_jetpt_SeedTime[j]->Scale(scale[i]);
-      H_jetpt_leptonveto[j]->Scale(scale[i]);
-      H_jetpt_MET[j]->Scale(scale[i]);
-      H_jetpt_dphoMETPhi[j]->Scale(scale[i]);
-      H_jetpt_djetMETPhi[j]->Scale(scale[i]);
-      H_jetpt_jetveto[j]->Scale(scale[i]);
-	
-      for(Int_t jj=0; jj<nhisto; jj++){
-	H_jetpt_cut[j][jj]->Scale(scale[i]);
-	H_jetEta_cut[j][jj]->Scale(scale[i]);
-	H_jetPhi_cut[j][jj]->Scale(scale[i]);
-	H_djetMETPhi_Nm1[j][jj]->Scale(scale[i]);
-	H_djetMETPhi_cut[j][jj]->Scale(scale[i]);
-	H_dr_phojet[j][jj]->Scale(scale[i]);
-	H_dEta_phojet[j][jj]->Scale(scale[i]);
-	H_dPhi_phojet[j][jj]->Scale(scale[i]);
-      }
-    }
-      
-    HA_dr_jetjet->SetDirectory(0);
-    HA_dEta_jetjet->SetDirectory(0);
-    HA_dPhi_jetjet->SetDirectory(0);
-    HA_dijetMass->SetDirectory(0);
-      
-    for(Int_t j=0; j<nhisto; j++){
-      HA_phoEB_pt_210[j]->SetDirectory(0);
-      HA_phoEB_pt_M[j]->SetDirectory(0);
-      HA_phoEB_pt_MchWorst[j]->SetDirectory(0);
-      HA_phoEB_pt_chworst[j]->SetDirectory(0);
-      HA_phoEB_pt_SeedTime[j]->SetDirectory(0);
-      HA_phoEB_pt_leptonveto[j]->SetDirectory(0);
-      HA_phoEB_pt_MET[j]->SetDirectory(0);
-      HA_phoEB_pt_fixMET[j]->SetDirectory(0);
-      HA_phoEB_pt_dphoMETPhi[j]->SetDirectory(0);
-      HA_phoEB_pt_djetMETPhi[j]->SetDirectory(0);
-      HA_phoEB_pt_jetveto[j]->SetDirectory(0);
-	
-      HA_phoEB_ptcut[j]->SetDirectory(0);
-      HA_phoEB_Etacut[j]->SetDirectory(0);
-      HA_phoEB_Phicut[j]->SetDirectory(0);
-      HA_SeedTime_cut[j]->SetDirectory(0);
-      HA_MIP_Nm1[j]->SetDirectory(0);
-      HA_MIP_cut[j]->SetDirectory(0);
-      HA_MET_Nm1[j]->SetDirectory(0);
-      HA_MET_cut[j]->SetDirectory(0);
-      HA_MET_Nm1_djetMETPhim0p5[j]->SetDirectory(0);
-      HA_MET_Nm1_METm100[j]->SetDirectory(0);
-      HA_METPhi_Nm1[j]->SetDirectory(0);
-      HA_METPhi_cut[j]->SetDirectory(0);
-      HA_dphoMETPhi_Nm1[j]->SetDirectory(0);
-      HA_dphoMETPhi_cut[j]->SetDirectory(0);
-      HA_njet_Nm1[j]->SetDirectory(0);
-      HA_njet_cut[j]->SetDirectory(0);
-      HA_phoEB_ptoverMET_cut[j]->SetDirectory(0);
-      HA_nvtx_cut[j]->SetDirectory(0);
-      HA_phoIsMatch[j]->SetDirectory(0);
-      HA_jetpt_210[j]->SetDirectory(0);
-      HA_jetpt_M[j]->SetDirectory(0);
-      HA_jetpt_chworst[j]->SetDirectory(0);
-      HA_jetpt_SeedTime[j]->SetDirectory(0);
-      HA_jetpt_leptonveto[j]->SetDirectory(0);
-      HA_jetpt_MET[j]->SetDirectory(0);
-      HA_jetpt_dphoMETPhi[j]->SetDirectory(0);
-      HA_jetpt_djetMETPhi[j]->SetDirectory(0);
-      HA_jetpt_jetveto[j]->SetDirectory(0);
-	
-      for(Int_t jj=0; jj<nhisto; jj++){
-	HA_jetpt_cut[j][jj]->SetDirectory(0);
-	HA_jetEta_cut[j][jj]->SetDirectory(0);
-	HA_jetPhi_cut[j][jj]->SetDirectory(0);
-	HA_djetMETPhi_Nm1[j][jj]->SetDirectory(0);
-	HA_djetMETPhi_cut[j][jj]->SetDirectory(0);
-	HA_dr_phojet[j][jj]->SetDirectory(0);
-	HA_dEta_phojet[j][jj]->SetDirectory(0);
-	HA_dPhi_phojet[j][jj]->SetDirectory(0);
-      }
-    }
-
-    if(i>0){
-      HA_dr_jetjet->Add(H_dr_jetjet);
-      HA_dEta_jetjet->Add(H_dEta_jetjet);
-      HA_dPhi_jetjet->Add(H_dPhi_jetjet);
-      HA_dijetMass->Add(H_dijetMass);
-    
-      for(Int_t j=0; j<nhisto; j++){
-	HA_phoEB_pt_210[j]->Add(H_phoEB_pt_210[j]);
-	HA_phoEB_pt_M[j]->Add(H_phoEB_pt_M[j]);
-	HA_phoEB_pt_MchWorst[j]->Add(H_phoEB_pt_MchWorst[j]);
-	HA_phoEB_pt_chworst[j]->Add(H_phoEB_pt_chworst[j]);
-	HA_phoEB_pt_SeedTime[j]->Add(H_phoEB_pt_SeedTime[j]);
-	HA_phoEB_pt_leptonveto[j]->Add(H_phoEB_pt_leptonveto[j]);
-	HA_phoEB_pt_MET[j]->Add(H_phoEB_pt_MET[j]);
-	HA_phoEB_pt_fixMET[j]->Add(H_phoEB_pt_fixMET[j]);
-	HA_phoEB_pt_dphoMETPhi[j]->Add(H_phoEB_pt_dphoMETPhi[j]);
-	HA_phoEB_pt_djetMETPhi[j]->Add(H_phoEB_pt_djetMETPhi[j]);
-	HA_phoEB_pt_jetveto[j]->Add(H_phoEB_pt_jetveto[j]);
-      
-	HA_phoEB_ptcut[j]->Add(H_phoEB_ptcut[j]);
-	HA_phoEB_Etacut[j]->Add(H_phoEB_Etacut[j]);
-	HA_phoEB_Phicut[j]->Add(H_phoEB_Phicut[j]);
-	HA_SeedTime_cut[j]->Add(H_SeedTime_cut[j]);
-	HA_MIP_Nm1[j]->Add(H_MIP_Nm1[j]);
-	HA_MIP_cut[j]->Add(H_MIP_cut[j]);
-	HA_MET_Nm1[j]->Add(H_MET_Nm1[j]);
-	HA_MET_cut[j]->Add(H_MET_cut[j]);
-	HA_MET_Nm1_djetMETPhim0p5[j]->Add(H_MET_Nm1_djetMETPhim0p5[j]);
-	HA_MET_Nm1_METm100[j]->Add(H_MET_Nm1_METm100[j]);
-	HA_METPhi_Nm1[j]->Add(H_METPhi_Nm1[j]);
-	HA_METPhi_cut[j]->Add(H_METPhi_cut[j]);
-	HA_dphoMETPhi_Nm1[j]->Add(H_dphoMETPhi_Nm1[j]);
-	HA_dphoMETPhi_cut[j]->Add(H_dphoMETPhi_cut[j]);
-	HA_njet_Nm1[j]->Add(H_njet_Nm1[j]);
-	HA_njet_cut[j]->Add(H_njet_cut[j]);
-	HA_phoEB_ptoverMET_cut[j]->Add(H_phoEB_ptoverMET_cut[j]);
-	HA_nvtx_cut[j]->Add(H_nvtx_cut[j]);
-	HA_phoIsMatch[j]->Add(H_phoIsMatch[j]);
-	HA_jetpt_210[j]->Add(H_jetpt_210[j]);
-	HA_jetpt_M[j]->Add(H_jetpt_M[j]);
-	HA_jetpt_chworst[j]->Add(H_jetpt_chworst[j]);
-	HA_jetpt_SeedTime[j]->Add(H_jetpt_SeedTime[j]);
-	HA_jetpt_leptonveto[j]->Add(H_jetpt_leptonveto[j]);
-	HA_jetpt_MET[j]->Add(H_jetpt_MET[j]);
-	HA_jetpt_dphoMETPhi[j]->Add(H_jetpt_dphoMETPhi[j]);
-	HA_jetpt_djetMETPhi[j]->Add(H_jetpt_djetMETPhi[j]);
-	HA_jetpt_jetveto[j]->Add(H_jetpt_jetveto[j]);
-      
-	for(Int_t jj=0; jj<nhisto; jj++){
-	  HA_jetpt_cut[j][jj]->Add(H_jetpt_cut[j][jj]);
-	  HA_jetEta_cut[j][jj]->Add(H_jetEta_cut[j][jj]);
-	  HA_jetPhi_cut[j][jj]->Add(H_jetPhi_cut[j][jj]);
-	  HA_djetMETPhi_Nm1[j][jj]->Add(H_djetMETPhi_Nm1[j][jj]);
-	  HA_djetMETPhi_cut[j][jj]->Add(H_djetMETPhi_cut[j][jj]);
-	  HA_dr_phojet[j][jj]->Add(H_dr_phojet[j][jj]);
-	  HA_dEta_phojet[j][jj]->Add(H_dEta_phojet[j][jj]);
-	  HA_dPhi_phojet[j][jj]->Add(H_dPhi_phojet[j][jj]);
-	}
-      }
-    }
-    
+    }   
   }
 
   fout = new TFile("output_merge_GJet.root", "RECREATE");
+  
+  h_dr_jetjet->Write();
+  h_dEta_jetjet->Write();
+  h_dPhi_jetjet->Write();
+  h_dijetMass->Write();
 
-  
-  HA_dr_jetjet->Write();
-  HA_dEta_jetjet->Write();
-  HA_dPhi_jetjet->Write();
-  HA_dijetMass->Write();
-  
   fout->mkdir("SMandVBS");
   fout->cd("SMandVBS");
-  for(Int_t j=0; j<nhisto; j++){
-    HA_phoEB_pt_210[j]->Write();
-    HA_phoEB_pt_M[j]->Write();
-    HA_phoEB_pt_MchWorst[j]->Write();
-    HA_phoEB_pt_chworst[j]->Write();
-    HA_phoEB_pt_SeedTime[j]->Write();
-    HA_phoEB_pt_leptonveto[j]->Write();
-    HA_phoEB_pt_MET[j]->Write();
-    HA_phoEB_pt_fixMET[j]->Write();
-    HA_phoEB_pt_dphoMETPhi[j]->Write();
-    HA_phoEB_pt_djetMETPhi[j]->Write();
-    HA_phoEB_pt_jetveto[j]->Write();
+  for(Int_t i=0; i<2; i++){
     
-    HA_phoEB_ptcut[j]->Write();
-    HA_phoEB_Etacut[j]->Write();
-    HA_phoEB_Phicut[j]->Write();
-    HA_SeedTime_cut[j]->Write();
-    HA_MIP_Nm1[j]->Write();
-    HA_MIP_cut[j]->Write();
-    HA_MET_Nm1[j]->Write();
-    HA_MET_cut[j]->Write();
-    HA_MET_Nm1_djetMETPhim0p5[j]->Write();
-    HA_MET_Nm1_METm100[j]->Write();
-    HA_METPhi_Nm1[j]->Write();
-    HA_METPhi_cut[j]->Write();
-    HA_dphoMETPhi_Nm1[j]->Write();
-    HA_dphoMETPhi_cut[j]->Write();
-    HA_njet_Nm1[j]->Write();
-    HA_njet_cut[j]->Write();
-    HA_phoEB_ptoverMET_cut[j]->Write();
-    HA_nvtx_cut[j]->Write();
-    HA_phoIsMatch[j]->Write();
-  }
+    h_phoEB_pt_210[i]->Write();
+    h_phoEB_pt_M[i]->Write();
+    h_phoEB_pt_leptonveto[i]->Write();
+    h_phoEB_pt_MET[i]->Write();
+    h_phoEB_pt_dphoMETPhi[i]->Write();
+    h_phoEB_pt_djetMETPhi[i]->Write();
+    h_phoEB_pt_jetveto[i]->Write();
+      
+    h_phoEB_ptcut[i]->Write();
+    h_phoEB_Etacut[i]->Write();
+    h_phoEB_Phicut[i]->Write();
+      
+    h_phoIsMatch[i]->Write();
+      
+    h_MIP_Nm1[i]->Write();
+    h_MIP_cut[i]->Write();
+    
+    h_MET_Nm1[i]->Write();
+    h_MET_cut[i]->Write();
+    for(Int_t jj=0; jj<4; jj++){
+      h_MET_test[i][jj]->Write();
+    }   
 
+    //h_MET_Nm1_djetMETPhim0p5[i]->Write();
+      
+    h_METPhi_Nm1[i]->Write();
+    h_METPhi_cut[i]->Write();
+      
+    h_dphoMETPhi_Nm1[i]->Write();
+    h_dphoMETPhi_cut[i]->Write();
+    for(Int_t jj=0; jj<4; jj++){
+      h_dphoMETPhi_test[i][jj]->Write();
+    }
+
+    h_phoEB_ptoverMET_cut[i]->Write();
+
+    h_njet_Nm1[i]->Write();
+    h_njet_cut[i]->Write();
+
+    h_nlep_cut[i]->Write();
+    h_nvtx_cut[i]->Write();
+    for(Int_t jj=0; jj<4; jj++){
+      h2_MET_djetMETPhi[i][jj]->Write();
+    }  
+  }
+  
   fout->mkdir("h_jetpt");
   fout->cd("h_jetpt");
-  for(Int_t j=0; j<nhisto; j++){
-    HA_jetpt_210[j]->Write();
-    HA_jetpt_M[j]->Write();
-    HA_jetpt_chworst[j]->Write();
-    HA_jetpt_SeedTime[j]->Write();
-    HA_jetpt_leptonveto[j]->Write();
-    HA_jetpt_MET[j]->Write();
-    HA_jetpt_dphoMETPhi[j]->Write();
-    HA_jetpt_djetMETPhi[j]->Write();
-    HA_jetpt_jetveto[j]->Write();
+  for(Int_t i=0; i<2; i++){
+    h_jetpt_210[i]->Write();
+    h_jetpt_M[i]->Write();
+    h_jetpt_leptonveto[i]->Write();
+    h_jetpt_MET[i]->Write();
+    h_jetpt_dphoMETPhi[i]->Write();
+    h_jetpt_djetMETPhi[i]->Write();
+    h_jetpt_jetID[i]->Write();
+    h_jetpt_jetPUID[i]->Write();
+    h_jetpt_jetjetdEta[i]->Write();
+    h_jetpt_dijetMass[i]->Write();
+    h_jetpt_phojetdR[i]->Write();
+    h_jetpt_jetjetdR[i]->Write();
+    h_jetpt_jetveto[i]->Write();
     
-    for(Int_t jj=0; jj<nhisto; jj++){
-      HA_jetpt_cut[j][jj]->Write();
-      HA_jetEta_cut[j][jj]->Write();
-      HA_jetPhi_cut[j][jj]->Write();
-      HA_djetMETPhi_Nm1[j][jj]->Write();
-      HA_djetMETPhi_cut[j][jj]->Write();
-      HA_dr_phojet[j][jj]->Write();
-      HA_dEta_phojet[j][jj]->Write();
-      HA_dPhi_phojet[j][jj]->Write();
+    h_mindjetMETPhi_Nm1[i]->Write();
+    h_mindjetMETPhi_cut[i]->Write();
+          
+    for(Int_t jj=0; jj<2; jj++){
+      h_jetpt_cut[i][jj]->Write();
+      h_jetEta_cut[i][jj]->Write();
+      h_jetPhi_cut[i][jj]->Write();
+
+      h_djetMETPhi_Nm1[i][jj]->Write();
+      h_djetMETPhi_cut[i][jj]->Write();
+      
+      h_dr_phojet[i][jj]->Write();
+      h_dEta_phojet[i][jj]->Write();
+      h_dPhi_phojet[i][jj]->Write();
     }
   }
 
+  fout->mkdir("h_MET_Nm1");
+  fout->cd("h_MET_Nm1");
+  for(Int_t i=0; i<2; i++){
+    for(Int_t jj=0; jj<8; jj++){
+      h_MET_Nm1_djetMETPhi_SB[i][jj]->Write();
+    }
+  }
+  
+  fout->Close();
+  
 }

@@ -4,17 +4,17 @@
 #include <string>
 #include "TH1F.h"
 using namespace std;
-//#define nfile 4
-#define nZJet 6
+
+#define nmonoBoson 4
 #define nhisto 2
 
-void xMerge_ZJet(Int_t year){
+void xMerge_monoboson(Int_t year){
   TString rootname[10];
   TFile *fopen, *fout;
 
   Int_t entries = 1.0;
   Float_t outentries = 0.;
-  Float_t scale[nZJet] = {0};
+  Float_t scale[nmonoBoson] = {0};
 
   Float_t lumi16 = 36.33;
   Float_t lumi17 = 41.48;
@@ -32,35 +32,28 @@ void xMerge_ZJet(Int_t year){
 
   TH1F *hEvents = new TH1F("hEvents", "total processed and skimmed events",2,0,2);
   TH1F *hSumofGenW = new TH1F("hSumGenWeight", "Sum of Gen weights",1,0,1);
-  
-  Float_t mcXsec[10] = {74.11, 9.39, 2.394, 1.052, 0.2499, 0.005662};//ZJet
-  
+
+  Float_t mcXsec[10] = {32.07, 39.13, 6.204, 10.67};//[W-, W+, Zll, Zvv]
+
   if(year==2016){
-    rootname[0] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/ZJet/job_summer16_ZvvJets_HT200to400/output_ggtree.root";
-    rootname[1] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/ZJet/job_summer16_ZvvJets_HT400to600/output_ggtree.root";
-    rootname[2] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/ZJet/job_summer16_ZvvJets_HT600to800/output_ggtree.root";
-    rootname[3] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/ZJet/job_summer16_ZvvJets_HT800to1200/output_ggtree.root";
-    rootname[4] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/ZJet/job_summer16_ZvvJets_HT1200to2500/output_ggtree.root";
-    rootname[5] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/ZJet/job_summer16_ZvvJets_HT2500toInf/output_ggtree.root";
+    rootname[0] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/job_summer16_WW/output_ggtree.root";
+    rootname[1] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/job_summer16_WZ/output_ggtree.root";
+    rootname[2] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/job_summer16_ZZ/output_ggtree.root";
   }
   else if(year==2017){
-    rootname[0] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/ZJet/job_fall17_ZvvJets_HT200to400/output_ggtree.root";
-    rootname[1] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/ZJet/job_fall17_ZvvJets_HT400to600/output_ggtree.root";
-    rootname[2] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/ZJet/job_fall17_ZvvJets_HT600to800/output_ggtree.root";
-    rootname[3] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/ZJet/job_fall17_ZvvJets_HT800to1200/output_ggtree.root";
-    rootname[4] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/ZJet/job_fall17_ZvvJets_HT1200to2500/output_ggtree.root";
-    rootname[5] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/ZJet/job_fall17_ZvvJets_HT2500toInf/output_ggtree.root";
+    rootname[0] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/monoboson/job_fall17_EWK_Wminus/output_ggtree.root";
+    rootname[1] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/monoboson/job_fall17_EWK_Wplus/output_ggtree.root";
+    rootname[2] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/monoboson/job_fall17_EWK_Zll/output_ggtree.root";
+    rootname[3] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/monoboson/job_fall17_EWK_Zvv/output_ggtree.root";
   }
   else if(year==2018){
-    rootname[0] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/ZJet/job_autumn18_ZvvJets_HT200to400/output_ggtree.root";
-    rootname[1] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/ZJet/job_autumn18_ZvvJets_HT400to600/output_ggtree.root";
-    rootname[2] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/ZJet/job_autumn18_ZvvJets_HT600to800/output_ggtree.root";
-    rootname[3] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/ZJet/job_autumn18_ZvvJets_HT800to1200/output_ggtree.root";
-    rootname[4] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/ZJet/job_autumn18_ZvvJets_HT1200to2500/output_ggtree.root";
-    rootname[5] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/ZJet/job_autumn18_ZvvJets_HT2500toInf/output_ggtree.root";
+    rootname[0] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/job_autumn18_EWK_Wminus/output_ggtree.root";
+    rootname[1] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/job_autumn18_EWK_Wplus/output_ggtree.root";
+    rootname[2] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/job_autumn18_EWK_Zll/output_ggtree.root";
+    rootname[3] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/job_autumn18_EWK_Zvv/output_ggtree.root";
   }
 
- for(Int_t i=0; i<nZJet; i++){
+  for(Int_t i=0; i<nmonoBoson; i++){
     fopen = new TFile(rootname[i]);
     hEvents = (TH1F*)fopen->Get("hEvents");
     hSumofGenW = (TH1F*)fopen->Get("hSumGenWeight");
@@ -70,7 +63,7 @@ void xMerge_ZJet(Int_t year){
     scale[i] = fabs(outentries/entries);
     cout << "print " << entries << " " << outentries << " " << scale[i]<< endl;
   }
- 
+
   TH1F* h_dr_jetjet = new TH1F("h_dr_jetjet", "jet jet dR", 20, 0., 8);
   TH1F* h_dEta_jetjet = new TH1F("h_dEta_jetjet", "jet jet dEta", 20, 0., 8);
   TH1F* h_dPhi_jetjet = new TH1F("h_dPhi_jetjet", "jet jet dPhi", 30, -3.14, 3.14);
@@ -231,7 +224,7 @@ void xMerge_ZJet(Int_t year){
     }
   }
 
-  for(Int_t i=0; i<nZJet; i++){
+  for(Int_t i=0; i<nmonoBoson; i++){
     fopen = new TFile(rootname[i]);
  
     h_dr_jetjet->Add((TH1F*)fopen->Get("h_dr_jetjet"), scale[i]);
@@ -300,8 +293,8 @@ void xMerge_ZJet(Int_t year){
     }   
   }
 
-  fout = new TFile("output_merge_ZJet.root", "RECREATE");
-  
+  fout = new TFile("output_merge_monoBoson.root", "RECREATE");
+
   h_dr_jetjet->Write();
   h_dEta_jetjet->Write();
   h_dPhi_jetjet->Write();
@@ -400,5 +393,5 @@ void xMerge_ZJet(Int_t year){
   }
   
   fout->Close();
-  
+    
 }
