@@ -10,6 +10,9 @@ if int(yearrun) == 2016:
 elif int(yearrun) == 2017:
     remotepath = "fall17_data.txt"
     yeardir = "fall17"
+elif int(yearrun) == 2018:
+    remotepath = "autumn18_data.txt"
+    yeardir = "autumn18"
 
 with open(remotepath, "r") as filepath:
     path = filepath.read().splitlines()
@@ -38,7 +41,7 @@ with open(remotepath, "r") as filepath:
         script += "count=$(ls $datadir | wc -l) \n"
         script += """echo "There are tot $count ggtrees!!!" \n"""
         script += "\n"
-        script += """/usr/bin/time parallel --progress --jobs 5 'root -l -b -q "xSkim_data.C(\\\"{1}\\\", {2})"' :::: path.txt ::: $year \n"""
+        script += """/usr/bin/time parallel --progress --jobs 3 'root -l -b -q "xSkim_data.C(\\\"{1}\\\", {2})"' :::: path.txt ::: $year \n"""
         script += "echo Processed all $count ggtrees!!! \n"
         script += "cp mini_ggtree_data* $returndir \n"
         script += "thiswork=$(pwd) \n"
