@@ -36,28 +36,28 @@ void xMerge_ZJet(Int_t year){
   Float_t mcXsec[10] = {74.11, 9.39, 2.394, 1.052, 0.2499, 0.005662};//ZJet
   
   if(year==2016){
-    rootname[0] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/ZJet/job_summer16_ZvvJets_HT200to400/output_ggtree.root";
-    rootname[1] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/ZJet/job_summer16_ZvvJets_HT400to600/output_ggtree.root";
-    rootname[2] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/ZJet/job_summer16_ZvvJets_HT600to800/output_ggtree.root";
-    rootname[3] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/ZJet/job_summer16_ZvvJets_HT800to1200/output_ggtree.root";
-    rootname[4] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/ZJet/job_summer16_ZvvJets_HT1200to2500/output_ggtree.root";
-    rootname[5] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/ZJet/job_summer16_ZvvJets_HT2500toInf/output_ggtree.root";
+    rootname[0] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/summer16/mc/ZJet/job_summer16_ZvvJets_HT200to400/output_ggtree.root";
+    rootname[1] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/summer16/mc/ZJet/job_summer16_ZvvJets_HT400to600/output_ggtree.root";
+    rootname[2] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/summer16/mc/ZJet/job_summer16_ZvvJets_HT600to800/output_ggtree.root";
+    rootname[3] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/summer16/mc/ZJet/job_summer16_ZvvJets_HT800to1200/output_ggtree.root";
+    rootname[4] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/summer16/mc/ZJet/job_summer16_ZvvJets_HT1200to2500/output_ggtree.root";
+    rootname[5] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/summer16/mc/ZJet/job_summer16_ZvvJets_HT2500toInf/output_ggtree.root";
   }
   else if(year==2017){
-    rootname[0] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/ZJet/job_fall17_ZvvJets_HT200to400/output_ggtree.root";
-    rootname[1] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/ZJet/job_fall17_ZvvJets_HT400to600/output_ggtree.root";
-    rootname[2] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/ZJet/job_fall17_ZvvJets_HT600to800/output_ggtree.root";
-    rootname[3] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/ZJet/job_fall17_ZvvJets_HT800to1200/output_ggtree.root";
-    rootname[4] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/ZJet/job_fall17_ZvvJets_HT1200to2500/output_ggtree.root";
-    rootname[5] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/ZJet/job_fall17_ZvvJets_HT2500toInf/output_ggtree.root";
+    rootname[0] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/fall17/mc/ZJet/job_fall17_ZvvJets_HT200to400/output_ggtree.root";
+    rootname[1] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/fall17/mc/ZJet/job_fall17_ZvvJets_HT400to600/output_ggtree.root";
+    rootname[2] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/fall17/mc/ZJet/job_fall17_ZvvJets_HT600to800/output_ggtree.root";
+    rootname[3] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/fall17/mc/ZJet/job_fall17_ZvvJets_HT800to1200/output_ggtree.root";
+    rootname[4] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/fall17/mc/ZJet/job_fall17_ZvvJets_HT1200to2500/output_ggtree.root";
+    rootname[5] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/fall17/mc/ZJet/job_fall17_ZvvJets_HT2500toInf/output_ggtree.root";
   }
   else if(year==2018){
-    rootname[0] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/ZJet/job_autumn18_ZvvJets_HT200to400/output_ggtree.root";
-    rootname[1] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/ZJet/job_autumn18_ZvvJets_HT400to600/output_ggtree.root";
-    rootname[2] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/ZJet/job_autumn18_ZvvJets_HT600to800/output_ggtree.root";
-    rootname[3] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/ZJet/job_autumn18_ZvvJets_HT800to1200/output_ggtree.root";
-    rootname[4] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/ZJet/job_autumn18_ZvvJets_HT1200to2500/output_ggtree.root";
-    rootname[5] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/ZJet/job_autumn18_ZvvJets_HT2500toInf/output_ggtree.root";
+    rootname[0] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/autumn18/mc/ZJet/job_autumn18_ZvvJets_HT200to400/output_ggtree.root";
+    rootname[1] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/autumn18/mc/ZJet/job_autumn18_ZvvJets_HT400to600/output_ggtree.root";
+    rootname[2] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/autumn18/mc/ZJet/job_autumn18_ZvvJets_HT600to800/output_ggtree.root";
+    rootname[3] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/autumn18/mc/ZJet/job_autumn18_ZvvJets_HT800to1200/output_ggtree.root";
+    rootname[4] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/autumn18/mc/ZJet/job_autumn18_ZvvJets_HT1200to2500/output_ggtree.root";
+    rootname[5] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/autumn18/mc/ZJet/job_autumn18_ZvvJets_HT2500toInf/output_ggtree.root";
   }
 
  for(Int_t i=0; i<nZJet; i++){

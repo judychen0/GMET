@@ -37,17 +37,16 @@ void xMerge_triboson(Int_t year){
   Float_t mcXsec[10] = {0.3369, 0.07876};//[WWG, WZG]
 
   if(year==2016){
-    rootname[0] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/job_summer16_WW/output_ggtree.root";
-    rootname[1] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/job_summer16_WZ/output_ggtree.root";
-    rootname[2] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/job_summer16_ZZ/output_ggtree.root";
+    rootname[0] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/summer16/mc/triboson/job_summer16_WWG/output_ggtree.root";
+    rootname[1] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/summer16/mc/triboson/job_summer16_WZG/output_ggtree.root";
   }
   else if(year==2017){
-    rootname[0] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/triboson/job_fall17_WWG/output_ggtree.root";
-    rootname[1] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/triboson/job_fall17_WZG/output_ggtree.root";
+    rootname[0] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/fall17/mc/triboson/job_fall17_WWG/output_ggtree.root";
+    rootname[1] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/fall17/mc/triboson/job_fall17_WZG/output_ggtree.root";
   }
   else if(year==2018){
-    rootname[0] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/job_autumn18_WWG/output_ggtree.root";
-    rootname[1] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/job_autumn18_WZG/output_ggtree.root";
+    rootname[0] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/autumn18/mc/triboson/job_autumn18_WWG/output_ggtree.root";
+    rootname[1] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/autumn18/mc/triboson/job_autumn18_WZG/output_ggtree.root";
   }
 
   for(Int_t i=0; i<ntriBoson; i++){

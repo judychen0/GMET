@@ -36,19 +36,19 @@ void xMerge_GJet(Int_t year){
   Float_t mcXsec[10] = {1125, 128.1, 41.69};//GJet
   
   if(year==2016){
-    rootname[0] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/GJet/job_summer16_GJets_MG_HT200to400/output_ggtree.root";
-    rootname[1] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/GJet/job_summer16_GJets_MG_HT400to600/output_ggtree.root";
-    rootname[2] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/GJet/job_summer16_GJets_MG_HT600toInf/output_ggtree.root";
+    rootname[0] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/summer16/mc/GJet/job_summer16_GJets_MG_HT200to400/output_ggtree.root";
+    rootname[1] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/summer16/mc/GJet/job_summer16_GJets_MG_HT400to600/output_ggtree.root";
+    rootname[2] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/summer16/mc/GJet/job_summer16_GJets_MG_HT600toInf/output_ggtree.root";
   }
   else if(year==2017){
-    rootname[0] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/GJet/job_fall17_GJets_MG_HT200to400/output_ggtree.root";
-    rootname[1] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/GJet/job_fall17_GJets_MG_HT400to600/output_ggtree.root";
-    rootname[2] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/GJet/job_fall17_GJets_MG_HT600toInf/output_ggtree.root";
+    rootname[0] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/fall17/mc/GJet/job_fall17_GJets_MG_HT200to400/output_ggtree.root";
+    rootname[1] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/fall17/mc/GJet/job_fall17_GJets_MG_HT400to600/output_ggtree.root";
+    rootname[2] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/fall17/mc/GJet/job_fall17_GJets_MG_HT600toInf/output_ggtree.root";
   }
   else if(year==2018){
-    rootname[0] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/GJet/job_autumn18_GJets_MG_HT200to400/output_ggtree.root";
-    rootname[1] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/GJet/job_autumn18_GJets_MG_HT400to600/output_ggtree.root";
-    rootname[2] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/GJet/job_autumn18_GJets_MG_HT600toInf/output_ggtree.root";
+    rootname[0] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/autumn18/mc/GJet/job_autumn18_GJets_MG_HT200to400/output_ggtree.root";
+    rootname[1] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/autumn18/mc/GJet/job_autumn18_GJets_MG_HT400to600/output_ggtree.root";
+    rootname[2] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/autumn18/mc/GJet/job_autumn18_GJets_MG_HT600toInf/output_ggtree.root";
   }
 
   for(Int_t i=0; i<nGJet; i++){

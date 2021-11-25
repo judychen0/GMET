@@ -36,28 +36,28 @@ void xMerge_DYJet(Int_t year){
   Float_t mcXsec[10] = {38.83, 5.342, 1.286, 0.5668, 0.1361, 0.003019};//DYJet
   
   if(year==2016){
-    rootname[0] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/DYJet/job_summer16_DYJetsToLL_m50_MG_HT200to400/output_ggtree.root";
-    rootname[1] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/DYJet/job_summer16_DYJetsToLL_m50_MG_HT400to600/output_ggtree.root";
-    rootname[2] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/DYJet/job_summer16_DYJetsToLL_m50_MG_HT600to800/output_ggtree.root";
-    rootname[3] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/DYJet/job_summer16_DYJetsToLL_m50_MG_HT800to1200/output_ggtree.root";
-    rootname[4] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/DYJet/job_summer16_DYJetsToLL_m50_MG_HT1200to2500/output_ggtree.root";
-    rootname[5] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/DYJet/job_summer16_DYJetsToLL_m50_MG_HT2500toInf/output_ggtree.root";
+    rootname[0] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/summer16/mc/DYJet/job_summer16_DYJetsToLL_m50_MG_HT200to400/output_ggtree.root";
+    rootname[1] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/summer16/mc/DYJet/job_summer16_DYJetsToLL_m50_MG_HT400to600/output_ggtree.root";
+    rootname[2] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/summer16/mc/DYJet/job_summer16_DYJetsToLL_m50_MG_HT600to800/output_ggtree.root";
+    rootname[3] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/summer16/mc/DYJet/job_summer16_DYJetsToLL_m50_MG_HT800to1200/output_ggtree.root";
+    rootname[4] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/summer16/mc/DYJet/job_summer16_DYJetsToLL_m50_MG_HT1200to2500/output_ggtree.root";
+    rootname[5] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/summer16/mc/DYJet/job_summer16_DYJetsToLL_m50_MG_HT2500toInf/output_ggtree.root";
   }
   else if(year==2017){
-    rootname[0] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/DYJet/job_fall17_DYJetsToLL_m50_MG_HT200to400/output_ggtree.root";
-    rootname[1] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/DYJet/job_fall17_DYJetsToLL_m50_MG_HT400to600/output_ggtree.root";
-    rootname[2] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/DYJet/job_fall17_DYJetsToLL_m50_MG_HT600to800/output_ggtree.root";
-    rootname[3] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/DYJet/job_fall17_DYJetsToLL_m50_MG_HT800to1200/output_ggtree.root";
-    rootname[4] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/DYJet/job_fall17_DYJetsToLL_m50_MG_HT1200to2500/output_ggtree.root";
-    rootname[5] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/DYJet/job_fall17_DYJetsToLL_m50_MG_HT2500toInf/output_ggtree.root";
+    rootname[0] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/fall17/mc/DYJet/job_fall17_DYJetsToLL_m50_MG_HT200to400/output_ggtree.root";
+    rootname[1] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/fall17/mc/DYJet/job_fall17_DYJetsToLL_m50_MG_HT400to600/output_ggtree.root";
+    rootname[2] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/fall17/mc/DYJet/job_fall17_DYJetsToLL_m50_MG_HT600to800/output_ggtree.root";
+    rootname[3] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/fall17/mc/DYJet/job_fall17_DYJetsToLL_m50_MG_HT800to1200/output_ggtree.root";
+    rootname[4] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/fall17/mc/DYJet/job_fall17_DYJetsToLL_m50_MG_HT1200to2500/output_ggtree.root";
+    rootname[5] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/fall17/mc/DYJet/job_fall17_DYJetsToLL_m50_MG_HT2500toInf/output_ggtree.root";
   }
   else if(year==2018){
-    rootname[0] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/DYJet/job_autumn18_DYJetsToLL_m50_MG_HT200to400/output_ggtree.root";
-    rootname[1] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/DYJet/job_autumn18_DYJetsToLL_m50_MG_HT400to600/output_ggtree.root";
-    rootname[2] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/DYJet/job_autumn18_DYJetsToLL_m50_MG_HT600to800/output_ggtree.root";
-    rootname[3] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/DYJet/job_autumn18_DYJetsToLL_m50_MG_HT800to1200/output_ggtree.root";
-    rootname[4] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/DYJet/job_autumn18_DYJetsToLL_m50_MG_HT1200to2500/output_ggtree.root";
-    rootname[5] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/DYJet/job_autumn18_DYJetsToLL_m50_MG_HT2500toInf/output_ggtree.root";
+    rootname[0] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/autumn18/mc/DYJet/job_autumn18_DYJetsToLL_m50_MG_HT200to400/output_ggtree.root";
+    rootname[1] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/autumn18/mc/DYJet/job_autumn18_DYJetsToLL_m50_MG_HT400to600/output_ggtree.root";
+    rootname[2] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/autumn18/mc/DYJet/job_autumn18_DYJetsToLL_m50_MG_HT600to800/output_ggtree.root";
+    rootname[3] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/autumn18/mc/DYJet/job_autumn18_DYJetsToLL_m50_MG_HT800to1200/output_ggtree.root";
+    rootname[4] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/autumn18/mc/DYJet/job_autumn18_DYJetsToLL_m50_MG_HT1200to2500/output_ggtree.root";
+    rootname[5] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/autumn18/mc/DYJet/job_autumn18_DYJetsToLL_m50_MG_HT2500toInf/output_ggtree.root";
   }
 
   for(Int_t i=0; i<nDYJet; i++){
