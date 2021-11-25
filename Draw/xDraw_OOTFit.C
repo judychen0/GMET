@@ -56,7 +56,7 @@ void xDraw_OOTFit(Int_t year){
     rootname[0] = "/home/judy/ntuhep/GMET/output_file/summer16/data/OOT_ggtree.root";
   }
   else if(year==2017){
-    rootname[0] = "/home/judy/ntuhep/GMET/output_file/fall17/data/OOT_ggtree_new.root";
+    rootname[0] = "/home/judy/ntuhep/GMET/output_file/fall17/data/OOT_ggtree.root";
   }
   else if(year==2018){
     rootname[0] = "/home/judy/ntuhep/GMET/output_file/autumn18/data/OOT_ggtree.root";
@@ -183,13 +183,17 @@ void xDraw_OOTFit(Int_t year){
 
   //Fitter
   TObjArray *OOTtemplate = new TObjArray(3);
+  //H_phoEBprompt_SeedTime->Scale(1/H_phoEBprompt_SeedTime->Integral(1, -1));
+  //H_ootBH210_SeedTime->Scale(1/H_ootBH210_SeedTime->Integral());
+  //H_ootSP210_SeedTime->Scale(1/H_ootSP210_SeedTime->Integral());
+  
   OOTtemplate->Add(H_phoEBprompt_SeedTime);
   OOTtemplate->Add(H_ootBH210_SeedTime);
   OOTtemplate->Add(H_ootSP210_SeedTime);
 
   TFractionFitter *fit = new TFractionFitter(H_phoEB_SeedTime, OOTtemplate);
   fit->Constrain(0, 0, 10);
-  fit->Constrain(1, 0.0009, 0.05);
+  fit->Constrain(1, 0.0009, 0.045);
   fit->Constrain(2, 0.0009, 0.05);
   Int_t status = fit->Fit();
   cout << "Fit status : " << status << endl;
@@ -224,11 +228,11 @@ void xDraw_OOTFit(Int_t year){
     //HP_fitresult_SeedTime->Add((TH1F*)fit->GetMCPrediction(1));
     //HP_fitresult_SeedTime->Add((TH1F*)fit->GetMCPrediction(2));
    
-    HP_phoEBprompt_SeedTime = (TH1F*)fit->GetMCPrediction(0);
-    HP_ootBH210_SeedTime = (TH1F*)fit->GetMCPrediction(1);
-    HP_ootSP210_SeedTime = (TH1F*)fit->GetMCPrediction(2);
+    //HP_phoEBprompt_SeedTime = (TH1F*)fit->GetMCPrediction(0);
+    //HP_ootBH210_SeedTime = (TH1F*)fit->GetMCPrediction(1);
+    //HP_ootSP210_SeedTime = (TH1F*)fit->GetMCPrediction(2);
     
-    /*
+    
     HP_phoEBprompt_SeedTime = (TH1F*)H_phoEBprompt_SeedTime->Clone();
     HP_ootBH210_SeedTime = (TH1F*)H_ootBH210_SeedTime->Clone();
     HP_ootSP210_SeedTime = (TH1F*)H_ootSP210_SeedTime->Clone();
@@ -236,7 +240,7 @@ void xDraw_OOTFit(Int_t year){
     HP_phoEBprompt_SeedTime->Scale(fityield*par0/(H_phoEBprompt_SeedTime->Integral(1, -1)));
     HP_ootBH210_SeedTime->Scale(fityield*par1/(H_ootBH210_SeedTime->Integral(1, -1)));
     HP_ootSP210_SeedTime->Scale(fityield*par2/(H_ootSP210_SeedTime->Integral(1, -1)));
-    */
+    
      
     //HP_fitresult_SeedTime->Add(HP_phoEBprompt_SeedTime);
     //HP_fitresult_SeedTime->Add(HP_ootBH210_SeedTime);
@@ -344,7 +348,7 @@ void xDraw_OOTFit(Int_t year){
   CMS_lumi(pad1, period, 0);
   c1->Update();
   c1->RedrawAxis();
-  c1->SaveAs(Form("%s/%s_FitterMC.pdf", saveto, title));
+  c1->SaveAs(Form("%s/%s_METcut.pdf", saveto, title));
   
   HP_fitresult_SeedTime->Draw("EP");
 }
