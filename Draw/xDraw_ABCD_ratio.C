@@ -69,7 +69,6 @@ void xDraw_ABCD_ratio(Int_t year){
     //H_MET_Nm1_djetMETPhim0p5[jj] = (TH1F*)fopen->Get(Form("SMandVBS/h_MET_Nm1_djetMETPhim0p5_%i", jj));
     H_MET_Nm1[jj]->SetDirectory(0);
     //H_MET_Nm1_djetMETPhim0p5[jj]->SetDirectory(0);
-
     H_MET_Nm1_djetMETPhi_SB[jj] = (TH1F*)fopen->Get(Form("h_MET_Nm1/h_MET_Nm1_djetMETPhi_SB0p5_%i", jj));
     H_MET_Nm1_djetMETPhi_SB[jj]->SetDirectory(0);
   }
@@ -97,9 +96,9 @@ void xDraw_ABCD_ratio(Int_t year){
     A_yield[jj] = HD_MET_Nm1[jj]->Integral(6, -1);
     //B_yield[jj] = HD_MET_Nm1_djetMETPhim0p5[jj]->Integral(5, -1);
     B_yield[jj] = HD_MET_Nm1_djetMETPhi_SB[jj]->Integral(6, -1);
-    C_yield[jj] = HD_MET_Nm1[jj]->Integral(1, 5);
+    C_yield[jj] = H_MET_Nm1[jj]->Integral(6, -1);
     //D_yield[jj] = H_MET_Nm1_djetMETPhim0p5[jj]->Integral(1, 4);
-    D_yield[jj] = HD_MET_Nm1_djetMETPhi_SB[jj]->Integral(1, 5);
+    D_yield[jj] = H_MET_Nm1_djetMETPhi_SB[jj]->Integral(6, -1);
     cout << D_yield[jj] << " ";
     
     H_Ayield[jj] = new TH1F(Form("H_Ayield_%i", jj), "H_Ayield", 60, 0, 1200);
@@ -306,8 +305,8 @@ void xDraw_ABCD_ratio(Int_t year){
 
   for(Int_t jj=0; jj<nhisto; jj++){
     ftext << "cutflow " << jj << endl;
-    ftext << "A_yield : " << A_yield[jj] << " C_yield : " << C_yield[jj] << " A/B(data) : " << A_yield[jj]/B_yield[jj] << endl;
-    ftext << "B_yield : " << B_yield[jj] << " D_yield : " << D_yield[jj] << " C/D(MC) : " << C_yield[jj]/D_yield[jj] << endl;
+    ftext << "A_yield : " << A_yield[jj] << " C_yield : " << C_yield[jj] << " A/C(data) : " << A_yield[jj]/C_yield[jj] << endl;
+    ftext << "B_yield : " << B_yield[jj] << " D_yield : " << D_yield[jj] << " B/D(MC) : " << B_yield[jj]/D_yield[jj] << endl;
     ftext << "djetMETPhi ctrl yield : " << B_yield[jj]+D_yield[jj];
     ftext << " djetMETPhi sig yield : " << A_yield[jj]+C_yield[jj];
     ftext << " sig/ctrl : " << (A_yield[jj]+C_yield[jj]) / (B_yield[jj]+D_yield[jj]) << endl;

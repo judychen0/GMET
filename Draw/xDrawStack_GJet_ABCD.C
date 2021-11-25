@@ -10,7 +10,7 @@ using namespace std;
 #define nhisto 2
 #define njet 2
 #define ncolor 20
-#define GJetscale 0.139783
+#define GJetscale 0.68817
 
 TH1F* ratioplot(THStack* st, TH1F* h1){
 
@@ -109,7 +109,7 @@ void xDrawStack_GJet_ABCD(Int_t year){
     rootname[8] = "/home/judy/ntuhep/GMET/output_file/summer16/data/output_ggtree.root";
   }
   else if(year==2017){
-    rootname[0] = "/home/judy/ntuhep/GMET/output_file/fall17/data/output_ggtree.root";
+    rootname[0] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/GJet/output_merge_GJet.root";
     rootname[1] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/WJet/output_merge_WJet.root";
     rootname[2] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/ZJet/output_merge_ZJet.root";
     rootname[3] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/DYJet/output_merge_DYJet.root";
@@ -191,22 +191,23 @@ void xDrawStack_GJet_ABCD(Int_t year){
     for(Int_t jj=0; jj<nhisto; jj++){
       if(i==0){
 	
-	H_MET_cut[i][jj] = (TH1F*)fopen->Get(Form("h_MET_Nm1/h_MET_Nm1_djetMETPhi_SB0p5_%i", jj));
+	H_MET_cut[i][jj] = (TH1F*)fopen->Get(Form("SMandVBS/h_MET_cut_%i", jj));
 	for(Int_t ibin=0; ibin<5; ibin++){
 	  H_MET_cut[i][jj]->SetBinContent(ibin+1, 0);
 	}
 	
 	H_MET_cut[i][jj]->Scale(scale[i]*GJetscale);
+	//H_MET_cut[i][jj]->Rebin(2);
 	H_MET_cut[i][jj]->SetLineColor(1);
 	H_MET_cut[i][jj]->SetFillColor(cnum[i]);
 	H_MET_cut[i][jj]->SetLineWidth(1);
 	
-	HA_MET_cut[jj] = (TH1F*)fopen->Get(Form("h_MET_Nm1/h_MET_Nm1_djetMETPhi_SB0p5_%i", jj))->Clone();
+	HA_MET_cut[jj] = (TH1F*)fopen->Get(Form("SMandVBS/h_MET_cut_%i", jj))->Clone();
 	for(Int_t ibin=0; ibin<5; ibin++){
 	  HA_MET_cut[jj]->SetBinContent(ibin+1, 0);
 	}
 
-	//HA_MET_cut[jj]->Scale(scale[i]);
+	//HA_MET_cut[jj]->Scale(scale[i]*GJetscale);
 	HA_MET_cut[jj]->SetFillStyle(3145);
 	HA_MET_cut[jj]->SetFillColor(12);
 	HA_MET_cut[jj]->SetMarkerSize(0.1);
@@ -214,6 +215,8 @@ void xDrawStack_GJet_ABCD(Int_t year){
       }
       if(i>0){
 	H_MET_cut[i][jj] = (TH1F*)fopen->Get(Form("SMandVBS/h_MET_cut_%i", jj));
+	//H_MET_cut[i][jj]->Rebin(2);
+	  
 
 	if(i==nfile-2){
 	  HSig_MET_cut[jj] = (TH1F*)fopen->Get(Form("SMandVBS/h_MET_cut_%i", jj))->Clone();
