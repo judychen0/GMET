@@ -6,7 +6,7 @@
 #include "./Drawlumi/CMS_lumi.C"
 
 using namespace std;
-#define nfile 9
+#define nfile 12
 #define nhisto 2
 #define njet 2
 #define ncolor 20
@@ -68,7 +68,7 @@ TH1F* ratioplot(THStack* st, TH1F* h1){
 
 void xDrawStack_Nm2(Int_t year){
 
-  TString rootname[10];
+  TString rootname[20];
   TFile *fopen;
 
   Float_t entries = 1.0;
@@ -91,9 +91,12 @@ void xDrawStack_Nm2(Int_t year){
     lumi = lumi18;
   }
 
-  //Float_t xsec[10] = {1, 1, 1, 1, 192.3, 123.3, 750.5, 0.296};//[GJet, WJet, ZJet, DYJet, Wg, Zg, TTJet, Znng]
-  Float_t xsec[10] = {1, 1, 1, 1, 192.3, 123.3, 750.5, 0.018};//[GJet, WJet, ZJet, DYJet, Wg, Zg, TTJet, VBSZnunug]
-
+  //Float_t xsec[20] = {1, 1, 1, 1, 1, 1, 1, 192.3, 123.3, 750.5, 0.296};//[GJet, WJet, ZJet, DYJet, monoB, diB, triB, Wg, Zg, TTJet, Znng]
+  Float_t xsec[20] = {1, 1, 1, 1, 1, 1, 1, 192.3, 123.3, 750.5, 0.018};//[GJet, WJet, ZJet, DYJet, monoB, diB, triB, Wg, Zg, TTJet, ZnngVBS]
+  
+  Float_t filter[20] = {1., 1., 1., 1., 1., 1., 1.};
+  Float_t kfactor[20] = {1., 1., 1., 1., 1., 1., 1.};
+  
   if(year==2016){
     rootname[0] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/GJet/output_merge_GJet.root";
     rootname[1] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/WJet/output_merge_WJet.root";
@@ -110,29 +113,35 @@ void xDrawStack_Nm2(Int_t year){
     rootname[1] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/WJet/output_merge_WJet.root";
     rootname[2] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/ZJet/output_merge_ZJet.root";
     rootname[3] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/DYJet/output_merge_DYJet.root";
-    rootname[4] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_Wg_aMCatNLO/output_ggtree.root";
-    rootname[5] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_Zg_aMCatNLO/output_ggtree.root";
-    rootname[6] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_TT_aMCatNLO/output_ggtree.root";
-    //rootname[7] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_Znunug_pt130/output_ggtree.root";
-    rootname[7] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_UL17_Znunug_VBS/output_ggtree.root";
-    rootname[8] = "/home/judy/ntuhep/GMET/output_file/fall17/data/output_ggtree.root";
+    rootname[4] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/monoboson/output_merge_monoBoson.root";
+    rootname[5] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/diboson/output_merge_diBoson.root";
+    rootname[6] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/triboson/output_merge_triBoson.root";
+    rootname[7] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_Wg_aMCatNLO/output_ggtree.root";
+    rootname[8] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_Zg_aMCatNLO/output_ggtree.root";
+    rootname[9] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_TT_aMCatNLO/output_ggtree.root";
+    //rootname[10] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_Znunug_pt130/output_ggtree.root";
+    rootname[10] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_UL17_Znunug_VBS/output_ggtree.root";
+    rootname[11] = "/home/judy/ntuhep/GMET/output_file/fall17/data/output_ggtree.root";
   }
   else if(year==2018){
     rootname[0] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/GJet/output_merge_GJet.root";
     rootname[1] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/WJet/output_merge_WJet.root";
     rootname[2] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/ZJet/output_merge_ZJet.root";
     rootname[3] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/DYJet/output_merge_DYJet.root";
-    rootname[4] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/job_autumn18_Wg_aMCatNLO/output_ggtree.root";
-    rootname[5] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/job_autumn18_Zg_aMCatNLO/output_ggtree.root";
-    rootname[6] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/job_autumn18_TT_aMCatNLO/output_ggtree.root";
-    rootname[7] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/job_autumn18_Znunug_pt130/output_ggtree.root";
-    rootname[7] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/job_UL18_Znunug_VBS/output_ggtree.root";
-    rootname[8] = "/home/judy/ntuhep/GMET/output_file/autumn18/data/output_ggtree.root";
+    rootname[4] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/monoboson/output_merge_monoBoson.root";
+    rootname[5] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/diboson/output_merge_diBoson.root";
+    rootname[6] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/triboson/output_merge_triBoson.root";
+    rootname[7] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/job_autumn18_Wg_aMCatNLO/output_ggtree.root";
+    rootname[8] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/job_autumn18_Zg_aMCatNLO/output_ggtree.root";
+    rootname[9] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/job_autumn18_TT_aMCatNLO/output_ggtree.root";
+    rootname[10] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/job_autumn18_Znunug_pt130/output_ggtree.root";
+    //rootname[10] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/job_UL18_Znunug_VBS/output_ggtree.root";
+    rootname[11] = "/home/judy/ntuhep/GMET/output_file/autumn18/data/output_ggtree.root";
   }
 
   for(Int_t i=0; i<nfile-1; i++){
     fopen = new TFile(rootname[i]);
-    if((i<nfile-1) && i>=4){
+    if((i<nfile-1) && i>=7){
       H_Events[i] = (TH1F*)fopen->Get("hEvents");
       //HSumofGenW[i] = (TH1F*)fopen->Get("hSumofGenW");
       HSumofGenW[i] = (TH1F*)fopen->Get("hSumGenWeight");
@@ -146,10 +155,10 @@ void xDrawStack_Nm2(Int_t year){
       cout << "print " << entries << " " << outentries << " " << scale[i]<< endl;
     }
     //if(i==nfile-1 || i<3) scale = 1.0;
-    if(i<4) scale[i] = 1.0;
+    if(i<7) scale[i] = 1.0;
   }
   
-  string hexcolor[ncolor] = {"#fff176", "#03a9f4", "#ff3360", "#3d5afe", "#ff9e00", "#00FFFF", "#FFCCCC", "#67ccc1"};
+  string hexcolor[ncolor] = {"#fff176", "#03a9f4", "#ff3360", "#3d5afe", "#b23b8c", "#96ff5a", "#a983d3", "#ff9e00", "#00FFFF", "#FFCCCC", "#67ccc1"};
   //string hexcolor[ncolor] = {"#fff176", "#03a9f4", "#ff3360", "#c144ae", "#3d5afe", "#ff9e00", "#00FFFF", "#FFCCCC", "#67ccc1"};//QCD
   TColor *color[ncolor];
   Int_t cnum[ncolor];
@@ -172,6 +181,9 @@ void xDrawStack_Nm2(Int_t year){
   TH1F *HA_MET_Nm1_djetMETPhim0p5[nhisto];
   TH1F *HA_MET_Nm1_METm100[nhisto];
 
+  TH1F *HSig_MET_Nm1_djetMETPhim0p5[nhisto];
+  TH1F *HSig_MET_Nm1_METm100[nhisto];
+
   const char *title;
   //const char *saveto = "/home/judy/ntuhep/GJet/summer16_Zg_EWK/"; 
   const char *saveto = ".";
@@ -182,43 +194,62 @@ void xDrawStack_Nm2(Int_t year){
 
     for(Int_t jj=0; jj<nhisto; jj++){
       cout<< "nfile " << i<< endl;
-      H_MET_Nm1_djetMETPhim0p5[i][jj] = (TH1F*)fopen->Get(Form("SMandVBS/h_MET_Nm1_djetMETPhim0p5_%i", jj));
-      H_MET_Nm1_METm100[i][jj] = (TH1F*)fopen->Get(Form("SMandVBS/h_MET_Nm1_METm100_%i", jj));
+      //H_MET_Nm1_djetMETPhim0p5[i][jj] = (TH1F*)fopen->Get(Form("SMandVBS/h_MET_Nm1_djetMETPhim0p5_%i", jj));
+      H_MET_Nm1_djetMETPhim0p5[i][jj] = (TH1F*)fopen->Get(Form("h_MET_Nm1/h_MET_Nm1_djetMETPhi_SB0p5_%i", jj));
+      //H_MET_Nm1_METm100[i][jj] = (TH1F*)fopen->Get(Form("SMandVBS/h_MET_Nm1_METm100_%i", jj));
 
       if(i==0){
-	HA_MET_Nm1_djetMETPhim0p5[jj] = (TH1F*)fopen->Get(Form("SMandVBS/h_MET_Nm1_djetMETPhim0p5_%i", jj))->Clone();
-	HA_MET_Nm1_METm100[jj] = (TH1F*)fopen->Get(Form("SMandVBS/h_MET_Nm1_METm100_%i", jj))->Clone();
+	//HA_MET_Nm1_djetMETPhim0p5[jj] = (TH1F*)fopen->Get(Form("SMandVBS/h_MET_Nm1_djetMETPhim0p5_%i", jj))->Clone();
+	HA_MET_Nm1_djetMETPhim0p5[jj] = (TH1F*)fopen->Get(Form("h_MET_Nm1/h_MET_Nm1_djetMETPhi_SB0p5_%i", jj))->Clone();
+	//HA_MET_Nm1_METm100[jj] = (TH1F*)fopen->Get(Form("SMandVBS/h_MET_Nm1_METm100_%i", jj))->Clone();
 
 	HA_MET_Nm1_djetMETPhim0p5[jj]->Scale(scale[i]);
-	HA_MET_Nm1_METm100[jj]->Scale(scale[i]);
+	//HA_MET_Nm1_METm100[jj]->Scale(scale[i]);
 
 	HA_MET_Nm1_djetMETPhim0p5[jj]->SetFillStyle(3145);
-	HA_MET_Nm1_METm100[jj]->SetFillStyle(3145);
+	//HA_MET_Nm1_METm100[jj]->SetFillStyle(3145);
 
 	HA_MET_Nm1_djetMETPhim0p5[jj]->SetFillColor(12);
-	HA_MET_Nm1_METm100[jj]->SetFillColor(12);
+	//HA_MET_Nm1_METm100[jj]->SetFillColor(12);
+
+	HA_MET_Nm1_djetMETPhim0p5[jj]->SetMarkerSize(0.1);
+      }
+
+      if(i==nfile-2){
+	//HSig_MET_Nm1_djetMETPhim0p5[jj] = (TH1F*)fopen->Get(Form("SMandVBS/h_MET_Nm1_djetMETPhim0p5_%i", jj))->Clone();
+	HSig_MET_Nm1_djetMETPhim0p5[jj] = (TH1F*)fopen->Get(Form("h_MET_Nm1/h_MET_Nm1_djetMETPhi_SB0p5_%i", jj))->Clone();
+	//HSig_MET_Nm1_METm100[jj] = (TH1F*)fopen->Get(Form("SMandVBS/h_MET_Nm1_METm100_%i", jj))->Clone();
+
+	HSig_MET_Nm1_djetMETPhim0p5[jj]->Scale(scale[i]);
+	//HSig_MET_Nm1_METm100[jj]->Scale(scale[i]);
+
+	HSig_MET_Nm1_djetMETPhim0p5[jj]->SetLineColor(kRed);
+	//HSig_MET_Nm1_METm100[jj]->SetLineColor(kRed);
+
+	HSig_MET_Nm1_djetMETPhim0p5[jj]->SetLineWidth(2);
+	//HSig_MET_Nm1_METm100[jj]->SetLineWidth(2);
       }
 
       H_MET_Nm1_djetMETPhim0p5[i][jj]->Scale(scale[i]);
-      H_MET_Nm1_METm100[i][jj]->Scale(scale[i]);
+      //H_MET_Nm1_METm100[i][jj]->Scale(scale[i]);
 
       if(i<nfile-1){
 	H_MET_Nm1_djetMETPhim0p5[i][jj]->SetFillColor(cnum[i]);
-	H_MET_Nm1_METm100[i][jj]->SetFillColor(cnum[i]);
+	//H_MET_Nm1_METm100[i][jj]->SetFillColor(cnum[i]);
       }
 
       H_MET_Nm1_djetMETPhim0p5[i][jj]->SetLineColor(1);
-      H_MET_Nm1_METm100[i][jj]->SetLineColor(1);
+      //H_MET_Nm1_METm100[i][jj]->SetLineColor(1);
 
       if(i == nfile-1){
 	H_MET_Nm1_djetMETPhim0p5[i][jj]->SetLineWidth(2);
-	H_MET_Nm1_METm100[i][jj]->SetLineWidth(2);
+	//H_MET_Nm1_METm100[i][jj]->SetLineWidth(2);
 
 	H_MET_Nm1_djetMETPhim0p5[i][jj]->SetMarkerStyle(8);
-	H_MET_Nm1_METm100[i][jj]->SetMarkerStyle(8);
+	//H_MET_Nm1_METm100[i][jj]->SetMarkerStyle(8);
 
 	H_MET_Nm1_djetMETPhim0p5[i][jj]->SetMarkerSize(0.9);
-	H_MET_Nm1_METm100[i][jj]->SetMarkerSize(0.9);
+	//H_MET_Nm1_METm100[i][jj]->SetMarkerSize(0.9);
       }
     }
     
@@ -228,7 +259,7 @@ void xDrawStack_Nm2(Int_t year){
     if(i>0){
       for(Int_t jj=0; jj<2; jj++){
 	HA_MET_Nm1_djetMETPhim0p5[jj]->Add(H_MET_Nm1_djetMETPhim0p5[i][jj]);
-	HA_MET_Nm1_METm100[jj]->Add(H_MET_Nm1_METm100[i][jj]);
+	//HA_MET_Nm1_METm100[jj]->Add(H_MET_Nm1_METm100[i][jj]);
 	
       }
     }
@@ -238,22 +269,23 @@ void xDrawStack_Nm2(Int_t year){
   THStack *HS_MET_Nm1_METm100[nhisto];
 
   for(Int_t jj=0; jj<2; jj++){
-    HS_MET_Nm1_djetMETPhim0p5[jj] = new THStack(Form("HS_MET_Nm1_djetMETPhim0p5_%i", jj), "HS_MET_Nm1_djetMETPhim0p5");
-    HS_MET_Nm1_METm100[jj] = new THStack(Form("HS_MET_Nm1_METm100_%i", jj), "HS_MET_Nm1_METm100");
+    //HS_MET_Nm1_djetMETPhim0p5[jj] = new THStack(Form("HS_MET_Nm1_djetMETPhim0p5_%i", jj), "HS_MET_Nm1_djetMETPhim0p5");
+    HS_MET_Nm1_djetMETPhim0p5[jj] = new THStack(Form("HS_MET_Nm1_djetMETPhi_SB0p5_%i", jj), "HS_MET_Nm1_djetMETPhim0p5");
+    //HS_MET_Nm1_METm100[jj] = new THStack(Form("HS_MET_Nm1_METm100_%i", jj), "HS_MET_Nm1_METm100");
   }
 
   for(Int_t i=0; i<nfile-1; i++){
     for(Int_t jj=0; jj<nhisto; jj++){
       HS_MET_Nm1_djetMETPhim0p5[jj]->Add(H_MET_Nm1_djetMETPhim0p5[i][jj]);
-      HS_MET_Nm1_METm100[jj]->Add(H_MET_Nm1_METm100[i][jj]);
+      //HS_MET_Nm1_METm100[jj]->Add(H_MET_Nm1_METm100[i][jj]);
     }
   }
 
-  TLegend *lhs = new TLegend(0.58, 0.7, 0.92, 0.90);//VBS
+  TLegend *lhs = new TLegend(0.52, 0.66, 0.92, 0.90);//VBS//VBS
   lhs->SetTextSize(0.035);
   lhs->SetFillStyle(0);
-  //TString ltext[10] = {"#gamma+jet", "W(#rightarrowl#nu)+jets", "Z(#rightarrow#nu#nu)+jets", "Z(#rightarrowll)+jets", "Wg#rightarrowl#nug", "Zg#rightarrowllg", "ttJets", "Zg#rightarrow#nu#nug", "DATA"};//Znunug QCD
-  TString ltext[10] = {"#gamma+jet", "W(#rightarrowl#nu)+jets", "Z(#rightarrow#nu#nu)+jets", "Z(#rightarrowll)+jets", "Wg#rightarrowl#nug", "Zg#rightarrowllg", "ttJets", "Zg#rightarrow#nu#nug(VBS)", "DATA"};//Znunug VBS
+  //TString ltext[20] = {"#gamma+jet", "W(#rightarrowl#nu)+jets", "Z(#rightarrow#nu#nu)+jets", "Z(#rightarrowll)+jets", "Monoboson", "Diboson", "Triboson", "Wg#rightarrowl#nug", "Zg#rightarrowllg", "ttJets", "Zg#rightarrow#nu#nug", "DATA"};//Znunug QCD
+  TString ltext[20] = {"#gamma+jet", "W(#rightarrowl#nu)+jets", "Z(#rightarrow#nu#nu)+jets", "Z(#rightarrowll)+jets", "Monoboson", "Diboson", "Triboson", "Wg#rightarrowl#nug", "Zg#rightarrowllg", "ttJets", "Zg#rightarrow#nu#nug(VBS)", "DATA"};//Znunug VBS
 
   TH1F *hratio;
   Double_t x[3] = {-2000, 0.0, 2000};
@@ -291,6 +323,7 @@ void xDrawStack_Nm2(Int_t year){
     pad1->cd();
     HS_MET_Nm1_djetMETPhim0p5[jj]->Draw("HIST");
     H_MET_Nm1_djetMETPhim0p5[nfile-1][jj]->Draw("SAME");
+    HSig_MET_Nm1_djetMETPhim0p5[jj]->Draw("HISTSAME");
     HA_MET_Nm1_djetMETPhim0p5[jj]->Draw("E2 SAME");
     HS_MET_Nm1_djetMETPhim0p5[jj]->GetYaxis()->SetTitle("Events");
     HS_MET_Nm1_djetMETPhim0p5[jj]->GetXaxis()->SetTitle("");
@@ -300,8 +333,10 @@ void xDrawStack_Nm2(Int_t year){
     lhs->Clear();
     lhs->SetNColumns(2);
     for(Int_t ifile=0; ifile<nfile; ifile++){
-      if(ifile < nfile-1) lhs->AddEntry(H_MET_Nm1_djetMETPhim0p5[ifile][jj], ltext[ifile], "F");
+      
       if(ifile == nfile-1) lhs->AddEntry(H_MET_Nm1_djetMETPhim0p5[ifile][jj], ltext[ifile], "PL");
+      if(ifile == nfile-2) lhs->AddEntry(HSig_MET_Nm1_djetMETPhim0p5[jj], ltext[ifile], "L");
+      if(ifile < nfile-1) lhs->AddEntry(H_MET_Nm1_djetMETPhim0p5[ifile][jj], ltext[ifile], "F");
     }
     lhs->Draw("SAME");
     title = HS_MET_Nm1_djetMETPhim0p5[jj]->GetName();
@@ -315,7 +350,8 @@ void xDrawStack_Nm2(Int_t year){
     c1->Update();
     c1->RedrawAxis();
     c1->SaveAs(Form("%s/%s.pdf", saveto, title));
-    
+
+    /*
     pad1->cd();
     HS_MET_Nm1_METm100[jj]->Draw("HIST");
     H_MET_Nm1_METm100[nfile-1][jj]->Draw("SAME");
@@ -343,7 +379,7 @@ void xDrawStack_Nm2(Int_t year){
     c1->Update();
     c1->RedrawAxis();
     c1->SaveAs(Form("%s/%s.pdf", saveto, title));
-    
+    */
   }
   
 }
