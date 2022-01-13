@@ -28,6 +28,14 @@ void METXYshift(Int_t year, char* sample, TreeReader &data, vector<float>& corrX
 			     "job_SinglePho_Run2017F_UL",
   };
 
+  string samplelist17[30] = {
+			     "job_SinglePho_Run2017B_MarReminiAOD",
+			     "job_SinglePho_Run2017C_MarReminiAOD",
+			     "job_SinglePho_Run2017D_MarReminiAOD",
+			     "job_SinglePho_Run2017E_MarReminiAOD",
+			     "job_SinglePho_Run2017F_MarReminiAOD",
+  };
+
   string samplelist18[30] = {
 			     "job_EGamma_Run2018A_UL",
 			     "job_EGamma_Run2018B_UL",
@@ -52,6 +60,15 @@ void METXYshift(Int_t year, char* sample, TreeReader &data, vector<float>& corrX
 			    {  0.3083,  0.2294, 0.2047, 0.1340, 0.2281},
 			    { -0.8289, -0.1217, 0.1419, 0.8226, 0.1968}
   };//data
+
+  Float_t CorrX17[2][30] = {
+			    { -0.2488, -0.1886, -0.2227, -0.1815, -0.2331},
+			    {  1.8578,  0.4561,  1.1730,  0.7172,  1.1325}
+  };//legacy data
+  Float_t CorrY17[2][30] = {
+			    {  0.3853,  0.2766, 0.2571, 0.1953, 0.2983},
+			    { -1.2668, -0.3280, 0.1425, 0.7278, 2.5111}
+  };//legacy data
 
   Float_t CorrX18[2][30] = {
 			    { 0.28741,  0.47724,  0.50605,  0.53609},
