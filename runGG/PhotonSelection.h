@@ -314,7 +314,7 @@ Int_t Nm2_sel(Int_t IDbit, Int_t ibit, Int_t ibit_nd){
   
   Int_t npass = 0;
   for(Int_t i=0; i<ncut; i++){
-    if(i!=ibit || i!=ibit_nd){
+    if(i!=ibit && i!=ibit_nd){
       if((IDbit>>i&1) == 1) npass++;
     }
   }
