@@ -1,0 +1,2 @@
+/data6/ggNtuples/V10_06_20_00/job_UL18_Znunug_VBS/
+/data6/ggNtuples/V10_02_10_07/job_autumn18_Znunug_pt130/
