@@ -1,0 +1,4 @@
+/data3/ggNtuples/V10_06_20_00/job_EGamma_Run2018A_UL/
+/data3/ggNtuples/V10_06_20_00/job_EGamma_Run2018B_UL/
+/data3/ggNtuples/V10_06_20_00/job_EGamma_Run2018C_UL/
+/data3/ggNtuples/V10_06_20_00/job_EGamma_Run2018D_UL/

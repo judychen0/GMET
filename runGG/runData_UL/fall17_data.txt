@@ -1,0 +1,5 @@
+/data3/ggNtuples/V10_06_20_00/job_SinglePho_Run2017B_UL/
+/data3/ggNtuples/V10_06_20_00/job_SinglePho_Run2017C_UL/
+/data3/ggNtuples/V10_06_20_00/job_SinglePho_Run2017D_UL/
+/data3/ggNtuples/V10_06_20_00/job_SinglePho_Run2017E_UL/
+/data3/ggNtuples/V10_06_20_00/job_SinglePho_Run2017F_UL/
