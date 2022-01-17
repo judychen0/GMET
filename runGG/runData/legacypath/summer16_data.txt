@@ -1,0 +1,11 @@
+/data1/ggNtuples/V10_02_10_07/job_SinglePho_Run2016B_Legacy/
+/data1/ggNtuples/V10_02_10_07/job_SinglePho_Run2016C_Legacy/
+/data1/ggNtuples/V10_02_10_07/job_SinglePho_Run2016D_Legacy/
+/data1/ggNtuples/V10_02_10_07/job_SinglePho_Run2016E_Legacy/
+/data1/ggNtuples/V10_02_10_07/job_SinglePho_Run2016F_Legacy/
+/data1/ggNtuples/V10_02_10_07/job_SinglePho_Run2016G_Legacy/
+/data1/ggNtuples/V10_02_10_07/job_SinglePho_Run2016H_Legacy/
+
+
+
+

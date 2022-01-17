@@ -1,0 +1,5 @@
+/data1/ggNtuples/V10_02_10_07/job_SinglePho_Run2017B_MarReminiAOD/
+/data1/ggNtuples/V10_02_10_07/job_SinglePho_Run2017C_MarReminiAOD/
+/data1/ggNtuples/V10_02_10_07/job_SinglePho_Run2017D_MarReminiAOD/
+/data1/ggNtuples/V10_02_10_07/job_SinglePho_Run2017E_MarReminiAOD/
+/data1/ggNtuples/V10_02_10_07/job_SinglePho_Run2017F_MarReminiAOD/

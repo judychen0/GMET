@@ -1,0 +1,4 @@
+/data1/ggNtuples/V10_02_10_07/job_EGamma_Run2018A_EarlyRereco/
+/data1/ggNtuples/V10_02_10_07/job_EGamma_Run2018B_EarlyRereco/
+/data1/ggNtuples/V10_02_10_07/job_EGamma_Run2018C_EarlyRereco/
+/data1/ggNtuples/V10_02_10_07/job_EGamma_Run2018D_22Jan2019/
