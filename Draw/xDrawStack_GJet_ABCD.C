@@ -3,14 +3,16 @@
 #include <cstring>
 #include <string>
 #include "TH1F.h"
-#include "./Drawlumi/CMS_lumi.C"
+#include "../Drawlumi/CMS_lumi.C"
 
 using namespace std;
 #define nfile 12
 #define nhisto 2
 #define njet 2
 #define ncolor 20
-#define GJetscale 0.68817
+#define GJetscale 0.9486 //2016
+//#define GJetscale 0.7283 //2017
+//#define GJetscale 1.42238 //2018
 
 TH1F* ratioplot(THStack* st, TH1F* h1){
 
@@ -98,48 +100,53 @@ void xDrawStack_GJet_ABCD(Int_t year){
   Float_t kfactor[20] = {1., 1., 1., 1., 1., 1., 1.};
 
   if(year==2016){
-    rootname[0] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/GJet/output_merge_GJet.root";
-    rootname[1] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/WJet/output_merge_WJet.root";
-    rootname[2] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/ZJet/output_merge_ZJet.root";
-    rootname[3] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/DYJet/output_merge_DYJet.root";
-    rootname[4] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/job_summer16_Wg_aMCatNLO/output_ggtree.root";
-    rootname[5] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/job_summer16_Zg_aMCatNLO/output_ggtree.root";
-    rootname[6] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/job_summer16_TT_aMCatNLO/output_ggtree.root";
-    rootname[7] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/job_summer16_Znunug_pt130/output_ggtree.root";
-    rootname[8] = "/home/judy/ntuhep/GMET/output_file/summer16/data/output_ggtree.root";
+    rootname[0] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/summer16/mc/GJet/output_merge_GJet.root";
+    rootname[1] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/summer16/mc/WJet/output_merge_WJet.root";
+    rootname[2] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/summer16/mc/ZJet/output_merge_ZJet.root";
+    rootname[3] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/summer16/mc/DYJet/output_merge_DYJet.root";
+    rootname[4] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/summer16/mc/monoboson/output_merge_monoBoson.root";
+    rootname[5] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/summer16/mc/diboson/output_merge_diBoson.root";
+    rootname[6] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/summer16/mc/triboson/output_merge_triBoson.root";
+    rootname[7] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/summer16/mc/job_summer16_Wg_aMCatNLO/output_ggtree.root";
+    rootname[8] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/summer16/mc/job_summer16_Zg_aMCatNLO/output_ggtree.root";
+    rootname[9] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/summer16/mc/job_summer16_TT_aMCatNLO/output_ggtree.root";
+    //rootname[10] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/job_summer16_Znunug_pt130/output_ggtree.root";
+    rootname[10] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/summer16/mc/job_UL17_Znunug_VBS/output_ggtree.root";
+    rootname[11] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/summer16/data/output_ggtree.root";
   }
   else if(year==2017){
-    rootname[0] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/GJet/output_merge_GJet.root";
-    rootname[1] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/WJet/output_merge_WJet.root";
-    rootname[2] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/ZJet/output_merge_ZJet.root";
-    rootname[3] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/DYJet/output_merge_DYJet.root";
-    rootname[4] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/monoboson/output_merge_monoBoson.root";
-    rootname[5] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/diboson/output_merge_diBoson.root";
-    rootname[6] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/triboson/output_merge_triBoson.root";
-    rootname[7] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_Wg_aMCatNLO/output_ggtree.root";
-    rootname[8] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_Zg_aMCatNLO/output_ggtree.root";
-    rootname[9] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_TT_aMCatNLO/output_ggtree.root";
+    rootname[0] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/fall17/mc/GJet/output_merge_GJet.root";
+    rootname[1] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/fall17/mc/WJet/output_merge_WJet.root";
+    rootname[2] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/fall17/mc/ZJet/output_merge_ZJet.root";
+    rootname[3] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/fall17/mc/DYJet/output_merge_DYJet.root";
+    rootname[4] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/fall17/mc/monoboson/output_merge_monoBoson.root";
+    rootname[5] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/fall17/mc/diboson/output_merge_diBoson.root";
+    rootname[6] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/fall17/mc/triboson/output_merge_triBoson.root";
+    rootname[7] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/fall17/mc/job_fall17_Wg_aMCatNLO/output_ggtree.root";
+    rootname[8] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/fall17/mc/job_fall17_Zg_aMCatNLO/output_ggtree.root";
+    rootname[9] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/fall17/mc/job_fall17_TT_aMCatNLO/output_ggtree.root";
     //rootname[10] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_Znunug_pt130/output_ggtree.root";
-    rootname[10] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_UL17_Znunug_VBS/output_ggtree.root";
-    rootname[11] = "/home/judy/ntuhep/GMET/output_file/fall17/data/output_ggtree.root";
+    rootname[10] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/fall17/mc/job_UL17_Znunug_VBS/output_ggtree.root";
+    rootname[11] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/fall17/data/output_ggtree.root";
   }
   else if(year==2018){
-    rootname[0] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/GJet/output_merge_GJet.root";
-    rootname[1] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/WJet/output_merge_WJet.root";
-    rootname[2] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/ZJet/output_merge_ZJet.root";
-    rootname[3] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/DYJet/output_merge_DYJet.root";
-    rootname[4] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/monoboson/output_merge_monoBoson.root";
-    rootname[5] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/diboson/output_merge_diBoson.root";
-    rootname[6] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/triboson/output_merge_triBoson.root";
-    rootname[7] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/job_autumn18_Wg_aMCatNLO/output_ggtree.root";
-    rootname[8] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/job_autumn18_Zg_aMCatNLO/output_ggtree.root";
-    rootname[9] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/job_autumn18_TT_aMCatNLO/output_ggtree.root";
-    rootname[10] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/job_autumn18_Znunug_pt130/output_ggtree.root";
+    rootname[0] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/autumn18/mc/GJet/output_merge_GJet.root";
+    rootname[1] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/autumn18/mc/WJet/output_merge_WJet.root";
+    rootname[2] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/autumn18/mc/ZJet/output_merge_ZJet.root";
+    rootname[3] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/autumn18/mc/DYJet/output_merge_DYJet.root";
+    rootname[4] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/autumn18/mc/monoboson/output_merge_monoBoson.root";
+    rootname[5] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/autumn18/mc/diboson/output_merge_diBoson.root";
+    rootname[6] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/autumn18/mc/triboson/output_merge_triBoson.root";
+    rootname[7] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/autumn18/mc/job_autumn18_Wg_aMCatNLO/output_ggtree.root";
+    rootname[8] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/autumn18/mc/job_autumn18_Zg_aMCatNLO/output_ggtree.root";
+    rootname[9] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/autumn18/mc/job_autumn18_TT_aMCatNLO_ext1/output_ggtree.root";
+    rootname[10] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/autumn18/mc/job_autumn18_Znunug_pt130/output_ggtree.root";
     //rootname[10] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/job_UL18_Znunug_VBS/output_ggtree.root";
-    rootname[11] = "/home/judy/ntuhep/GMET/output_file/autumn18/data/output_ggtree.root";
+    rootname[11] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211115/autumn18/data/output_ggtree.root";
   }
 
   for(Int_t i=0; i<nfile-1; i++){
+    if(i==10) continue;
     fopen = new TFile(rootname[i]);
     if((i<nfile-1) && i>=7){
       H_Events[i] = (TH1F*)fopen->Get("hEvents");
@@ -157,6 +164,7 @@ void xDrawStack_GJet_ABCD(Int_t year){
     //if(i==nfile-1 || i<3) scale = 1.0;
     if(i<7) scale[i] = 1.0;
   }
+  cout << "open fine" << endl;
 
   string hexcolor[ncolor] = {"#fff176", "#03a9f4", "#ff3360", "#3d5afe", "#b23b8c", "#96ff5a", "#a983d3", "#ff9e00", "#00FFFF", "#FFCCCC", "#67ccc1"};
   //string hexcolor[ncolor] = {"#fff176", "#03a9f4", "#ff3360", "#c144ae", "#3d5afe", "#ff9e00", "#00FFFF", "#FFCCCC", "#67ccc1"};//QCD
@@ -179,12 +187,10 @@ void xDrawStack_GJet_ABCD(Int_t year){
 
   const char *title;
   //const char *saveto = "/home/judy/ntuhep/GJet/summer16_Zg_EWK/"; 
-  const char *saveto = ".";
-
-  
-  
+  const char *saveto = ".";  
 
   for(Int_t i=0; i<nfile; i++){
+    if(i== 10) continue;//pass Zvv signal
     fopen = new TFile(rootname[i]);
     if(i==nfile-1) scale[i] = 1.0;
 
@@ -242,14 +248,19 @@ void xDrawStack_GJet_ABCD(Int_t year){
       }
     }
   }
+  
+  cout<< "get file fine" << endl;
 
   for(Int_t i=0; i<nfile-1; i++){
+    if(i==10) continue;//pass Zvv signal
     if(i>0){
       for(Int_t jj=0; jj<nhisto; jj++){
 	HA_MET_cut[jj]->Add(H_MET_cut[i][jj]);
       }
     }
   }
+  
+  cout<< "add mc fine" << endl;
 
   THStack *HS_MET_cut[nhisto];
   for(Int_t jj=0; jj<2; jj++){
@@ -257,10 +268,13 @@ void xDrawStack_GJet_ABCD(Int_t year){
   }
 
   for(Int_t i=0; i<nfile-1; i++){
+    if(i==10) continue;//pass Zvv signal
     for(Int_t jj=0; jj<nhisto; jj++){
       HS_MET_cut[jj]->Add(H_MET_cut[i][jj]);
     }
   }
+  
+  cout<< "stack mc fine" << endl;
 
   TLegend *lhs = new TLegend(0.52, 0.66, 0.92, 0.90);//VBS
   lhs->SetTextSize(0.035);
@@ -302,7 +316,7 @@ void xDrawStack_GJet_ABCD(Int_t year){
     pad1->cd();
     HS_MET_cut[jj]->Draw("HIST");
     H_MET_cut[nfile-1][jj]->Draw("SAME");
-    HSig_MET_cut[jj]->Draw("HISTSAME");
+    //HSig_MET_cut[jj]->Draw("HISTSAME");
     HA_MET_cut[jj]->Draw("E2 SAME");
     HS_MET_cut[jj]->GetYaxis()->SetTitle("Events");
     HS_MET_cut[jj]->GetXaxis()->SetTitle("");
@@ -314,6 +328,7 @@ void xDrawStack_GJet_ABCD(Int_t year){
     lhs->Clear();
     lhs->SetNColumns(2);
     for(Int_t ifile=0; ifile<nfile; ifile++){
+      if(ifile == 10) continue;
       if(ifile < nfile-1) lhs->AddEntry(H_MET_cut[ifile][jj], ltext[ifile], "F");
       if(ifile == nfile-1) lhs->AddEntry(H_MET_cut[ifile][jj], ltext[ifile], "PL");
       if(ifile == nfile-2) lhs->AddEntry(HSig_MET_cut[jj], ltext[ifile], "L");
@@ -331,5 +346,6 @@ void xDrawStack_GJet_ABCD(Int_t year){
     c1->RedrawAxis();
     c1->SaveAs(Form("%s/%s.pdf", saveto, title));
   }
+  cout<< "draw fine" << endl;
   
 }

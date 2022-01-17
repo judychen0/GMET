@@ -3,7 +3,7 @@
 #include <cstring>
 #include <string>
 #include "TH1F.h"
-#include "./Drawlumi/CMS_lumi.C"
+#include "../Drawlumi/CMS_lumi.C"
 using namespace std;
 #define nfile 12
 #define nhisto 2
@@ -65,6 +65,7 @@ TH1F* ratioplot(THStack* st, TH1F* h1){
   return ratio;
 }
 
+
 void xDrawStack_Nm1(Int_t year){
   TString rootname[20];
   TFile *fopen;
@@ -118,48 +119,55 @@ void xDrawStack_Nm1(Int_t year){
   
   
   if(year==2016){
-    rootname[0] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/GJet/output_merge_GJet.root";
-    rootname[1] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/WJet/output_merge_WJet.root";
-    rootname[2] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/ZJet/output_merge_ZJet.root";
-    rootname[3] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/DYJet/output_merge_DYJet.root";
-    rootname[4] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/job_summer16_Wg_aMCatNLO/output_ggtree.root";
-    rootname[5] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/job_summer16_Zg_aMCatNLO/output_ggtree.root";
-    rootname[6] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/job_summer16_TT_aMCatNLO/output_ggtree.root";
-    rootname[7] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/job_summer16_Znunug_pt130/output_ggtree.root";
-    rootname[8] = "/home/judy/ntuhep/GMET/output_file/summer16/data/output_ggtree.root";
+    rootname[0] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/summer16/mc/GJet/output_merge_GJet.root";
+    rootname[1] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/summer16/mc/WJet/output_merge_WJet.root";
+    rootname[2] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/summer16/mc/ZJet/output_merge_ZJet.root";
+    rootname[3] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/summer16/mc/DYJet/output_merge_DYJet.root";
+    rootname[4] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/summer16/mc/monoboson/output_merge_monoBoson.root";
+    rootname[5] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/summer16/mc/diboson/output_merge_diBoson.root";
+    rootname[6] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/summer16/mc/triboson/output_merge_triBoson.root";
+    rootname[7] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/summer16/mc/job_summer16_Wg_aMCatNLO/output_ggtree.root";
+    rootname[8] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/summer16/mc/job_summer16_Zg_aMCatNLO/output_ggtree.root";
+    rootname[9] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/summer16/mc/job_summer16_TT_aMCatNLO/output_ggtree.root";
+    //rootname[10] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/job_summer16_Znunug_pt130/output_ggtree.root";
+    rootname[10] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/summer16/mc/job_UL17_Znunug_VBS/output_ggtree.root";
+    //rootname[10] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/summer16/mc/job_summer16_Zg_EWK/output_ggtree.root";
+    rootname[11] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/summer16/data/output_ggtree.root";
   }
- else if(year==2017){
-   rootname[0] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/GJet/output_merge_GJet.root";
-    rootname[1] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/WJet/output_merge_WJet.root";
-    rootname[2] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/ZJet/output_merge_ZJet.root";
-    rootname[3] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/DYJet/output_merge_DYJet.root";
-    rootname[4] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/monoboson/output_merge_monoBoson.root";
-    rootname[5] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/diboson/output_merge_diBoson.root";
-    rootname[6] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/triboson/output_merge_triBoson.root";
-    rootname[7] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_Wg_aMCatNLO/output_ggtree.root";
-    rootname[8] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_Zg_aMCatNLO/output_ggtree.root";
-    rootname[9] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_TT_aMCatNLO/output_ggtree.root";
+  else if(year==2017){
+    rootname[0] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/fall17/mc/GJet/output_merge_GJet.root";
+    rootname[1] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/fall17/mc/WJet/output_merge_WJet.root";
+    rootname[2] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/fall17/mc/ZJet/output_merge_ZJet.root";
+    rootname[3] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/fall17/mc/DYJet/output_merge_DYJet.root";
+    rootname[4] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/fall17/mc/monoboson/output_merge_monoBoson.root";
+    rootname[5] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/fall17/mc/diboson/output_merge_diBoson.root";
+    rootname[6] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/fall17/mc/triboson/output_merge_triBoson.root";
+    rootname[7] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/fall17/mc/job_fall17_Wg_aMCatNLO/output_ggtree.root";
+    rootname[8] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/fall17/mc/job_fall17_Zg_aMCatNLO/output_ggtree.root";
+    rootname[9] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/fall17/mc/job_fall17_TT_aMCatNLO/output_ggtree.root";
     //rootname[10] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_Znunug_pt130/output_ggtree.root";
-    rootname[10] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_UL17_Znunug_VBS/output_ggtree.root";
-    rootname[11] = "/home/judy/ntuhep/GMET/output_file/fall17/data/output_ggtree.root";
+    rootname[10] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/fall17/mc/job_UL17_Znunug_VBS/output_ggtree.root";
+    //rootname[11] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/fall17/data/output_ggtree.root";
+    rootname[11] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/fall17/data/output_ggtree.root";
   }
   else if(year==2018){
-    rootname[0] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/GJet/output_merge_GJet.root";
-    rootname[1] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/WJet/output_merge_WJet.root";
-    rootname[2] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/ZJet/output_merge_ZJet.root";
-    rootname[3] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/DYJet/output_merge_DYJet.root";
-    rootname[4] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/monoboson/output_merge_monoBoson.root";
-    rootname[5] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/diboson/output_merge_diBoson.root";
-    rootname[6] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/triboson/output_merge_triBoson.root";
-    rootname[7] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/job_autumn18_Wg_aMCatNLO/output_ggtree.root";
-    rootname[8] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/job_autumn18_Zg_aMCatNLO/output_ggtree.root";
-    rootname[9] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/job_autumn18_TT_aMCatNLO/output_ggtree.root";
-    rootname[10] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/job_autumn18_Znunug_pt130/output_ggtree.root";
-    //rootname[10] = "/home/judy/ntuhep/GMET/output_file/autumn18/mc/job_UL18_Znunug_VBS/output_ggtree.root";
-    rootname[11] = "/home/judy/ntuhep/GMET/output_file/autumn18/data/output_ggtree.root";
+    rootname[0] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/autumn18/mc/GJet/output_merge_GJet.root";
+    rootname[1] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/autumn18/mc/WJet/output_merge_WJet.root";
+    rootname[2] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/autumn18/mc/ZJet/output_merge_ZJet.root";
+    rootname[3] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/autumn18/mc/DYJet/output_merge_DYJet.root";
+    rootname[4] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/autumn18/mc/monoboson/output_merge_monoBoson.root";
+    rootname[5] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/autumn18/mc/diboson/output_merge_diBoson.root";
+    rootname[6] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/autumn18/mc/triboson/output_merge_triBoson.root";
+    rootname[7] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/autumn18/mc/job_autumn18_Wg_aMCatNLO/output_ggtree.root";
+    rootname[8] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/autumn18/mc/job_autumn18_Zg_aMCatNLO/output_ggtree.root";
+    rootname[9] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/autumn18/mc/job_autumn18_TT_aMCatNLO_ext1/output_ggtree.root";
+    //rootname[10] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/autumn18/mc/job_autumn18_Znunug_pt130/output_ggtree.root";
+    rootname[10] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/autumn18/mc/job_UL18_Znunug_VBS/output_ggtree.root";
+    rootname[11] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/autumn18/data/output_ggtree.root";
   }
   
   for(Int_t i=0; i<nfile-1; i++){
+    //if(i==10) continue;//pass Zvv signal
     fopen = new TFile(rootname[i]);
      if((i<nfile-1) && i>=7){
       H_Events[i] = (TH1F*)fopen->Get("hEvents");
@@ -177,7 +185,8 @@ void xDrawStack_Nm1(Int_t year){
     //if(i==nfile-1 || i<3) scale = 1.0;
     if(i<7) scale[i] = 1.0;
   }
-
+  
+  cout << "pass scale" << endl;
   //string hexcolor[8] = {"#7FB5F5","#EFE2C9","#1C2A60","#FA6D5F","#1C6040","#DCF563", "#2F81A3","#91A81E"};
   //string hexcolor[ncolor] = {"#fff176", "#03a9f4", "#ff3360", "#ff9e00", "#00FFFF", "#eeff41", "#67ccc1", "#0066ff", "#4caf50"};
  string hexcolor[ncolor] = {"#fff176", "#03a9f4", "#ff3360", "#3d5afe", "#b23b8c", "#96ff5a", "#a983d3", "#ff9e00", "#00FFFF", "#FFCCCC", "#67ccc1"};
@@ -192,11 +201,15 @@ void xDrawStack_Nm1(Int_t year){
     char chararray[n+1];
     strcpy(chararray, hexcolor[j].c_str());
     cnum[j] = color[j]->GetColor(chararray);
-  } 
+  }
 
   TCanvas *c1 = new TCanvas("c1");
   TTree *t;
-
+  
+  TH1F *H_dr_jetjet_Nm1[nfile];
+  TH1F *H_dEta_jetjet_Nm1[nfile];
+  TH1F *H_dijetMass_Nm1[nfile];
+  
   TH1F *H_SeedTime_Nm1[nfile][nhisto];
   TH1F *H_MET_Nm1[nfile][nhisto];
   TH1F *H_METPhi_Nm1[nfile][nhisto];
@@ -204,12 +217,20 @@ void xDrawStack_Nm1(Int_t year){
   TH1F *H_njet_Nm1[nfile][nhisto];
   TH1F *H_djetMETPhi_Nm1[nfile][nhisto][njet];
 
+  TH1F *HA_dr_jetjet_Nm1;
+  TH1F *HA_dEta_jetjet_Nm1;
+  TH1F *HA_dijetMass_Nm1;
+  
   TH1F *HA_SeedTime_Nm1[nhisto];
   TH1F *HA_MET_Nm1[nhisto];
   TH1F *HA_METPhi_Nm1[nhisto];
   TH1F *HA_dphoMETPhi_Nm1[nhisto];
   TH1F *HA_njet_Nm1[nhisto];
   TH1F *HA_djetMETPhi_Nm1[nhisto][njet];
+
+  TH1F *HSig_dr_jetjet_Nm1;
+  TH1F *HSig_dEta_jetjet_Nm1;
+  TH1F *HSig_dijetMass_Nm1;
 
   TH1F *HSig_SeedTime_Nm1[nhisto];
   TH1F *HSig_MET_Nm1[nhisto];
@@ -224,8 +245,92 @@ void xDrawStack_Nm1(Int_t year){
   const char *saveto = ".";
 
   for(Int_t i=0; i<nfile; i++){
+    //if(i==10) continue;//pass Zvv signal
     fopen = new TFile(rootname[i]);
     if(i==nfile-1) scale[i] = 1.0;
+
+    H_dr_jetjet_Nm1[i]	= (TH1F*)fopen->Get("h_dr_jetjet_Nm1");
+    H_dEta_jetjet_Nm1[i]	= (TH1F*)fopen->Get("h_dEta_jetjet_Nm1");
+    H_dijetMass_Nm1[i]	= (TH1F*)fopen->Get("h_dijetMass_Nm1");
+    H_dijetMass_Nm1[i]->Rebin(8);
+
+    if(i==0){
+      HA_dr_jetjet_Nm1	= (TH1F*)fopen->Get("h_dr_jetjet_Nm1")->Clone();
+      HA_dEta_jetjet_Nm1	= (TH1F*)fopen->Get("h_dEta_jetjet_Nm1")->Clone();
+      HA_dijetMass_Nm1	= (TH1F*)fopen->Get("h_dijetMass_Nm1")->Clone();
+
+      ///
+      HA_dr_jetjet_Nm1->Scale(scale[i]);
+      HA_dEta_jetjet_Nm1->Scale(scale[i]);
+      HA_dijetMass_Nm1->Scale(scale[i]);
+      
+      HA_dr_jetjet_Nm1->SetFillStyle(3145);
+      HA_dEta_jetjet_Nm1->SetFillStyle(3145);
+      HA_dijetMass_Nm1->SetFillStyle(3145);
+
+      HA_dr_jetjet_Nm1->SetFillColor(12);
+      HA_dEta_jetjet_Nm1->SetFillColor(12);
+      HA_dijetMass_Nm1->SetFillColor(12);
+
+      HA_dr_jetjet_Nm1->SetMarkerSize(0.1);
+      HA_dEta_jetjet_Nm1->SetMarkerSize(0.1);
+      HA_dijetMass_Nm1->SetMarkerSize(0.1);
+    }
+
+    if(i==nfile-2){
+      HSig_dr_jetjet_Nm1	= (TH1F*)fopen->Get("h_dr_jetjet_Nm1")->Clone();
+      HSig_dEta_jetjet_Nm1	= (TH1F*)fopen->Get("h_dEta_jetjet_Nm1")->Clone();
+      HSig_dijetMass_Nm1	= (TH1F*)fopen->Get("h_dijetMass_Nm1")->Clone();
+    
+      HSig_dr_jetjet_Nm1->Scale(scale[i]);
+      HSig_dEta_jetjet_Nm1->Scale(scale[i]);
+      HSig_dijetMass_Nm1->Scale(scale[i]);
+
+      HSig_dr_jetjet_Nm1->SetLineColor(kRed);
+      HSig_dEta_jetjet_Nm1->SetLineColor(kRed);
+      HSig_dijetMass_Nm1->SetLineColor(kRed);
+
+      HSig_dr_jetjet_Nm1->SetLineWidth(2);
+      HSig_dEta_jetjet_Nm1->SetLineWidth(2);
+      HSig_dijetMass_Nm1->SetLineWidth(2);
+
+    }
+
+    H_dr_jetjet_Nm1[i]->Scale(scale[i]);
+    H_dEta_jetjet_Nm1[i]->Scale(scale[i]);
+    H_dijetMass_Nm1[i]->Scale(scale[i]);
+
+    if(i<nfile-1){
+      H_dr_jetjet_Nm1[i]->SetFillColor(cnum[i]);
+      H_dEta_jetjet_Nm1[i]->SetFillColor(cnum[i]);
+      H_dijetMass_Nm1[i]->SetFillColor(cnum[i]);
+      
+    }
+
+    H_dr_jetjet_Nm1[i]->SetLineColor(1);
+    H_dEta_jetjet_Nm1[i]->SetLineColor(1);
+    H_dijetMass_Nm1[i]->SetLineColor(1);
+
+    H_dr_jetjet_Nm1[i]->SetLineWidth(1);
+    H_dEta_jetjet_Nm1[i]->SetLineWidth(1);
+    H_dijetMass_Nm1[i]->SetLineWidth(1);
+
+    if(i==nfile-1){
+
+      H_dr_jetjet_Nm1[i]->SetLineWidth(2);
+      H_dEta_jetjet_Nm1[i]->SetLineWidth(2);
+      H_dijetMass_Nm1[i]->SetLineWidth(2);
+
+      H_dr_jetjet_Nm1[i]->SetMarkerStyle(8);
+      H_dEta_jetjet_Nm1[i]->SetMarkerStyle(8);
+      H_dijetMass_Nm1[i]->SetMarkerStyle(8);
+    
+      H_dr_jetjet_Nm1[i]->SetMarkerSize(0.9);
+      H_dEta_jetjet_Nm1[i]->SetMarkerSize(0.9);
+      H_dijetMass_Nm1[i]->SetMarkerSize(0.9);
+
+    }
+
     for(Int_t jj=0; jj<nhisto; jj++){
       
       //H_SeedTime_Nm1[i][jj] = (TH1F*)fopen->Get(Form("SMandVBS/h_SeedTime_Nm1_%i", jj));
@@ -370,8 +475,15 @@ void xDrawStack_Nm1(Int_t year){
     }
   }
 
+  cout << "pass get file" << endl;
+
   for(Int_t i=0; i<nfile-1; i++){
+    //if(i==10) continue;
     if(i>0){
+      HA_dr_jetjet_Nm1->Add(H_dr_jetjet_Nm1[i]);
+      HA_dEta_jetjet_Nm1->Add(H_dEta_jetjet_Nm1[i]);
+      HA_dijetMass_Nm1->Add(H_dijetMass_Nm1[i]);
+      
       for(Int_t jj=0; jj<2; jj++){
 	HA_MET_Nm1[jj]->Add(H_MET_Nm1[i][jj]);
 	HA_METPhi_Nm1[jj]->Add(H_METPhi_Nm1[i][jj]);
@@ -384,12 +496,22 @@ void xDrawStack_Nm1(Int_t year){
     }
   }
 
+  cout << "pass add" << endl;
+
+  THStack *HS_dr_jetjet_Nm1;
+  THStack *HS_dEta_jetjet_Nm1;
+  THStack *HS_dijetMass_Nm1;
+
   THStack *HS_SeedTime_Nm1[nhisto];
   THStack *HS_MET_Nm1[nhisto];
   THStack *HS_METPhi_Nm1[nhisto];
   THStack *HS_dphoMETPhi_Nm1[nhisto];
   THStack *HS_njet_Nm1[nhisto];
   THStack *HS_djetMETPhi_Nm1[nhisto][njet];
+
+  HS_dr_jetjet_Nm1		= new THStack("HS_dr_jetjet_Nm1", "HS_dr_jetjet_Nm1");
+  HS_dEta_jetjet_Nm1	= new THStack("HS_dEta_jetjet_Nm1", "HS_dEta_jetjet_Nm1");
+  HS_dijetMass_Nm1		= new THStack("HS_dijetMass_Nm1", "HS_dijetMass_Nm1");
   
   for(Int_t jj=0; jj<nhisto; jj++){
     //HS_SeedTime_Nm1[jj] = new THStack(Form("HS_SeedTime_Nm1_%i", jj), "HS_SeedTime_Nm1");
@@ -402,7 +524,15 @@ void xDrawStack_Nm1(Int_t year){
     }
   }
   
+  
+
   for(Int_t i=0; i<nfile-1; i++){
+    //if(i==10) continue;//pass Zvv signal
+
+    HS_dr_jetjet_Nm1->Add(H_dr_jetjet_Nm1[i]);	
+    HS_dEta_jetjet_Nm1->Add(H_dEta_jetjet_Nm1[i]);	
+    HS_dijetMass_Nm1->Add(H_dijetMass_Nm1[i]);
+
     for(Int_t jj=0; jj<nhisto; jj++){
       //HS_SeedTime_Nm1[jj]->Add(H_SeedTime_Nm1[i][jj]);
       HS_MET_Nm1[jj]->Add(H_MET_Nm1[i][jj]);
@@ -418,6 +548,8 @@ void xDrawStack_Nm1(Int_t year){
       }
     }    
   }
+
+  cout << "pass stack" << endl;
 
   //TLegend *lhs = new TLegend(0.6,0.7, 0.92, 0.90);
   TLegend *lhs = new TLegend(0.52, 0.66, 0.92, 0.90);//VBS
@@ -455,7 +587,102 @@ void xDrawStack_Nm1(Int_t year){
   else if(year==2018){
     period = 3;
   }
-  
+
+  pad1->cd();
+  HS_dr_jetjet_Nm1->Draw("HIST");
+  H_dr_jetjet_Nm1[nfile-1]->Draw("SAME");
+  HSig_dr_jetjet_Nm1->Draw("HISTSAME");
+  HA_dr_jetjet_Nm1->Draw("E2 SAME");
+  HS_dr_jetjet_Nm1->GetYaxis()->SetTitle("Events");
+  HS_dr_jetjet_Nm1->GetXaxis()->SetTitle("");
+  //HS_dr_jetjet_Nm1->GetYaxis()->ChangeLabel(1, -1, 0, -1, -1, -1, "");
+  HS_dr_jetjet_Nm1->GetXaxis()->SetLabelSize(0);
+  HS_dr_jetjet_Nm1->SetMaximum(10000);
+  HS_dr_jetjet_Nm1->SetMinimum(1);
+  lhs->Clear();
+  lhs->SetNColumns(2);
+  for(Int_t ifile=0; ifile<nfile; ifile++){
+    //if(ifile==10) continue;
+    if(ifile == nfile-1) lhs->AddEntry(H_dr_jetjet_Nm1[ifile], ltext[ifile], "PL");
+    if(ifile == nfile-2) lhs->AddEntry(HSig_dr_jetjet_Nm1, ltext[ifile], "L");
+    if(ifile < nfile-1) lhs->AddEntry(H_dr_jetjet_Nm1[ifile], ltext[ifile], "F");
+  }
+  lhs->Draw("SAME");
+  title = HS_dr_jetjet_Nm1->GetName();
+  pad2->cd();
+  hratio = ratioplot(HS_dr_jetjet_Nm1, H_dr_jetjet_Nm1[nfile-1]);
+  hratio->SetTitle("");
+  hratio->GetXaxis()->SetTitle("#DeltaR(jet , jet)");
+  hratio->Draw("EP");
+  tg->Draw("LSAME");
+  CMS_lumi(pad1, period, 0);
+  c1->Update();
+  c1->RedrawAxis();
+  c1->SaveAs(Form("%s/%s.pdf", saveto, title));
+
+  pad1->cd();
+  HS_dEta_jetjet_Nm1->Draw("HIST");
+  H_dEta_jetjet_Nm1[nfile-1]->Draw("SAME");
+  HSig_dEta_jetjet_Nm1->Draw("HISTSAME");
+  HA_dEta_jetjet_Nm1->Draw("E2 SAME");
+  HS_dEta_jetjet_Nm1->GetYaxis()->SetTitle("Events");
+  HS_dEta_jetjet_Nm1->GetXaxis()->SetTitle("");
+  //HS_dEta_jetjet_Nm1->GetYaxis()->ChangeLabel(1, -1, 0, -1, -1, -1, "");
+  HS_dEta_jetjet_Nm1->GetXaxis()->SetLabelSize(0);
+  HS_dEta_jetjet_Nm1->SetMaximum(8000);
+  HS_dEta_jetjet_Nm1->SetMinimum(1);
+  lhs->Clear();
+  lhs->SetNColumns(2);
+  for(Int_t ifile=0; ifile<nfile; ifile++){
+    //if(ifile==10) continue;
+    if(ifile == nfile-1) lhs->AddEntry(H_dEta_jetjet_Nm1[ifile], ltext[ifile], "PL");
+    if(ifile == nfile-2) lhs->AddEntry(HSig_dEta_jetjet_Nm1, ltext[ifile], "L");
+    if(ifile < nfile-1) lhs->AddEntry(H_dEta_jetjet_Nm1[ifile], ltext[ifile], "F");
+  }
+  lhs->Draw("SAME");
+  title = HS_dEta_jetjet_Nm1->GetName();
+  pad2->cd();
+  hratio = ratioplot(HS_dEta_jetjet_Nm1, H_dEta_jetjet_Nm1[nfile-1]);
+  hratio->SetTitle("");
+  hratio->GetXaxis()->SetTitle("#Delta#eta(jet , jet)");
+  hratio->Draw("EP");
+  tg->Draw("LSAME");
+  CMS_lumi(pad1, period, 0);
+  c1->Update();
+  c1->RedrawAxis();
+  c1->SaveAs(Form("%s/%s.pdf", saveto, title));
+
+  pad1->cd();
+  HS_dijetMass_Nm1->Draw("HIST");
+  H_dijetMass_Nm1[nfile-1]->Draw("SAME");
+  HSig_dijetMass_Nm1->Draw("HISTSAME");
+  HA_dijetMass_Nm1->Draw("E2 SAME");
+  HS_dijetMass_Nm1->GetYaxis()->SetTitle("Events");
+  HS_dijetMass_Nm1->GetXaxis()->SetTitle("");
+  //HS_dijetMass_Nm1->GetYaxis()->ChangeLabel(1, -1, 0, -1, -1, -1, "");
+  HS_dijetMass_Nm1->GetXaxis()->SetLabelSize(0);
+  HS_dijetMass_Nm1->SetMaximum(1000);
+  HS_dijetMass_Nm1->SetMinimum(1);
+  lhs->Clear();
+  lhs->SetNColumns(2);
+  for(Int_t ifile=0; ifile<nfile; ifile++){
+    //if(ifile==10) continue;
+    if(ifile == nfile-1) lhs->AddEntry(H_dijetMass_Nm1[ifile], ltext[ifile], "PL");
+    if(ifile == nfile-2) lhs->AddEntry(HSig_dijetMass_Nm1, ltext[ifile], "L");
+    if(ifile < nfile-1) lhs->AddEntry(H_dijetMass_Nm1[ifile], ltext[ifile], "F");
+  }
+  lhs->Draw("SAME");
+  title = HS_dijetMass_Nm1->GetName();
+  pad2->cd();
+  hratio = ratioplot(HS_dijetMass_Nm1, H_dijetMass_Nm1[nfile-1]);
+  hratio->SetTitle("");
+  hratio->GetXaxis()->SetTitle("Mass^{jj}[GeV]");
+  hratio->Draw("EP");
+  tg->Draw("LSAME");
+  CMS_lumi(pad1, period, 0);
+  c1->Update();
+  c1->RedrawAxis();
+  c1->SaveAs(Form("%s/%s.pdf", saveto, title));
   for(Int_t jj=0; jj<2; jj++){
     /*
     pad1->cd();
@@ -489,7 +716,7 @@ void xDrawStack_Nm1(Int_t year){
     pad1->cd();
     HS_MET_Nm1[jj]->Draw("HIST");
     H_MET_Nm1[nfile-1][jj]->Draw("SAME");
-    HSig_MET_Nm1[jj]->Draw("HISTSAME");
+    //HSig_MET_Nm1[jj]->Draw("HISTSAME");
     HA_MET_Nm1[jj]->Draw("E2 SAME");
     HS_MET_Nm1[jj]->GetYaxis()->SetTitle("Events");
     HS_MET_Nm1[jj]->GetYaxis()->ChangeLabel(1, -1, 0, -1, -1, -1, "");
@@ -501,7 +728,7 @@ void xDrawStack_Nm1(Int_t year){
     lhs->Clear();
     lhs->SetNColumns(2);
     for(Int_t ifile=0; ifile<nfile; ifile++){
-      
+      //if(ifile==10) continue;//pass Zvv signal
       if(ifile == nfile-1) lhs->AddEntry(H_MET_Nm1[ifile][jj], ltext[ifile], "PL");
       if(ifile == nfile-2) lhs->AddEntry(HSig_MET_Nm1[jj], ltext[ifile], "L");
       if(ifile < nfile-1) lhs->AddEntry(H_MET_Nm1[ifile][jj], ltext[ifile], "F");
@@ -522,7 +749,7 @@ void xDrawStack_Nm1(Int_t year){
     pad1->cd();
     HS_METPhi_Nm1[jj]->Draw("HIST");
     H_METPhi_Nm1[nfile-1][jj]->Draw("SAME");
-    HSig_METPhi_Nm1[jj]->Draw("HISTSAME");
+    //HSig_METPhi_Nm1[jj]->Draw("HISTSAME");
     HA_METPhi_Nm1[jj]->Draw("E2 SAME");
     HS_METPhi_Nm1[jj]->GetYaxis()->SetTitle("Events");
     HS_METPhi_Nm1[jj]->GetYaxis()->ChangeLabel(1, -1, 0, -1, -1, -1, "");
@@ -534,7 +761,7 @@ void xDrawStack_Nm1(Int_t year){
     lhs->Clear();
     lhs->SetNColumns(2);
     for(Int_t ifile=0; ifile<nfile; ifile++){
-      
+      //if(ifile==10) continue;//pass Zvv signal
       if(ifile == nfile-1) lhs->AddEntry(H_METPhi_Nm1[ifile][jj], ltext[ifile], "PL");
       if(ifile == nfile-2) lhs->AddEntry(HSig_METPhi_Nm1[jj], ltext[ifile], "L");
       if(ifile < nfile-1) lhs->AddEntry(H_METPhi_Nm1[ifile][jj], ltext[ifile], "F");
@@ -555,7 +782,7 @@ void xDrawStack_Nm1(Int_t year){
     pad1->cd();
     HS_dphoMETPhi_Nm1[jj]->Draw("HIST");
     H_dphoMETPhi_Nm1[nfile-1][jj]->Draw("SAME");
-    HSig_dphoMETPhi_Nm1[jj]->Draw("HISTSAME");
+    //HSig_dphoMETPhi_Nm1[jj]->Draw("HISTSAME");
     HA_dphoMETPhi_Nm1[jj]->Draw("E2 SAME");
     HS_dphoMETPhi_Nm1[jj]->GetYaxis()->SetTitle("Events");
     HS_dphoMETPhi_Nm1[jj]->GetYaxis()->ChangeLabel(1, -1, 0, -1, -1, -1, "");
@@ -567,7 +794,7 @@ void xDrawStack_Nm1(Int_t year){
     lhs->Clear();
     lhs->SetNColumns(2);
     for(Int_t ifile=0; ifile<nfile; ifile++){
-      
+      //if(ifile==10) continue;//pass Zvv signal
       if(ifile == nfile-1) lhs->AddEntry(H_dphoMETPhi_Nm1[ifile][jj], ltext[ifile], "PL");
       if(ifile == nfile-2) lhs->AddEntry(HSig_dphoMETPhi_Nm1[jj], ltext[ifile], "L");
       if(ifile < nfile-1) lhs->AddEntry(H_dphoMETPhi_Nm1[ifile][jj], ltext[ifile], "F");
@@ -588,7 +815,7 @@ void xDrawStack_Nm1(Int_t year){
     pad1->cd();
     HS_njet_Nm1[jj]->Draw("HIST");
     H_njet_Nm1[nfile-1][jj]->Draw("SAME");
-    HSig_njet_Nm1[jj]->Draw("HISTSAME");
+    //HSig_njet_Nm1[jj]->Draw("HISTSAME");
     HA_njet_Nm1[jj]->Draw("E2 SAME");
     HS_njet_Nm1[jj]->GetXaxis()->SetTitle("");
     HS_njet_Nm1[jj]->GetYaxis()->SetTitle("Events");
@@ -600,7 +827,7 @@ void xDrawStack_Nm1(Int_t year){
     lhs->Clear();
     lhs->SetNColumns(2);
     for(Int_t ifile=0; ifile<nfile; ifile++){
-      
+      //if(ifile==10) continue;//pass Zvv signal
       if(ifile == nfile-1) lhs->AddEntry(H_njet_Nm1[ifile][jj], ltext[ifile], "PL");
       if(ifile == nfile-2) lhs->AddEntry(HSig_njet_Nm1[jj], ltext[ifile], "L");
       if(ifile < nfile-1) lhs->AddEntry(H_njet_Nm1[ifile][jj], ltext[ifile], "F");
@@ -622,7 +849,7 @@ void xDrawStack_Nm1(Int_t year){
       pad1->cd();
       HS_djetMETPhi_Nm1[jj][kk]->Draw("HIST");
       H_djetMETPhi_Nm1[nfile-1][jj][kk]->Draw("SAME");
-      HSig_djetMETPhi_Nm1[jj][kk]->Draw("HISTSAME");
+      //HSig_djetMETPhi_Nm1[jj][kk]->Draw("HISTSAME");
       HA_djetMETPhi_Nm1[jj][kk]->Draw("E2 SAME");
       HS_djetMETPhi_Nm1[jj][kk]->GetXaxis()->SetTitle("");
       HS_djetMETPhi_Nm1[jj][kk]->GetYaxis()->SetTitle("Events");
@@ -633,7 +860,7 @@ void xDrawStack_Nm1(Int_t year){
       lhs->Clear();
       lhs->SetNColumns(2);
       for(Int_t ifile=0; ifile<nfile; ifile++){
-	
+	//if(ifile==10) continue;//pass Zvv signal
 	if(ifile == nfile-1) lhs->AddEntry(H_djetMETPhi_Nm1[ifile][jj][kk], ltext[ifile], "PL");
 	if(ifile == nfile-2) lhs->AddEntry(HSig_djetMETPhi_Nm1[jj][kk], ltext[ifile], "L");
 	if(ifile < nfile-1) lhs->AddEntry(H_djetMETPhi_Nm1[ifile][jj][kk], ltext[ifile], "F");

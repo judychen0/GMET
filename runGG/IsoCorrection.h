@@ -29,8 +29,8 @@ void rhoCorrection(Int_t iso, TreeReader &data, vector<Float_t>& rcIso){
 
   //Float_t EAworst[7] = {0.0728, 0.0709, 0.0106, 0.01002, 0.0098, 0.0089, 0.000087};
   Float_t EAworst[7];
-  EAworst[0] = 0.928*rho+0.081;
-  EAworst[1] = 0.872*rho+0.081;
+  EAworst[0] = fmax(0.0004*rho+0.0179, 0.0);
+  EAworst[1] = fmax(0.0008*rho+0.0106, 0.0);
   /*
   Float_t EA[3][7] = {{ 0.036 , 0.0377 , 0.0306 , 0.0283 , 0.0254 , 0.0217 , 0.0167 },
 		      { 0.121 , 0.1107 , 0.0699 , 0.1056 , 0.1457 , 0.1719 , 0.1998 },

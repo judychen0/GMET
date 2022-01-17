@@ -1,6 +1,7 @@
 #include "TMath.h"
 #include <TMVA/Reader.h>
 #include "TTree.h"
+#include "TVector2.h"
 #include <string.h>
 #include <stdio.h>
 #include <vector>
@@ -28,14 +29,6 @@ void METXYshift(Int_t year, char* sample, TreeReader &data, vector<float>& corrX
 			     "job_SinglePho_Run2017F_UL",
   };
 
-  string samplelist17[30] = {
-			     "job_SinglePho_Run2017B_MarReminiAOD",
-			     "job_SinglePho_Run2017C_MarReminiAOD",
-			     "job_SinglePho_Run2017D_MarReminiAOD",
-			     "job_SinglePho_Run2017E_MarReminiAOD",
-			     "job_SinglePho_Run2017F_MarReminiAOD",
-  };
-
   string samplelist18[30] = {
 			     "job_EGamma_Run2018A_UL",
 			     "job_EGamma_Run2018B_UL",
@@ -61,15 +54,6 @@ void METXYshift(Int_t year, char* sample, TreeReader &data, vector<float>& corrX
 			    { -0.8289, -0.1217, 0.1419, 0.8226, 0.1968}
   };//data
 
-  Float_t CorrX17[2][30] = {
-			    { -0.2488, -0.1886, -0.2227, -0.1815, -0.2331},
-			    {  1.8578,  0.4561,  1.1730,  0.7172,  1.1325}
-  };//legacy data
-  Float_t CorrY17[2][30] = {
-			    {  0.3853,  0.2766, 0.2571, 0.1953, 0.2983},
-			    { -1.2668, -0.3280, 0.1425, 0.7278, 2.5111}
-  };//legacy data
-
   Float_t CorrX18[2][30] = {
 			    { 0.28741,  0.47724,  0.50605,  0.53609},
 			    {-1.74211, -3.46691, -1.28811, -1.31469}
@@ -79,7 +63,7 @@ void METXYshift(Int_t year, char* sample, TreeReader &data, vector<float>& corrX
 			    { 0.28504, -0.23183, -2.20700, -1.41992}
   };
 
-  
+  /*  
   string samplelist16[30] = {
 			     "job_summer16_GJets_MG_HT200to400",
 			     "job_summer16_GJets_MG_HT400to600",
@@ -135,16 +119,18 @@ void METXYshift(Int_t year, char* sample, TreeReader &data, vector<float>& corrX
   };
 
   Float_t CorrX18[2][30] = {
-			    { 0.36879,  0.36949,  0.37166,  0.36699,  0.36859, 0.36722,  0.36971,  0.37150,  0.36832},
-			    {-0.48767, -0.31569, -0.09519, -0.7665, -0.81175, -0.80116, -0.11081, -0.16037, -0.78331}
+			    {},
+			    {}
   };
 
   Float_t CorrY18[2][30] = {
-			    { 0.16663,  0.16437,  0.16390,  0.16533,  0.16530,  0.16814,  0.16227,  0.16211,  0.16781},
-			    { 0.05936,  0.19353,  0.42546, -0.04766, -0.04149, -0.14987,  0.51395,  0.51463, -0.18159}
+			    {},
+			    {}
   };
-
   
+  */  
+
+
   //function start//
   Double_t corrMET, corrMETPhi;
   corrMET = 0;

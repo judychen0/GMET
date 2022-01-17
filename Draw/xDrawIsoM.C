@@ -4,7 +4,7 @@
 #include <string>
 #include "TH1F.h"
 using namespace std;
-#define nfile 6
+#define nfile 5
 #define eqevents 1000000
 
 
@@ -12,13 +12,18 @@ void xDrawIsoM(){
   ofstream ftext;
     
  TString rootname[5] = {
-			 "/home/judy/ntuhep/GMET/output_file/summer16/mc/summer16_WGToLNuG_01J_5f_PtG_130_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_0000/210527_065337/output_ggtree.root",
-			 "/home/judy/ntuhep/GMET/output_file/summer16/mc/summer16_ZLLGJets_MonoPhoton_PtG-130_TuneCUETP8M1_13TeV-madgraph_0000/210527_072853/output_ggtree.root",
-			 "/home/judy/ntuhep/GMET/output_file/summer16/mc/summer16_ZNuNuGJets_MonoPhoton_PtG-130_TuneCUETP8M1_13TeV-madgraph-pythia8_0000/210527_064105/output_ggtree.root"
+		       
+			 "/home/judy/ntuhep/GMET/output_file/summer16/mc/summer16_ZNuNuGJets_MonoPhoton_PtG-130_TuneCUETP8M1_13TeV-madgraph-pythia8/210614_100645/output_ggtree.root",
+			 "/home/judy/ntuhep/GMET/output_file/summer16/data/output_ggtree.root"
   };//[0,1,2,3][GJet,WG, ZG,ZNuNu]
-  Float_t mclumi[5] = {0.002744,311.6,2.786,583.9};//(fb-1) [0,1,2,3,4][GJet,WG,ZG,ZNuNu]
-  //Float_t mccross[5] = {}
-  Float_t lumi16 = 36.33;
+  
+ Float_t gjetXsec[10] = {9319, 9155, 2323, 2314, 278.5, 271.8, 93.85, 94.7};
+ Float_t lumi16 = 36.33;
+ Float_t Xsec = 2323.0;
+ 
+ Float_t xsec[10] = {2314, 1.008, 0.148, 0.19};
+ Float_t filter[10] = {1., 0.7772, 1., 1.};
+ Float_t kfactor[10] = {1., 1., 1.067, 1.447};
   
   string hexcolor[8] = {"#7FB5F5","#2F81A3","#1C2A60","#FA6D5F","#91A81E","#DCF563", "#1C6040","#EFE2C9"};
   TColor *color[8];
@@ -46,8 +51,12 @@ void xDrawIsoM(){
   const char *title;
   const char *saveto = ".";
 
+  TH1F *H_Events[nfile];
+  
   TH1F *H_sieieFull5x5[nfile];
   TH1F *H_sieieFull5x5_M[nfile];
+  TH1F *H_sipipFull5x5[nfile];
+  TH1F *H_sipipFull5x5_M[nfile];
   TH1F *H_HoverE[nfile];
   TH1F *H_HoverE_M[nfile];
   TH1F *H_r9Full5x5[nfile];
@@ -60,23 +69,39 @@ void xDrawIsoM(){
   TH1F *H_phoIso_M[nfile];
   
   TH1F *H_SeedTime[nfile];
+  TH1F *H_SeedTime_M[nfile];
+  TH1F *H_rho[nfile];
+  TH1F *H_rho_M[nfile];
   
-  TLegend *lh = new TLegend(0.65,0.72, 0.75, 0.88);
-  lh->SetBorderSize(0);
+  TLegend *lh = new TLegend(0.7,0.78, 0.8, 0.88);
+  lh->SetTextSize(0.025);
   lh->SetFillStyle(0);
 
   for(Int_t i=0; i<nfile; i++){
     fopen = new TFile(rootname[i]);
     t = (TTree*)fopen->Get("t");
+
+     
+    if(i<nfile){
+      H_Events[i] = (TH1F*)fopen->Get("hEvents");
+      entries = H_Events[i]->GetBinContent(1);
+      outentries = xsec[i]*kfactor[i]*1000*lumi16*filter[i];
+      scale = outentries/entries;
+      cout << "print " << entries << " " << outentries << " " << scale<< endl;
+      //if(i==4) scale*=100000;
+    }
+    if(i==1) scale = 1.9055;// C D E F data
+    //if(i==4) scale = 3.2367; //C D data
     
-    c1->SetLogy(0);
+    c1->SetLogy();
     c1->Update();
+    
     //sieie
-    H_sieieFull5x5[i] = new TH1F(Form("H_sieieFull5x5_%i", i), Form("H_sieieFull5x5_%i", i), 40, 0.001, 0.021);
+    H_sieieFull5x5[i] = new TH1F(Form("H_sieieFull5x5_%i", i), Form("H_sieieFull5x5_%i", i), 40, 0.0, 0.02);
     t->Draw(Form("sieieFull5x5>>H_sieieFull5x5_%i", i), "sieieFull5x5>0");
     //title = H_sieieFull5x5[i]->GetName();
 
-    H_sieieFull5x5_M[i] = new TH1F(Form("H_sieieFull5x5_M%i", i), Form("H_sieieFull5x5_M%i", i), 40, 0.001, 0.021);
+    H_sieieFull5x5_M[i] = new TH1F(Form("H_sieieFull5x5_M%i", i), Form("H_sieieFull5x5_M%i", i), 40, 0.0, 0.02);
     t->Draw(Form("sieieFull5x5_cut>>H_sieieFull5x5_M%i", i), "sieieFull5x5_cut>0");
     //title = H_sieieFull5x5_M[i]->GetName();
    
@@ -84,16 +109,22 @@ void xDrawIsoM(){
     H_sieieFull5x5[i]->SetFillStyle(0);
     H_sieieFull5x5[i]->SetLineColor(cnum[6]);
     H_sieieFull5x5[i]->GetXaxis()->SetTitle("#sigma_{i#etai#eta}");
+    H_sieieFull5x5[i]->GetYaxis()->SetTitle("Events");
+    H_sieieFull5x5[i]->SetMinimum(0.01);
     H_sieieFull5x5_M[i]->SetFillStyle(0);
     H_sieieFull5x5_M[i]->SetLineColor(cnum[0]);
     
     H_sieieFull5x5_M[i]->Draw("SAME");
+    lh->Clear();
     lh->AddEntry(H_sieieFull5x5[i], "before cut", "F");
     lh->AddEntry(H_sieieFull5x5_M[i], "after cut", "F");
+    lh->Draw("SAME");
     c1->SaveAs(Form("%s/%s%i.pdf", saveto, "sieieFull5x5_rel", i));
+    //c1->SaveAs(Form("%s/%s%i.png", saveto, "sieieFull5x5_rel", i));
     H_sieieFull5x5[i]->SetDirectory(0);
-    //HoverE
 
+    /*
+    //HoverE
     H_HoverE[i] = new TH1F(Form("H_HoverE_%i", i), Form("H_HoverE_%i", i), 20, 0., 0.2);
     t->Draw(Form("HoverE>>H_HoverE_%i", i), "HoverE>0");
 
@@ -113,6 +144,7 @@ void xDrawIsoM(){
     lh->AddEntry(H_HoverE_M[i], "after cut", "F");
     c1->SaveAs(Form("%s/%s%i.pdf", saveto, "HoverE_rel", i));
     H_HoverE[i]->SetDirectory(0);
+    */
     
     //r9Full5x5
     H_r9Full5x5[i] = new TH1F(Form("H_r9Full5x5_%i", i), Form("H_r9Full5x5_%i", i), 15, 0., 1.5);
@@ -125,18 +157,49 @@ void xDrawIsoM(){
     H_r9Full5x5[i]->SetFillStyle(0);
     H_r9Full5x5[i]->SetLineColor(cnum[6]);
     H_r9Full5x5[i]->GetXaxis()->SetTitle("r9Full5x5");
+    H_r9Full5x5[i]->GetYaxis()->SetTitle("Events");
     H_r9Full5x5_M[i]->SetFillStyle(0);
     H_r9Full5x5_M[i]->SetLineColor(cnum[0]);
     
     H_r9Full5x5_M[i]->Draw("SAME");
+    lh->Clear();
     lh->AddEntry(H_r9Full5x5[i], "before cut", "F");
     lh->AddEntry(H_r9Full5x5_M[i], "after cut", "F");
+    lh->Draw("SAME");
     c1->SaveAs(Form("%s/%s%i.pdf", saveto, "r9Full5x5_rel", i));
+    //c1->SaveAs(Form("%s/%s%i.png", saveto, "r9Full5x5_rel", i));
     H_r9Full5x5[i]->SetDirectory(0);
-    
-    c1->SetLogy();
-    c1->Update();
 
+    //sipip
+    H_sipipFull5x5[i] = new TH1F(Form("H_sipipFull5x5_%i", i), Form("H_sipipFull5x5_%i", i), 40, 0.0, 0.02);
+    t->Draw(Form("sipipFull5x5>>H_sipipFull5x5_%i", i), "sipipFull5x5>0");
+    //title = H_sipipFull5x5[i]->GetName();
+
+    H_sipipFull5x5_M[i] = new TH1F(Form("H_sipipFull5x5_M%i", i), Form("H_sipipFull5x5_M%i", i), 40, 0.0, 0.02);
+    t->Draw(Form("sipipFull5x5_cut>>H_sipipFull5x5_M%i", i), "sipipFull5x5_cut>0");
+    //title = H_sipipFull5x5_M[i]->GetName();
+   
+    H_sipipFull5x5[i]->Draw();
+    H_sipipFull5x5[i]->SetFillStyle(0);
+    H_sipipFull5x5[i]->SetLineColor(cnum[6]);
+    H_sipipFull5x5[i]->GetXaxis()->SetTitle("#sigma_{i#phii#phi}");
+    H_sipipFull5x5[i]->GetYaxis()->SetTitle("Events");
+    H_sipipFull5x5_M[i]->SetFillStyle(0);
+    H_sipipFull5x5_M[i]->SetLineColor(cnum[0]);
+    
+    H_sipipFull5x5_M[i]->Draw("SAME");
+    lh->Clear();
+    lh->AddEntry(H_sipipFull5x5[i], "before cut", "F");
+    lh->AddEntry(H_sipipFull5x5_M[i], "after cut", "F");
+    lh->Draw("SAME");
+    c1->SaveAs(Form("%s/%s%i.pdf", saveto, "sipipFull5x5_rel", i));
+    //c1->SaveAs(Form("%s/%s%i.png", saveto, "sipipFull5x5_rel", i));
+    H_sipipFull5x5[i]->SetDirectory(0);
+    
+    //c1->SetLogy();
+    //c1->Update();
+
+    /*
     //chIso
     H_chIso[i] = new TH1F(Form("H_chIso_%i", i), Form("H_chIso_%i", i), 25, 0., 10);
     t->Draw(Form("chIso_rc>>H_chIso_%i", i), "chIso_rc>0");
@@ -196,34 +259,82 @@ void xDrawIsoM(){
     lh->AddEntry(H_phoIso_M[i], "after cut", "F");
     c1->SaveAs(Form("%s/%s%i.pdf", saveto, "phoIso_rel", i));
     H_phoIso[i]->SetDirectory(0);
-    
-  
-    /*
-    entries = t->GetEntries();
-    cout << "print" << entries << endl;
-    outentries = eqevents*(lumi16/mclumi[i]);
-    scale = outentries/entries;
-    if(i==0) scale*=0.00001;
+    */    
 
-    H_SeedTime[i] = new TH1F(Form("H_SeedTime_%i", i), Form("H_SeedTime_%i", i), 60, -3, 3);
-    t->Draw(Form("SeedTime>>H_SeedTime_%i", i));
-    //H_SeedTime[i]->Scale(scale);
-    if(i>1) H_SeedTime[i]->Scale(20);
+    //sieie
+    H_SeedTime[i] = new TH1F(Form("H_SeedTime_%i", i), Form("H_SeedTime_%i", i), 100, -20,20);
+    t->Draw(Form("SeedTime>>H_SeedTime_%i", i), "abs(SeedTime)<50");
+    //title = H_SeedTime[i]->GetName();
+
+    H_SeedTime_M[i] = new TH1F(Form("H_SeedTime_M%i", i), Form("H_SeedTime_M%i", i), 100, -20, 20);
+    t->Draw(Form("SeedTime_cut>>H_SeedTime_M%i", i), "abs(SeedTime_cut)<50");
+    //title = H_SeedTime_M[i]->GetName();
+   
+    H_SeedTime[i]->Draw();
     H_SeedTime[i]->SetFillStyle(0);
-    H_SeedTime[i]->SetLineColor(cnum[i]);
-    */
+    H_SeedTime[i]->SetLineColor(cnum[6]);
+    H_SeedTime[i]->GetXaxis()->SetTitle("SeedTime[ns]");
+    //H_SeedTime_M[i]->Draw();
+    //H_SeedTime_M[i]->SetFillStyle(0);
+    //H_SeedTime_M[i]->SetLineColor(cnum[6]);
+    //H_SeedTime_M[i]->GetXaxis()->SetTitle("SeedTime[ns]");
+    H_SeedTime_M[i]->SetFillStyle(0);
+    H_SeedTime_M[i]->SetLineColor(cnum[0]);
+    
+    H_SeedTime_M[i]->Draw("SAME");
+    lh->Clear();
+    lh->AddEntry(H_SeedTime[i], "before cut", "F");
+    lh->AddEntry(H_SeedTime_M[i], "after cut", "F");
+    lh->Draw("SAME");
+    c1->SaveAs(Form("%s/%s%i.pdf", saveto, "SeedTime_rel", i));
+    //c1->SaveAs(Form("%s/%s%i.png", saveto, "SeedTime_rel", i));
+    H_SeedTime[i]->SetDirectory(0);
+
+    //rho
+    H_rho[i] = new TH1F(Form("H_rho_%i", i), Form("H_rho_%i", i), 40, 0, 40);
+    t->Draw(Form("rho>>H_rho_%i", i), "rho>0");
+    //title = H_rho[i]->GetName();
+
+    H_rho_M[i] = new TH1F(Form("H_rho_M%i", i), Form("H_rho_M%i", i), 40, 0, 40);
+    t->Draw(Form("rho_cut>>H_rho_M%i", i), "rho_cut>50");
+    //title = H_rho_M[i]->GetName();
+   
+    H_rho[i]->Draw();
+    H_rho[i]->SetFillStyle(0);
+    H_rho[i]->SetLineColor(cnum[6]);
+    H_rho[i]->GetXaxis()->SetTitle("rho");
+    //H_rho_M[i]->Draw();
+    //H_rho_M[i]->SetFillStyle(0);
+    //H_rho_M[i]->SetLineColor(cnum[6]);
+    //H_rho_M[i]->GetXaxis()->SetTitle("rho[ns]");
+    H_rho_M[i]->SetFillStyle(0);
+    H_rho_M[i]->SetLineColor(cnum[0]);
+    
+    //H_rho_M[i]->Draw("SAME");
+    lh->Clear();
+    lh->AddEntry(H_rho[i], "before cut", "F");
+    //lh->AddEntry(H_rho_M[i], "after cut", "F");
+    lh->Draw("SAME");
+    c1->SaveAs(Form("%s/%s%i.pdf", saveto, "rho_rel", i));
+    //c1->SaveAs(Form("%s/%s%i.png", saveto, "rho_rel", i));
+    H_rho[i]->SetDirectory(0);
+  
+    
   }
+  /*
   fout = new TFile("outgraph.root", "RECREATE");
   for(Int_t i=0; i<nfile; i++){
     
     
     H_sieieFull5x5[i]->Write();
+    H_sipipFull5x5[i]->Write();
     H_HoverE[i]->Write();
     H_r9Full5x5[i]->Write();
     H_chIso[i]->Write();
     H_nhIso[i]->Write();
     H_phoIso[i]->Write();
   }
+  */
   /*
   THStack *HS = new THStack("HS_SeedTime", "HS_SeedTime");
   TLegend *lHS = new TLegend(0.15,0.70, 0.25, 0.88);

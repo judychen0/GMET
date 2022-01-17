@@ -308,7 +308,8 @@ void xDrawCutflow(Int_t year){
     }
   }
 
-  Float_t lumiscale[20] = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.155635, 0.393159, 0.54324, 0.019488, 0.0081035};//[GJet, WJet, ZJet, DYJet, monoboson, diboson, triboson, Wg, Zg, ttJET, Znng, ZnngVBS]
+  //Float_t lumiscale[20] = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.155635, 0.393159, 0.54324, 0.019488, 0.0081035};//[GJet, WJet, ZJet, DYJet, monoboson, diboson, triboson, Wg, Zg, ttJET, Znng, ZnngVBS]
+  Float_t lumiscale[20] = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.155635, 0.393159, 0.54324, 0.0081035};//[GJet, WJet, ZJet, DYJet, monoboson, diboson, triboson, Wg, Zg, ttJET, ZnngVBS]
   
   ftext.open("eff.txt", ios::out | ios::app);
   if(!ftext){

@@ -36,13 +36,13 @@ isSignal = raw_input("Is Signal? (T==1; F==0) : ")
 #    yeardir = "autumn18"
 #
 if int(yearrun) == 2016:
-    remotepath = "./legacypath/summer16_data.txt"
+    remotepath = "./summer16_data.txt"
     yeardir = "summer16"
 elif int(yearrun) == 2017:
-    remotepath = "./legacypath/fall17_data.txt"
+    remotepath = "./fall17_data.txt"
     yeardir = "fall17"
 elif int(yearrun) == 2018:
-    remotepath = "./legacypath/autumn18_data.txt"
+    remotepath = "./autumn18_data.txt"
     yeardir = "autumn18"
 
 with open(remotepath, "r") as filepath:

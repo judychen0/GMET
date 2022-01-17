@@ -30,7 +30,7 @@ void xDrawIso(){
   
   TH1F *H_sieieFull5x5_M = new TH1F("H_sieieFull5x5_M", "H_sieieFull5x5_M", 40, 0.001, 0.021);
   //H_sieieFull5x5_M->GetYaxis()->SetRangeUser(.01, 10000000);
-  t->Draw("sieieFull5x5_Mwp>>H_sieieFull5x5_M");
+  t->Draw("sieieFull5x5_sig>>H_sieieFull5x5_M");
   title = H_sieieFull5x5_M->GetName();
   //c1->SaveAs(Form("%s/%s.pdf", saveto, title));
 
@@ -99,7 +99,7 @@ void xDrawIso(){
   
   TH1F *H_sieipFull5x5_M = new TH1F("H_sieipFull5x5_M", "H_sieipFull5x5_M", 40, 0.001, 0.021);
   //H_sieipFull5x5_M->GetYaxis()->SetRangeUser(.01, 10000000);
-  t->Draw("sieipFull5x5_Mwp>>H_sieipFull5x5_M");
+  t->Draw("sieipFull5x5_sig>>H_sieipFull5x5_M");
   title = H_sieipFull5x5_M->GetName();
   //c1->SaveAs(Form("%s/%s.pdf", saveto, title));
 
@@ -163,7 +163,7 @@ void xDrawIso(){
   
   TH1F *H_sipipFull5x5_M = new TH1F("H_sipipFull5x5_M", "H_sipipFull5x5_M", 40, 0.001, 0.021);
   //H_sipipFull5x5_M->GetYaxis()->SetRangeUser(.01, 10000000);
-  t->Draw("sipipFull5x5_Mwp>>H_sipipFull5x5_M");
+  t->Draw("sipipFull5x5_sig>>H_sipipFull5x5_M");
   title = H_sipipFull5x5_M->GetName();
   //c1->SaveAs(Form("%s/%s.pdf", saveto, title));
 
@@ -222,14 +222,14 @@ void xDrawIso(){
   H_r9Full5x5->GetXaxis()->SetTitle("r9");
   t->Draw("r9Full5x5>>H_r9Full5x5");
   title = H_r9Full5x5->GetName();
-  c1->SaveAs(Form("%s/%s.pdf", saveto, title));
+  //c1->SaveAs(Form("%s/%s.pdf", saveto, title));
 
   TH1F *H_r9Full5x5_M = new TH1F("H_r9Full5x5_M", "H_r9Full5x5_M", 15, 0., 1.5);
   //H_r9Full5x5_M->GetYaxis()->SetRangeUser(.01, 10000000);
   H_r9Full5x5_M->GetXaxis()->SetTitle("r9");
-  t->Draw("r9Full5x5_Mwp>>H_r9Full5x5_M");
+  t->Draw("r9Full5x5_sig>>H_r9Full5x5_M");
   title = H_r9Full5x5_M->GetName();
-  c1->SaveAs(Form("%s/%s.pdf", saveto, title));
+  //c1->SaveAs(Form("%s/%s.pdf", saveto, title));
 
   H_r9Full5x5->SetFillStyle(0);
   H_r9Full5x5->SetLineColor(kBlack);
@@ -283,7 +283,7 @@ void xDrawIso(){
   
   TH1F *H_HoverE_M = new TH1F("H_HoverE_M", "H_HoverE_M", 10, 0., 1);
   H_HoverE_M->GetYaxis()->SetRangeUser(.01, 10000000);
-  t->Draw("HoverE_Mwp>>H_HoverE_M");
+  t->Draw("HoverE_sig>>H_HoverE_M");
   title = H_HoverE_M->GetName();
   //c1->SaveAs(Form("%s/%s.pdf", saveto, title));
 
@@ -345,7 +345,7 @@ void xDrawIso(){
   
   TH1F *H_chIso_M = new TH1F("H_chIso_M", "H_chIso_M", 25, 0., 10);
   H_chIso_M->GetYaxis()->SetRangeUser(.01, 10000000);
-  t->Draw("chIso_Mwp>>H_chIso_M");
+  t->Draw("chIso_sig>>H_chIso_M");
   title = H_chIso_M->GetName();
   //c1->SaveAs(Form("%s/%s.pdf", saveto, title));
 
@@ -407,7 +407,7 @@ void xDrawIso(){
   
   TH1F *H_phoIso_M = new TH1F("H_phoIso_M", "H_phoIso_M", 25, 0., 10);
   H_phoIso_M->GetYaxis()->SetRangeUser(.01, 10000000);
-  t->Draw("phoIso_Mwp>>H_phoIso_M");
+  t->Draw("phoIso_sig>>H_phoIso_M");
   title = H_phoIso_M->GetName();
   //c1->SaveAs(Form("%s/%s.pdf", saveto, title));
 
@@ -470,7 +470,7 @@ void xDrawIso(){
   
   TH1F *H_nhIso_M = new TH1F("H_nhIso_M", "H_nhIso_M", 25, 0., 10);
   H_nhIso_M->GetYaxis()->SetRangeUser(.01, 10000000);
-  t->Draw("nhIso_Mwp>>H_nhIso_M");
+  t->Draw("nhIso_sig>>H_nhIso_M");
   title = H_nhIso_M->GetName();
   //c1->SaveAs(Form("%s/%s.pdf", saveto, title));
 
@@ -532,7 +532,7 @@ void xDrawIso(){
   
   TH1F *H_chWorst_M = new TH1F("H_chWorst_M", "H_chWorst_M", 25, 0., 10);
   H_chWorst_M->GetYaxis()->SetRangeUser(.01, 10000000);
-  t->Draw("chWorst_Mwp>>H_chWorst_M");
+  t->Draw("chWorst_sig>>H_chWorst_M");
   title = H_chWorst_M->GetName();
   //c1->SaveAs(Form("%s/%s.pdf", saveto, title));
 

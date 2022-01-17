@@ -321,7 +321,7 @@ void xZgbkg(char* pathes, char* PUpathes, char* IDpathes, char* CSEVpathes){
   //tree variables
   Bool_t isData;
   Float_t puwei_ = 1.;
-  Int_t    run;
+  Int_t    run, year;
   Long64_t event;
   Float_t genWeight;
   Float_t SumofGenW = 0.0;
@@ -420,6 +420,7 @@ void xZgbkg(char* pathes, char* PUpathes, char* IDpathes, char* CSEVpathes){
     //get data from tree
     data.GetEntry(ev);
     run     = data.GetInt("run");
+    if(run > 274000 && run < 284000) year = 16;
     event   = data.GetLong64("event"); 
     isData = data.GetBool("isData");
     nVtx = data.GetInt("nVtx");
@@ -567,6 +568,17 @@ void xZgbkg(char* pathes, char* PUpathes, char* IDpathes, char* CSEVpathes){
       genMETPhi = data.GetFloat("genMETPhi");
     }
 
+    /*
+    Int_t metFilters;
+    //metFilters for data
+    if(isData==1){
+      metFilters = data.GetInt("metFilters");
+      for(Int_t ifilter=0; ifilter<9; ifilter++){
+	
+      }
+    }
+    */
+    
     //jet veto selection
     Float_t	*jetPt		= data.GetPtrFloat("jetPt");
     Float_t	*jetEta		= data.GetPtrFloat("jetEta");
@@ -641,7 +653,8 @@ void xZgbkg(char* pathes, char* PUpathes, char* IDpathes, char* CSEVpathes){
       if(fabs(deltaPhi(phoPhi[ipho], pfMETPhi)) > 1.2) bit = SetBit(8, bit);
       if(mindjetMETPhi > 0.5) bit = SetBit(9, bit);
       if(jetpass < 1) bit = SetBit(10, bit);
-      if((phoFiredTrgs[ipho]>>7&1) == 1) bit = SetBit(11, bit);
+      if(year == 16 && (phoFiredTrgs[ipho]>>7&1) == 1) bit = SetBit(11, bit);//singlePho HLT175
+      if(year > 16 && (phoFiredTrgs[ipho]>>8&1) == 1) bit = SetBit(11, bit);//singlePho HLT200
       //if((phoFiredTrgs[ipho]>>6&1) == 1) bit = SetBit(14, bit);
       cutflowSMID.push_back(bit);
 

@@ -4,13 +4,12 @@
 #include <string>
 #include "TH1F.h"
 using namespace std;
-#define nfile 2
+#define nfile 1
 #define nhisto 2
 
 void xDrawProfile_newEA(){
  TString rootname[5] = {
-			 "/home/judy/ntuhep/GMET/output_file/summer16/mc/summer16_ZNuNuGJets_MonoPhoton_PtG-130_TuneCUETP8M1_13TeV-madgraph-pythia8/210614_100645/output_ggtree.root",
-			 "/home/judy/ntuhep/GMET/output_file/summer16/data/output_ggtree.root"
+			 "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_Znunug_pt130/output_ggtree.root"
   };//[0,1,2,3][GJet,WG, ZG,ZNuNu]
   
   string hexcolor[8] = {"#03a9f4","#2F81A3","#1C2A60","#FA6D5F","#91A81E","#DCF563", "#1C6040","#EFE2C9"};
@@ -32,8 +31,8 @@ void xDrawProfile_newEA(){
   //const char *saveto = "/home/judy/ntuhep/GJet/summer16_Zg_EWK/"; 
   const char *saveto = ".";
 
-  TH2F *H_chIso_rho_eta[nfile][nhisto];
-  TH2F *H_chworst_rho_eta[nfile][nhisto];
+  TH2F *H2_chIso_rho_eta[nfile][nhisto];
+  TH2F *H2_chworst_rho_eta[nfile][nhisto];
 
   TProfile *tp_chIso_rho_eta[nfile][nhisto];
   TProfile *tp_chworst_rho_eta[nfile][nhisto];
@@ -49,11 +48,11 @@ void xDrawProfile_newEA(){
     t = (TTree*)fopen->Get("t");
 
     for(Int_t j=0; j<nhisto; j++){
-      H_chIso_rho_eta[i][j] = (TH2F*)fopen->Get(Form("h_chIso_rho/h_chIso_rho_eta%i", j));
-      H_chworst_rho_eta[i][j] = (TH2F*)fopen->Get(Form("h_chworst_rho/h_chworst_rho_eta%i", j));
+      H2_chIso_rho_eta[i][j] = (TH2F*)fopen->Get(Form("h2_chIso_rho/h2_chIso_rho_eta%i", j));
+      H2_chworst_rho_eta[i][j] = (TH2F*)fopen->Get(Form("h2_chworst_rho/h2_chworst_rho_eta%i", j));
 
-      tp_chIso_rho_eta[i][j] = H_chIso_rho_eta[i][j]->ProfileX(Form("tp_chIso_rho_EA%i", j), 1, 30);
-      tp_chworst_rho_eta[i][j] = H_chworst_rho_eta[i][j]->ProfileX(Form("tp_chworst_rho_EA%i", j), 1, 30);
+      tp_chIso_rho_eta[i][j] = H2_chIso_rho_eta[i][j]->ProfileX(Form("tp_chIso_rho_EA%i", j), 1, 30);
+      tp_chworst_rho_eta[i][j] = H2_chworst_rho_eta[i][j]->ProfileX(Form("tp_chworst_rho_EA%i", j), 1, 30);
 
       tp_chIso_rho_eta[i][j]->SetMarkerStyle(8);
       tp_chworst_rho_eta[i][j]->SetMarkerStyle(8);
@@ -81,7 +80,7 @@ void xDrawProfile_newEA(){
       for(Int_t i=0; i<3; i++){par[i] = fitresult->GetParameter(i);}
       latp->SetTextAlign(12);
       latp->SetTextSize(0.035);
-      latp->DrawLatex(2, .8, Form("fit = %.3frho^{2}+%.3frho+%.3f", par[0], par[1], par[2]));
+      latp->DrawLatex(2, .8, Form("fit = %.3frho^{2}+%.3frho+%.3f", par[2], par[1], par[0]));
       title = tp_chIso_rho_eta[i][j]->GetTitle();
       c1->SaveAs(Form("%s/%s.pdf", saveto, title));
       
@@ -96,7 +95,7 @@ void xDrawProfile_newEA(){
       for(Int_t i=0; i<3; i++){par[i] = fitresult->GetParameter(i);}
       latp->SetTextAlign(12);
       latp->SetTextSize(0.035);
-      latp->DrawLatex(2, 1.6, Form("fit = %.3frho^{2}+%.3frho+%.3f", par[0], par[1], par[2]));
+      latp->DrawLatex(2, 1.6, Form("fit = %.3frho^{2}+%.3frho+%.3f", par[2], par[1], par[0]));
       title = tp_chworst_rho_eta[i][j]->GetTitle();
       c1->SaveAs(Form("%s/%s.pdf", saveto, title));
       
