@@ -21,16 +21,20 @@ elif int(yearrun) == 2017:
     yeardir = "fall17"
     pupath = "PileupWeight/hoa_PU/fall17_corrected/PU_correctedPU_13TeV_2017_GoldenJSON_69200nb.root"
     #pupath = "PileupWeight/hoa_PU/fall17/PU_histo_13TeV_2017_GoldenJSON_69200nb.root"
-    IDSFpath = "2017_PhotonsMedium_UL.root"
-    PSVpath = "PixelSeed_ScaleFactors_2017.root"
+    IDSFpath = "LphoScaleFactors/2017_PhotonsMedium.root" # Legacy MC
+    #IDSFpath = "ULphoScaleFactors/2017_PhotonsMedium_ULSF_cutbase.root" # UL MC
+    PSVpath = "LphoScaleFactors/PixelSeed_ScaleFactors_2017.root" # Legacy MC
+    #PSVpath = "ULphoScaleFactors/HasPix_SummaryPlot_UL17.root" # UL MC  
 elif int(yearrun) == 2018:
     if int(isDcount) == 1: remotepath = "autumn18_VJet.txt"
     if int(isSignal) == 1: remotepath = "autumn18_mc.txt"
     if int(isDcount) == 0 and int(isSignal) == 0: remotepath = "autumn18_bkg.txt"    
     yeardir = "autumn18"
     pupath = "PileupWeight/hoa_PU/autumn18/PU_histo_13TeV_2018_GoldenJSON_69200nb.root"
-    IDSFpath = "2018_PhotonsMedium.root"
-    PSVpath = "PixelSeed_ScaleFactors_2018.root"
+    IDSFpath = "LphoScaleFactors/2018_PhotonsMedium.root" # Legacy MC
+    #IDSFpath = "ULphoScaleFactors/2018_PhotonsMedium_ULSF_cutbase.root" # UL MC
+    PSVpath = "LphoScaleFactors/PixelSeed_ScaleFactors_2018.root" # Legacy MC
+    #PSVpath = "ULphoScaleFactors/HasPix_SummaryPlot_UL18.root" # UL MC
 
 with open(remotepath, "r") as filepath:
     path = filepath.read().splitlines()
@@ -43,8 +47,8 @@ with open(remotepath, "r") as filepath:
         script = ""
         script += "#!/bin/bash \n"
         script += "\n"
-        script += "workdir=/home/jou/work/runMC \n"
-        script += "homedir=/home/jou/runMC \n"
+        script += "workdir=/home/jou/work/runMC_VJet \n"
+        script += "homedir=/home/jou/runMC_VJet \n"
         script += "mkdir /data1/GMET/minitree/"+str(yeardir)+"/"+str(dirname)+" \n"
         script += "returndir=/data1/GMET/minitree/"+str(yeardir)+"/"+str(dirname)+" \n"
         script += "datadir="+str(line)+" \n"
