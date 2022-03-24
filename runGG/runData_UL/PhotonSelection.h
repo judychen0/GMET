@@ -79,7 +79,7 @@ void pho_IDselection(Int_t iWP, Int_t region, TreeReader &data, vector<int>& pas
   vector<Int_t> pho_MID; pho_MID.clear();
   for(Int_t ipho=0; ipho<nPho; ipho++){
 
-    if(fabs(phoEt[ipho]) < 15.) continue;
+    //if(fabs(phoEt[ipho]) < 15.) continue;
     
     if(fabs(phoEta[ipho] < 1.0)) iEA = 0;
     else if(fabs(phoEta[ipho]) > 1.0 && fabs(phoEta[ipho]) < 1.479) iEA = 1;
@@ -151,8 +151,8 @@ void phoIDcut(Int_t iWP, Int_t year, TreeReader &data,  vector<int>& passed){
   //Int_t nPho = realpho.size();
   for(Int_t ipho=0; ipho < nPho; ipho++){
     if(year == 2016 && (phoFiredSingleTrgs[ipho]>>7&1) == 0) continue;
-      else if(year == 2017 && (phoFiredSingleTrgs[ipho]>>8&1) == 0) continue;
-      else if(year == 2018 && (phoFiredSingleTrgs[ipho]>>7&1) == 0) continue;
+    else if(year == 2017 && (phoFiredSingleTrgs[ipho]>>8&1) == 0) continue;
+    else if(year == 2018 && (phoFiredSingleTrgs[ipho]>>7&1) == 0) continue;
     //if((phoID[ipho]>>iWP&1) == 0) continue;
     //passed.push_back(ipho);
     Int_t pass =0;
@@ -164,7 +164,7 @@ void phoIDcut(Int_t iWP, Int_t year, TreeReader &data,  vector<int>& passed){
 }
 
 Int_t pho_sel(Int_t IDbit, Int_t ibit){
-  Int_t ncut = 12;
+  Int_t ncut = 17;
   Int_t testbit=0;
   
   Int_t nfail=0;
@@ -176,7 +176,7 @@ Int_t pho_sel(Int_t IDbit, Int_t ibit){
 }
 
 Int_t Nm1_sel(Int_t IDbit, Int_t ibit){
-  Int_t ncut = 12;
+  Int_t ncut = 17;
   Int_t testbit =0;
 
   for(Int_t i=0; i<ncut; i++){
