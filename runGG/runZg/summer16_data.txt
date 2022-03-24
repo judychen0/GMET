@@ -1,0 +1,12 @@
+/data1/GMET/minitree/summer16/job_SinglePho_Run2016B_UL/
+/data1/GMET/minitree/summer16/job_SinglePho_Run2016C_UL/
+/data1/GMET/minitree/summer16/job_SinglePho_Run2016D_UL/
+/data1/GMET/minitree/summer16/job_SinglePho_Run2016E_UL/
+/data1/GMET/minitree/summer16/job_SinglePho_Run2016F1_UL/
+/data1/GMET/minitree/summer16/job_SinglePho_Run2016F2_UL/
+/data1/GMET/minitree/summer16/job_SinglePho_Run2016G_UL/
+/data1/GMET/minitree/summer16/job_SinglePho_Run2016H_UL/
+
+
+
+

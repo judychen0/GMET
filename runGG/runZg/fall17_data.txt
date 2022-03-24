@@ -1,0 +1,5 @@
+/data1/GMET/minitree/fall17/job_SinglePho_Run2017B_UL/
+/data1/GMET/minitree/fall17/job_SinglePho_Run2017C_UL/
+/data1/GMET/minitree/fall17/job_SinglePho_Run2017D_UL/
+/data1/GMET/minitree/fall17/job_SinglePho_Run2017E_UL/
+/data1/GMET/minitree/fall17/job_SinglePho_Run2017F_UL/

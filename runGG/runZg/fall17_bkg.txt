@@ -1,0 +1,16 @@
+/data1/GMET/minitree/fall17/job_fall17_GJets_MG_HT200to400/
+/data1/GMET/minitree/fall17/job_fall17_GJets_MG_HT400to600/
+/data1/GMET/minitree/fall17/job_fall17_GJets_MG_HT600toInf/
+/data1/GMET/minitree/fall17/job_fall17_Wg_aMCatNLO/
+/data1/GMET/minitree/fall17/job_fall17_Wg_aMCatNLO_ext1/
+/data1/GMET/minitree/fall17/job_fall17_Zg_aMCatNLO/
+/data1/GMET/minitree/fall17/job_fall17_TT_aMCatNLO/
+/data1/GMET/minitree/fall17/job_fall17_WW/
+/data1/GMET/minitree/fall17/job_fall17_WZ/
+/data1/GMET/minitree/fall17/job_fall17_ZZ/
+/data1/GMET/minitree/fall17/job_fall17_WWG/
+/data1/GMET/minitree/fall17/job_fall17_WZG/
+/data1/GMET/minitree/fall17/job_fall17_EWK_Wminus/
+/data1/GMET/minitree/fall17/job_fall17_EWK_Wplus/
+/data1/GMET/minitree/fall17/job_fall17_EWK_Zll/
+/data1/GMET/minitree/fall17/job_fall17_EWK_Zvv/

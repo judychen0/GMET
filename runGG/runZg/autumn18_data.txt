@@ -1,0 +1,4 @@
+/data1/GMET/minitree/autumn18/job_EGamma_Run2018A_UL/
+/data1/GMET/minitree/autumn18/job_EGamma_Run2018B_UL/
+/data1/GMET/minitree/autumn18/job_EGamma_Run2018C_UL/
+/data1/GMET/minitree/autumn18/job_EGamma_Run2018D_UL/
