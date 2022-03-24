@@ -80,6 +80,7 @@ void xDrawStack_Nm1(Int_t year){
 
   Float_t lumi16 = 36.33;
   Float_t lumi17 = 41.48;
+  Float_t lumi18 = 59.83;
   Float_t lumi = 1.0;
   if(year==2016){
     lumi = lumi16;
@@ -87,8 +88,12 @@ void xDrawStack_Nm1(Int_t year){
   else if(year==2017){
     lumi = lumi17;
   }
+  else if(year==2018){
+    lumi = lumi18;
+  }
+  
  //Float_t xsec[20] = {1, 1, 1, 1, 1, 1, 1, 192.3, 123.3, 750.5, 0.296};//[GJet, WJet, ZJet, DYJet, monoB, diB, triB, Wg, Zg, TTJet, Znng]
-  Float_t xsec[20] = {1, 1, 1, 1, 1, 1, 1, 192.3, 123.3, 750.5, 0.018};//[GJet, WJet, ZJet, DYJet, monoB, diB, triB, Wg, Zg, TTJet, ZnngVBS]
+  Float_t xsec[20] = {1, 1, 1, 1, 1, 1, 1, 192.3, 123.3, 750.5, 0.01817};//[GJet, WJet, ZJet, DYJet, monoB, diB, triB, Wg, Zg, TTJet, ZnngVBS]
   Float_t filter[20] = {1., 1., 1., 1., 1., 1., 1.};
   Float_t kfactor[20] = {1., 1., 1., 1., 1., 1., 1.};
   /*
@@ -119,51 +124,50 @@ void xDrawStack_Nm1(Int_t year){
   
   
   if(year==2016){
-    rootname[0] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/summer16/mc/GJet/output_merge_GJet.root";
-    rootname[1] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/summer16/mc/WJet/output_merge_WJet.root";
-    rootname[2] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/summer16/mc/ZJet/output_merge_ZJet.root";
-    rootname[3] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/summer16/mc/DYJet/output_merge_DYJet.root";
-    rootname[4] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/summer16/mc/monoboson/output_merge_monoBoson.root";
-    rootname[5] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/summer16/mc/diboson/output_merge_diBoson.root";
-    rootname[6] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/summer16/mc/triboson/output_merge_triBoson.root";
-    rootname[7] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/summer16/mc/job_summer16_Wg_aMCatNLO/output_ggtree.root";
-    rootname[8] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/summer16/mc/job_summer16_Zg_aMCatNLO/output_ggtree.root";
-    rootname[9] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/summer16/mc/job_summer16_TT_aMCatNLO/output_ggtree.root";
+    rootname[0] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/summer16/mc/GJet/output_merge_GJet.root";
+    rootname[1] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/summer16/mc/WJet/output_merge_WJet.root";
+    rootname[2] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/summer16/mc/ZJet/output_merge_ZJet.root";
+    rootname[3] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/summer16/mc/DYJet/output_merge_DYJet.root";
+    rootname[4] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/summer16/mc/monoboson/output_merge_monoBoson.root";
+    rootname[5] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/summer16/mc/diboson/output_merge_diBoson.root";
+    rootname[6] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/summer16/mc/triboson/output_merge_triBoson.root";
+    rootname[7] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/summer16/mc/job_summer16_Wg_aMCatNLO/output_ggtree.root";
+    rootname[8] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/summer16/mc/job_summer16_Zg_aMCatNLO/output_ggtree.root";
+    rootname[9] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/summer16/mc/job_summer16_TT_aMCatNLO/output_ggtree.root";
     //rootname[10] = "/home/judy/ntuhep/GMET/output_file/summer16/mc/job_summer16_Znunug_pt130/output_ggtree.root";
-    rootname[10] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/summer16/mc/job_UL17_Znunug_VBS/output_ggtree.root";
-    //rootname[10] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/summer16/mc/job_summer16_Zg_EWK/output_ggtree.root";
-    rootname[11] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/summer16/data/output_ggtree.root";
+    rootname[10] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/summer16/mc/job_UL17_Znunug_VBS/output_ggtree.root";
+    //rootname[10] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/summer16/mc/job_summer16_Zg_EWK/output_ggtree.root";
+    rootname[11] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/summer16/data/output_ggtree.root";
   }
   else if(year==2017){
-    rootname[0] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/fall17/mc/GJet/output_merge_GJet.root";
-    rootname[1] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/fall17/mc/WJet/output_merge_WJet.root";
-    rootname[2] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/fall17/mc/ZJet/output_merge_ZJet.root";
-    rootname[3] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/fall17/mc/DYJet/output_merge_DYJet.root";
-    rootname[4] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/fall17/mc/monoboson/output_merge_monoBoson.root";
-    rootname[5] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/fall17/mc/diboson/output_merge_diBoson.root";
-    rootname[6] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/fall17/mc/triboson/output_merge_triBoson.root";
-    rootname[7] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/fall17/mc/job_fall17_Wg_aMCatNLO/output_ggtree.root";
-    rootname[8] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/fall17/mc/job_fall17_Zg_aMCatNLO/output_ggtree.root";
-    rootname[9] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/fall17/mc/job_fall17_TT_aMCatNLO/output_ggtree.root";
+    rootname[0] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/fall17/mc/GJet/output_merge_GJet.root";
+    rootname[1] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/fall17/mc/WJet/output_merge_WJet.root";
+    rootname[2] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/fall17/mc/ZJet/output_merge_ZJet.root";
+    rootname[3] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/fall17/mc/DYJet/output_merge_DYJet.root";
+    rootname[4] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/fall17/mc/monoboson/output_merge_monoBoson.root";
+    rootname[5] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/fall17/mc/diboson/output_merge_diBoson.root";
+    rootname[6] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/fall17/mc/triboson/output_merge_triBoson.root";
+    rootname[7] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/fall17/mc/job_fall17_Wg_aMCatNLO/output_ggtree.root";
+    rootname[8] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/fall17/mc/job_fall17_Zg_aMCatNLO/output_ggtree.root";
+    rootname[9] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/fall17/mc/job_fall17_TT_aMCatNLO/output_ggtree.root";
     //rootname[10] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_Znunug_pt130/output_ggtree.root";
-    rootname[10] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/fall17/mc/job_UL17_Znunug_VBS/output_ggtree.root";
-    //rootname[11] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/fall17/data/output_ggtree.root";
-    rootname[11] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/fall17/data/output_ggtree.root";
+    rootname[10] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/fall17/mc/job_UL17_Znunug_VBS/output_ggtree.root";
+    rootname[11] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/fall17/data/output_ggtree.root";
   }
   else if(year==2018){
-    rootname[0] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/autumn18/mc/GJet/output_merge_GJet.root";
-    rootname[1] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/autumn18/mc/WJet/output_merge_WJet.root";
-    rootname[2] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/autumn18/mc/ZJet/output_merge_ZJet.root";
-    rootname[3] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/autumn18/mc/DYJet/output_merge_DYJet.root";
-    rootname[4] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/autumn18/mc/monoboson/output_merge_monoBoson.root";
-    rootname[5] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/autumn18/mc/diboson/output_merge_diBoson.root";
-    rootname[6] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/autumn18/mc/triboson/output_merge_triBoson.root";
-    rootname[7] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/autumn18/mc/job_autumn18_Wg_aMCatNLO/output_ggtree.root";
-    rootname[8] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/autumn18/mc/job_autumn18_Zg_aMCatNLO/output_ggtree.root";
-    rootname[9] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/autumn18/mc/job_autumn18_TT_aMCatNLO_ext1/output_ggtree.root";
-    //rootname[10] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/autumn18/mc/job_autumn18_Znunug_pt130/output_ggtree.root";
-    rootname[10] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/autumn18/mc/job_UL18_Znunug_VBS/output_ggtree.root";
-    rootname[11] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/211229/autumn18/data/output_ggtree.root";
+    rootname[0] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/autumn18/mc/GJet/output_merge_GJet.root";
+    rootname[1] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/autumn18/mc/WJet/output_merge_WJet.root";
+    rootname[2] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/autumn18/mc/ZJet/output_merge_ZJet.root";
+    rootname[3] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/autumn18/mc/DYJet/output_merge_DYJet.root";
+    rootname[4] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/autumn18/mc/monoboson/output_merge_monoBoson.root";
+    rootname[5] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/autumn18/mc/diboson/output_merge_diBoson.root";
+    rootname[6] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/autumn18/mc/triboson/output_merge_triBoson.root";
+    rootname[7] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/autumn18/mc/job_autumn18_Wg_aMCatNLO/output_ggtree.root";
+    rootname[8] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/autumn18/mc/job_autumn18_Zg_aMCatNLO/output_ggtree.root";
+    rootname[9] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/autumn18/mc/job_autumn18_TT_aMCatNLO_ext1/output_ggtree.root";
+    //rootname[10] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/autumn18/mc/job_autumn18_Znunug_pt130/output_ggtree.root";
+    rootname[10] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/autumn18/mc/job_UL18_Znunug_VBS/output_ggtree.root";
+    rootname[11] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220318/autumn18/data/output_ggtree.root";
   }
   
   for(Int_t i=0; i<nfile-1; i++){
@@ -206,38 +210,38 @@ void xDrawStack_Nm1(Int_t year){
   TCanvas *c1 = new TCanvas("c1");
   TTree *t;
   
-  TH1F *H_dr_jetjet_Nm1[nfile];
+  TH1F *H_minJMETdPhi_Nm1[nfile];
   TH1F *H_dEta_jetjet_Nm1[nfile];
+  TH1F *H_dPhi_jetjet_Nm1[nfile];
   TH1F *H_dijetMass_Nm1[nfile];
-  
-  TH1F *H_SeedTime_Nm1[nfile][nhisto];
+      
   TH1F *H_MET_Nm1[nfile][nhisto];
   TH1F *H_METPhi_Nm1[nfile][nhisto];
   TH1F *H_dphoMETPhi_Nm1[nfile][nhisto];
   TH1F *H_njet_Nm1[nfile][nhisto];
-  TH1F *H_djetMETPhi_Nm1[nfile][nhisto][njet];
+  TH1F *H_djetMETPhi_Nm1[nfile][njet];
 
-  TH1F *HA_dr_jetjet_Nm1;
+  TH1F *HA_minJMETdPhi_Nm1;
   TH1F *HA_dEta_jetjet_Nm1;
+  TH1F *HA_dPhi_jetjet_Nm1;
   TH1F *HA_dijetMass_Nm1;
-  
-  TH1F *HA_SeedTime_Nm1[nhisto];
+
   TH1F *HA_MET_Nm1[nhisto];
   TH1F *HA_METPhi_Nm1[nhisto];
   TH1F *HA_dphoMETPhi_Nm1[nhisto];
   TH1F *HA_njet_Nm1[nhisto];
-  TH1F *HA_djetMETPhi_Nm1[nhisto][njet];
-
-  TH1F *HSig_dr_jetjet_Nm1;
+  TH1F *HA_djetMETPhi_Nm1[njet];
+  
+  TH1F *HSig_minJMETdPhi_Nm1;
   TH1F *HSig_dEta_jetjet_Nm1;
+  TH1F *HSig_dPhi_jetjet_Nm1;
   TH1F *HSig_dijetMass_Nm1;
 
-  TH1F *HSig_SeedTime_Nm1[nhisto];
   TH1F *HSig_MET_Nm1[nhisto];
   TH1F *HSig_METPhi_Nm1[nhisto];
   TH1F *HSig_dphoMETPhi_Nm1[nhisto];
   TH1F *HSig_njet_Nm1[nhisto];
-  TH1F *HSig_djetMETPhi_Nm1[nhisto][njet];
+  TH1F *HSig_djetMETPhi_Nm1[njet];
 
   
   const char *title;
@@ -249,227 +253,227 @@ void xDrawStack_Nm1(Int_t year){
     fopen = new TFile(rootname[i]);
     if(i==nfile-1) scale[i] = 1.0;
 
-    H_dr_jetjet_Nm1[i]	= (TH1F*)fopen->Get("h_dr_jetjet_Nm1");
-    H_dEta_jetjet_Nm1[i]	= (TH1F*)fopen->Get("h_dEta_jetjet_Nm1");
-    H_dijetMass_Nm1[i]	= (TH1F*)fopen->Get("h_dijetMass_Nm1");
-    H_dijetMass_Nm1[i]->Rebin(8);
+    H_minJMETdPhi_Nm1[i] = (TH1F*)fopen->Get("dijet/h_minJMETdPhi_Nm1");
+    H_dEta_jetjet_Nm1[i] = (TH1F*)fopen->Get("dijet/h_dEta_jetjet_Nm1");
+    H_dPhi_jetjet_Nm1[i] = (TH1F*)fopen->Get("dijet/h_dPhi_jetjet_Nm1");
+    H_dijetMass_Nm1[i] = (TH1F*)fopen->Get("dijet/h_dijetMass_Nm1");
 
     if(i==0){
-      HA_dr_jetjet_Nm1	= (TH1F*)fopen->Get("h_dr_jetjet_Nm1")->Clone();
-      HA_dEta_jetjet_Nm1	= (TH1F*)fopen->Get("h_dEta_jetjet_Nm1")->Clone();
-      HA_dijetMass_Nm1	= (TH1F*)fopen->Get("h_dijetMass_Nm1")->Clone();
+
+      HA_minJMETdPhi_Nm1 = (TH1F*)fopen->Get("dijet/h_minJMETdPhi_Nm1")->Clone();
+      HA_dEta_jetjet_Nm1 = (TH1F*)fopen->Get("dijet/h_dEta_jetjet_Nm1")->Clone();
+      HA_dPhi_jetjet_Nm1 = (TH1F*)fopen->Get("dijet/h_dPhi_jetjet_Nm1")->Clone();
+      HA_dijetMass_Nm1 = (TH1F*)fopen->Get("dijet/h_dijetMass_Nm1")->Clone();
 
       ///
-      HA_dr_jetjet_Nm1->Scale(scale[i]);
+      HA_minJMETdPhi_Nm1->Scale(scale[i]);
       HA_dEta_jetjet_Nm1->Scale(scale[i]);
+      HA_dPhi_jetjet_Nm1->Scale(scale[i]);
       HA_dijetMass_Nm1->Scale(scale[i]);
-      
-      HA_dr_jetjet_Nm1->SetFillStyle(3145);
+
+      HA_minJMETdPhi_Nm1->SetFillStyle(3145);
       HA_dEta_jetjet_Nm1->SetFillStyle(3145);
+      HA_dPhi_jetjet_Nm1->SetFillStyle(3145);
       HA_dijetMass_Nm1->SetFillStyle(3145);
 
-      HA_dr_jetjet_Nm1->SetFillColor(12);
+      HA_minJMETdPhi_Nm1->SetFillColor(12);
       HA_dEta_jetjet_Nm1->SetFillColor(12);
+      HA_dPhi_jetjet_Nm1->SetFillColor(12);
       HA_dijetMass_Nm1->SetFillColor(12);
 
-      HA_dr_jetjet_Nm1->SetMarkerSize(0.1);
+      HA_minJMETdPhi_Nm1->SetMarkerSize(0.1);
       HA_dEta_jetjet_Nm1->SetMarkerSize(0.1);
+      HA_dPhi_jetjet_Nm1->SetMarkerSize(0.1);
       HA_dijetMass_Nm1->SetMarkerSize(0.1);
+
     }
 
     if(i==nfile-2){
-      HSig_dr_jetjet_Nm1	= (TH1F*)fopen->Get("h_dr_jetjet_Nm1")->Clone();
-      HSig_dEta_jetjet_Nm1	= (TH1F*)fopen->Get("h_dEta_jetjet_Nm1")->Clone();
-      HSig_dijetMass_Nm1	= (TH1F*)fopen->Get("h_dijetMass_Nm1")->Clone();
-    
-      HSig_dr_jetjet_Nm1->Scale(scale[i]);
+
+      HSig_minJMETdPhi_Nm1 = (TH1F*)fopen->Get("dijet/h_minJMETdPhi_Nm1")->Clone();
+      HSig_dEta_jetjet_Nm1 = (TH1F*)fopen->Get("dijet/h_dEta_jetjet_Nm1")->Clone();
+      HSig_dPhi_jetjet_Nm1 = (TH1F*)fopen->Get("dijet/h_dPhi_jetjet_Nm1")->Clone();
+      HSig_dijetMass_Nm1 = (TH1F*)fopen->Get("dijet/h_dijetMass_Nm1")->Clone();
+
+      HSig_minJMETdPhi_Nm1->Scale(scale[i]);
       HSig_dEta_jetjet_Nm1->Scale(scale[i]);
+      HSig_dPhi_jetjet_Nm1->Scale(scale[i]);
       HSig_dijetMass_Nm1->Scale(scale[i]);
 
-      HSig_dr_jetjet_Nm1->SetLineColor(kRed);
+      HSig_minJMETdPhi_Nm1->SetLineColor(kRed);
       HSig_dEta_jetjet_Nm1->SetLineColor(kRed);
+      HSig_dPhi_jetjet_Nm1->SetLineColor(kRed);
       HSig_dijetMass_Nm1->SetLineColor(kRed);
 
-      HSig_dr_jetjet_Nm1->SetLineWidth(2);
+      HSig_minJMETdPhi_Nm1->SetLineWidth(2);
       HSig_dEta_jetjet_Nm1->SetLineWidth(2);
+      HSig_dPhi_jetjet_Nm1->SetLineWidth(2);
       HSig_dijetMass_Nm1->SetLineWidth(2);
 
     }
 
-    H_dr_jetjet_Nm1[i]->Scale(scale[i]);
-    H_dEta_jetjet_Nm1[i]->Scale(scale[i]);
-    H_dijetMass_Nm1[i]->Scale(scale[i]);
-
     if(i<nfile-1){
-      H_dr_jetjet_Nm1[i]->SetFillColor(cnum[i]);
-      H_dEta_jetjet_Nm1[i]->SetFillColor(cnum[i]);
-      H_dijetMass_Nm1[i]->SetFillColor(cnum[i]);
       
+      H_minJMETdPhi_Nm1[i]->SetFillColor(cnum[i]);
+      H_dEta_jetjet_Nm1[i]->SetFillColor(cnum[i]);
+      H_dPhi_jetjet_Nm1[i]->SetFillColor(cnum[i]);
+      H_dijetMass_Nm1[i]->SetFillColor(cnum[i]);
+
     }
 
-    H_dr_jetjet_Nm1[i]->SetLineColor(1);
-    H_dEta_jetjet_Nm1[i]->SetLineColor(1);
-    H_dijetMass_Nm1[i]->SetLineColor(1);
-
-    H_dr_jetjet_Nm1[i]->SetLineWidth(1);
-    H_dEta_jetjet_Nm1[i]->SetLineWidth(1);
-    H_dijetMass_Nm1[i]->SetLineWidth(1);
-
     if(i==nfile-1){
-
-      H_dr_jetjet_Nm1[i]->SetLineWidth(2);
+      
+      H_minJMETdPhi_Nm1[i]->SetLineWidth(2);
       H_dEta_jetjet_Nm1[i]->SetLineWidth(2);
+      H_dPhi_jetjet_Nm1[i]->SetLineWidth(2);
       H_dijetMass_Nm1[i]->SetLineWidth(2);
 
-      H_dr_jetjet_Nm1[i]->SetMarkerStyle(8);
+      H_minJMETdPhi_Nm1[i]->SetMarkerStyle(8);
       H_dEta_jetjet_Nm1[i]->SetMarkerStyle(8);
+      H_dPhi_jetjet_Nm1[i]->SetMarkerStyle(8);
       H_dijetMass_Nm1[i]->SetMarkerStyle(8);
-    
-      H_dr_jetjet_Nm1[i]->SetMarkerSize(0.9);
+
+      H_minJMETdPhi_Nm1[i]->SetMarkerSize(0.9);
       H_dEta_jetjet_Nm1[i]->SetMarkerSize(0.9);
+      H_dPhi_jetjet_Nm1[i]->SetMarkerSize(0.9);
       H_dijetMass_Nm1[i]->SetMarkerSize(0.9);
 
     }
+    
+    H_minJMETdPhi_Nm1[i]->Scale(scale[i]);
+    H_dEta_jetjet_Nm1[i]->Scale(scale[i]);
+    H_dPhi_jetjet_Nm1[i]->Scale(scale[i]);
+    H_dijetMass_Nm1[i]->Scale(scale[i]);
 
+    H_minJMETdPhi_Nm1[i]->SetLineColor(1);
+    H_dEta_jetjet_Nm1[i]->SetLineColor(1);
+    H_dPhi_jetjet_Nm1[i]->SetLineColor(1);
+    H_dijetMass_Nm1[i]->SetLineColor(1);
+
+    H_minJMETdPhi_Nm1[i]->SetLineWidth(1);
+    H_dEta_jetjet_Nm1[i]->SetLineWidth(1);
+    H_dPhi_jetjet_Nm1[i]->SetLineWidth(1);
+    H_dijetMass_Nm1[i]->SetLineWidth(1);
+
+    
     for(Int_t jj=0; jj<nhisto; jj++){
       
-      //H_SeedTime_Nm1[i][jj] = (TH1F*)fopen->Get(Form("SMandVBS/h_SeedTime_Nm1_%i", jj));
       H_MET_Nm1[i][jj] = (TH1F*)fopen->Get(Form("SMandVBS/h_MET_Nm1_%i", jj));
       H_METPhi_Nm1[i][jj] = (TH1F*)fopen->Get(Form("SMandVBS/h_METPhi_Nm1_%i", jj));
       H_dphoMETPhi_Nm1[i][jj] = (TH1F*)fopen->Get(Form("SMandVBS/h_dphoMETPhi_Nm1_%i", jj));
       H_njet_Nm1[i][jj] = (TH1F*)fopen->Get(Form("SMandVBS/h_njet_Nm1_%i", jj));
+      H_djetMETPhi_Nm1[i][jj] = (TH1F*)fopen->Get(Form("dijet/h_djetMETPhi_Nm1_jet%i", jj));
 
       if(i==0){
+
 	HA_MET_Nm1[jj] = (TH1F*)fopen->Get(Form("SMandVBS/h_MET_Nm1_%i", jj))->Clone();
 	HA_METPhi_Nm1[jj] = (TH1F*)fopen->Get(Form("SMandVBS/h_METPhi_Nm1_%i", jj))->Clone();
 	HA_dphoMETPhi_Nm1[jj] = (TH1F*)fopen->Get(Form("SMandVBS/h_dphoMETPhi_Nm1_%i", jj))->Clone();
 	HA_njet_Nm1[jj] = (TH1F*)fopen->Get(Form("SMandVBS/h_njet_Nm1_%i", jj))->Clone();
-	
+	HA_djetMETPhi_Nm1[jj] = (TH1F*)fopen->Get(Form("dijet/h_djetMETPhi_Nm1_jet%i", jj))->Clone();
+
 	HA_MET_Nm1[jj]->Scale(scale[i]);
 	HA_METPhi_Nm1[jj]->Scale(scale[i]);
 	HA_dphoMETPhi_Nm1[jj]->Scale(scale[i]);
 	HA_njet_Nm1[jj]->Scale(scale[i]);
+	HA_djetMETPhi_Nm1[jj]->Scale(scale[i]);
 
 	HA_MET_Nm1[jj]->SetFillStyle(3145);
 	HA_METPhi_Nm1[jj]->SetFillStyle(3145);
 	HA_dphoMETPhi_Nm1[jj]->SetFillStyle(3145);
 	HA_njet_Nm1[jj]->SetFillStyle(3145);
-
+	HA_djetMETPhi_Nm1[jj]->SetFillStyle(3145);
+	
 	HA_MET_Nm1[jj]->SetFillColor(12);
 	HA_METPhi_Nm1[jj]->SetFillColor(12);
 	HA_dphoMETPhi_Nm1[jj]->SetFillColor(12);
 	HA_njet_Nm1[jj]->SetFillColor(12);
-
+	HA_djetMETPhi_Nm1[jj]->SetFillColor(12);
+	
 	HA_MET_Nm1[jj]->SetMarkerSize(0.1);
 	HA_METPhi_Nm1[jj]->SetMarkerSize(0.1);
 	HA_dphoMETPhi_Nm1[jj]->SetMarkerSize(0.1);
 	HA_njet_Nm1[jj]->SetMarkerSize(0.1);
+	HA_djetMETPhi_Nm1[jj]->SetMarkerSize(0.1);
 
       }
 
       if(i==nfile-2){
+	
 	HSig_MET_Nm1[jj] = (TH1F*)fopen->Get(Form("SMandVBS/h_MET_Nm1_%i", jj))->Clone();
 	HSig_METPhi_Nm1[jj] = (TH1F*)fopen->Get(Form("SMandVBS/h_METPhi_Nm1_%i", jj))->Clone();
 	HSig_dphoMETPhi_Nm1[jj] = (TH1F*)fopen->Get(Form("SMandVBS/h_dphoMETPhi_Nm1_%i", jj))->Clone();
 	HSig_njet_Nm1[jj] = (TH1F*)fopen->Get(Form("SMandVBS/h_njet_Nm1_%i", jj))->Clone();
+	HSig_djetMETPhi_Nm1[jj] = (TH1F*)fopen->Get(Form("dijet/h_djetMETPhi_Nm1_jet%i", jj))->Clone();
 	
 	HSig_MET_Nm1[jj]->Scale(scale[i]);
 	HSig_METPhi_Nm1[jj]->Scale(scale[i]);
 	HSig_dphoMETPhi_Nm1[jj]->Scale(scale[i]);
 	HSig_njet_Nm1[jj]->Scale(scale[i]);
-
+	HSig_djetMETPhi_Nm1[jj]->Scale(scale[i]);
+		
 	HSig_MET_Nm1[jj]->SetLineColor(kRed);
 	HSig_METPhi_Nm1[jj]->SetLineColor(kRed);
 	HSig_dphoMETPhi_Nm1[jj]->SetLineColor(kRed);
 	HSig_njet_Nm1[jj]->SetLineColor(kRed);
-
+	HSig_djetMETPhi_Nm1[jj]->SetLineColor(kRed);
+		
 	HSig_MET_Nm1[jj]->SetLineWidth(2);
 	HSig_METPhi_Nm1[jj]->SetLineWidth(2);
 	HSig_dphoMETPhi_Nm1[jj]->SetLineWidth(2);
 	HSig_njet_Nm1[jj]->SetLineWidth(2);
+	HSig_djetMETPhi_Nm1[jj]->SetLineWidth(2);
 
       }
-      
-      //H_SeedTime_Nm1[i][jj]->Scale(scale[i]);
+            
       H_MET_Nm1[i][jj]->Scale(scale[i]);
       H_METPhi_Nm1[i][jj]->Scale(scale[i]);
       H_dphoMETPhi_Nm1[i][jj]->Scale(scale[i]);
       H_njet_Nm1[i][jj]->Scale(scale[i]);
-      
+      H_djetMETPhi_Nm1[i][jj]->Scale(scale[i]);
 
       if(i<nfile-1){
-	//H_SeedTime_Nm1[i][jj]->SetFillColor(cnum[i]);
+
 	H_MET_Nm1[i][jj]->SetFillColor(cnum[i]);
 	H_METPhi_Nm1[i][jj]->SetFillColor(cnum[i]);
 	H_dphoMETPhi_Nm1[i][jj]->SetFillColor(cnum[i]);
 	H_njet_Nm1[i][jj]->SetFillColor(cnum[i]);
+	H_djetMETPhi_Nm1[i][jj]->SetFillColor(cnum[i]);
 	
       }
       
-      //H_SeedTime_Nm1[i][jj]->SetLineColor(1);
       H_MET_Nm1[i][jj]->SetLineColor(1);
       H_METPhi_Nm1[i][jj]->SetLineColor(1);
       H_dphoMETPhi_Nm1[i][jj]->SetLineColor(1);
       H_njet_Nm1[i][jj]->SetLineColor(1);
+      H_djetMETPhi_Nm1[i][jj]->SetLineColor(1);
 
       H_MET_Nm1[i][jj]->SetLineWidth(1);
       H_METPhi_Nm1[i][jj]->SetLineWidth(1);
       H_dphoMETPhi_Nm1[i][jj]->SetLineWidth(1);
       H_njet_Nm1[i][jj]->SetLineWidth(1);
-      
+      H_djetMETPhi_Nm1[i][jj]->SetLineWidth(1);
       
       if(i==nfile-1){
-	//H_SeedTime_Nm1[i][jj]->SetLineWidth(2);
+
 	H_MET_Nm1[i][jj]->SetLineWidth(2);
 	H_METPhi_Nm1[i][jj]->SetLineWidth(2);
 	H_dphoMETPhi_Nm1[i][jj]->SetLineWidth(2);
 	H_njet_Nm1[i][jj]->SetLineWidth(2);
-	
+	H_djetMETPhi_Nm1[i][jj]->SetLineWidth(2);
 
-	//H_SeedTime_Nm1[i][jj]->SetMarkerStyle(8);
 	H_MET_Nm1[i][jj]->SetMarkerStyle(8);
 	H_METPhi_Nm1[i][jj]->SetMarkerStyle(8);
 	H_dphoMETPhi_Nm1[i][jj]->SetMarkerStyle(8);
 	H_njet_Nm1[i][jj]->SetMarkerStyle(8);
-	
+	H_djetMETPhi_Nm1[i][jj]->SetMarkerStyle(8);
 
-	//H_SeedTime_Nm1[i][jj]->SetMarkerSize(0.8);
-	H_MET_Nm1[i][jj]->SetMarkerSize(0.8);
-	H_METPhi_Nm1[i][jj]->SetMarkerSize(0.8);
-	H_dphoMETPhi_Nm1[i][jj]->SetMarkerSize(0.8);
-	H_njet_Nm1[i][jj]->SetMarkerSize(0.8);
-	
-      }
+	H_MET_Nm1[i][jj]->SetMarkerSize(0.9);
+	H_METPhi_Nm1[i][jj]->SetMarkerSize(0.9);
+	H_dphoMETPhi_Nm1[i][jj]->SetMarkerSize(0.9);
+	H_njet_Nm1[i][jj]->SetMarkerSize(0.9);
+	H_djetMETPhi_Nm1[i][jj]->SetMarkerSize(0.9);
 
-      for(Int_t kk=0; kk<njet; kk++){
-	H_djetMETPhi_Nm1[i][jj][kk] = (TH1F*)fopen->Get(Form("h_jetpt/h_djetMETPhi_Nm1_%i_jet%i", jj, kk));
-	if(i==0){
-	  HA_djetMETPhi_Nm1[jj][kk] = (TH1F*)fopen->Get(Form("h_jetpt/h_djetMETPhi_Nm1_%i_jet%i", jj, kk))->Clone();
-	  HA_djetMETPhi_Nm1[jj][kk]->Scale(scale[i]);
-	  HA_djetMETPhi_Nm1[jj][kk]->SetFillStyle(3145);
-	  HA_djetMETPhi_Nm1[jj][kk]->SetFillColor(12);
-	  HA_djetMETPhi_Nm1[jj][kk]->SetMarkerSize(0.1);
-	}
-
-	if(i==nfile-2){
-	  HSig_djetMETPhi_Nm1[jj][kk] = (TH1F*)fopen->Get(Form("h_jetpt/h_djetMETPhi_Nm1_%i_jet%i", jj, kk))->Clone();
-	  HSig_djetMETPhi_Nm1[jj][kk]->Scale(scale[i]);
-	  HSig_djetMETPhi_Nm1[jj][kk]->SetLineColor(kRed);
-	  HSig_djetMETPhi_Nm1[jj][kk]->SetLineWidth(2);
-	}
-	
-	H_djetMETPhi_Nm1[i][jj][kk]->Scale(scale[i]);
-	if(i<nfile-1){
-	  H_djetMETPhi_Nm1[i][jj][kk]->SetFillColor(cnum[i]);
-	}
-	
-	H_djetMETPhi_Nm1[i][jj][kk]->SetLineColor(1);
-	H_djetMETPhi_Nm1[i][jj][kk]->SetLineWidth(1);
-	if(i==nfile-1){
-	  H_djetMETPhi_Nm1[i][jj][kk]->SetLineWidth(2);
-	  H_djetMETPhi_Nm1[i][jj][kk]->SetMarkerStyle(8);
-	  H_djetMETPhi_Nm1[i][jj][kk]->SetMarkerSize(0.8);
-	}
       }
       
     }
@@ -480,83 +484,80 @@ void xDrawStack_Nm1(Int_t year){
   for(Int_t i=0; i<nfile-1; i++){
     //if(i==10) continue;
     if(i>0){
-      HA_dr_jetjet_Nm1->Add(H_dr_jetjet_Nm1[i]);
+
+      HA_minJMETdPhi_Nm1->Add(H_minJMETdPhi_Nm1[i]);
       HA_dEta_jetjet_Nm1->Add(H_dEta_jetjet_Nm1[i]);
+      HA_dPhi_jetjet_Nm1->Add(H_dPhi_jetjet_Nm1[i]);
       HA_dijetMass_Nm1->Add(H_dijetMass_Nm1[i]);
+
+      for(Int_t jj=0; jj<nhisto; jj++){
+      	
+      	HA_MET_Nm1[jj]->Add(H_MET_Nm1[i][jj]);
+      	HA_METPhi_Nm1[jj]->Add(H_METPhi_Nm1[i][jj]);
+      	HA_dphoMETPhi_Nm1[jj]->Add(H_dphoMETPhi_Nm1[i][jj]);
+      	HA_njet_Nm1[jj]->Add(H_njet_Nm1[i][jj]);
+      	HA_djetMETPhi_Nm1[jj]->Add(H_djetMETPhi_Nm1[i][jj]);
       
-      for(Int_t jj=0; jj<2; jj++){
-	HA_MET_Nm1[jj]->Add(H_MET_Nm1[i][jj]);
-	HA_METPhi_Nm1[jj]->Add(H_METPhi_Nm1[i][jj]);
-	HA_dphoMETPhi_Nm1[jj]->Add(H_dphoMETPhi_Nm1[i][jj]);
-	HA_njet_Nm1[jj]->Add(H_njet_Nm1[i][jj]);
-	for(Int_t kk=0; kk<njet; kk++){
-	  HA_djetMETPhi_Nm1[jj][kk]->Add(H_djetMETPhi_Nm1[i][jj][kk]);
-	}
       }
     }
   }
 
   cout << "pass add" << endl;
-
-  THStack *HS_dr_jetjet_Nm1;
+  
+  THStack *HS_minJMETdPhi_Nm1;
   THStack *HS_dEta_jetjet_Nm1;
+  THStack *HS_dPhi_jetjet_Nm1;
   THStack *HS_dijetMass_Nm1;
-
-  THStack *HS_SeedTime_Nm1[nhisto];
+  
   THStack *HS_MET_Nm1[nhisto];
   THStack *HS_METPhi_Nm1[nhisto];
   THStack *HS_dphoMETPhi_Nm1[nhisto];
   THStack *HS_njet_Nm1[nhisto];
-  THStack *HS_djetMETPhi_Nm1[nhisto][njet];
+  THStack *HS_djetMETPhi_Nm1[njet];
 
-  HS_dr_jetjet_Nm1		= new THStack("HS_dr_jetjet_Nm1", "HS_dr_jetjet_Nm1");
-  HS_dEta_jetjet_Nm1	= new THStack("HS_dEta_jetjet_Nm1", "HS_dEta_jetjet_Nm1");
-  HS_dijetMass_Nm1		= new THStack("HS_dijetMass_Nm1", "HS_dijetMass_Nm1");
-  
+  HS_minJMETdPhi_Nm1 = new THStack("HS_minJMETdPhi_Nm1", "HS_minJMETdPhi_Nm1");
+  HS_dEta_jetjet_Nm1 = new THStack("HS_dEta_jetjet_Nm1", "HS_dEta_jetjet_Nm1");
+  HS_dPhi_jetjet_Nm1 = new THStack("HS_dPhi_jetjet_Nm1", "HS_dPhi_jetjet_Nm1");
+  HS_dijetMass_Nm1 = new THStack("HS_dijetMass_Nm1", "HS_dijetMass_Nm1");
+
   for(Int_t jj=0; jj<nhisto; jj++){
-    //HS_SeedTime_Nm1[jj] = new THStack(Form("HS_SeedTime_Nm1_%i", jj), "HS_SeedTime_Nm1");
+
     HS_MET_Nm1[jj] = new THStack(Form("HS_MET_Nm1_%i", jj), "HS_MET_Nm1");
     HS_METPhi_Nm1[jj] = new THStack(Form("HS_METPhi_Nm1_%i", jj), "HS_METPhi_Nm1");
     HS_dphoMETPhi_Nm1[jj] = new THStack(Form("HS_dphoMETPhi_Nm1_%i", jj), "HS_dphoMETPhi_Nm1");
     HS_njet_Nm1[jj] = new THStack(Form("HS_njet_Nm1_%i", jj), "HS_njet_Nm1");
-    for(Int_t kk=0; kk<njet; kk++){
-      HS_djetMETPhi_Nm1[jj][kk] = new THStack(Form("HS_djetMETPhi_Nm1_%i_jet%i", jj, kk), "HS_djetMETPhi_Nm1");
-    }
-  }
-  
-  
+    HS_djetMETPhi_Nm1[jj] = new THStack(Form("HS_djetMETPhi_Nm1_%i", jj), "HS_djetMETPhi_Nm1");
 
+  }  
+  
   for(Int_t i=0; i<nfile-1; i++){
     //if(i==10) continue;//pass Zvv signal
 
-    HS_dr_jetjet_Nm1->Add(H_dr_jetjet_Nm1[i]);	
-    HS_dEta_jetjet_Nm1->Add(H_dEta_jetjet_Nm1[i]);	
+    HS_minJMETdPhi_Nm1->Add(H_minJMETdPhi_Nm1[i]);
+    HS_dEta_jetjet_Nm1->Add(H_dEta_jetjet_Nm1[i]);
+    HS_dPhi_jetjet_Nm1->Add(H_dPhi_jetjet_Nm1[i]);
     HS_dijetMass_Nm1->Add(H_dijetMass_Nm1[i]);
 
+
     for(Int_t jj=0; jj<nhisto; jj++){
-      //HS_SeedTime_Nm1[jj]->Add(H_SeedTime_Nm1[i][jj]);
+
       HS_MET_Nm1[jj]->Add(H_MET_Nm1[i][jj]);
       HS_METPhi_Nm1[jj]->Add(H_METPhi_Nm1[i][jj]);
-      HS_njet_Nm1[jj]->Add(H_njet_Nm1[i][jj]);
-      
-      c1->SetLogy();
-      c1->Update();
-    
       HS_dphoMETPhi_Nm1[jj]->Add(H_dphoMETPhi_Nm1[i][jj]);
-      for(Int_t kk=0; kk<njet; kk++){
-	HS_djetMETPhi_Nm1[jj][kk]->Add(H_djetMETPhi_Nm1[i][jj][kk]);
-      }
+      HS_njet_Nm1[jj]->Add(H_njet_Nm1[i][jj]);
+      HS_djetMETPhi_Nm1[jj]->Add(H_djetMETPhi_Nm1[i][jj]);
+
     }    
   }
 
   cout << "pass stack" << endl;
 
   //TLegend *lhs = new TLegend(0.6,0.7, 0.92, 0.90);
-  TLegend *lhs = new TLegend(0.52, 0.66, 0.92, 0.90);//VBS
+  TLegend *lhs = new TLegend(0.50, 0.66, 0.90, 0.90);//VBS
   lhs->SetTextSize(0.035);
   lhs->SetFillStyle(0);
   //TString ltext[20] = {"#gamma+jet", "W(#rightarrowl#nu)+jets", "Z(#rightarrow#nu#nu)+jets", "Z(#rightarrowll)+jets", "Monoboson", "Diboson", "Triboson", "Wg#rightarrowl#nug", "Zg#rightarrowllg", "ttJets", "Zg#rightarrow#nu#nug", "DATA"};//Znunug QCD
-  TString ltext[20] = {"#gamma+jet", "W(#rightarrowl#nu)+jets", "Z(#rightarrow#nu#nu)+jets", "Z(#rightarrowll)+jets", "Monoboson", "Diboson", "Triboson", "Wg#rightarrowl#nug", "Zg#rightarrowllg", "ttJets", "Zg#rightarrow#nu#nug(VBS)", "DATA"};//Znunug VBS
+  TString ltext[20] = {"#gamma+jet", "W(#rightarrowl#nu)+jets", "Z(#rightarrow#nu#nu)+jets", "Z(#rightarrowll)+jets", "Monoboson", "Diboson", "Triboson", "Wg#rightarrowl#nu#gamma", "Zg#rightarrowll#gamma", "ttJets", "Z#gamma#rightarrow#nu#nu#gamma(VBS)", "DATA"};//Znunug VBS
 
   TH1F *hratio;
   Double_t x[3] = {-2000, 0.0, 2000};
@@ -588,38 +589,39 @@ void xDrawStack_Nm1(Int_t year){
     period = 3;
   }
 
+
   pad1->cd();
-  HS_dr_jetjet_Nm1->Draw("HIST");
-  H_dr_jetjet_Nm1[nfile-1]->Draw("SAME");
-  HSig_dr_jetjet_Nm1->Draw("HISTSAME");
-  HA_dr_jetjet_Nm1->Draw("E2 SAME");
-  HS_dr_jetjet_Nm1->GetYaxis()->SetTitle("Events");
-  HS_dr_jetjet_Nm1->GetXaxis()->SetTitle("");
-  //HS_dr_jetjet_Nm1->GetYaxis()->ChangeLabel(1, -1, 0, -1, -1, -1, "");
-  HS_dr_jetjet_Nm1->GetXaxis()->SetLabelSize(0);
-  HS_dr_jetjet_Nm1->SetMaximum(10000);
-  HS_dr_jetjet_Nm1->SetMinimum(1);
+  HS_minJMETdPhi_Nm1->Draw("HIST");
+  H_minJMETdPhi_Nm1[nfile-1]->Draw("SAME");
+  HSig_minJMETdPhi_Nm1->Draw("HISTSAME");
+  HA_minJMETdPhi_Nm1->Draw("E2 SAME");
+  HS_minJMETdPhi_Nm1->GetYaxis()->SetTitle("Events");
+  HS_minJMETdPhi_Nm1->GetXaxis()->SetTitle("");
+  //HS_minJMETdPhi_Nm1->GetYaxis()->ChangeLabel(1, -1, 0, -1, -1, -1, "");
+  HS_minJMETdPhi_Nm1->GetXaxis()->SetLabelSize(0);
+  HS_minJMETdPhi_Nm1->SetMaximum(80000);
+  HS_minJMETdPhi_Nm1->SetMinimum(1);
   lhs->Clear();
   lhs->SetNColumns(2);
   for(Int_t ifile=0; ifile<nfile; ifile++){
     //if(ifile==10) continue;
-    if(ifile == nfile-1) lhs->AddEntry(H_dr_jetjet_Nm1[ifile], ltext[ifile], "PL");
-    if(ifile == nfile-2) lhs->AddEntry(HSig_dr_jetjet_Nm1, ltext[ifile], "L");
-    if(ifile < nfile-1) lhs->AddEntry(H_dr_jetjet_Nm1[ifile], ltext[ifile], "F");
+    if(ifile == nfile-1) lhs->AddEntry(H_minJMETdPhi_Nm1[ifile], ltext[ifile], "PL");
+    if(ifile == nfile-2) lhs->AddEntry(HSig_minJMETdPhi_Nm1, ltext[ifile], "L");
+    if(ifile < nfile-1) lhs->AddEntry(H_minJMETdPhi_Nm1[ifile], ltext[ifile], "F");
   }
   lhs->Draw("SAME");
-  title = HS_dr_jetjet_Nm1->GetName();
+  title = HS_minJMETdPhi_Nm1->GetName();
   pad2->cd();
-  hratio = ratioplot(HS_dr_jetjet_Nm1, H_dr_jetjet_Nm1[nfile-1]);
+  hratio = ratioplot(HS_minJMETdPhi_Nm1, H_minJMETdPhi_Nm1[nfile-1]);
   hratio->SetTitle("");
-  hratio->GetXaxis()->SetTitle("#DeltaR(jet , jet)");
+  hratio->GetXaxis()->SetTitle("#Delta#phi_{min}(j_{1,2}, MET)");
   hratio->Draw("EP");
   tg->Draw("LSAME");
   CMS_lumi(pad1, period, 0);
   c1->Update();
   c1->RedrawAxis();
   c1->SaveAs(Form("%s/%s.pdf", saveto, title));
-
+  
   pad1->cd();
   HS_dEta_jetjet_Nm1->Draw("HIST");
   H_dEta_jetjet_Nm1[nfile-1]->Draw("SAME");
@@ -629,7 +631,7 @@ void xDrawStack_Nm1(Int_t year){
   HS_dEta_jetjet_Nm1->GetXaxis()->SetTitle("");
   //HS_dEta_jetjet_Nm1->GetYaxis()->ChangeLabel(1, -1, 0, -1, -1, -1, "");
   HS_dEta_jetjet_Nm1->GetXaxis()->SetLabelSize(0);
-  HS_dEta_jetjet_Nm1->SetMaximum(8000);
+  HS_dEta_jetjet_Nm1->SetMaximum(80000);
   HS_dEta_jetjet_Nm1->SetMinimum(1);
   lhs->Clear();
   lhs->SetNColumns(2);
@@ -653,6 +655,38 @@ void xDrawStack_Nm1(Int_t year){
   c1->SaveAs(Form("%s/%s.pdf", saveto, title));
 
   pad1->cd();
+  HS_dPhi_jetjet_Nm1->Draw("HIST");
+  H_dPhi_jetjet_Nm1[nfile-1]->Draw("SAME");
+  HSig_dPhi_jetjet_Nm1->Draw("HISTSAME");
+  HA_dPhi_jetjet_Nm1->Draw("E2 SAME");
+  HS_dPhi_jetjet_Nm1->GetYaxis()->SetTitle("Events");
+  HS_dPhi_jetjet_Nm1->GetXaxis()->SetTitle("");
+  //HS_dPhi_jetjet_Nm1->GetYaxis()->ChangeLabel(1, -1, 0, -1, -1, -1, "");
+  HS_dPhi_jetjet_Nm1->GetXaxis()->SetLabelSize(0);
+  HS_dPhi_jetjet_Nm1->SetMaximum(100000);
+  HS_dPhi_jetjet_Nm1->SetMinimum(1);
+  lhs->Clear();
+  lhs->SetNColumns(2);
+  for(Int_t ifile=0; ifile<nfile; ifile++){
+    //if(ifile==10) continue;
+    if(ifile == nfile-1) lhs->AddEntry(H_dPhi_jetjet_Nm1[ifile], ltext[ifile], "PL");
+    if(ifile == nfile-2) lhs->AddEntry(HSig_dPhi_jetjet_Nm1, ltext[ifile], "L");
+    if(ifile < nfile-1) lhs->AddEntry(H_dPhi_jetjet_Nm1[ifile], ltext[ifile], "F");
+  }
+  lhs->Draw("SAME");
+  title = HS_dPhi_jetjet_Nm1->GetName();
+  pad2->cd();
+  hratio = ratioplot(HS_dPhi_jetjet_Nm1, H_dPhi_jetjet_Nm1[nfile-1]);
+  hratio->SetTitle("");
+  hratio->GetXaxis()->SetTitle("#Delta#phi(jet , jet)");
+  hratio->Draw("EP");
+  tg->Draw("LSAME");
+  CMS_lumi(pad1, period, 0);
+  c1->Update();
+  c1->RedrawAxis();
+  c1->SaveAs(Form("%s/%s.pdf", saveto, title));
+
+  pad1->cd();
   HS_dijetMass_Nm1->Draw("HIST");
   H_dijetMass_Nm1[nfile-1]->Draw("SAME");
   HSig_dijetMass_Nm1->Draw("HISTSAME");
@@ -661,7 +695,8 @@ void xDrawStack_Nm1(Int_t year){
   HS_dijetMass_Nm1->GetXaxis()->SetTitle("");
   //HS_dijetMass_Nm1->GetYaxis()->ChangeLabel(1, -1, 0, -1, -1, -1, "");
   HS_dijetMass_Nm1->GetXaxis()->SetLabelSize(0);
-  HS_dijetMass_Nm1->SetMaximum(1000);
+  HS_dijetMass_Nm1->GetXaxis()->SetRangeUser(200, 2000);
+  HS_dijetMass_Nm1->SetMaximum(10000);
   HS_dijetMass_Nm1->SetMinimum(1);
   lhs->Clear();
   lhs->SetNColumns(2);
@@ -677,42 +712,53 @@ void xDrawStack_Nm1(Int_t year){
   hratio = ratioplot(HS_dijetMass_Nm1, H_dijetMass_Nm1[nfile-1]);
   hratio->SetTitle("");
   hratio->GetXaxis()->SetTitle("Mass^{jj}[GeV]");
+  hratio->GetXaxis()->SetRangeUser(200, 2000);
   hratio->Draw("EP");
   tg->Draw("LSAME");
   CMS_lumi(pad1, period, 0);
   c1->Update();
   c1->RedrawAxis();
   c1->SaveAs(Form("%s/%s.pdf", saveto, title));
+
+  // linear scale
+  pad1->cd();
+  pad1->SetLogy(0);
+  HS_dijetMass_Nm1->Draw("HIST");
+  H_dijetMass_Nm1[nfile-1]->Draw("SAME");
+  HSig_dijetMass_Nm1->Draw("HISTSAME");
+  HA_dijetMass_Nm1->Draw("E2 SAME");
+  HS_dijetMass_Nm1->GetYaxis()->SetTitle("Events");
+  HS_dijetMass_Nm1->GetXaxis()->SetTitle("");
+  //HS_dijetMass_Nm1->GetYaxis()->ChangeLabel(1, -1, 0, -1, -1, -1, "");
+  HS_dijetMass_Nm1->GetXaxis()->SetLabelSize(0);
+  HS_dijetMass_Nm1->GetXaxis()->SetRangeUser(200, 2000);
+  HS_dijetMass_Nm1->SetMaximum(200);
+  HS_dijetMass_Nm1->SetMinimum(1);
+  lhs->Clear();
+  lhs->SetNColumns(2);
+  for(Int_t ifile=0; ifile<nfile; ifile++){
+    //if(ifile==10) continue;
+    if(ifile == nfile-1) lhs->AddEntry(H_dijetMass_Nm1[ifile], ltext[ifile], "PL");
+    if(ifile == nfile-2) lhs->AddEntry(HSig_dijetMass_Nm1, ltext[ifile], "L");
+    if(ifile < nfile-1) lhs->AddEntry(H_dijetMass_Nm1[ifile], ltext[ifile], "F");
+  }
+  lhs->Draw("SAME");
+  title = HS_dijetMass_Nm1->GetName();
+  pad2->cd();
+  hratio = ratioplot(HS_dijetMass_Nm1, H_dijetMass_Nm1[nfile-1]);
+  hratio->SetTitle("");
+  hratio->GetXaxis()->SetTitle("Mass^{jj}[GeV]");
+  hratio->GetXaxis()->SetRangeUser(200, 2000);
+  hratio->Draw("EP");
+  tg->Draw("LSAME");
+  CMS_lumi(pad1, period, 0);
+  c1->Update();
+  c1->RedrawAxis();
+  c1->SaveAs(Form("%s/%s_linear.pdf", saveto, title));
+  pad1->SetLogy(1);
+  
   for(Int_t jj=0; jj<2; jj++){
-    /*
-    pad1->cd();
-    HS_SeedTime_Nm1[jj]->Draw("HIST");
-    H_SeedTime_Nm1[nfile-1][jj]->Draw("SAME");
-    HS_SeedTime_Nm1[jj]->GetYaxis()->SetTitle("Events");
-    HS_SeedTime_Nm1[jj]->GetYaxis()->ChangeLabel(1, -1, 0, -1, -1, -1, "");
-    HS_SeedTime_Nm1[jj]->GetXaxis()->SetTitle("");
-    HS_SeedTime_Nm1[jj]->GetXaxis()->SetLabelSize(0);
-    HS_SeedTime_Nm1[jj]->SetMaximum(10000000);
-    HS_SeedTime_Nm1[jj]->SetMinimum(1);
-    if(jj==1){HS_SeedTime_Nm1[jj]->SetMaximum(100); HS_SeedTime_Nm1[jj]->SetMinimum(0.001);}
-    lhs->Clear();
-    for(Int_t ifile=0; ifile<nfile; ifile++){
-      if(ifile < nfile-1) lhs->AddEntry(H_SeedTime_Nm1[ifile][jj], ltext[ifile], "F");
-      if(ifile == nfile-1) lhs->AddEntry(H_SeedTime_Nm1[ifile][jj], ltext[ifile], "PL");
-    }
-    lhs->Draw("SAME");
-    title = HS_SeedTime_Nm1[jj]->GetName();
-    pad2->cd();
-    hratio = ratioplot(HS_SeedTime_Nm1[jj], H_SeedTime_Nm1[nfile-1][jj]);
-    hratio->SetTitle("");
-    hratio->GetXaxis()->SetTitle("SeedTime");
-    hratio->Draw("EP");
-    tg->Draw("LSAME");
-    CMS_lumi(pad1, period, 0);
-    c1->Update();
-    c1->RedrawAxis();
-    c1->SaveAs(Form("%s/%s.pdf", saveto, title));
-    */
+    
     pad1->cd();
     HS_MET_Nm1[jj]->Draw("HIST");
     H_MET_Nm1[nfile-1][jj]->Draw("SAME");
@@ -724,7 +770,7 @@ void xDrawStack_Nm1(Int_t year){
     HS_MET_Nm1[jj]->GetXaxis()->SetLabelSize(0);
     HS_MET_Nm1[jj]->SetMaximum(100000);
     HS_MET_Nm1[jj]->SetMinimum(1);
-    if(jj==1){HS_MET_Nm1[jj]->SetMaximum(10000); HS_MET_Nm1[jj]->SetMinimum(0.01);}
+    if(jj==1){HS_MET_Nm1[jj]->SetMaximum(100000); HS_MET_Nm1[jj]->SetMinimum(0.01);}
     lhs->Clear();
     lhs->SetNColumns(2);
     for(Int_t ifile=0; ifile<nfile; ifile++){
@@ -757,7 +803,7 @@ void xDrawStack_Nm1(Int_t year){
     HS_METPhi_Nm1[jj]->GetXaxis()->SetLabelSize(0);
     HS_METPhi_Nm1[jj]->SetMaximum(1000000);
     HS_METPhi_Nm1[jj]->SetMinimum(100);
-    if(jj==1){HS_METPhi_Nm1[jj]->SetMaximum(10000); HS_METPhi_Nm1[jj]->SetMinimum(1);}
+    if(jj==1){HS_METPhi_Nm1[jj]->SetMaximum(100000); HS_METPhi_Nm1[jj]->SetMinimum(1);}
     lhs->Clear();
     lhs->SetNColumns(2);
     for(Int_t ifile=0; ifile<nfile; ifile++){
@@ -790,7 +836,7 @@ void xDrawStack_Nm1(Int_t year){
     HS_dphoMETPhi_Nm1[jj]->GetXaxis()->SetLabelSize(0);
     HS_dphoMETPhi_Nm1[jj]->SetMaximum(100000);
     HS_dphoMETPhi_Nm1[jj]->SetMinimum(0.1);
-    if(jj==1){HS_dphoMETPhi_Nm1[jj]->SetMaximum(10000); HS_dphoMETPhi_Nm1[jj]->SetMinimum(0.1);}
+    if(jj==1){HS_dphoMETPhi_Nm1[jj]->SetMaximum(100000); HS_dphoMETPhi_Nm1[jj]->SetMinimum(0.1);}
     lhs->Clear();
     lhs->SetNColumns(2);
     for(Int_t ifile=0; ifile<nfile; ifile++){
@@ -823,7 +869,7 @@ void xDrawStack_Nm1(Int_t year){
     HS_njet_Nm1[jj]->SetMaximum(10000);
     //HS_njet_Nm1[jj]->SetMinimum(10);//2016
     HS_njet_Nm1[jj]->SetMinimum(0.1);//2017
-    if(jj==1){HS_njet_Nm1[jj]->SetMaximum(100000); HS_njet_Nm1[jj]->SetMinimum(0.1);}
+    if(jj==1){HS_njet_Nm1[jj]->SetMaximum(1000000); HS_njet_Nm1[jj]->SetMinimum(0.1);}
     lhs->Clear();
     lhs->SetNColumns(2);
     for(Int_t ifile=0; ifile<nfile; ifile++){
@@ -845,39 +891,38 @@ void xDrawStack_Nm1(Int_t year){
     c1->RedrawAxis();
     c1->SaveAs(Form("%s/%s.pdf", saveto, title));
 
-    for(Int_t kk=0; kk<njet; kk++){
-      pad1->cd();
-      HS_djetMETPhi_Nm1[jj][kk]->Draw("HIST");
-      H_djetMETPhi_Nm1[nfile-1][jj][kk]->Draw("SAME");
-      //HSig_djetMETPhi_Nm1[jj][kk]->Draw("HISTSAME");
-      HA_djetMETPhi_Nm1[jj][kk]->Draw("E2 SAME");
-      HS_djetMETPhi_Nm1[jj][kk]->GetXaxis()->SetTitle("");
-      HS_djetMETPhi_Nm1[jj][kk]->GetYaxis()->SetTitle("Events");
-      // HS_djetMETPhi_Nm1[jj][kk]->GetYaxis()->ChangeLabel(1, -1, 0, -1, -1, -1, "");
-      HS_djetMETPhi_Nm1[jj][kk]->SetMaximum(100000);
-      HS_djetMETPhi_Nm1[jj][kk]->SetMinimum(1);
-      if(jj==1){HS_djetMETPhi_Nm1[jj][kk]->SetMaximum(10000); HS_djetMETPhi_Nm1[jj][kk]->SetMinimum(1);};
-      lhs->Clear();
-      lhs->SetNColumns(2);
-      for(Int_t ifile=0; ifile<nfile; ifile++){
-	//if(ifile==10) continue;//pass Zvv signal
-	if(ifile == nfile-1) lhs->AddEntry(H_djetMETPhi_Nm1[ifile][jj][kk], ltext[ifile], "PL");
-	if(ifile == nfile-2) lhs->AddEntry(HSig_djetMETPhi_Nm1[jj][kk], ltext[ifile], "L");
-	if(ifile < nfile-1) lhs->AddEntry(H_djetMETPhi_Nm1[ifile][jj][kk], ltext[ifile], "F");
-      }
-      lhs->Draw("SAME");
-      title = HS_djetMETPhi_Nm1[jj][kk]->GetName();
-      pad2->cd();
-      hratio = ratioplot(HS_djetMETPhi_Nm1[jj][kk], H_djetMETPhi_Nm1[nfile-1][jj][kk]);
-      hratio->SetTitle("");
-      hratio->GetXaxis()->SetTitle("#Delta#phi(jet, E_{T}^{miss})");
-      hratio->Draw("EP");
-      tg->Draw("LSAME");
-      CMS_lumi(pad1, period, 0);
-      c1->Update();
-      c1->RedrawAxis();
-      c1->SaveAs(Form("%s/%s.pdf", saveto, title));
+    pad1->cd();
+    HS_djetMETPhi_Nm1[jj]->Draw("HIST");
+    H_djetMETPhi_Nm1[nfile-1][jj]->Draw("SAME");
+    //HSig_djetMETPhi_Nm1[jj]->Draw("HISTSAME");
+    HA_djetMETPhi_Nm1[jj]->Draw("E2 SAME");
+    HS_djetMETPhi_Nm1[jj]->GetXaxis()->SetTitle("");
+    HS_djetMETPhi_Nm1[jj]->GetYaxis()->SetTitle("Events");
+    // HS_djetMETPhi_Nm1[jj]->GetYaxis()->ChangeLabel(1, -1, 0, -1, -1, -1, "");
+    HS_djetMETPhi_Nm1[jj]->SetMaximum(100000);
+    HS_djetMETPhi_Nm1[jj]->SetMinimum(1);
+    if(jj==1){HS_djetMETPhi_Nm1[jj]->SetMaximum(100000); HS_djetMETPhi_Nm1[jj]->SetMinimum(1);};
+    lhs->Clear();
+    lhs->SetNColumns(2);
+    for(Int_t ifile=0; ifile<nfile; ifile++){
+      //if(ifile==10) continue;//pass Zvv signal
+      if(ifile == nfile-1) lhs->AddEntry(H_djetMETPhi_Nm1[ifile][jj], ltext[ifile], "PL");
+      if(ifile == nfile-2) lhs->AddEntry(HSig_djetMETPhi_Nm1[jj], ltext[ifile], "L");
+      if(ifile < nfile-1) lhs->AddEntry(H_djetMETPhi_Nm1[ifile][jj], ltext[ifile], "F");
     }
+    lhs->Draw("SAME");
+    title = HS_djetMETPhi_Nm1[jj]->GetName();
+    pad2->cd();
+    hratio = ratioplot(HS_djetMETPhi_Nm1[jj], H_djetMETPhi_Nm1[nfile-1][jj]);
+    hratio->SetTitle("");
+    hratio->GetXaxis()->SetTitle("#Delta#phi(jet, E_{T}^{miss})");
+    hratio->Draw("EP");
+    tg->Draw("LSAME");
+    CMS_lumi(pad1, period, 0);
+    c1->Update();
+    c1->RedrawAxis();
+    c1->SaveAs(Form("%s/%s.pdf", saveto, title));
+    
   }
   
 }
