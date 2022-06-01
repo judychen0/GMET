@@ -20,7 +20,7 @@ elif int(yearrun) == 2017:
     if int(isDcount) == 0 and int(isSignal) == 0: remotepath = "fall17_bkg.txt"    
     yeardir = "fall17"
     pupath = "PileupWeight/hoa_PU/fall17_corrected/PU_correctedPU_13TeV_2017_GoldenJSON_69200nb.root"
-    #pupath = "PileupWeight/hoa_PU/fall17/PU_histo_13TeV_2017_GoldenJSON_69200nb.root"
+    #pupath = "PileupWeight/UL2UL_PU/fall17/PU_histo_13TeV_2017_GoldenJSON_69200nb.root"
     IDSFpath = "LphoScaleFactors/2017_PhotonsMedium.root" # Legacy MC
     #IDSFpath = "ULphoScaleFactors/2017_PhotonsMedium_ULSF_cutbase.root" # UL MC
     PSVpath = "LphoScaleFactors/PixelSeed_ScaleFactors_2017.root" # Legacy MC
@@ -31,10 +31,11 @@ elif int(yearrun) == 2018:
     if int(isDcount) == 0 and int(isSignal) == 0: remotepath = "autumn18_bkg.txt"    
     yeardir = "autumn18"
     pupath = "PileupWeight/hoa_PU/autumn18/PU_histo_13TeV_2018_GoldenJSON_69200nb.root"
-    IDSFpath = "LphoScaleFactors/2018_PhotonsMedium.root" # Legacy MC
-    #IDSFpath = "ULphoScaleFactors/2018_PhotonsMedium_ULSF_cutbase.root" # UL MC
-    PSVpath = "LphoScaleFactors/PixelSeed_ScaleFactors_2018.root" # Legacy MC
-    #PSVpath = "ULphoScaleFactors/HasPix_SummaryPlot_UL18.root" # UL MC
+    #pupath = "PileupWeight/UL2UL_PU/autumn18/PU_histo_13TeV_2018_GoldenJSON_69200nb.root"
+    #IDSFpath = "LphoScaleFactors/2018_PhotonsMedium.root" # Legacy MC
+    IDSFpath = "ULphoScaleFactors/2018_PhotonsMedium_ULSF_cutbase.root" # UL MC
+    #PSVpath = "LphoScaleFactors/PixelSeed_ScaleFactors_2018.root" # Legacy MC
+    PSVpath = "ULphoScaleFactors/HasPix_SummaryPlot_UL18.root" # UL MC
     
 with open(remotepath, "r") as filepath:
     path = filepath.read().splitlines()
@@ -71,7 +72,7 @@ with open(remotepath, "r") as filepath:
         script += """echo "There are tot $count ggtrees!!!" \n"""
         script += "\n"
         script += """/usr/bin/time parallel --progress --jobs 1 'root -L -l -b -q "xSkim_mc.C+(\\\"{1}\\\", \\\"{2}\\\", \\\"{3}\\\", \\\"{4}\\\", {5}, {6}, {7})"' :::: path.txt :::+ $PUpath :::+ $IDSFpath :::+ $PSVpath :::+ $isdcount :::+ $year :::+ $isSig \n"""
-        script += """/usr/bin/time parallel --progress --jobs 10 'root -L -l -b -q "xSkim_mc.C+(\\\"{1}\\\", \\\"{2}\\\", \\\"{3}\\\", \\\"{4}\\\", {5}, {6}, {7})"' :::: path.txt ::: $PUpath ::: $IDSFpath ::: $PSVpath ::: $isdcount ::: $year ::: $isSig \n"""
+        script += """/usr/bin/time parallel --progress --jobs 20 'root -L -l -b -q "xSkim_mc.C+(\\\"{1}\\\", \\\"{2}\\\", \\\"{3}\\\", \\\"{4}\\\", {5}, {6}, {7})"' :::: path.txt ::: $PUpath ::: $IDSFpath ::: $PSVpath ::: $isdcount ::: $year ::: $isSig \n"""
         script += "echo Processed all $count ggtrees!!! \n"
         script += "cp mini_ggtree_mc* $returndir \n"
         script += "thiswork=$(pwd) \n"
