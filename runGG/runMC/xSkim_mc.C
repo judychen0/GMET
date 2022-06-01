@@ -721,9 +721,9 @@ void xSkim_mc(char* pathes, char* PUpathes, char* IDpathes, char* PSVpathes, Int
 	Int_t k = mc_phoid[nn];
 	Float_t dr = deltaR(phoEta[ipho], phoPhi[ipho], mcEta_[k], mcPhi_[k]);
 	Float_t dpt = fabs((phoEt[ipho] - mcPt_[k])/mcPt_[k]);
-	if(dr < 0.1) phodPt.push_back(dpt);
+	if(dr < 0.2) phodPt.push_back(dpt);
 	if(dpt < 0.2) phodR.push_back(dr);
-	if(dr < 0.1 && dpt < 0.2){
+	if(dr < 0.2 && dpt < 0.2){
 	  isMatched = 1;
 	  nmatchpho++;
 	  break;
@@ -860,20 +860,26 @@ void xSkim_mc(char* pathes, char* PUpathes, char* IDpathes, char* PSVpathes, Int
     //count # jet
     for(Int_t i=0; i<nJet_; i++){
 
-      if(i>=2){
-	//if((jetPUIDMVA[i] == 1) && fabs(jetEta_[i]) < 4.7 && (jetULTID[i] == 1)){// UL MC with PU and no pT cut
-	if((jetPUIDMVA[i] == 1) && fabs(jetEta_[i]) < 4.7 && (jetTID[i] == 1) ){//for legacy MC with PU and no pT cut
-	  nonPUjetid.push_back(i);
-	  npfjet++;
-	}
-      }
-      else{
-	//if((jetPUIDMVA[i] == 1) && (jetPtSmear[i] > 30) && fabs(jetEta_[i]) < 4.7 && (jetULTID[i] == 1)){// UL MC with PU
-	if((jetPUIDMVA[i] == 1) && (jetPtSmear[i] > 30) && fabs(jetEta_[i]) < 4.7 && (jetTID[i] == 1) ){//for legacy MC with PU
-	  //if((jetPt_[i] > 30) && fabs(jetEta_[i]) < 4.7 && (jetTID[i] == 1)){// UL data no PU
-	  nonPUjetid.push_back(i);
-	  npfjet++;
-	}
+      //if(npfjet>=2){
+      //	//if((jetPUIDMVA[i] == 1) && fabs(jetEta_[i]) < 4.7 && (jetULTID[i] == 1)){// UL MC with PU and no pT cut
+      //	if((jetPUIDMVA[i] == 1) && fabs(jetEta_[i]) < 4.7 && (jetTID[i] == 1) ){//for legacy MC with PU and no pT cut
+      //	  nonPUjetid.push_back(i);
+      //	  npfjet++;
+      //	}
+      //}
+      //else{
+      //	//if((jetPUIDMVA[i] == 1) && (jetPtSmear[i] > 30) && fabs(jetEta_[i]) < 4.7 && (jetULTID[i] == 1)){// UL MC with PU
+      //	if((jetPUIDMVA[i] == 1) && (jetPtSmear[i] > 30) && fabs(jetEta_[i]) < 4.7 && (jetTID[i] == 1) ){//for legacy MC with PU
+      //	  //if((jetPt_[i] > 30) && fabs(jetEta_[i]) < 4.7 && (jetTID[i] == 1)){// UL data no PU
+      //	  nonPUjetid.push_back(i);
+      //	  npfjet++;
+      //	}
+      //}
+
+      //if((jetPUIDMVA[i] == 1) && (jetPtSmear[i] > 30) && fabs(jetEta_[i]) < 4.7 && (jetULTID[i] == 1)){// UL MC with PU
+      if((jetPUIDMVA[i] == 1) && (jetPtSmear[i] > 30) && fabs(jetEta_[i]) < 4.7 && (jetTID[i] == 1) ){//for legacy MC with PU
+	nonPUjetid.push_back(i);
+	npfjet++;
       }
       
     }
@@ -1009,14 +1015,15 @@ void xSkim_mc(char* pathes, char* PUpathes, char* IDpathes, char* PSVpathes, Int
       //if(dcount == 0 && sig == 0 && phoIsMatch[ipho] == 1)				bit = SetBit(0, bit);//for gamma+jet
       if(phohasPixelSeed[ipho] == 0)							bit = SetBit(1, bit);
       if(fabs(phoSCEta[ipho]) < 1.4442)							bit = SetBit(2, bit);
-      if(phoCalibEt[ipho] > 210)							bit = SetBit(3, bit);
+      if(phoEt[ipho] > 210)							bit = SetBit(3, bit);
       if(MphoID[ipho] == 1)								bit = SetBit(4, bit);
       //if(Iso_rc[4][ipho] < 1.141)							bit = SetBit(5, bit);
       if(fabs(phoSeedTime[ipho])<3)							bit = SetBit(5, bit);
       if(nLep<1)									bit = SetBit(6, bit);
       //(corrMET> 140+(0.138*(phoCalibEt[ipho]-500)))					bit = SetBit(8, bit);
       if(corrMET>100)									bit = SetBit(7, bit);
-      if(fabs(phoMETdPhi[ipho]) > 0.8)							bit = SetBit(8, bit);   
+      if(fabs(phoMETdPhi[ipho]) > 0.5)							bit = SetBit(8, bit);
+      
       if(npfjet == 1 ){
 
 	if(jetPt_[nonPUjetid[0]] >30) {bit = SetBit(9, bit); nSMjet = npfjet;}
@@ -1027,18 +1034,19 @@ void xSkim_mc(char* pathes, char* PUpathes, char* IDpathes, char* PSVpathes, Int
       cutflowSMID.push_back(bit);
       //cout << "get SM cut" << endl;
       
-      for(Int_t i=0; i<8; i++){								bit = ResetBit(i+9, bit); }
+      for(Int_t i=0; i<9; i++){								bit = ResetBit(i+8, bit); }
       if(npfjet >=2){
 	Int_t ilead = nonPUjetid[0];
 	Int_t isub = nonPUjetid[1];
 	
-	if(jetPt_[ilead] >30 && jetPt_[isub] >30) {bit = SetBit(9, bit); nVBSjet = npfjet;}
+	if(fabs(jetjetphodPhi) < 2.7) bit = SetBit(8, bit);
+	if(jetPt_[ilead] >50 && jetPt_[isub] >30) {bit = SetBit(9, bit); nVBSjet = npfjet;}
 	if((jetEta_[ilead] * jetEta_[isub]) < 0)					bit = SetBit(10, bit);
 	if(jetjetdEta > 2.5)								bit = SetBit(11, bit);
 	if(fabs(jetjetdPhi) < 2.7)							bit = SetBit(12, bit);
 	if(phojetdR[0]>0.4 && phojetdR[1]>0.4)						bit = SetBit(13, bit);
 	//if(phoCentral > 0.4)								bit = SetBit(13, bit);
-											bit = SetBit(14, bit);
+	if((phoEt[ipho]/corrMET) < 2.4 ) bit = SetBit(14, bit);
 	if(fabs(minJMETdPhi)   > 0.5)							bit = SetBit(15, bit);
 	if(dijetMass>250)								bit = SetBit(16, bit);
       }
