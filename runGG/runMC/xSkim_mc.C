@@ -93,35 +93,35 @@ void xSkim_mc(char* pathes, char* PUpathes, char* IDpathes, char* PSVpathes, Int
 
   //input variables
   ///global event
-  Int_t            run_;
-  Long64_t         event_;
-  Bool_t           isData_;
-  Int_t            nVtx_;
-  Int_t            nGoodVtx_;
-  Bool_t           isPVGood_;
-  Float_t          rho_;
-  Float_t          genWeight_;
-  Int_t            nPUInfo_;
-  Int_t*           puBX_;
-  Float_t*         puTrue_;
+  Int_t         run_;
+  Long64_t      event_;
+  Bool_t        isData_;
+  Int_t         nVtx_;
+  Int_t         nGoodVtx_;
+  Bool_t        isPVGood_;
+  Float_t       rho_;
+  Float_t       genWeight_;
+  Int_t         nPUInfo_;
+  Int_t*        puBX_;
+  Float_t*      puTrue_;
   ///gen particles
-  Int_t            nMC_;
-  Int_t*           mcPID_;
-  Float_t*         mcPt_;
-  Float_t*         mcMass_;
-  Float_t*         mcEta_;
-  Float_t*         mcPhi_;
-  Float_t*         mcE_;
-  Float_t*         mcEt_;
-  Int_t*           mcMomPID_;
-  Float_t*         mcMomPt_;
-  Float_t*         mcMomMass_;
-  Float_t*         mcMomEta_;
-  Float_t*         mcMomPhi_;
-  Short_t*         mcStatusFlag_;
+  Int_t         nMC_;
+  Int_t*        mcPID_;
+  Float_t*      mcPt_;
+  Float_t*      mcMass_;
+  Float_t*      mcEta_;
+  Float_t*      mcPhi_;
+  Float_t*      mcE_;
+  Float_t*      mcEt_;
+  Int_t*        mcMomPID_;
+  Float_t*      mcMomPt_;
+  Float_t*      mcMomMass_;
+  Float_t*      mcMomEta_;
+  Float_t*      mcMomPhi_;
+  Short_t*      mcStatusFlag_;
   ///MET
-  Float_t          pfMET_;
-  Float_t          pfMETPhi_;
+  Float_t       pfMET_;
+  Float_t       pfMETPhi_;
   //Int_t            metFilters_;
   ///photon
   Int_t         nPho_;
@@ -187,7 +187,7 @@ void xSkim_mc(char* pathes, char* PUpathes, char* IDpathes, char* PSVpathes, Int
   Float_t               rho;
   Float_t               genWeight;
   Float_t               genWeightSign;
-  Float_t       EventWeight;
+  Float_t		EventWeight;
   Int_t                 nPUInfo;
   vector<Int_t>         puBX;
   vector<Float_t>       puTrue;
@@ -248,12 +248,14 @@ void xSkim_mc(char* pathes, char* PUpathes, char* IDpathes, char* PSVpathes, Int
   vector<Float_t>       phoMETdPhi;
   vector<Short_t>       phoIDbit;
   vector<Int_t>         MphoID;
-  Float_t phoCentral; //photon centrality
+  vector<Int_t>         LphoID;
+  Float_t		phoCentral;	//photon centrality
+
   ///cutflow ID
   vector<Int_t>         cutflowSMID;
   vector<Int_t>         cutflowVBSID;
-  vector<Int_t>         cutflowSMfixMETID;
-  vector<Int_t>         cutflowVBSfixMETID;
+  vector<Int_t> controlWID;
+  
   ///electron
   Int_t                 nEle;
   vector<Float_t>       elePt;
@@ -294,7 +296,7 @@ void xSkim_mc(char* pathes, char* PUpathes, char* IDpathes, char* PSVpathes, Int
   vector<Int_t>		jetNNP;
   vector<Float_t>       jetP4Smear;
   vector<Float_t>       jetPtSmear;
-  Float_t jet3Central; // 3rd leading jet centrality
+  Float_t		jet3Central;	// 3rd leading jet centrality
   ///angular variables
   Float_t               minJMETdPhi;
   vector<Float_t>       JMETdPhi;
@@ -304,8 +306,8 @@ void xSkim_mc(char* pathes, char* PUpathes, char* IDpathes, char* PSVpathes, Int
   vector<Float_t>       phojetdR;
   vector<Float_t>       phojetdEta;
   vector<Float_t>       phojetdPhi;
-  Float_t jetjetZdPhi;
-  Float_t jetjetphodPhi;
+  Float_t		jetjetZdPhi;
+  Float_t		jetjetphodPhi;
   Float_t               ZgsysPhi;
   Float_t               jetjetsysPhi;
 
@@ -322,7 +324,7 @@ void xSkim_mc(char* pathes, char* PUpathes, char* IDpathes, char* PSVpathes, Int
   outtree_->Branch("rho"			,&rho           ,"rho/F"		);
   outtree_->Branch("genWeight"			,&genWeight     ,"genWeight/F"		);
   outtree_->Branch("genWeightSign"		,&genWeightSign ,"genWeightSign/F"	);
-  outtree_->Branch("EventWeight"                ,&EventWeight	,"EventWeight/F"			);
+  outtree_->Branch("EventWeight"                ,&EventWeight	,"EventWeight/F"	);
   outtree_->Branch("nPUInfo"			,&nPUInfo       ,"nPUInfo/I"		);
   outtree_->Branch("puBX"                       ,&puBX					);
   outtree_->Branch("puTrue"                     ,&puTrue				);
@@ -378,12 +380,14 @@ void xSkim_mc(char* pathes, char* PUpathes, char* IDpathes, char* PSVpathes, Int
   outtree_->Branch("phoMIPTotEnergy"            ,&phoMIPTotEnergy			);
   outtree_->Branch("phoMETdPhi"                 ,&phoMETdPhi				);
   outtree_->Branch("phoIDbit"                   ,&phoIDbit				);
+
   outtree_->Branch("MphoID"                     ,&MphoID				);
-  outtree_->Branch("phoCentral",&phoCentral ,"phoCentral/F");
+  outtree_->Branch("LphoID"                     ,&LphoID				);
+  outtree_->Branch("phoCentral"			,&phoCentral	,"phoCentral/F"		);
   outtree_->Branch("cutflowSMID"                ,&cutflowSMID				);
   outtree_->Branch("cutflowVBSID"               ,&cutflowVBSID				);
-  outtree_->Branch("cutflowSMfixMETID"          ,&cutflowSMfixMETID			);
-  outtree_->Branch("cutflowVBSfixMETID"         ,&cutflowVBSfixMETID			);
+  outtree_->Branch("controlWID"               ,&controlWID				);
+  
   outtree_->Branch("nEle"			,&nEle          ,"nEle/I"		);
   outtree_->Branch("elePt"                      ,&elePt					);
   outtree_->Branch("eleD0"                      ,&eleD0					);
@@ -392,11 +396,12 @@ void xSkim_mc(char* pathes, char* PUpathes, char* IDpathes, char* PSVpathes, Int
   outtree_->Branch("eleIDbit"                   ,&eleIDbit				);
   outtree_->Branch("nMu"			,&nMu           ,"nMu/I"		);
   outtree_->Branch("muPt"                       ,&muPt					);
-  outtree_->Branch("muEta" ,&muEta );
+  outtree_->Branch("muEta"			,&muEta					);
   outtree_->Branch("muIDbit"                    ,&muIDbit				);
   outtree_->Branch("muD0"                       ,&muD0					);
   outtree_->Branch("muDz"                       ,&muDz					);
   outtree_->Branch("nLep"			,&nLep          ,"nLep/I"		);
+
   outtree_->Branch("nJet"			,&nJet          ,"nJet/I"		);
   outtree_->Branch("npfjet"			,&npfjet        ,"npfjet/I"		);
   outtree_->Branch("nSMjet"			,&nSMjet        ,"nSMjet/I"		);
@@ -433,10 +438,7 @@ void xSkim_mc(char* pathes, char* PUpathes, char* IDpathes, char* PSVpathes, Int
   outtree_->Branch("jetjetphodPhi"		,&jetjetphodPhi	,"jetjetphodPhi/F"	);
   outtree_->Branch("ZgsysPhi"			,&ZgsysPhi	,"ZgsysPhi/F"		);
   outtree_->Branch("jetjetsysPhi"		,&jetjetsysPhi	,"jetjetsysPhi/F"	);
-  outtree_->Branch("jet3Central",&jet3Central ,"jet3Central/F");
-
-  //create histogram
-  //TH1F *hSumofGenW = new TH1F("hSumofGenW", "Sum of Gen Weight", 1, 0, 1);
+  outtree_->Branch("jet3Central"		,&jet3Central	,"jet3Central/F"	);
 
   // pileup reweighting
   PUWeightCalculator puCalc;
@@ -501,6 +503,7 @@ void xSkim_mc(char* pathes, char* PUpathes, char* IDpathes, char* PSVpathes, Int
     phoSeedTime_		= data.GetPtrFloat(	"phoSeedTime"			);
     phoMIPTotEnergy_		= data.GetPtrFloat(	"phoMIPTotEnergy"		);
     phoIDbit_			= data.GetPtrShort(	"phoIDbit"			);
+
     nEle_			= data.GetInt(		"nEle"				);
     elePt_			= data.GetPtrFloat(	"elePt"				);
     eleD0_			= data.GetPtrFloat(	"eleD0"				);
@@ -509,7 +512,7 @@ void xSkim_mc(char* pathes, char* PUpathes, char* IDpathes, char* PSVpathes, Int
     eleIDbit_			= data.GetPtrShort(	"eleIDbit"			);
     nMu_			= data.GetInt(		"nMu"				);
     muPt_ 			= data.GetPtrFloat(	"muPt"				);
-    muEta_ = data.GetPtrFloat("muEta");
+    muEta_			= data.GetPtrFloat(	"muEta"				);
     muIDbit_			= data.GetPtrInt(	"muIDbit"			);
     muD0_			= data.GetPtrFloat(	"muD0"				);
     muDz_			= data.GetPtrFloat(	"muDz"				);
@@ -519,7 +522,6 @@ void xSkim_mc(char* pathes, char* PUpathes, char* IDpathes, char* PSVpathes, Int
     jetEta_			= data.GetPtrFloat(	"jetEta"			);
     jetPhi_			= data.GetPtrFloat(	"jetPhi"			);
     jetPUID_			= data.GetPtrFloat(	"jetPUID"			);
-    //jetID_			= data.GetPtrInt(	"jetID"				);
     jetCEF_			= data.GetPtrFloat(	"jetCEF"			);
     jetMUF_			= data.GetPtrFloat(	"jetMUF"			);
     jetCHF_			= data.GetPtrFloat(	"jetCHF"			);
@@ -528,6 +530,7 @@ void xSkim_mc(char* pathes, char* PUpathes, char* IDpathes, char* PSVpathes, Int
     jetNCH_			= data.GetPtrInt(	"jetNCH"			);
     jetNNP_			= data.GetPtrInt(	"jetNNP"			);
     jetP4Smear_                 = data.GetPtrFloat(	"jetP4Smear"			);
+
     //cout <<						"get all variable" << endl;
     
     //init variable
@@ -599,12 +602,13 @@ void xSkim_mc(char* pathes, char* PUpathes, char* IDpathes, char* PSVpathes, Int
     phoMETdPhi.clear();
     phoIDbit.clear();
     MphoID.clear();
+    LphoID.clear();
     phoCentral = 0;
     
     cutflowSMID.clear();
     cutflowVBSID.clear();
-    cutflowSMfixMETID.clear();
-    cutflowVBSfixMETID.clear();
+    controlWID.clear();
+    
     nEle		= 0;
     elePt.clear();
     eleD0.clear();
@@ -655,7 +659,8 @@ void xSkim_mc(char* pathes, char* PUpathes, char* IDpathes, char* PSVpathes, Int
     jetjetphodPhi	= 0;
     ZgsysPhi		= 0;
     jetjetsysPhi	= 0;
-
+    
+    if(isPVGood_ != 1) continue;
     
     //rho correction of pho isolation
     vector<vector<Float_t>> Iso_rc; //[ch, pho, nh, chw, chw_newEA]
@@ -671,33 +676,34 @@ void xSkim_mc(char* pathes, char* PUpathes, char* IDpathes, char* PSVpathes, Int
       if(year == 2016 && (phoFiredSingleTrgs_[ipho]>>7&1) == 0) continue;
       else if(year == 2017 && (phoFiredSingleTrgs_[ipho]>>8&1) == 0) continue;
       else if(year == 2018 && (phoFiredSingleTrgs_[ipho]>>7&1) == 0) continue;
-	nPho++;
-	phoE.push_back(phoE_[ipho]);
-	phoEt.push_back(phoEt_[ipho]);
-	phoEta.push_back(phoEta_[ipho]);
-	phoPhi.push_back(phoPhi_[ipho]);
-	phoCalibE.push_back(phoCalibE_[ipho]);
-	phoCalibEt.push_back(phoCalibEt_[ipho]);
-	phoSCEta.push_back(phoSCEta_[ipho]);
-	phohasPixelSeed.push_back(phohasPixelSeed_[ipho]);
-	phoEleVeto.push_back(phoEleVeto_[ipho]);
-	phoHoverE.push_back(phoHoverE_[ipho]);
-	phoSigmaIEtaIEtaFull5x5.push_back(phoSigmaIEtaIEtaFull5x5_[ipho]);
-	phoR9Full5x5.push_back(phoR9Full5x5_[ipho]);
-	phoPFChIso.push_back(phoPFChIso_[ipho]);
-	phoPFPhoIso.push_back(phoPFPhoIso_[ipho]);
-	phoPFNeuIso.push_back(phoPFNeuIso_[ipho]);
-	phoPFChWorstIso.push_back(phoPFChWorstIso_[ipho]);
-	phoFiredSingleTrgs.push_back(phoFiredSingleTrgs_[ipho]);
-	phoSeedTime.push_back(phoSeedTime_[ipho]);
-	phoMIPTotEnergy.push_back(phoMIPTotEnergy_[ipho]);
-	phoIDbit.push_back(phoIDbit_[ipho]);
+      
+      nPho++;
+      phoE.push_back(phoE_[ipho]);
+      phoEt.push_back(phoEt_[ipho]);
+      phoEta.push_back(phoEta_[ipho]);
+      phoPhi.push_back(phoPhi_[ipho]);
+      phoCalibE.push_back(phoCalibE_[ipho]);
+      phoCalibEt.push_back(phoCalibEt_[ipho]);
+      phoSCEta.push_back(phoSCEta_[ipho]);
+      phohasPixelSeed.push_back(phohasPixelSeed_[ipho]);
+      phoEleVeto.push_back(phoEleVeto_[ipho]);
+      phoHoverE.push_back(phoHoverE_[ipho]);
+      phoSigmaIEtaIEtaFull5x5.push_back(phoSigmaIEtaIEtaFull5x5_[ipho]);
+      phoR9Full5x5.push_back(phoR9Full5x5_[ipho]);
+      phoPFChIso.push_back(phoPFChIso_[ipho]);
+      phoPFPhoIso.push_back(phoPFPhoIso_[ipho]);
+      phoPFNeuIso.push_back(phoPFNeuIso_[ipho]);
+      phoPFChWorstIso.push_back(phoPFChWorstIso_[ipho]);
+      phoFiredSingleTrgs.push_back(phoFiredSingleTrgs_[ipho]);
+      phoSeedTime.push_back(phoSeedTime_[ipho]);
+      phoMIPTotEnergy.push_back(phoMIPTotEnergy_[ipho]);
+      phoIDbit.push_back(phoIDbit_[ipho]);
 
-	phoPFChIso_rc.push_back(Iso_rc[0][ipho]);
-	phoPFPhoIso_rc.push_back(Iso_rc[1][ipho]);
-	phoPFNeuIso_rc.push_back(Iso_rc[2][ipho]);
-	phoPFChWorstIso_rc.push_back(Iso_rc[3][ipho]);
-	phoPFChWorstIso_newEA.push_back(Iso_rc[4][ipho]);
+      phoPFChIso_rc.push_back(Iso_rc[0][ipho]);
+      phoPFPhoIso_rc.push_back(Iso_rc[1][ipho]);
+      phoPFNeuIso_rc.push_back(Iso_rc[2][ipho]);
+      phoPFChWorstIso_rc.push_back(Iso_rc[3][ipho]);
+      phoPFChWorstIso_newEA.push_back(Iso_rc[4][ipho]);
     }
     //cout << "get rho corr" << endl;
     if(nPho<1) continue;
@@ -737,7 +743,6 @@ void xSkim_mc(char* pathes, char* PUpathes, char* IDpathes, char* PSVpathes, Int
     if(genWeight_ > 0) genWeightSign = 1.0;
     else if(genWeight_ == 0) genWeightSign = 0.0;
     else if(genWeight_ < 0) genWeightSign = -1.0;
-    //hSumofGenW->Fill(0.5, genWeightSign);
     //cout<< "get norm genwei" << endl;
 
     //pileup
@@ -784,14 +789,6 @@ void xSkim_mc(char* pathes, char* PUpathes, char* IDpathes, char* PSVpathes, Int
     //lepton veto selection
     Int_t nLele = 0;
     for(Int_t iele=0; iele<nEle_; iele++){
-      //if((eleIDbit_[iele]>>1&1) == 1 && elePt_[iele] > 10 && fabs(eleEta_[iele]) < 2.5) nLele++;
-
-      //if(eleD0_[iele] >0.5 && fabs(eleEta_[iele]) <1.4442) continue;
-      //else if(eleD0_[iele] > 1.0 && fabs(eleEta_[iele]) > 1.5666) continue;
-      //if(eleDz_[iele] >1.0 && fabs(eleEta_[iele]) <1.4442) continue;
-      //else if(eleDz_[iele] >2.0 && fabs(eleEta_[iele]) >1.5666) continue;
-      //nLele++;
-
 
       /// tighter ele selection ///
       if((eleIDbit_[iele]>>1&1) == 1 && elePt_[iele] > 10 && fabs(eleEta_[iele]) < 2.5) {
@@ -802,11 +799,6 @@ void xSkim_mc(char* pathes, char* PUpathes, char* IDpathes, char* PSVpathes, Int
     
     Int_t nLmu = 0;
     for(Int_t imu=0; imu<nMu_; imu++){
-      //if((muIDbit_[imu]>>0&1) == 1 && muPt_[imu] > 10 && fabs(muEta_[imu]) < 2.4) nLmu++;
-
-      //if(muD0_[imu] > 2) continue;
-      //if(muDz_[imu] > 5) continue;
-      //nLmu++;
 
       /// tighter mu selection///
       if((muIDbit_[imu]>>0&1) == 1 && muPt_[imu] > 10 && fabs(muEta_[imu]) < 2.4){
@@ -887,6 +879,7 @@ void xSkim_mc(char* pathes, char* PUpathes, char* IDpathes, char* PSVpathes, Int
     
     //phoID selection
     phoIDcut(1, year, data, MphoID);
+    phoIDcut(0, year, data, LphoID);
     //cout << "get phoIDcut" << endl;
 
     //dijet stuff
@@ -989,8 +982,8 @@ void xSkim_mc(char* pathes, char* PUpathes, char* IDpathes, char* PSVpathes, Int
       //cout << "create Zv2";
       phov2.SetMagPhi(phoEt[ipho], phoPhi[ipho]);
       //cout << " create phov2";
-      leadjetv2.SetMagPhi(jetPt_[ilead], jetPhi_[ilead]);
-      subjetv2.SetMagPhi(jetPt_[isub], jetPhi_[isub]);
+      leadjetv2.SetMagPhi(jetPtSmear[ilead], jetPhi_[ilead]);
+      subjetv2.SetMagPhi(jetPtSmear[isub], jetPhi_[isub]);
 
     
       jetjetsys = leadjetv2+subjetv2;
@@ -1022,33 +1015,34 @@ void xSkim_mc(char* pathes, char* PUpathes, char* IDpathes, char* PSVpathes, Int
       if(nLep<1)									bit = SetBit(6, bit);
       //(corrMET> 140+(0.138*(phoCalibEt[ipho]-500)))					bit = SetBit(8, bit);
       if(corrMET>100)									bit = SetBit(7, bit);
-      if(fabs(phoMETdPhi[ipho]) > 0.5)							bit = SetBit(8, bit);
+      if(fabs(phoMETdPhi[ipho]) > 1.2)							bit = SetBit(8, bit);
       
-      if(npfjet == 1 ){
-
-	if(jetPt_[nonPUjetid[0]] >30) {bit = SetBit(9, bit); nSMjet = npfjet;}
-	else if(jetPt_[nonPUjetid[0]] <30) {bit = SetBit(9, bit); nSMjet = 0;}
+      if(npfjet <= 1 ){
+	bit = SetBit(9, bit); nSMjet = npfjet;
       }
-      else if(npfjet == 0){								bit = SetBit(9, bit); nSMjet = npfjet;}
-      for(Int_t i=0; i<7; i++){								bit = SetBit(i+10, bit); }
+      
+      for(Int_t i=0; i<8; i++){								bit = SetBit(i+10, bit); }
       cutflowSMID.push_back(bit);
       //cout << "get SM cut" << endl;
       
-      for(Int_t i=0; i<9; i++){								bit = ResetBit(i+8, bit); }
+      for(Int_t i=0; i<10; i++){								bit = ResetBit(i+8, bit); }
       if(npfjet >=2){
+	nVBSjet = npfjet;
 	Int_t ilead = nonPUjetid[0];
 	Int_t isub = nonPUjetid[1];
-	
-	if(fabs(jetjetphodPhi) < 2.7) bit = SetBit(8, bit);
-	if(jetPt_[ilead] >50 && jetPt_[isub] >30) {bit = SetBit(9, bit); nVBSjet = npfjet;}
-	if((jetEta_[ilead] * jetEta_[isub]) < 0)					bit = SetBit(10, bit);
-	if(jetjetdEta > 2.5)								bit = SetBit(11, bit);
+
+	bit = SetBit(8, bit);
+ 	bit = SetBit(9, bit); //njet cut
+	if(jetPtSmear[ilead] >50 && jetPtSmear[isub] >30) bit = SetBit(10, bit);
+	if((jetEta_[ilead] * jetEta_[isub]) < 0 && jetjetdEta > 2.5)					bit = SetBit(11, bit);
+	//if(jetjetdEta > 2.5)								bit = SetBit(12, bit);
 	if(fabs(jetjetdPhi) < 2.7)							bit = SetBit(12, bit);
-	if(phojetdR[0]>0.4 && phojetdR[1]>0.4)						bit = SetBit(13, bit);
+	if(phojetdR[0]>0.5 && phojetdR[1]>0.5)						bit = SetBit(13, bit);
 	//if(phoCentral > 0.4)								bit = SetBit(13, bit);
 	if((phoEt[ipho]/corrMET) < 2.4 ) bit = SetBit(14, bit);
 	if(fabs(minJMETdPhi)   > 0.5)							bit = SetBit(15, bit);
 	if(dijetMass>250)								bit = SetBit(16, bit);
+	//if(fabs(jetjetphodPhi) < 2.7) bit = SetBit(17, bit);
       }
       cutflowVBSID.push_back(bit);
       //cout << "get VBS cut" << endl;

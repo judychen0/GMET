@@ -82,8 +82,8 @@ void xSkim_data(char* pathes, Int_t year){
   ///MET
   Float_t       pfMET_;
   Float_t       pfMETPhi_;
-  Float_t puppiMET_;
-  Float_t puppiMETPhi_;
+  Float_t	puppiMET_;
+  Float_t	puppiMETPhi_;
   Int_t         metFilters_;
   ///photon
   Int_t         nPho_;
@@ -108,10 +108,10 @@ void xSkim_data(char* pathes, Int_t year){
   Float_t*      phoSeedEnergy_;
   Float_t*      phoMIPTotEnergy_;
   Short_t*      phoIDbit_;
-  Float_t* phoEtop_;
-  Float_t* phoEleft_;
-  Float_t* phoEright_;
-  Float_t* phoEbottom_;
+  Float_t*	phoEtop_;
+  Float_t*	phoEleft_;
+  Float_t*	phoEright_;
+  Float_t*	phoEbottom_;
   
   ///OOT photon
   Int_t         nOOTPho_;
@@ -121,37 +121,26 @@ void xSkim_data(char* pathes, Int_t year){
   Float_t*      ootPhoPhi_;
   Float_t*      ootPhoSCEta_;
   Float_t*      ootPhoSCPhi_;
-  Int_t* ootPhohasPixelSeed_;
+  Int_t*	ootPhohasPixelSeed_;
   Float_t*      ootPhoHoverE_;
   Float_t*      ootPhoSigmaIEtaIEtaFull5x5_;
   Float_t*      ootPhoR9Full5x5_;
   Float_t*      ootPhoSeedTime_;
   Float_t*      ootPhoSeedEnergy_;
   Float_t*      ootPhoMIPTotEnergy_;
-  Float_t* ootPhoEtop_;
-  Float_t* ootPhoEleft_;
-  Float_t* ootPhoEright_;
-  Float_t* ootPhoEbottom_;
+  Float_t*	ootPhoEtop_;
+  Float_t*	ootPhoEleft_;
+  Float_t*	ootPhoEright_;
+  Float_t*	ootPhoEbottom_;
   
   ///electron
   Int_t         nEle_;
   Float_t*      elePt_;
   Float_t*      eleEta_;
-  Float_t* elePhi_;
-  Float_t* eleEn_;
   Float_t*      eleD0_;
   Float_t*      eleDz_;
   Short_t*      eleIDbit_;
-  Long64_t* eleFiredSingleTrgs_;
-  Float_t*  eleHoverE_;
-  Float_t*  eleSigmaIEtaIEtaFull5x5_;
-  Float_t*  eleR9Full5x5_;
-  Float_t*  elePFChIso_;
-  Float_t*  elePFPhoIso_;
-  Float_t*  elePFNeuIso_;
-  Int_t*    eleConvVeto_;
-  Int_t*    eleMissHits_;
-  
+    
   ///muon
   Int_t         nMu_;
   Float_t*      muPt_;
@@ -195,7 +184,7 @@ void xSkim_data(char* pathes, Int_t year){
   Int_t                 metFilters;
   Int_t                 failedMET;
   ///photon
-  Int_t                 nPho;//HLT pho
+  Int_t                 nPho;	//HLT pho
   vector<Float_t>       phoE;
   vector<Float_t>       phoEt;
   vector<Float_t>       phoEta;
@@ -224,15 +213,16 @@ void xSkim_data(char* pathes, Int_t year){
   vector<Float_t>       phoMETdPhi;
   vector<Short_t>       phoIDbit;
   vector<Int_t>         MphoID;
-  Float_t phoCentral; //photon centrality
-  vector<Float_t> phoEtop;
-  vector<Float_t> phoEleft;
-  vector<Float_t> phoEright;
-  vector<Float_t> phoEbottom;
-  vector<Float_t> phoE4;
-  vector<Float_t> phoE4overE1;
-  vector<Float_t> phoEtaWing;
-  vector<Float_t> phoEtaWingoverE1;
+  vector<Int_t>         LphoID;
+  Float_t		phoCentral;	//photon centrality
+  vector<Float_t>	phoEtop;
+  vector<Float_t>	phoEleft;
+  vector<Float_t>	phoEright;
+  vector<Float_t>	phoEbottom;
+  vector<Float_t>	phoE4;
+  vector<Float_t>	phoE4overE1;
+  vector<Float_t>	phoEtaWing;
+  vector<Float_t>	phoEtaWingoverE1;
 
   ///OOT photon
   Int_t			nOOTPho;
@@ -242,45 +232,34 @@ void xSkim_data(char* pathes, Int_t year){
   vector<Float_t>       ootPhoPhi;
   vector<Float_t>       ootPhoSCEta;
   vector<Float_t>       ootPhoSCPhi;
-  vector<Int_t> ootPhohasPixelSeed;
+  vector<Int_t>		ootPhohasPixelSeed;
   vector<Float_t>       ootPhoHoverE;
   vector<Float_t>       ootPhoSigmaIEtaIEtaFull5x5;
   vector<Float_t>       ootPhoR9Full5x5;
   vector<Float_t>       ootPhoSeedTime;
   vector<Float_t>       ootPhoSeedEnergy;
   vector<Float_t>       ootPhoMIPTotEnergy;
-  vector<Float_t> ootPhoEtop;
-  vector<Float_t> ootPhoEleft;
-  vector<Float_t> ootPhoEright;
-  vector<Float_t> ootPhoEbottom;
-  vector<Float_t> ootPhoE4;
-  vector<Float_t> ootPhoE4overE1;
-  vector<Float_t> ootPhoEtaWing;
-  vector<Float_t> ootPhoEtaWingoverE1;
+  vector<Float_t>	ootPhoEtop;
+  vector<Float_t>	ootPhoEleft;
+  vector<Float_t>	ootPhoEright;
+  vector<Float_t>	ootPhoEbottom;
+  vector<Float_t>	ootPhoE4;
+  vector<Float_t>	ootPhoE4overE1;
+  vector<Float_t>	ootPhoEtaWing;
+  vector<Float_t>	ootPhoEtaWingoverE1;
   
   ///cutflow ID  
   vector<Int_t>         cutflowSMID;
   vector<Int_t>         cutflowVBSID;
+  vector<Int_t> controlWID;
+  
   ///electron
   Int_t                 nEle;
   vector<Float_t>       elePt;
   vector<Float_t>       eleEta;
-  vector<Float_t> elePhi;
-  vector<Float_t> eleEn;
   vector<Float_t>       eleD0;
   vector<Float_t>       eleDz;
   vector<Short_t>       eleIDbit;
-  vector<Long64_t> eleFiredSingleTrgs;
-  vector<Float_t>  eleHoverE;
-  vector<Float_t>  eleSigmaIEtaIEtaFull5x5;
-  vector<Float_t>  eleR9Full5x5;
-  vector<Float_t>  elePFChIso;
-  vector<Float_t>  elePFPhoIso;
-  vector<Float_t>  elePFNeuIso;
-  vector<Int_t>    eleConvVeto;
-  vector<Int_t>    eleMissHits;
-  vector<Int_t> MelephoID;
-  vector<Int_t> TeleID;
   ///muon
   Int_t                 nMu;
   vector<Float_t>       muPt;
@@ -311,7 +290,7 @@ void xSkim_data(char* pathes, Int_t year){
   vector<Float_t>	jetNEF;
   vector<Int_t>		jetNCH;
   vector<Int_t>		jetNNP;
-  Float_t jet3Central; // 3rd leading jet centrality  
+  Float_t		jet3Central;	// 3rd leading jet centrality  
   
   ///angular variables
   Float_t               minJMETdPhi;
@@ -322,13 +301,13 @@ void xSkim_data(char* pathes, Int_t year){
   vector<Float_t>       phojetdR;
   vector<Float_t>       phojetdEta;
   vector<Float_t>       phojetdPhi;
-  Float_t jetjetZdPhi;
-  Float_t jetjetphodPhi;
+  Float_t		jetjetZdPhi;
+  Float_t		jetjetphodPhi;
   Float_t               ZgsysPhi;
   Float_t               jetjetsysPhi;
     
   TTree *outtree_;
-  outtree_ = new TTree("EventTree", "EventTree");
+  outtree_ = new TTree("EventTree", "EventTree"						);
 
   outtree_->Branch("run"			,&run           ,"run/I"		);
   outtree_->Branch("event"			,&event         ,"event/L"		);
@@ -340,8 +319,8 @@ void xSkim_data(char* pathes, Int_t year){
   outtree_->Branch("EventWeight"		,&EventWeight   ,"EventWeight/F"	);
   outtree_->Branch("pfMET"			,&pfMET         ,"pfMET/F"		);
   outtree_->Branch("pfMETPhi"			,&pfMETPhi      ,"pfMETPhi/F"		);
-  outtree_->Branch("puppiMET"			,&puppiMET         ,"puppiMET/F"		);
-  outtree_->Branch("puppiMETPhi"			,&puppiMETPhi      ,"puppiMETPhi/F"		);
+  outtree_->Branch("puppiMET"			,&puppiMET      ,"puppiMET/F"		);
+  outtree_->Branch("puppiMETPhi"		,&puppiMETPhi   ,"puppiMETPhi/F"	);
   outtree_->Branch("corrMET"			,&corrMET       ,"corrMET/F"            );
   outtree_->Branch("corrMETPhi"			,&corrMETPhi    ,"corrMETPhi/F"         );
   outtree_->Branch("metFilters"			,&metFilters    ,"metFilters/I"		);
@@ -370,18 +349,18 @@ void xSkim_data(char* pathes, Int_t year){
   outtree_->Branch("phoPFChWorstIso_newEA"      ,&phoPFChWorstIso_newEA			);
   outtree_->Branch("phoFiredSingleTrgs"         ,&phoFiredSingleTrgs			);
   outtree_->Branch("phoSeedTime"                ,&phoSeedTime				);
-  outtree_->Branch("phoSeedEnergy"                ,&phoSeedEnergy				);
+  outtree_->Branch("phoSeedEnergy"              ,&phoSeedEnergy				);
   outtree_->Branch("phoMIPTotEnergy"            ,&phoMIPTotEnergy			);
   outtree_->Branch("phoMETdPhi"                 ,&phoMETdPhi				);
   outtree_->Branch("phoIDbit"                   ,&phoIDbit				);
-  outtree_->Branch("phoEtop" ,&phoEtop);
-  outtree_->Branch("phoEleft" ,&phoEleft);
-  outtree_->Branch("phoEright" ,&phoEright);
-  outtree_->Branch("phoEbottom" ,&phoEbottom);
-  outtree_->Branch("phoE4" ,&phoE4);
-  outtree_->Branch("phoE4overE1" ,&phoE4overE1);
-  outtree_->Branch("phoEtaWing" ,&phoEtaWing);
-  outtree_->Branch("phoEtaWingoverE1" ,&phoEtaWingoverE1);
+  outtree_->Branch("phoEtop"			,&phoEtop				);
+  outtree_->Branch("phoEleft"			,&phoEleft				);
+  outtree_->Branch("phoEright"			,&phoEright				);
+  outtree_->Branch("phoEbottom"			,&phoEbottom				);
+  outtree_->Branch("phoE4"			,&phoE4					);
+  outtree_->Branch("phoE4overE1"		,&phoE4overE1				);
+  outtree_->Branch("phoEtaWing"			,&phoEtaWing				);
+  outtree_->Branch("phoEtaWingoverE1"		,&phoEtaWingoverE1			);
   
   outtree_->Branch("nOOTPho"			,&nOOTPho       ,"nOOTPho/I"		);
   outtree_->Branch("ootPhoE"                    ,&ootPhoE				);
@@ -390,53 +369,44 @@ void xSkim_data(char* pathes, Int_t year){
   outtree_->Branch("ootPhoPhi"                  ,&ootPhoPhi				);
   outtree_->Branch("ootPhoSCEta"                ,&ootPhoSCEta				);
   outtree_->Branch("ootPhoSCPhi"                ,&ootPhoSCPhi				);
-  outtree_->Branch("ootPhohasPixelSeed"               ,&ootPhohasPixelSeed				);
+  outtree_->Branch("ootPhohasPixelSeed"         ,&ootPhohasPixelSeed			);
   outtree_->Branch("ootPhoHoverE"               ,&ootPhoHoverE				);
   outtree_->Branch("ootPhoSigmaIEtaIEtaFull5x5" ,&ootPhoSigmaIEtaIEtaFull5x5		);
   outtree_->Branch("ootPhoR9Full5x5"            ,&ootPhoR9Full5x5			);
   outtree_->Branch("ootPhoSeedTime"             ,&ootPhoSeedTime			);
   outtree_->Branch("ootPhoSeedEnergy"           ,&ootPhoSeedEnergy			);
   outtree_->Branch("ootPhoMIPTotEnergy"         ,&ootPhoMIPTotEnergy			);
-  outtree_->Branch("ootPhoEtop" ,&ootPhoEtop);
-  outtree_->Branch("ootPhoEleft" ,&ootPhoEleft);
-  outtree_->Branch("ootPhoEright" ,&ootPhoEright);
-  outtree_->Branch("ootPhoEbottom" ,&ootPhoEbottom);
-  outtree_->Branch("ootPhoE4" ,&ootPhoE4);
-  outtree_->Branch("ootPhoE4overE1" ,&ootPhoE4overE1);
-  outtree_->Branch("ootPhoEtaWing" ,&ootPhoEtaWing);
-  outtree_->Branch("ootPhoEtaWingoverE1" ,&ootPhoEtaWingoverE1);
+  outtree_->Branch("ootPhoEtop"			,&ootPhoEtop				);
+  outtree_->Branch("ootPhoEleft"		,&ootPhoEleft				);
+  outtree_->Branch("ootPhoEright"		,&ootPhoEright				);
+  outtree_->Branch("ootPhoEbottom"		,&ootPhoEbottom				);
+  outtree_->Branch("ootPhoE4"			,&ootPhoE4				);
+  outtree_->Branch("ootPhoE4overE1"		,&ootPhoE4overE1			);
+  outtree_->Branch("ootPhoEtaWing"		,&ootPhoEtaWing				);
+  outtree_->Branch("ootPhoEtaWingoverE1"	,&ootPhoEtaWingoverE1			);
   
   outtree_->Branch("MphoID"                     ,&MphoID				);
-  outtree_->Branch("phoCentral",&phoCentral ,"phoCentral/F");
+  outtree_->Branch("LphoID"                     ,&LphoID				);
+  outtree_->Branch("phoCentral"			,&phoCentral	,"phoCentral/F"		);
   outtree_->Branch("cutflowSMID"                ,&cutflowSMID				);
   outtree_->Branch("cutflowVBSID"               ,&cutflowVBSID				);
+  outtree_->Branch("controlWID"               ,&controlWID				);
+  
   outtree_->Branch("nEle"			,&nEle          ,"nEle/I"		);
   outtree_->Branch("elePt"                      ,&elePt					);
   outtree_->Branch("eleEta"                     ,&eleEta				);
-  outtree_->Branch("elePhi"                     ,&elePhi				);
-  outtree_->Branch("eleEn"                     ,&eleEn				);
   outtree_->Branch("eleD0"                      ,&eleD0					);
-  outtree_->Branch("eleDz"                      ,&eleDz					);
-  
+  outtree_->Branch("eleDz"                      ,&eleDz					);  
   outtree_->Branch("eleIDbit"                   ,&eleIDbit				);
-  outtree_->Branch("eleFiredSingleTrgs" ,&eleFiredSingleTrgs);
-  outtree_->Branch("eleHoverE" ,&eleHoverE);
-  outtree_->Branch("eleSigmaIEtaIEtaFull5x5",&eleSigmaIEtaIEtaFull5x5);
-  outtree_->Branch("eleR9Full5x5",&eleR9Full5x5);
-  outtree_->Branch("elePFChIso",&elePFChIso);
-  outtree_->Branch("elePFPhoIso",&elePFPhoIso);
-  outtree_->Branch("elePFNeuIso",&elePFNeuIso);
-  outtree_->Branch("eleConvVeto",&eleConvVeto);
-  outtree_->Branch("eleMissHits",&eleMissHits);
-  outtree_->Branch("MelephoID",&MelephoID);
-  outtree_->Branch("TeleID",&TeleID);
+  
   outtree_->Branch("nMu"			,&nMu           ,"nMu/I"		);
   outtree_->Branch("muPt"                       ,&muPt					);
-  outtree_->Branch("muEta" ,&muEta);
+  outtree_->Branch("muEta"			,&muEta					);
   outtree_->Branch("muIDbit"                    ,&muIDbit				);
   outtree_->Branch("muD0"                       ,&muD0					);
   outtree_->Branch("muDz"                       ,&muDz					);
   outtree_->Branch("nLep"			,&nLep          ,"nLep/I"		);
+
   outtree_->Branch("nJet"			,&nJet          ,"nJet/I"		);
   outtree_->Branch("npfjet"			,&npfjet        ,"npfjet/I"		);
   outtree_->Branch("nSMjet"			,&nSMjet        ,"nSMjet/I"		);
@@ -468,9 +438,9 @@ void xSkim_data(char* pathes, Int_t year){
   outtree_->Branch("phojetdPhi"                 ,&phojetdPhi				);
   outtree_->Branch("jetjetZdPhi"		,&jetjetZdPhi	,"jetjetZdPhi/F"	);
   outtree_->Branch("jetjetphodPhi"		,&jetjetphodPhi	,"jetjetphodPhi/F"	);
-  outtree_->Branch("ZgsysPhi" ,&ZgsysPhi ,"ZgsysPhi/F");
-  outtree_->Branch("jetjetsysPhi" ,&jetjetsysPhi ,"jetjetsysPhi/F");
-  outtree_->Branch("jet3Central",&jet3Central ,"jet3Central/F");
+  outtree_->Branch("ZgsysPhi"			,&ZgsysPhi	,"ZgsysPhi/F"		);
+  outtree_->Branch("jetjetsysPhi"		,&jetjetsysPhi	,"jetjetsysPhi/F"	);
+  outtree_->Branch("jet3Central"		,&jet3Central	,"jet3Central/F"	);
   
   //***********************Loop***********************//
   for (Long64_t ev = 0; ev < data.GetEntriesFast(); ev++){
@@ -482,104 +452,93 @@ void xSkim_data(char* pathes, Int_t year){
     //get data from tree
     data.GetEntry(ev);
 
-    run_                         = data.GetInt(		"run"				);
-    event_			 = data.GetLong64(	"event"				);
-    isData_			 = data.GetBool(	"isData"			);
-    nVtx_			 = data.GetInt(		"nVtx"				);
-    nGoodVtx_			 = data.GetInt(		"nGoodVtx"			);
-    isPVGood_                    = data.GetBool(	"isPVGood"			);
-    rho_			 = data.GetFloat(	"rho"				);
-    pfMET_			 = data.GetFloat(	"pfMET"				);
-    pfMETPhi_			 = data.GetFloat(	"pfMETPhi"			);
-    puppiMET_			 = data.GetFloat(	"puppiMET"				);
-    puppiMETPhi_			 = data.GetFloat(	"puppiMETPhi"			);
-    metFilters_		         = data.GetInt(		"metFilters"			);
-    nPho_			 = data.GetInt(		"nPho"				);
-    phoE_			 = data.GetPtrFloat(	"phoE"				);
-    phoEt_			 = data.GetPtrFloat(	"phoEt"				);
-    phoEta_			 = data.GetPtrFloat(	"phoEta"			);
-    phoPhi_			 = data.GetPtrFloat(	"phoPhi"			);
-    phoCalibE_			 = data.GetPtrFloat(	"phoCalibE"			);
-    phoCalibEt_		         = data.GetPtrFloat(	"phoCalibEt"			);
-    phoSCEta_			 = data.GetPtrFloat(	"phoSCEta"			);
-    phohasPixelSeed_		 = data.GetPtrInt(	"phohasPixelSeed"		);
-    phoEleVeto_		         = data.GetPtrInt(	"phoEleVeto"			);
-    phoHoverE_			 = data.GetPtrFloat(	"phoHoverE"			);
-    phoSigmaIEtaIEtaFull5x5_     = data.GetPtrFloat(	"phoSigmaIEtaIEtaFull5x5"	);
-    phoR9Full5x5_		 = data.GetPtrFloat(	"phoR9Full5x5"			);
-    phoPFChIso_		         = data.GetPtrFloat(	"phoPFChIso"			);
-    phoPFPhoIso_		 = data.GetPtrFloat(	"phoPFPhoIso"			);
-    phoPFNeuIso_		 = data.GetPtrFloat(	"phoPFNeuIso"			);
-    phoPFChWorstIso_		 = data.GetPtrFloat(	"phoPFChWorstIso"		);
-    phoFiredSingleTrgs_	         = data.GetPtrLong64(	"phoFiredSingleTrgs"		);
-    phoSeedTime_		 = data.GetPtrFloat(	"phoSeedTime"			);
-    phoSeedEnergy_		 = data.GetPtrFloat(	"phoSeedEnergy"			);
-    phoMIPTotEnergy_		 = data.GetPtrFloat(	"phoMIPTotEnergy"		);
-    phoIDbit_			 = data.GetPtrShort(	"phoIDbit"			);
-    phoEtop_ = data.GetPtrFloat("phoEtop");
-    phoEleft_ = data.GetPtrFloat("phoEleft");
-    phoEright_ = data.GetPtrFloat("phoEright");
-    phoEbottom_ = data.GetPtrFloat("phoEbottom");
+    run_			= data.GetInt(		"run"				);
+    event_			= data.GetLong64(	"event"				);
+    isData_			= data.GetBool(		"isData"			);
+    nVtx_			= data.GetInt(		"nVtx"				);
+    nGoodVtx_			= data.GetInt(		"nGoodVtx"			);
+    isPVGood_			= data.GetBool(		"isPVGood"			);
+    rho_			= data.GetFloat(	"rho"				);
+    pfMET_			= data.GetFloat(	"pfMET"				);
+    pfMETPhi_			= data.GetFloat(	"pfMETPhi"			);
+    puppiMET_			= data.GetFloat(	"puppiMET"			);
+    puppiMETPhi_		= data.GetFloat(	"puppiMETPhi"			);
+    metFilters_			= data.GetInt(		"metFilters"			);
+    nPho_			= data.GetInt(		"nPho"				);
+    phoE_			= data.GetPtrFloat(	"phoE"				);
+    phoEt_			= data.GetPtrFloat(	"phoEt"				);
+    phoEta_			= data.GetPtrFloat(	"phoEta"			);
+    phoPhi_			= data.GetPtrFloat(	"phoPhi"			);
+    phoCalibE_			= data.GetPtrFloat(	"phoCalibE"			);
+    phoCalibEt_			= data.GetPtrFloat(	"phoCalibEt"			);
+    phoSCEta_			= data.GetPtrFloat(	"phoSCEta"			);
+    phohasPixelSeed_		= data.GetPtrInt(	"phohasPixelSeed"		);
+    phoEleVeto_			= data.GetPtrInt(	"phoEleVeto"			);
+    phoHoverE_			= data.GetPtrFloat(	"phoHoverE"			);
+    phoSigmaIEtaIEtaFull5x5_	= data.GetPtrFloat(	"phoSigmaIEtaIEtaFull5x5"	);
+    phoR9Full5x5_		= data.GetPtrFloat(	"phoR9Full5x5"			);
+    phoPFChIso_			= data.GetPtrFloat(	"phoPFChIso"			);
+    phoPFPhoIso_		= data.GetPtrFloat(	"phoPFPhoIso"			);
+    phoPFNeuIso_		= data.GetPtrFloat(	"phoPFNeuIso"			);
+    phoPFChWorstIso_		= data.GetPtrFloat(	"phoPFChWorstIso"		);
+    phoFiredSingleTrgs_		= data.GetPtrLong64(	"phoFiredSingleTrgs"		);
+    phoSeedTime_		= data.GetPtrFloat(	"phoSeedTime"			);
+    phoSeedEnergy_		= data.GetPtrFloat(	"phoSeedEnergy"			);
+    phoMIPTotEnergy_		= data.GetPtrFloat(	"phoMIPTotEnergy"		);
+    phoIDbit_			= data.GetPtrShort(	"phoIDbit"			);
+    phoEtop_			= data.GetPtrFloat(	"phoEtop"			);
+    phoEleft_			= data.GetPtrFloat(	"phoEleft"			);
+    phoEright_			= data.GetPtrFloat(	"phoEright"			);
+    phoEbottom_			= data.GetPtrFloat(	"phoEbottom"			);
     
-    nOOTPho_			 = data.GetInt(		"nOOTPho"			);
-    ootPhoE_			 = data.GetPtrFloat(	"ootPhoE"			);
-    ootPhoEt_			 = data.GetPtrFloat(	"ootPhoEt"			);
-    ootPhoEta_			 = data.GetPtrFloat(	"ootPhoEta"			);
-    ootPhoPhi_			 = data.GetPtrFloat(	"ootPhoPhi"			);
-    ootPhoSCEta_		 = data.GetPtrFloat(	"ootPhoSCEta"			);
-    ootPhoSCPhi_		 = data.GetPtrFloat(	"ootPhoSCPhi"			);
-    ootPhohasPixelSeed_ = data.GetPtrInt("ootPhohasPixelSeed");
-    ootPhoHoverE_		 = data.GetPtrFloat(	"ootPhoHoverE"			);
-    ootPhoSigmaIEtaIEtaFull5x5_  = data.GetPtrFloat(	"ootPhoSigmaIEtaIEtaFull5x5"	);
-    ootPhoR9Full5x5_		 = data.GetPtrFloat(	"ootPhoR9Full5x5"		);
-    ootPhoSeedTime_              = data.GetPtrFloat(	"ootPhoSeedTime"		);
-    ootPhoSeedEnergy_              = data.GetPtrFloat(	"ootPhoSeedEnergy"		);
-    ootPhoMIPTotEnergy_          = data.GetPtrFloat(	"ootPhoMIPTotEnergy"		);
-    ootPhoEtop_ = data.GetPtrFloat("ootPhoEtop");
-    ootPhoEleft_ = data.GetPtrFloat("ootPhoEleft");
-    ootPhoEright_ = data.GetPtrFloat("ootPhoEright");
-    ootPhoEbottom_ = data.GetPtrFloat("ootPhoEbottom");
+    nOOTPho_			= data.GetInt(		"nOOTPho"			);
+    ootPhoE_			= data.GetPtrFloat(	"ootPhoE"			);
+    ootPhoEt_			= data.GetPtrFloat(	"ootPhoEt"			);
+    ootPhoEta_			= data.GetPtrFloat(	"ootPhoEta"			);
+    ootPhoPhi_			= data.GetPtrFloat(	"ootPhoPhi"			);
+    ootPhoSCEta_		= data.GetPtrFloat(	"ootPhoSCEta"			);
+    ootPhoSCPhi_		= data.GetPtrFloat(	"ootPhoSCPhi"			);
+    ootPhohasPixelSeed_		= data.GetPtrInt(	"ootPhohasPixelSeed"		);
+    ootPhoHoverE_		= data.GetPtrFloat(	"ootPhoHoverE"			);
+    ootPhoSigmaIEtaIEtaFull5x5_ = data.GetPtrFloat(	"ootPhoSigmaIEtaIEtaFull5x5"	);
+    ootPhoR9Full5x5_		= data.GetPtrFloat(	"ootPhoR9Full5x5"		);
+    ootPhoSeedTime_             = data.GetPtrFloat(	"ootPhoSeedTime"		);
+    ootPhoSeedEnergy_           = data.GetPtrFloat(	"ootPhoSeedEnergy"		);
+    ootPhoMIPTotEnergy_         = data.GetPtrFloat(	"ootPhoMIPTotEnergy"		);
+    ootPhoEtop_			= data.GetPtrFloat(	"ootPhoEtop"			);
+    ootPhoEleft_		= data.GetPtrFloat(	"ootPhoEleft"			);
+    ootPhoEright_		= data.GetPtrFloat(	"ootPhoEright"			);
+    ootPhoEbottom_		= data.GetPtrFloat(	"ootPhoEbottom"			);
     
-    nEle_			 = data.GetInt(		"nEle"				);
-    elePt_			 = data.GetPtrFloat(	"elePt"				);
-    eleEta_			 = data.GetPtrFloat(	"eleEta"			);
-    //elePhi_ = data.GetPtrFloat("elePhi");
-    //eleEn_ = data.GetPtrFloat("eleEn");
-    eleD0_			 = data.GetPtrFloat(	"eleD0"				);
-    eleDz_			 = data.GetPtrFloat(	"eleDz"				);
-    eleIDbit_			 = data.GetPtrShort(	"eleIDbit"			);
-    //eleFiredSingleTrgs_ = data.GetPtrLong64("eleFiredSingleTrgs");
-    //eleHoverE_ = data.GetPtrFloat("eleHoverE");
-    //eleSigmaIEtaIEtaFull5x5_ = data.GetPtrFloat("eleSigmaIEtaIEtaFull5x5");
-    //eleR9Full5x5_ = data.GetPtrFloat("eleR9Full5x5");
-    //elePFChIso_ = data.GetPtrFloat("elePFChIso");
-    //elePFPhoIso_ = data.GetPtrFloat("elePFPhoIso");
-    //elePFNeuIso_ = data.GetPtrFloat("elePFNeuIso");
-    //eleConvVeto_ = data.GetPtrInt("eleConvVeto");
-    //eleMissHits_ = data.GetPtrInt("eleMissHits");
-  
-    nMu_			 = data.GetInt(		"nMu"				);
-    muPt_ 			 = data.GetPtrFloat(	"muPt"				);
-    muEta_ = data.GetPtrFloat("muEta");
-    muIDbit_			 = data.GetPtrInt(	"muIDbit"			);
-    muD0_			 = data.GetPtrFloat(	"muD0"				);
-    muDz_			 = data.GetPtrFloat(	"muDz"				);
-    nJet_			 = data.GetInt(		"nJet"				);
-    jetPt_			 = data.GetPtrFloat(	"jetPt"				);
-    jetEn_			 = data.GetPtrFloat(	"jetEn"				);
-    jetEta_			 = data.GetPtrFloat(	"jetEta"			);
-    jetPhi_			 = data.GetPtrFloat(	"jetPhi"			);
-    jetPUID_			 = data.GetPtrFloat(	"jetPUID"			);
-    jetID_			 = data.GetPtrInt(	"jetID"				);
-    jetCEF_			 = data.GetPtrFloat(	"jetCEF"			);
-    jetMUF_			 = data.GetPtrFloat(	"jetMUF"			);
-    jetCHF_			 = data.GetPtrFloat(	"jetCHF"			);
-    jetNHF_			 = data.GetPtrFloat(	"jetNHF"			);
-    jetNEF_			 = data.GetPtrFloat(	"jetNEF"			);
-    jetNCH_			 = data.GetPtrInt(	"jetNCH"			);
-    jetNNP_			 = data.GetPtrInt(	"jetNNP"			);
-    
+    nEle_			= data.GetInt(		"nEle"				);
+    elePt_			= data.GetPtrFloat(	"elePt"				);
+    eleEta_			= data.GetPtrFloat(	"eleEta"			);
+    eleD0_			= data.GetPtrFloat(	"eleD0"				);
+    eleDz_			= data.GetPtrFloat(	"eleDz"				);
+    eleIDbit_			= data.GetPtrShort(	"eleIDbit"			);
+    nMu_			= data.GetInt(		"nMu"				);
+    muPt_			= data.GetPtrFloat(	"muPt"				);
+    muEta_			= data.GetPtrFloat(	"muEta"				);
+    muIDbit_			= data.GetPtrInt(	"muIDbit"			);
+    muD0_			= data.GetPtrFloat(	"muD0"				);
+    muDz_			= data.GetPtrFloat(	"muDz"				);
+    nJet_			= data.GetInt(		"nJet"				);
+    jetPt_			= data.GetPtrFloat(	"jetPt"				);
+    jetEn_			= data.GetPtrFloat(	"jetEn"				);
+    jetEta_			= data.GetPtrFloat(	"jetEta"			);
+    jetPhi_			= data.GetPtrFloat(	"jetPhi"			);
+    jetPUID_			= data.GetPtrFloat(	"jetPUID"			);
+    jetID_			= data.GetPtrInt(	"jetID"				);
+    jetCEF_			= data.GetPtrFloat(	"jetCEF"			);
+    jetMUF_			= data.GetPtrFloat(	"jetMUF"			);
+    jetCHF_			= data.GetPtrFloat(	"jetCHF"			);
+    jetNHF_			= data.GetPtrFloat(	"jetNHF"			);
+    jetNEF_			= data.GetPtrFloat(	"jetNEF"			);
+    jetNCH_			= data.GetPtrInt(	"jetNCH"			);
+    jetNNP_			= data.GetPtrInt(	"jetNNP"			);
+        
     //cout << "get all variable" << endl;
+
     //init variable
     run		 = 0;
     event	 = 0;
@@ -626,6 +585,7 @@ void xSkim_data(char* pathes, Int_t year){
     phoMETdPhi.clear();
     phoIDbit.clear();
     MphoID.clear();
+    LphoID.clear();
     phoCentral = 0;
     phoEtop.clear();
     phoEleft.clear();
@@ -661,28 +621,14 @@ void xSkim_data(char* pathes, Int_t year){
     
     cutflowSMID.clear();
     cutflowVBSID.clear();
+    controlWID.clear();
     
     nEle	 = 0;
     elePt.clear();
     eleEta.clear();
-    elePhi.clear();
-    eleEn.clear();
     eleD0.clear();
     eleDz.clear();
-    
-    eleIDbit.clear();
-    eleFiredSingleTrgs.clear();
-    eleHoverE.clear();
-    eleSigmaIEtaIEtaFull5x5.clear();
-    eleR9Full5x5.clear();
-    elePFChIso.clear();
-    elePFPhoIso.clear();
-    elePFNeuIso.clear();
-    eleConvVeto.clear();
-    eleMissHits.clear();
-    MelephoID.clear();
-    TeleID.clear();
-    
+        
     nMu		 = 0;
     muPt.clear();
     muEta.clear();
@@ -724,6 +670,8 @@ void xSkim_data(char* pathes, Int_t year){
     jetjetphodPhi	= 0;
     ZgsysPhi = 0;
     jetjetsysPhi = 0;
+
+    if(isPVGood_ != 1) continue;
     
     //rho correction of pho isolation
     vector<vector<Float_t>> Iso_rc; //[ch, pho, nh, chw, chw_newEA]
@@ -738,6 +686,7 @@ void xSkim_data(char* pathes, Int_t year){
       if(year == 2016 && (phoFiredSingleTrgs_[ipho]>>7&1) == 0) continue;
       else if(year == 2017 && (phoFiredSingleTrgs_[ipho]>>8&1) == 0) continue;
       else if(year == 2018 && (phoFiredSingleTrgs_[ipho]>>7&1) == 0) continue;
+
       nPho++;
       phoE.push_back(phoE_[ipho]);
       phoEt.push_back(phoEt_[ipho]);
@@ -790,10 +739,6 @@ void xSkim_data(char* pathes, Int_t year){
     }
     //cout << "get rho corr" << endl;
     if(nPho<1) continue;
-
-    //electron t&p ID(pass HLT)
-    //epho_IDselection(1, year, 0, data, MelephoID);
-    //eleIDcut(2, year, data, TeleID);
     
     //lepton veto selection
     Int_t nLele = 0;
@@ -858,7 +803,8 @@ void xSkim_data(char* pathes, Int_t year){
     //cout << "get # jets" << endl;
     
     //phoID selection
-    phoIDcut(1, year, data, MphoID);
+    phoIDcut(1, year, data, MphoID); // Medium
+    phoIDcut(0, year, data, LphoID);
     //cout << "get phoIDcut" << endl;
 
     //dijet stuff
@@ -994,33 +940,31 @@ void xSkim_data(char* pathes, Int_t year){
       //(puppiMET> 140+(0.138*(phoCalibEt[ipho]-500)))					bit = SetBit(8, bit);
       if(puppiMET>100)									bit = SetBit(7, bit);
       //if((phoEt[ipho]/puppiMET) < 2.4 ) bit = SetBit(7, bit);
-      if(fabs(phoMETdPhi[ipho]) > 0.5)							bit = SetBit(8, bit); 
-      if(npfjet == 1 ){
-
-	if(jetPt_[nonPUjetid[0]] >30) {bit = SetBit(9, bit); nSMjet = npfjet;}
-	else if(jetPt_[nonPUjetid[0]] <30) {bit = SetBit(9, bit); nSMjet = 0;}
-      }
-      else if(npfjet == 0){								bit = SetBit(9, bit); nSMjet = npfjet;}
+      if(fabs(phoMETdPhi[ipho]) > 1.2)							bit = SetBit(8, bit); 
+      if(npfjet == 1 ){bit = SetBit(9, bit); nSMjet = npfjet;}
     
-      for(Int_t i=0; i<7; i++){								bit = SetBit(i+10, bit); }      
+      for(Int_t i=0; i<8; i++){								bit = SetBit(i+10, bit); }      
       cutflowSMID.push_back(bit);
       //cout << "get SM cut" << endl;
 
-      for(Int_t i=0; i<9; i++){								bit = ResetBit(i+8, bit); }
+      for(Int_t i=0; i<10; i++){								bit = ResetBit(i+8, bit); }
       if(npfjet >=2){
+	nVBSjet = npfjet;
 	Int_t ilead = nonPUjetid[0];
 	Int_t isub = nonPUjetid[1];
 
-	if(fabs(jetjetphodPhi) < 2.7) bit = SetBit(8, bit);
-	if(jetPt_[ilead] >50 && jetPt_[isub] >30) {bit = SetBit(9, bit); nVBSjet = npfjet;}
-	if((jetEta_[ilead] * jetEta_[isub]) < 0)					bit = SetBit(10, bit);
-	if(jetjetdEta > 2.5)								bit = SetBit(11, bit);
+	bit = SetBit(8, bit);
+	bit = SetBit(9, bit); //njet cut
+	if(jetPt_[ilead] >50 && jetPt_[isub] >30) bit = SetBit(10, bit);
+	if((jetEta_[ilead] * jetEta_[isub]) < 0 && jetjetdEta>2.5)					bit = SetBit(11, bit);
+	//if(jetjetdEta > 2.5)								bit = SetBit(12, bit);
 	if(fabs(jetjetdPhi) < 2.7)							bit = SetBit(12, bit);
-	if(phojetdR[0]>0.4 && phojetdR[1]>0.4)						bit = SetBit(13, bit);
+	if(phojetdR[0]>0.5 && phojetdR[1]>0.5)						bit = SetBit(13, bit);
 	//if(phoCentral > 0.4)								bit = SetBit(13, bit);
 	if((phoEt[ipho]/puppiMET) < 2.4 ) bit = SetBit(14, bit);
 	if(fabs(minJMETdPhi)   > 0.5)							bit = SetBit(15, bit);
 	if(dijetMass>250)								bit = SetBit(16, bit);
+	//if(fabs(jetjetphodPhi) < 2.7) bit = SetBit(17, bit);
       }
       cutflowVBSID.push_back(bit);
       //cout << "get VBS cut" << endl;
@@ -1080,25 +1024,11 @@ void xSkim_data(char* pathes, Int_t year){
 
     nEle = nEle_;
     for(Int_t i=0; i<nEle_; i++){
-      //if(year == 2016 && (eleFiredSingleTrgs_[i]>>13&1) == 0) continue;
-      //else if(year ==2017 && (eleFiredSingleTrgs_[i]>>13&1) == 0) continue;
-      //else if(year == 2018 && (eleFiredSingleTrgs_[i]>>13&1) == 0) continue;
       elePt.push_back(elePt_[i]);
       eleEta.push_back(eleEta_[i]);
-      //elePhi.push_back(elePhi_[i]);
-      //eleEn.push_back(eleEn_[i])
       eleD0.push_back(eleD0_[i]);
       eleDz.push_back(eleDz_[i]);
       eleIDbit.push_back(eleIDbit_[i]);
-      //eleFiredSingleTrgs.push_back(eleFiredSingleTrgs_[i]);
-      //eleHoverE.push_back(eleHoverE_[i]);
-      //eleSigmaIEtaIEtaFull5x5.push_back(eleSigmaIEtaIEtaFull5x5_[i]);
-      //eleR9Full5x5.push_back(eleR9Full5x5_[i]);
-      //elePFChIso.push_back(elePFChIso_[i]);
-      //elePFPhoIso.push_back(elePFPhoIso_[i]);
-      //elePFNeuIso.push_back(elePFNeuIso_[i]);
-      //eleConvVeto.push_back(eleConvVeto_[i]);
-      //eleMissHits.push_back(eleMissHits_[i]);
     }
     //cout << "fill ele" << endl;
 
