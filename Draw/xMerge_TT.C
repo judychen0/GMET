@@ -4,17 +4,17 @@
 #include <string>
 #include "TH1F.h"
 using namespace std;
-
-#define ndiBoson 3
+//#define nfile 4
+#define nTT 3
 #define nhisto 2
 
-void xMerge_diboson(Int_t year){
+void xMerge_TT(Int_t year){
   TString rootname[10];
   TFile *fopen, *fout;
 
   Int_t entries = 1.0;
   Float_t outentries = 0.;
-  Float_t scale[ndiBoson] = {0};
+  Float_t scale[nTT] = {0};
 
   Float_t lumi16 = 36.33;
   Float_t lumi17 = 41.48;
@@ -32,30 +32,31 @@ void xMerge_diboson(Int_t year){
 
   TH1F *hEvents = new TH1F("hEvents", "total processed and skimmed events",2,0,2);
   TH1F *hSumofGenW = new TH1F("hSumGenWeight", "Sum of Gen weights",1,0,1);
-  
-  Float_t mcXsec[10] = {76.32, 27.41, 12.12};//diboson[WW, WZ, ZZ]
 
+  Float_t mcXsec[10] = {4.206, 750.5, 750.5};// TTGjets, TTJets, TTJets
+  
   if(year==2016){
-    rootname[0] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220406/summer16/mc/diboson/job_summer16_WW/output_ggtree.root";
-    rootname[1] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220406/summer16/mc/diboson/job_summer16_WZ/output_ggtree.root";
-    rootname[2] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220406/summer16/mc/diboson/job_summer16_ZZ/output_ggtree.root";
+    rootname[0] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220510/summer16/mc/GJet/job_summer16_GJets_MG_HT200to400/output_ggtree.root";
+    rootname[1] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220510/summer16/mc/GJet/job_summer16_GJets_MG_HT400to600/output_ggtree.root";
+    rootname[2] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220510/summer16/mc/GJet/job_summer16_GJets_MG_HT600toInf/output_ggtree.root";
   }
   else if(year==2017){
-    rootname[0] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/diboson/job_fall17_WW/output_ggtree.root";
-    rootname[1] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/diboson/job_fall17_WZ/output_ggtree.root";
-    rootname[2] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/diboson/job_fall17_ZZ/output_ggtree.root";
+    rootname[0] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/GJet/job_fall17_GJets_MG_HT200to400/output_ggtree.root";
+    rootname[1] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/GJet/job_fall17_GJets_MG_HT400to600/output_ggtree.root";
+    rootname[2] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/GJet/job_fall17_GJets_MG_HT600toInf/output_ggtree.root";
   }
   else if(year==2018){
-    rootname[0] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/diboson/job_autumn18_WW/output_ggtree.root";
-    rootname[1] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/diboson/job_autumn18_WZ/output_ggtree.root";
-    rootname[2] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/diboson/job_autumn18_ZZ/output_ggtree.root";
+    rootname[0] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/TT/job_autumn18_TTGjets/output_ggtree.root";
+    rootname[1] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/TT/job_autumn18_TT_aMCatNLO_ext1/output_ggtree.root";
+    rootname[2] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/TT/job_autumn18_TT_aMCatNLO_ext2/output_ggtree.root";
   }
-
-  for(Int_t i=0; i<ndiBoson; i++){
+  
+  for(Int_t i=0; i<nTT; i++){
     fopen = new TFile(rootname[i]);
     hEvents = (TH1F*)fopen->Get("hEvents");
     hSumofGenW = (TH1F*)fopen->Get("hSumGenWeight");
     entries = hSumofGenW->GetBinContent(1);
+    //entries = hEvents->GetBinContent(1);
     outentries = mcXsec[i]*1000*lumi;
 
     scale[i] = fabs(outentries/entries);
@@ -68,7 +69,7 @@ void xMerge_diboson(Int_t year){
   Double_t METbin[20] = {0, 45, 90, 135, 180, 250, 300, 400, 500, 650, 800, 1200};//10bins
   Double_t phibin[20] = {-TMath::Pi(), -2.5, -2, -1.4, -0.8, 0.0, 0.8, 1.4, 2, 2.5, TMath::Pi()};//10bins
   Double_t dphibin[20] = {-TMath::Pi(), -2.7, -2.3, -1.9, -1.5, -1.2, -0.5, 0.0, 0.5, 1.2, 1.5, 1.9, 2.3, 2.7, TMath::Pi()};//14bins
-
+  
   //[0, 1][SM, VBS]
   TH1F *h_phoEB_pt_130[2];
   TH1F *h_phoEB_pt_M[2];
@@ -98,7 +99,6 @@ void xMerge_diboson(Int_t year){
   TH1F *h_MET_mindJMETPhi[2];
   TH1F *h_MET_dijetMass[2];
 
-  
   TH1F *h_phoEB_ptcut[2];
   TH1F *h_phoEB_Etacut[2];
   TH1F *h_phoEB_Phicut[2];
@@ -133,7 +133,7 @@ void xMerge_diboson(Int_t year){
     h_phoEB_pt_phojetdR[j] = new TH1F(Form("h_phoEB_pt_phojetdR_%i", j), "phojet dR cut", 16, ptbin);
     h_phoEB_pt_ptoverMET[j] = new TH1F(Form("h_phoEB_pt_ptoverMET_%i", j), "phoCentral cut", 16, ptbin);
     h_phoEB_pt_mindJMETPhi[j] = new TH1F(Form("h_phoEB_pt_mindJMETPhi_%i", j), "mindJMETPhi cut", 16, ptbin);
-    h_phoEB_pt_dijetMass[j] = new TH1F(Form("h_phoEB_pt_dijetMass_%i", j), "dijetMass cut", 16, ptbin);
+    h_phoEB_pt_dijetMass[j] = new TH1F(Form("h_phoEB_pt_dijetMass_%i", j), "dijetMass cut", 16, ptbin);    
 
     h_MET_130[j] = new TH1F(Form("h_MET_130_%i", j), "matched MET pt200 cut", 10, METbin);
     h_MET_M[j] = new TH1F(Form("h_MET_M_%i", j), "matched MET M IDcut", 10, METbin);
@@ -147,8 +147,7 @@ void xMerge_diboson(Int_t year){
     h_MET_phojetdR[j] = new TH1F(Form("h_MET_phojetdR_%i", j), "phojet dR cut", 10, METbin);
     h_MET_ptoverMET[j] = new TH1F(Form("h_MET_ptoverMET_%i", j), "phoCentral cut", 10, METbin);
     h_MET_mindJMETPhi[j] = new TH1F(Form("h_MET_mindJMETPhi_%i", j), "mindJMETPhi cut", 10, METbin);
-    h_MET_dijetMass[j] = new TH1F(Form("h_MET_dijetMass_%i", j), "dijetMass cut", 10, METbin);
-
+    h_MET_dijetMass[j] = new TH1F(Form("h_MET_dijetMass_%i", j), "dijetMass cut", 10, METbin);    
 
     h_phoEB_ptcut[j] = new TH1F(Form("h_phoEB_ptcut_%i", j), "phoEB pt cut all pas varbin", 16, ptbin);
     h_phoEB_Etacut[j] = new TH1F(Form("h_phoEB_Etacut_%i", j), "phoEB eta cut all pas varbins", 4, etabin);
@@ -171,7 +170,7 @@ void xMerge_diboson(Int_t year){
     h_njet_cut[j] = new TH1F(Form("h_njet_cut_%i", j), "njet N cut", 10, 0, 10);
     
   }
-
+  
   Double_t jetptbin[20] = {0, 30, 50, 100, 200, 300, 500, 700, 1200};//8bins
   Double_t jetetabin[30] = {-5, -4.7, -4, -3.5, -3, -2.5, -2.3, -2, -1.7, -1.4, -0.8, 0.0, 0.8, 1.4, 1.7, 2, 2.3, 2.5, 3, 3.5, 4, 4.7, 5};//22bins
     
@@ -216,7 +215,7 @@ void xMerge_diboson(Int_t year){
   //  h_dEta_phojet[ii] = new TH1F(Form("h_dEta_phojet_jet%i", ii), "pho jet dEta", 32, 0., 8);
   //  h_dPhi_phojet[ii] = new TH1F(Form("h_dPhi_phojet_jet%i", ii), "pho jet dPhi", 14, dphibin);
   //}
-
+  
   TH1F *h_djetMETPhi_Nm1;
   TH1F *h_djetMETPhi_cut;
 
@@ -229,7 +228,7 @@ void xMerge_diboson(Int_t year){
   h_dr_phojet = new TH1F("h_dr_phojet", "pho jet dr", 16, 0., 8);
   h_dEta_phojet = new TH1F("h_dEta_phojet", "pho jet dEta", 32, 0., 8);
   h_dPhi_phojet = new TH1F("h_dPhi_phojet", "pho jet dPhi", 14, dphibin);
-
+  
   Double_t massbin[20] = {0, 250, 500, 750, 1000, 1250, 1500, 1750, 2000};//8bins
 
   TH1F *h_dr_jetjet_cut;
@@ -259,7 +258,7 @@ void xMerge_diboson(Int_t year){
   TH1F *h_ptoverMET_Nm1;
   TH1F *h_ptoverMET_cut;
 
-  h_ptoverMET_Nm1 = new TH1F("h_ptoverMET_Nm1", "phoEB pt/MET N cut", 60, 0, 12);
+  h_ptoverMET_Nm1 = new TH1F("h_ptoverMET_Nm1", "phoEB pt/MET N-1 cut", 60, 0, 12);
   h_ptoverMET_cut = new TH1F("h_ptoverMET_cut", "phoEB pt/MET N cut", 60, 0, 12);
   
   TH1F *h_jetjetZdPhi_cut;
@@ -290,7 +289,7 @@ void xMerge_diboson(Int_t year){
   h_minJMETdPhi_ptoverMET_CR_minJMETdPhi_SB = new TH1F("h_minJMETdPhi_ptoverMET_CR_minJMETdPhi_SB", "", 14, dphibin);
   h_dijetMass_ptoverMET_CR_minJMETdPhi_SB = new TH1F("h_dijetMass_ptoverMET_CR_minJMETdPhi_SB", "", 8, massbin);
   h_dEta_jetjet_ptoverMET_CR_minJMETdPhi_SB = new TH1F("h_dEta_jetjet_ptoverMET_CR_minJMETdPhi_SB", "", 32, 0., 8);
-
+  
   // ptoverMET CR (ptoverMET > 2.0)
   TH1F *h_phoEB_ptcut_ptoverMET_CR;
   TH1F *h_jetpt_ptoverMET_CR;
@@ -357,7 +356,7 @@ void xMerge_diboson(Int_t year){
   h2_minJMETdPhi_ptoverMET = new TH2F("h2_minJMETdPhi_ptoverMET", "minJMETdPhi and ptoverMET relation", 14, dphibin, 10, 0, 5);
 
   //merge plots
-  for(Int_t i=0; i<ndiBoson; i++){
+  for(Int_t i=0; i<nTT; i++){
     fopen = new TFile(rootname[i]);
     
     h_dr_jetjet_cut->Add((TH1F*)fopen->Get("dijet/h_dr_jetjet_cut"), scale[i]);
@@ -388,7 +387,7 @@ void xMerge_diboson(Int_t year){
     h_minJMETdPhi_ptoverMET_CR->Add((TH1F*)fopen->Get("ptoverMET_CR/h_minJMETdPhi_ptoverMET_CR"), scale[i]);
     h_dijetMass_ptoverMET_CR->Add((TH1F*)fopen->Get("ptoverMET_CR/h_dijetMass_ptoverMET_CR"), scale[i]);
     h_dEta_jetjet_ptoverMET_CR->Add((TH1F*)fopen->Get("ptoverMET_CR/h_dEta_jetjet_ptoverMET_CR"), scale[i]);
-
+    
     h_phoEB_ptcut_ptoverMET_SR->Add((TH1F*)fopen->Get("ptoverMET_SR/h_phoEB_ptcut_ptoverMET_SR"), scale[i]);
     h_jetpt_ptoverMET_SR->Add((TH1F*)fopen->Get("ptoverMET_SR/h_jetpt_ptoverMET_SR"), scale[i]);
     h_MET_ptoverMET_SR->Add((TH1F*)fopen->Get("ptoverMET_SR/h_MET_ptoverMET_SR"), scale[i]);
@@ -403,7 +402,7 @@ void xMerge_diboson(Int_t year){
     h2_dijetMass_minJMETdPhi->Add((TH2F*)fopen->Get("h2_plots/h2_dijetMass_minJMETdPhi"), scale[i]);
     h2_dijetMass_ptoverMET->Add((TH2F*)fopen->Get("h2_plots/h2_dijetMass_ptoverMET"), scale[i]);
     h2_minJMETdPhi_ptoverMET->Add((TH2F*)fopen->Get("h2_plots/h2_minJMETdPhi_ptoverMET"), scale[i]);
-
+  
     for(Int_t j=0; j<nhisto; j++){
       
       h_phoEB_pt_130[j]->Add((TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_pt_130_%i", j)), scale[i]);
@@ -458,7 +457,7 @@ void xMerge_diboson(Int_t year){
       h_jetpt_cut[j]->Add((TH1F*)fopen->Get(Form("dijet/h_jetpt_cut_%i", j)), scale[i]);
       h_jetEta_cut[j]->Add((TH1F*)fopen->Get(Form("dijet/h_jetEta_cut_%i", j)), scale[i]);
       h_jetPhi_cut[j]->Add((TH1F*)fopen->Get(Form("dijet/h_jetPhi_cut_%i", j)), scale[i]);
-
+      
     }
 
     h_djetMETPhi_Nm1->Add((TH1F*)fopen->Get("dijet/h_djetMETPhi_Nm1"), scale[i]);
@@ -469,8 +468,8 @@ void xMerge_diboson(Int_t year){
     h_dPhi_phojet->Add((TH1F*)fopen->Get("dijet/h_dPhi_phojet"), scale[i]);
 
   }
-
-  fout = new TFile("output_merge_diBoson.root", "RECREATE");
+  
+  fout = new TFile("output_merge_TT.root", "RECREATE");
   fout->cd();
 
   h_MET_Nm1_minJMETdPhi_SB->Write();
@@ -529,7 +528,7 @@ void xMerge_diboson(Int_t year){
   
   fout->mkdir("dijet");
   fout->cd("dijet");
-  
+
   h_dr_jetjet_cut->Write();
   h_minJMETdPhi_Nm1->Write();
   h_minJMETdPhi_cut->Write();
@@ -591,7 +590,7 @@ void xMerge_diboson(Int_t year){
   // h2_dijetMass_minJMETdPhi->Write();
   // h2_dijetMass_ptoverMET->Write();
   // h2_minJMETdPhi_ptoverMET->Write();
-  
+
   fout->Close();
   
 }

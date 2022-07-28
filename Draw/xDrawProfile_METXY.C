@@ -4,7 +4,11 @@
 #include <string>
 #include "TH1F.h"
 using namespace std;
-#define nfile 5
+#define nfile 8
+// bkg [16, 16] fall17, autumn18
+// Wjet [7, 7]
+// Zjet [8, 7]
+// DYjet [10, 8]
 
 
 void xDrawProfile_METXY(){
@@ -24,28 +28,44 @@ void xDrawProfile_METXY(){
   */
   /*
   TString rootname[20] = {
+			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_GJets_MG_HT100to200/METcorr_ggtree.root",
 			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_GJets_MG_HT200to400/METcorr_ggtree.root",
 			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_GJets_MG_HT400to600/METcorr_ggtree.root",
 			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_GJets_MG_HT600toInf/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_Wg_aMCatNLO/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_Wg_aMCatNLO_ext1/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_Zg_aMCatNLO/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_TTGjets/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_TTGjets_ext1/METcorr_ggtree.root",
 			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_TT_aMCatNLO/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_Znunug_pt130/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_UL17_Znunug_VBS/METcorr_ggtree.root"
+			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_WW/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_WZ/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_ZZ/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_WWG/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_WZG/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_EWK_Wminus/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_EWK_Wplus/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_EWK_Zll/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_EWK_Zvv/METcorr_ggtree.root"
+			  
   };
   */
   /*
   TString rootname[20] = {
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_GJets_MG_HT100to200/METcorr_ggtree.root",
 			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_GJets_MG_HT200to400/METcorr_ggtree.root",
 			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_GJets_MG_HT400to600/METcorr_ggtree.root",
 			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_GJets_MG_HT600toInf/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_Wg_aMCatNLO/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_Wg_aMCatNLO_ext1/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_Zg_aMCatNLO/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_TTGjets/METcorr_ggtree.root",
 			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_TT_aMCatNLO_ext1/METcorr_ggtree.root",
 			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_TT_aMCatNLO_ext2/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_UL18_Znunug_VBS/METcorr_ggtree.root"
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_WW/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_WZ/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_ZZ/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_WWG/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_WZG/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_EWK_Wminus/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_EWK_Wplus/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_EWK_Zll/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_EWK_Zvv/METcorr_ggtree.root"
+			  
   };
   */
   /*
@@ -69,6 +89,7 @@ void xDrawProfile_METXY(){
 			  "/home/judy/ntuhep/GMET/output_file/fall17/data/job_SinglePho_Run2017F_UL/METcorr_ggtree.root"
   };
   */
+  /*
   TString rootname[20] = {
 			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_SinglePho_Run2017B_MarReminiAOD/METcorr_ggtree.root",
 			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_SinglePho_Run2017C_MarReminiAOD/METcorr_ggtree.root",
@@ -76,6 +97,7 @@ void xDrawProfile_METXY(){
 			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_SinglePho_Run2017E_MarReminiAOD/METcorr_ggtree.root",
 			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_SinglePho_Run2017F_MarReminiAOD/METcorr_ggtree.root"
   };
+  */
   /*
   TString rootname[20] = {
 			  "/home/judy/ntuhep/GMET/output_file/autumn18/data/job_EGamma_Run2018A_UL/METcorr_ggtree.root",
@@ -103,6 +125,7 @@ void xDrawProfile_METXY(){
   */
   /*
   TString rootname[20] = {
+			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_WJetsToLNu_MG_HT100to200/METcorr_ggtree.root",
 			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_WJetsToLNu_MG_HT200to400/METcorr_ggtree.root",
 			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_WJetsToLNu_MG_HT400to600/METcorr_ggtree.root",
 			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_WJetsToLNu_MG_HT600to800/METcorr_ggtree.root",
@@ -110,9 +133,10 @@ void xDrawProfile_METXY(){
 			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_WJetsToLNu_MG_HT1200to2500/METcorr_ggtree.root",
 			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_WJetsToLNu_MG_HT2500toInf/METcorr_ggtree.root"
   };
-  */  
+  */
   /*
   TString rootname[20] = {
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_WJetsToLNu_MG_HT100to200/METcorr_ggtree.root",
 			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_WJetsToLNu_MG_HT200to400/METcorr_ggtree.root",
 			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_WJetsToLNu_MG_HT400to600/METcorr_ggtree.root",
 			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_WJetsToLNu_MG_HT600to800/METcorr_ggtree.root",
@@ -136,6 +160,7 @@ void xDrawProfile_METXY(){
   */
   /*
   TString rootname[20] = {
+			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_ZvvJets_HT100to200/METcorr_ggtree.root",
 			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_ZvvJets_HT200to400/METcorr_ggtree.root",
 			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_ZvvJets_HT400to600/METcorr_ggtree.root",
 			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_ZvvJets_HT600to800/METcorr_ggtree.root",
@@ -146,15 +171,16 @@ void xDrawProfile_METXY(){
   };
   */
   /*
-   TString rootname[20] = {
+  TString rootname[20] = {
+			   "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_ZvvJets_HT100to200/METcorr_ggtree.root",
 			   "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_ZvvJets_HT200to400/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_ZvvJets_HT400to600/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_ZvvJets_HT600to800/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_ZvvJets_HT800to1200/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_ZvvJets_HT1200to2500/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_ZvvJets_HT2500toInf/METcorr_ggtree.root"
+			   "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_ZvvJets_HT400to600/METcorr_ggtree.root",
+			   "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_ZvvJets_HT600to800/METcorr_ggtree.root",
+			   "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_ZvvJets_HT800to1200/METcorr_ggtree.root",
+			   "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_ZvvJets_HT1200to2500/METcorr_ggtree.root",
+			   "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_ZvvJets_HT2500toInf/METcorr_ggtree.root"
   };
-  */  
+  */
   /*
   TString rootname[20] = {
 			  "/home/judy/ntuhep/GMET/output_file/summer16/MET/job_summer16_DYJetsToLL_m50_MG_HT200to400/METcorr_ggtree.root",
@@ -169,6 +195,8 @@ void xDrawProfile_METXY(){
   */
   /*
   TString rootname[20] = {
+			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_DYJetsToLL_m50_MG_HT100to200/METcorr_ggtree.root",
+			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_DYJetsToLL_m50_MG_HT100to200_ext1/METcorr_ggtree.root",
 			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_DYJetsToLL_m50_MG_HT200to400/METcorr_ggtree.root",
 			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_DYJetsToLL_m50_MG_HT200to400_ext1/METcorr_ggtree.root",
 			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_DYJetsToLL_m50_MG_HT400to600/METcorr_ggtree.root",
@@ -179,8 +207,9 @@ void xDrawProfile_METXY(){
 			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_DYJetsToLL_m50_MG_HT2500toInf/METcorr_ggtree.root"
   };
   */
-  /*
+  
   TString rootname[20] = {
+			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_DYJetsToLL_m50_MG_HT100to200/METcorr_ggtree.root",
 			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_DYJetsToLL_m50_MG_HT200to400/METcorr_ggtree.root",
 			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_DYJetsToLL_m50_MG_HT400to600/METcorr_ggtree.root",
 			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_DYJetsToLL_m50_MG_HT400to600_ext2/METcorr_ggtree.root",
@@ -189,47 +218,7 @@ void xDrawProfile_METXY(){
 			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_DYJetsToLL_m50_MG_HT1200to2500/METcorr_ggtree.root",
 			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_DYJetsToLL_m50_MG_HT2500toInf/METcorr_ggtree.root"
   };
-  */
-  /*
-  TString rootname[20] = {
-			  "/home/judy/ntuhep/GMET/output_file/summer16/MET/QCD/job_summer16_QCD_HT200to300/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/summer16/MET/QCD/job_summer16_QCD_HT200to300_ext1/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/summer16/MET/QCD/job_summer16_QCD_HT300to500/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/summer16/MET/QCD/job_summer16_QCD_HT300to500_ext1/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/summer16/MET/QCD/job_summer16_QCD_HT500to700/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/summer16/MET/QCD/job_summer16_QCD_HT500to700_ext1/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/summer16/MET/QCD/job_summer16_QCD_HT700to1000/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/summer16/MET/QCD/job_summer16_QCD_HT700to1000_ext1/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/summer16/MET/QCD/job_summer16_QCD_HT1000to1500/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/summer16/MET/QCD/job_summer16_QCD_HT1000to1500_ext1/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/summer16/MET/QCD/job_summer16_QCD_HT1500to2000/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/summer16/MET/QCD/job_summer16_QCD_HT1500to2000_ext1/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/summer16/MET/QCD/job_summer16_QCD_HT2000toInf/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/summer16/MET/QCD/job_summer16_QCD_HT2000toInf_ext1/METcorr_ggtree.root"
-  };
-  */
-  /*
-  TString rootname[20] = {
-			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/QCD/job_fall17_QCD_HT200to300/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/QCD/job_fall17_QCD_HT300to500/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/QCD/job_fall17_QCD_HT500to700/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/QCD/job_fall17_QCD_HT700to1000/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/QCD/job_fall17_QCD_HT1000to1500/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/QCD/job_fall17_QCD_HT1500to2000/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/QCD/job_fall17_QCD_HT2000toInf/METcorr_ggtree.root"
-  };
-  */
-  /*
-  TString rootname[20] = {
-			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/QCD/job_autumn18_QCD_HT200to300/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/QCD/job_autumn18_QCD_HT300to500/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/QCD/job_autumn18_QCD_HT500to700/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/QCD/job_autumn18_QCD_HT700to1000/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/QCD/job_autumn18_QCD_HT1000to1500/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/QCD/job_autumn18_QCD_HT1500to2000/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/QCD/job_autumn18_QCD_HT2000toInf/METcorr_ggtree.root"
-  };
-  */
+  
   /*
   TString rootname[20] = {
 			  "/home/judy/ntuhep/GMET/output_file/summer16/MET/job_summer16_EWK_Wminus/METcorr_ggtree.root",
@@ -254,40 +243,14 @@ void xDrawProfile_METXY(){
 			  "/home/judy/ntuhep/GMET/output_file/summer16/MET/job_summer16_WZG/METcorr_ggtree.root"
   };
   */
-  /*
-  TString rootname[20] = {
-			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_WW/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_WZ/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_ZZ/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_WWG/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_WZG/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_EWK_Wminus/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_EWK_Wplus/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_EWK_Zll/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/fall17/MET/job_fall17_EWK_Zvv/METcorr_ggtree.root"
-  };
-  */
-  /*
-  TString rootname[20] = {
-			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_WW/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_WZ/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_ZZ/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_WWG/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_WZG/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_EWK_Wminus/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_EWK_Wplus/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_EWK_Zll/METcorr_ggtree.root",
-			  "/home/judy/ntuhep/GMET/output_file/autumn18/MET/job_autumn18_EWK_Zvv/METcorr_ggtree.root"
-  };
-  */
-  
+
   TFile *fopen;
   TCanvas *c1 = new TCanvas("c1");
 
   const char *title;
   //const char *saveto = "/home/judy/ntuhep/GJet/summer16_Zg_EWK/"; 
   const char *saveto = ".";
-
+ 
   TH2F *H2_nvtx_METX[nfile];
   TH2F *H2_nvtx_METY[nfile];
 
@@ -296,7 +259,7 @@ void xDrawProfile_METXY(){
 
   Double_t slope, err;
   Double_t par[3];
-  TF1 *fitresult = new TF1("fitresult", "pol1", 0, 80);
+  TF1 *fitresult = new TF1("fitresult", "pol1", 10, 60);
   TLatex *latp = new TLatex();
   
   for(Int_t i=0; i<nfile; i++){
@@ -328,7 +291,7 @@ void xDrawProfile_METXY(){
     tp_nvtx_METX[i]->SetMinimum(-100);
     tp_nvtx_METX[i]->SetMaximum(100);
     tp_nvtx_METX[i]->GetXaxis()->SetRangeUser(0, 100);
-    tp_nvtx_METX[i]->Fit(fitresult, "", "", 0, 80);
+    tp_nvtx_METX[i]->Fit(fitresult, "", "", 10, 60);
     
 
     for(Int_t i=0; i<2; i++){par[i] = fitresult->GetParameter(i);}
@@ -352,7 +315,7 @@ void xDrawProfile_METXY(){
     tp_nvtx_METY[i]->SetMinimum(-100);
     tp_nvtx_METY[i]->SetMaximum(100);
     tp_nvtx_METY[i]->GetXaxis()->SetRangeUser(0, 100);
-    tp_nvtx_METY[i]->Fit(fitresult, "", "", 0, 80);
+    tp_nvtx_METY[i]->Fit(fitresult, "", "", 10, 60);
     
 
     for(Int_t i=0; i<2; i++){par[i] = fitresult->GetParameter(i);}

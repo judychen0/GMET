@@ -4,17 +4,17 @@
 #include <string>
 #include "TH1F.h"
 using namespace std;
-
-#define ndiBoson 3
+//#define nfile 4
+#define nVJet 21
 #define nhisto 2
 
-void xMerge_diboson(Int_t year){
-  TString rootname[10];
+void xMerge_VJet(Int_t year){
+  TString rootname[30];
   TFile *fopen, *fout;
 
   Int_t entries = 1.0;
   Float_t outentries = 0.;
-  Float_t scale[ndiBoson] = {0};
+  Float_t scale[nVJet] = {0};
 
   Float_t lumi16 = 36.33;
   Float_t lumi17 = 41.48;
@@ -33,25 +33,65 @@ void xMerge_diboson(Int_t year){
   TH1F *hEvents = new TH1F("hEvents", "total processed and skimmed events",2,0,2);
   TH1F *hSumofGenW = new TH1F("hSumGenWeight", "Sum of Gen weights",1,0,1);
   
-  Float_t mcXsec[10] = {76.32, 27.41, 12.12};//diboson[WW, WZ, ZZ]
-
+  //Float_t mcXsec[10] = {74.11, 9.39, 2.394, 1.052, 0.2499, 0.005662};//ZJet
+  Float_t mcXsec[30] = {267.0, 74.11, 9.39, 2.394, 1.052, 0.2499, 0.005662, 479.6, 38.83, 5.342, 1.286, 0.5668, 0.1361, 0.003019, 1395.0, 407.4, 57.48, 12.87, 5.366, 1.074, 0.008001};//ZJet 7 + DYJet 7 +WJet 7
+  
   if(year==2016){
-    rootname[0] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220406/summer16/mc/diboson/job_summer16_WW/output_ggtree.root";
-    rootname[1] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220406/summer16/mc/diboson/job_summer16_WZ/output_ggtree.root";
-    rootname[2] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220406/summer16/mc/diboson/job_summer16_ZZ/output_ggtree.root";
+    rootname[0] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220406/summer16/mc/VJet/job_summer16_ZvvJets_HT200to400/output_ggtree.root";
+    rootname[1] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220406/summer16/mc/VJet/job_summer16_ZvvJets_HT400to600/output_ggtree.root";
+    rootname[2] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220406/summer16/mc/VJet/job_summer16_ZvvJets_HT600to800/output_ggtree.root";
+    rootname[3] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220406/summer16/mc/VJet/job_summer16_ZvvJets_HT800to1200/output_ggtree.root";
+    rootname[4] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220406/summer16/mc/VJet/job_summer16_ZvvJets_HT1200to2500/output_ggtree.root";
+    rootname[5] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220406/summer16/mc/VJet/job_summer16_ZvvJets_HT2500toInf/output_ggtree.root";
   }
   else if(year==2017){
-    rootname[0] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/diboson/job_fall17_WW/output_ggtree.root";
-    rootname[1] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/diboson/job_fall17_WZ/output_ggtree.root";
-    rootname[2] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/diboson/job_fall17_ZZ/output_ggtree.root";
+     rootname[0] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/VJet/job_fall17_ZvvJets_HT100to200/output_ggtree.root";
+    rootname[1] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/VJet/job_fall17_ZvvJets_HT200to400/output_ggtree.root";
+    rootname[2] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/VJet/job_fall17_ZvvJets_HT400to600/output_ggtree.root";
+    rootname[3] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/VJet/job_fall17_ZvvJets_HT600to800/output_ggtree.root";
+    rootname[4] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/VJet/job_fall17_ZvvJets_HT800to1200/output_ggtree.root";
+    rootname[5] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/VJet/job_fall17_ZvvJets_HT1200to2500/output_ggtree.root";
+    rootname[6] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/VJet/job_fall17_ZvvJets_HT2500toInf/output_ggtree.root";
+    rootname[7] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/VJet/job_fall17_DYJetsToLL_m50_MG_HT100to200/output_ggtree.root";
+    rootname[8] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/VJet/job_fall17_DYJetsToLL_m50_MG_HT200to400/output_ggtree.root";
+    rootname[9] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/VJet/job_fall17_DYJetsToLL_m50_MG_HT400to600/output_ggtree.root";
+    rootname[10] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/VJet/job_fall17_DYJetsToLL_m50_MG_HT600to800/output_ggtree.root";
+    rootname[11] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/VJet/job_fall17_DYJetsToLL_m50_MG_HT800to1200/output_ggtree.root";
+    rootname[12] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/VJet/job_fall17_DYJetsToLL_m50_MG_HT1200to2500/output_ggtree.root";
+    rootname[13] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/VJet/job_fall17_DYJetsToLL_m50_MG_HT2500toInf/output_ggtree.root";
+    rootname[14] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/VJet/job_fall17_WJetsToLNu_MG_HT100to200/output_ggtree.root";
+    rootname[15] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/VJet/job_fall17_WJetsToLNu_MG_HT200to400/output_ggtree.root";
+    rootname[16] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/VJet/job_fall17_WJetsToLNu_MG_HT400to600/output_ggtree.root";
+    rootname[17] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/VJet/job_fall17_WJetsToLNu_MG_HT600to800/output_ggtree.root";
+    rootname[18] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/VJet/job_fall17_WJetsToLNu_MG_HT800to1200/output_ggtree.root";
+    rootname[19] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/VJet/job_fall17_WJetsToLNu_MG_HT1200to2500/output_ggtree.root";
+    rootname[20] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/VJet/job_fall17_WJetsToLNu_MG_HT2500toInf/output_ggtree.root";
   }
   else if(year==2018){
-    rootname[0] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/diboson/job_autumn18_WW/output_ggtree.root";
-    rootname[1] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/diboson/job_autumn18_WZ/output_ggtree.root";
-    rootname[2] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/diboson/job_autumn18_ZZ/output_ggtree.root";
+    rootname[0] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/VJet/job_autumn18_ZvvJets_HT100to200/output_ggtree.root";
+    rootname[1] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/VJet/job_autumn18_ZvvJets_HT200to400/output_ggtree.root";
+    rootname[2] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/VJet/job_autumn18_ZvvJets_HT400to600/output_ggtree.root";
+    rootname[3] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/VJet/job_autumn18_ZvvJets_HT600to800/output_ggtree.root";
+    rootname[4] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/VJet/job_autumn18_ZvvJets_HT800to1200/output_ggtree.root";
+    rootname[5] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/VJet/job_autumn18_ZvvJets_HT1200to2500/output_ggtree.root";
+    rootname[6] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/VJet/job_autumn18_ZvvJets_HT2500toInf/output_ggtree.root";
+    rootname[7] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/VJet/job_autumn18_DYJetsToLL_m50_MG_HT100to200/output_ggtree.root";
+    rootname[8] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/VJet/job_autumn18_DYJetsToLL_m50_MG_HT200to400/output_ggtree.root";
+    rootname[9] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/VJet/job_autumn18_DYJetsToLL_m50_MG_HT400to600/output_ggtree.root";
+    rootname[10] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/VJet/job_autumn18_DYJetsToLL_m50_MG_HT600to800/output_ggtree.root";
+    rootname[11] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/VJet/job_autumn18_DYJetsToLL_m50_MG_HT800to1200/output_ggtree.root";
+    rootname[12] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/VJet/job_autumn18_DYJetsToLL_m50_MG_HT1200to2500/output_ggtree.root";
+    rootname[13] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/VJet/job_autumn18_DYJetsToLL_m50_MG_HT2500toInf/output_ggtree.root";
+    rootname[14] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/VJet/job_autumn18_WJetsToLNu_MG_HT100to200/output_ggtree.root";
+    rootname[15] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/VJet/job_autumn18_WJetsToLNu_MG_HT200to400/output_ggtree.root";
+    rootname[16] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/VJet/job_autumn18_WJetsToLNu_MG_HT400to600/output_ggtree.root";
+    rootname[17] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/VJet/job_autumn18_WJetsToLNu_MG_HT600to800/output_ggtree.root";
+    rootname[18] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/VJet/job_autumn18_WJetsToLNu_MG_HT800to1200/output_ggtree.root";
+    rootname[19] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/VJet/job_autumn18_WJetsToLNu_MG_HT1200to2500/output_ggtree.root";
+    rootname[20] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/VJet/job_autumn18_WJetsToLNu_MG_HT2500toInf/output_ggtree.root";
   }
 
-  for(Int_t i=0; i<ndiBoson; i++){
+ for(Int_t i=0; i<nVJet; i++){
     fopen = new TFile(rootname[i]);
     hEvents = (TH1F*)fopen->Get("hEvents");
     hSumofGenW = (TH1F*)fopen->Get("hSumGenWeight");
@@ -62,15 +102,15 @@ void xMerge_diboson(Int_t year){
     cout << "print " << entries << " " << outentries << " " << scale[i]<< endl;
   }
 
-  Double_t ptbin[20] = {130, 150, 180, 210, 250, 300, 350, 400, 450, 500, 550, 600, 700, 800, 1000, 2000, 5000};//16 bins, 2016
-  //Double_t ptbin[20] = {0, 20, 35, 50, 100, 150, 200};//6 bins, Et_75
-  Double_t etabin[20] = {-1.4442, -0.6, 0, 0.6, 1.4442};//4bins
-  Double_t METbin[20] = {0, 45, 90, 135, 180, 250, 300, 400, 500, 650, 800, 1200};//10bins
-  Double_t phibin[20] = {-TMath::Pi(), -2.5, -2, -1.4, -0.8, 0.0, 0.8, 1.4, 2, 2.5, TMath::Pi()};//10bins
-  Double_t dphibin[20] = {-TMath::Pi(), -2.7, -2.3, -1.9, -1.5, -1.2, -0.5, 0.0, 0.5, 1.2, 1.5, 1.9, 2.3, 2.7, TMath::Pi()};//14bins
+ Double_t ptbin[20] = {130, 150, 180, 210, 250, 300, 350, 400, 450, 500, 550, 600, 700, 800, 1000, 2000, 5000};//16 bins, 2016
+ //Double_t ptbin[20] = {0, 20, 35, 50, 100, 150, 200};//6 bins, Et_75
+ Double_t etabin[20] = {-1.4442, -0.6, 0, 0.6, 1.4442};//4bins
+ Double_t METbin[20] = {0, 45, 90, 135, 180, 250, 300, 400, 500, 650, 800, 1200};//10bins
+ Double_t phibin[20] = {-TMath::Pi(), -2.5, -2, -1.4, -0.8, 0.0, 0.8, 1.4, 2, 2.5, TMath::Pi()};//10bins
+ Double_t dphibin[20] = {-TMath::Pi(), -2.7, -2.3, -1.9, -1.5, -1.2, -0.5, 0.0, 0.5, 1.2, 1.5, 1.9, 2.3, 2.7, TMath::Pi()};//14bins
 
-  //[0, 1][SM, VBS]
-  TH1F *h_phoEB_pt_130[2];
+ //[0, 1][SM, VBS]
+ TH1F *h_phoEB_pt_130[2];
   TH1F *h_phoEB_pt_M[2];
   TH1F *h_phoEB_pt_leptonveto[2];
   TH1F *h_phoEB_pt_MET[2];
@@ -82,7 +122,7 @@ void xMerge_diboson(Int_t year){
   TH1F *h_phoEB_pt_phojetdR[2];
   TH1F *h_phoEB_pt_ptoverMET[2];
   TH1F *h_phoEB_pt_mindJMETPhi[2];
-  TH1F *h_phoEB_pt_dijetMass[2];
+  TH1F *h_phoEB_pt_dijetMass[2];  
 
   TH1F *h_MET_130[2];
   TH1F *h_MET_M[2];
@@ -96,9 +136,8 @@ void xMerge_diboson(Int_t year){
   TH1F *h_MET_phojetdR[2];
   TH1F *h_MET_ptoverMET[2];
   TH1F *h_MET_mindJMETPhi[2];
-  TH1F *h_MET_dijetMass[2];
+  TH1F *h_MET_dijetMass[2];  
 
-  
   TH1F *h_phoEB_ptcut[2];
   TH1F *h_phoEB_Etacut[2];
   TH1F *h_phoEB_Phicut[2];
@@ -164,12 +203,12 @@ void xMerge_diboson(Int_t year){
       
     h_dphoMETPhi_Nm1[j] = new TH1F(Form("h_dphoMETPhi_Nm1_%i", j), "deltaPhi of pho and MET N-1 cut", 14, dphibin);
     h_dphoMETPhi_cut[j] = new TH1F(Form("h_dphoMETPhi_cut_%i", j), "deltaPhi of pho and MET N cut", 14, dphibin);
-       
+               
     h_nvtx_cut[j] = new TH1F(Form("h_nvtx_cut_%i", j), "#vtx N cut", 500, 0, 100);
     
     h_njet_Nm1[j] = new TH1F(Form("h_njet_Nm1_%i", j), "njet N-1 cut", 10, 0, 10);
     h_njet_cut[j] = new TH1F(Form("h_njet_cut_%i", j), "njet N cut", 10, 0, 10);
-    
+
   }
 
   Double_t jetptbin[20] = {0, 30, 50, 100, 200, 300, 500, 700, 1200};//8bins
@@ -259,9 +298,9 @@ void xMerge_diboson(Int_t year){
   TH1F *h_ptoverMET_Nm1;
   TH1F *h_ptoverMET_cut;
 
-  h_ptoverMET_Nm1 = new TH1F("h_ptoverMET_Nm1", "phoEB pt/MET N cut", 60, 0, 12);
+  h_ptoverMET_Nm1 = new TH1F("h_ptoverMET_Nm1", "phoEB pt/MET N-1 cut", 60, 0, 12);
   h_ptoverMET_cut = new TH1F("h_ptoverMET_cut", "phoEB pt/MET N cut", 60, 0, 12);
-  
+
   TH1F *h_jetjetZdPhi_cut;
   TH1F *h_jetjetphodPhi_cut;
   TH1F *h_jet3Central_cut;
@@ -290,7 +329,7 @@ void xMerge_diboson(Int_t year){
   h_minJMETdPhi_ptoverMET_CR_minJMETdPhi_SB = new TH1F("h_minJMETdPhi_ptoverMET_CR_minJMETdPhi_SB", "", 14, dphibin);
   h_dijetMass_ptoverMET_CR_minJMETdPhi_SB = new TH1F("h_dijetMass_ptoverMET_CR_minJMETdPhi_SB", "", 8, massbin);
   h_dEta_jetjet_ptoverMET_CR_minJMETdPhi_SB = new TH1F("h_dEta_jetjet_ptoverMET_CR_minJMETdPhi_SB", "", 32, 0., 8);
-
+  
   // ptoverMET CR (ptoverMET > 2.0)
   TH1F *h_phoEB_ptcut_ptoverMET_CR;
   TH1F *h_jetpt_ptoverMET_CR;
@@ -354,10 +393,10 @@ void xMerge_diboson(Int_t year){
   h2_MET_ptoverMET = new TH2F("h2_MET_ptoverMET", "MET and ptoverMET relation", 60, 0, 1200, 10, 0, 5);
   h2_dijetMass_minJMETdPhi = new TH2F("h2_dijetMass_minJMETdPhi", "dijetMass and minJMETdPhi relation", 20, 250, 2250, 30, -TMath::Pi(), TMath::Pi());
   h2_dijetMass_ptoverMET = new TH2F("h2_dijetMass_ptoverMET", "dijetaMass and ptoverMET relation", 20, 250, 2250, 10, 0, 5);
-  h2_minJMETdPhi_ptoverMET = new TH2F("h2_minJMETdPhi_ptoverMET", "minJMETdPhi and ptoverMET relation", 14, dphibin, 10, 0, 5);
+  h2_minJMETdPhi_ptoverMET = new TH2F("h2_minJMETdPhi_ptoverMET", "dijetaMass and ptoverMET relation", 14, dphibin, 10, 0, 5);
 
   //merge plots
-  for(Int_t i=0; i<ndiBoson; i++){
+  for(Int_t i=0; i<nVJet; i++){
     fopen = new TFile(rootname[i]);
     
     h_dr_jetjet_cut->Add((TH1F*)fopen->Get("dijet/h_dr_jetjet_cut"), scale[i]);
@@ -454,7 +493,7 @@ void xMerge_diboson(Int_t year){
     
       h_njet_Nm1[j]->Add((TH1F*)fopen->Get(Form("SMandVBS/h_njet_Nm1_%i", j)), scale[i]);
       h_njet_cut[j]->Add((TH1F*)fopen->Get(Form("SMandVBS/h_njet_cut_%i", j)), scale[i]);
-    
+
       h_jetpt_cut[j]->Add((TH1F*)fopen->Get(Form("dijet/h_jetpt_cut_%i", j)), scale[i]);
       h_jetEta_cut[j]->Add((TH1F*)fopen->Get(Form("dijet/h_jetEta_cut_%i", j)), scale[i]);
       h_jetPhi_cut[j]->Add((TH1F*)fopen->Get(Form("dijet/h_jetPhi_cut_%i", j)), scale[i]);
@@ -470,7 +509,7 @@ void xMerge_diboson(Int_t year){
 
   }
 
-  fout = new TFile("output_merge_diBoson.root", "RECREATE");
+  fout = new TFile("output_merge_VJet.root", "RECREATE");
   fout->cd();
 
   h_MET_Nm1_minJMETdPhi_SB->Write();
@@ -490,7 +529,7 @@ void xMerge_diboson(Int_t year){
     h_phoEB_pt_phojetdR[j]->Write();
     h_phoEB_pt_ptoverMET[j]->Write();
     h_phoEB_pt_mindJMETPhi[j]->Write();
-    h_phoEB_pt_dijetMass[j]->Write();    
+    h_phoEB_pt_dijetMass[j]->Write();
 
     h_MET_130[j]->Write();
     h_MET_M[j]->Write();
@@ -504,7 +543,8 @@ void xMerge_diboson(Int_t year){
     h_MET_phojetdR[j]->Write();
     h_MET_ptoverMET[j]->Write();
     h_MET_mindJMETPhi[j]->Write();
-    h_MET_dijetMass[j]->Write();    
+    h_MET_dijetMass[j]->Write();
+
 
     h_phoEB_ptcut[j]->Write();
     h_phoEB_Etacut[j]->Write();
@@ -591,7 +631,7 @@ void xMerge_diboson(Int_t year){
   // h2_dijetMass_minJMETdPhi->Write();
   // h2_dijetMass_ptoverMET->Write();
   // h2_minJMETdPhi_ptoverMET->Write();
-  
+
   fout->Close();
   
 }

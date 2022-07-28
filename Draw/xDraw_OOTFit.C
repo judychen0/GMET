@@ -2,7 +2,7 @@
 #include <fstream>
 #include <cstring>
 #include <string>
-#include "./Drawlumi/CMS_lumi.C"
+#include "../Drawlumi/CMS_lumi.C"
 
 using namespace std;
 
@@ -69,131 +69,131 @@ void xDraw_OOTFit(Int_t year){
   //const char *saveto = "/home/judy/ntuhep/GJet/summer16_Zg_EWK/"; 
   const char *saveto = ".";
 
-  TH1F* H_phoEB_sieie;
-  TH1F* H_phoEB_SeedTime;
-  TH1F* H_phoEB_MIP;
+  TH1F* H_phoEB210_sieie;
+  TH1F* H_phoEB210_SeedTime;
+  TH1F* H_phoEB210_MIP;
 
   TH1F* H_phoEBprompt_sieie;
   TH1F* H_phoEBprompt_SeedTime;
   TH1F* H_phoEBprompt_MIP;
-
+  
   TH1F* H_ootBH_sieie;
   TH1F* H_ootBH_SeedTime;
   TH1F* H_ootBH_MIP;
-
-  TH1F* H_ootBH210_sieie;
-  TH1F* H_ootBH210_SeedTime;
-  TH1F* H_ootBH210_MIP;
 
   TH1F* H_ootSP_sieie;
   TH1F* H_ootSP_SeedTime;
   TH1F* H_ootSP_MIP;
 
-  TH1F* H_ootSP210_sieie;
-  TH1F* H_ootSP210_SeedTime;
-  TH1F* H_ootSP210_MIP;
-
   fopen = new TFile(rootname[0]);
   
-  H_phoEB_sieie = (TH1F*)fopen->Get("h_phoEB_sieie");
-  H_phoEB_SeedTime = (TH1F*)fopen->Get("h_phoEB_SeedTime");
-  H_phoEB_MIP = (TH1F*)fopen->Get("h_phoEB_MIP");
+  H_phoEB210_sieie = (TH1F*)fopen->Get("h_phoEB210_sieie");
+  H_phoEB210_SeedTime = (TH1F*)fopen->Get("h_phoEB210_SeedTime");
+  H_phoEB210_MIP = (TH1F*)fopen->Get("h_phoEB210_MIP");
 
   H_phoEBprompt_sieie = (TH1F*)fopen->Get("h_phoEBprompt_sieie");
   H_phoEBprompt_SeedTime = (TH1F*)fopen->Get("h_phoEBprompt_SeedTime");
   H_phoEBprompt_MIP = (TH1F*)fopen->Get("h_phoEBprompt_MIP");
    
-  H_ootBH210_sieie = (TH1F*)fopen->Get("h_ootBH210_sieie");
-  H_ootBH210_SeedTime = (TH1F*)fopen->Get("h_ootBH210_SeedTime");
-  H_ootBH210_MIP = (TH1F*)fopen->Get("h_ootBH210_MIP");
+  H_ootBH_sieie = (TH1F*)fopen->Get("h_ootBH_sieie");
+  H_ootBH_SeedTime = (TH1F*)fopen->Get("h_ootBH_SeedTime");
+  H_ootBH_MIP = (TH1F*)fopen->Get("h_ootBH_MIP");
    
-  H_ootSP210_sieie = (TH1F*)fopen->Get("h_ootSP210_sieie");
-  H_ootSP210_SeedTime = (TH1F*)fopen->Get("h_ootSP210_SeedTime");
-  H_ootSP210_MIP = (TH1F*)fopen->Get("h_ootSP210_MIP");
+  H_ootSP_sieie = (TH1F*)fopen->Get("h_ootSP_sieie");
+  H_ootSP_SeedTime = (TH1F*)fopen->Get("h_ootSP_SeedTime");
+  H_ootSP_MIP = (TH1F*)fopen->Get("h_ootSP_MIP");
 
 
   //SetLineColor
-  H_phoEB_sieie->SetLineColor(kBlack);
-  H_phoEB_SeedTime->SetLineColor(kBlack);
-  H_phoEB_MIP->SetLineColor(kBlack);
+  H_phoEB210_sieie->SetLineColor(kBlack);
+  H_phoEB210_SeedTime->SetLineColor(kBlack);
+  H_phoEB210_MIP->SetLineColor(kBlack);
   
   H_phoEBprompt_sieie->SetLineColor(kRed);
   H_phoEBprompt_SeedTime->SetLineColor(kRed);
   H_phoEBprompt_MIP->SetLineColor(kRed);
 
-  H_ootBH210_sieie->SetLineColor(kTeal-1);
-  H_ootBH210_SeedTime->SetLineColor(kTeal-1);
-  H_ootBH210_MIP->SetLineColor(kTeal-1);
+  H_ootBH_sieie->SetLineColor(kTeal-1);
+  H_ootBH_SeedTime->SetLineColor(kTeal-1);
+  H_ootBH_MIP->SetLineColor(kTeal-1);
 
-  H_ootSP210_sieie->SetLineColor(kAzure-1);
-  H_ootSP210_SeedTime->SetLineColor(kAzure-1);
-  H_ootSP210_MIP->SetLineColor(kAzure-1);
+  H_ootSP_sieie->SetLineColor(kAzure-1);
+  H_ootSP_SeedTime->SetLineColor(kAzure-1);
+  H_ootSP_MIP->SetLineColor(kAzure-1);
 
   //SetLineWidth
-  H_phoEB_sieie->SetLineWidth(2);
-  H_phoEB_SeedTime->SetLineWidth(2);
-  H_phoEB_MIP->SetLineWidth(2);
+  H_phoEB210_sieie->SetLineWidth(2);
+  H_phoEB210_SeedTime->SetLineWidth(2);
+  H_phoEB210_MIP->SetLineWidth(2);
   
   H_phoEBprompt_sieie->SetLineWidth(2);
   H_phoEBprompt_SeedTime->SetLineWidth(2);
   H_phoEBprompt_MIP->SetLineWidth(2);
 
-  H_ootBH210_sieie->SetLineWidth(2);
-  H_ootBH210_SeedTime->SetLineWidth(2);
-  H_ootBH210_MIP->SetLineWidth(2);
+  H_ootBH_sieie->SetLineWidth(2);
+  H_ootBH_SeedTime->SetLineWidth(2);
+  H_ootBH_MIP->SetLineWidth(2);
 
-  H_ootSP210_sieie->SetLineWidth(2);
-  H_ootSP210_SeedTime->SetLineWidth(2);
-  H_ootSP210_MIP->SetLineWidth(2);
+  H_ootSP_sieie->SetLineWidth(2);
+  H_ootSP_SeedTime->SetLineWidth(2);
+  H_ootSP_MIP->SetLineWidth(2);
   
   //SetMarkerStyle
-  H_phoEB_sieie->SetMarkerStyle(8);
-  H_phoEB_SeedTime->SetMarkerStyle(8);
-  H_phoEB_MIP->SetMarkerStyle(8);
+  H_phoEB210_sieie->SetMarkerStyle(8);
+  H_phoEB210_SeedTime->SetMarkerStyle(8);
+  H_phoEB210_MIP->SetMarkerStyle(8);
   
   H_phoEBprompt_sieie->SetMarkerStyle(8);
   H_phoEBprompt_SeedTime->SetMarkerStyle(8);
   H_phoEBprompt_MIP->SetMarkerStyle(8);
 
-  H_ootBH210_sieie->SetMarkerStyle(8);
-  H_ootBH210_SeedTime->SetMarkerStyle(8);
-  H_ootBH210_MIP->SetMarkerStyle(8);
+  H_ootBH_sieie->SetMarkerStyle(8);
+  H_ootBH_SeedTime->SetMarkerStyle(8);
+  H_ootBH_MIP->SetMarkerStyle(8);
 
-  H_ootSP210_sieie->SetMarkerStyle(8);
-  H_ootSP210_SeedTime->SetMarkerStyle(8);
-  H_ootSP210_MIP->SetMarkerStyle(8);
+  H_ootSP_sieie->SetMarkerStyle(8);
+  H_ootSP_SeedTime->SetMarkerStyle(8);
+  H_ootSP_MIP->SetMarkerStyle(8);
 
   //SetMarkerSize
-  H_phoEB_sieie->SetMarkerSize(0.3);
-  H_phoEB_SeedTime->SetMarkerSize(0.7);
-  H_phoEB_MIP->SetMarkerSize(0.3);
+  H_phoEB210_sieie->SetMarkerSize(0.3);
+  H_phoEB210_SeedTime->SetMarkerSize(0.7);
+  H_phoEB210_MIP->SetMarkerSize(0.3);
   
   H_phoEBprompt_sieie->SetMarkerSize(0.3);
   H_phoEBprompt_SeedTime->SetMarkerSize(0.3);
   H_phoEBprompt_MIP->SetMarkerSize(0.3);
 
-  H_ootBH210_sieie->SetMarkerSize(0.3);
-  H_ootBH210_SeedTime->SetMarkerSize(0.3);
-  H_ootBH210_MIP->SetMarkerSize(0.3);
+  H_ootBH_sieie->SetMarkerSize(0.3);
+  H_ootBH_SeedTime->SetMarkerSize(0.3);
+  H_ootBH_MIP->SetMarkerSize(0.3);
 
-  H_ootSP210_sieie->SetMarkerSize(0.3);
-  H_ootSP210_SeedTime->SetMarkerSize(0.3);
-  H_ootSP210_MIP->SetMarkerSize(0.3);
+  H_ootSP_sieie->SetMarkerSize(0.3);
+  H_ootSP_SeedTime->SetMarkerSize(0.3);
+  H_ootSP_MIP->SetMarkerSize(0.3);
 
 
   //Fitter
   TObjArray *OOTtemplate = new TObjArray(3);
   //H_phoEBprompt_SeedTime->Scale(1/H_phoEBprompt_SeedTime->Integral(1, -1));
-  //H_ootBH210_SeedTime->Scale(1/H_ootBH210_SeedTime->Integral());
-  //H_ootSP210_SeedTime->Scale(1/H_ootSP210_SeedTime->Integral());
+  //H_ootBH_SeedTime->Scale(1/H_ootBH_SeedTime->Integral());
+  //H_ootSP_SeedTime->Scale(1/H_ootSP_SeedTime->Integral());
+
+  Int_t nbins = H_phoEB210_SeedTime->GetNbinsX();
+  for(Int_t ibin=1; ibin<=nbins; ibin++){
+    if(H_phoEB210_SeedTime->GetBinContent(ibin) == 0) H_phoEB210_SeedTime->SetBinContent(ibin, pow(10, -10));
+    if(H_phoEBprompt_SeedTime->GetBinContent(ibin) == 0) H_phoEBprompt_SeedTime->SetBinContent(ibin, pow(10, -10));
+    if(H_ootBH_SeedTime->GetBinContent(ibin) == 0) H_ootBH_SeedTime->SetBinContent(ibin, pow(10, -10));
+    if(H_ootSP_SeedTime->GetBinContent(ibin) == 0) H_ootSP_SeedTime->SetBinContent(ibin, pow(10, -10));
+  }
   
   OOTtemplate->Add(H_phoEBprompt_SeedTime);
-  OOTtemplate->Add(H_ootBH210_SeedTime);
-  OOTtemplate->Add(H_ootSP210_SeedTime);
+  OOTtemplate->Add(H_ootBH_SeedTime);
+  OOTtemplate->Add(H_ootSP_SeedTime);
 
-  TFractionFitter *fit = new TFractionFitter(H_phoEB_SeedTime, OOTtemplate);
+  TFractionFitter *fit = new TFractionFitter(H_phoEB210_SeedTime, OOTtemplate);
   fit->Constrain(0, 0, 10);
-  fit->Constrain(1, 0.0009, 0.045);
+  fit->Constrain(1, 0.0008, 0.045);
   fit->Constrain(2, 0.0009, 0.05);
   Int_t status = fit->Fit();
   cout << "Fit status : " << status << endl;
@@ -201,8 +201,8 @@ void xDraw_OOTFit(Int_t year){
   
   TH1F *HP_fitresult_SeedTime;
   TH1F *HP_phoEBprompt_SeedTime;
-  TH1F *HP_ootBH210_SeedTime;
-  TH1F *HP_ootSP210_SeedTime;  
+  TH1F *HP_ootBH_SeedTime;
+  TH1F *HP_ootSP_SeedTime;  
 
   Double_t par0, par1, par2;
   Double_t err0, err1, err2;
@@ -229,57 +229,57 @@ void xDraw_OOTFit(Int_t year){
     //HP_fitresult_SeedTime->Add((TH1F*)fit->GetMCPrediction(2));
    
     //HP_phoEBprompt_SeedTime = (TH1F*)fit->GetMCPrediction(0);
-    //HP_ootBH210_SeedTime = (TH1F*)fit->GetMCPrediction(1);
-    //HP_ootSP210_SeedTime = (TH1F*)fit->GetMCPrediction(2);
+    //HP_ootBH_SeedTime = (TH1F*)fit->GetMCPrediction(1);
+    //HP_ootSP_SeedTime = (TH1F*)fit->GetMCPrediction(2);
     
     
     HP_phoEBprompt_SeedTime = (TH1F*)H_phoEBprompt_SeedTime->Clone();
-    HP_ootBH210_SeedTime = (TH1F*)H_ootBH210_SeedTime->Clone();
-    HP_ootSP210_SeedTime = (TH1F*)H_ootSP210_SeedTime->Clone();
+    HP_ootBH_SeedTime = (TH1F*)H_ootBH_SeedTime->Clone();
+    HP_ootSP_SeedTime = (TH1F*)H_ootSP_SeedTime->Clone();
 
     HP_phoEBprompt_SeedTime->Scale(fityield*par0/(H_phoEBprompt_SeedTime->Integral(1, -1)));
-    HP_ootBH210_SeedTime->Scale(fityield*par1/(H_ootBH210_SeedTime->Integral(1, -1)));
-    HP_ootSP210_SeedTime->Scale(fityield*par2/(H_ootSP210_SeedTime->Integral(1, -1)));
+    HP_ootBH_SeedTime->Scale(fityield*par1/(H_ootBH_SeedTime->Integral(1, -1)));
+    HP_ootSP_SeedTime->Scale(fityield*par2/(H_ootSP_SeedTime->Integral(1, -1)));
     
      
     //HP_fitresult_SeedTime->Add(HP_phoEBprompt_SeedTime);
-    //HP_fitresult_SeedTime->Add(HP_ootBH210_SeedTime);
-    //HP_fitresult_SeedTime->Add(HP_ootSP210_SeedTime);
+    //HP_fitresult_SeedTime->Add(HP_ootBH_SeedTime);
+    //HP_fitresult_SeedTime->Add(HP_ootSP_SeedTime);
     
     cout << "fit prompt yield : " << HP_phoEBprompt_SeedTime->Integral(1, -1) << endl;
-    cout << "fit BH yield : " << HP_ootBH210_SeedTime->Integral(1, -1) << endl;
-    cout << "fit SP yield : " << HP_ootSP210_SeedTime->Integral(1, -1) << endl;
+    cout << "fit BH yield : " << HP_ootBH_SeedTime->Integral(1, -1) << endl;
+    cout << "fit SP yield : " << HP_ootSP_SeedTime->Integral(1, -1) << endl;
 
     cout << "3ns total yield : " << HP_fitresult_SeedTime->Integral(45, 56) << endl;
     cout << "3ns prompt yield : " << HP_phoEBprompt_SeedTime->Integral(45, 56) << endl;
-    cout << "3ns BH yield : " << HP_ootBH210_SeedTime->Integral(45, 56) << endl;
-    cout << "3ns SP yield : " << HP_ootSP210_SeedTime->Integral(45, 56) << endl;
+    cout << "3ns BH yield : " << HP_ootBH_SeedTime->Integral(45, 56) << endl;
+    cout << "3ns SP yield : " << HP_ootSP_SeedTime->Integral(45, 56) << endl;
     
   }
   
   //SetLineColor
   HP_fitresult_SeedTime->SetLineColor(90);
   HP_phoEBprompt_SeedTime->SetLineColor(kRed);
-  HP_ootBH210_SeedTime->SetLineColor(kTeal-1);
-  HP_ootSP210_SeedTime->SetLineColor(kAzure-1);
+  HP_ootBH_SeedTime->SetLineColor(kTeal-1);
+  HP_ootSP_SeedTime->SetLineColor(kAzure-1);
 
   //SetMarkerColor
   HP_fitresult_SeedTime->SetMarkerColor(90);
   HP_phoEBprompt_SeedTime->SetMarkerColor(kRed);
-  HP_ootBH210_SeedTime->SetMarkerColor(kTeal-1);
-  HP_ootSP210_SeedTime->SetMarkerColor(kAzure-1);
+  HP_ootBH_SeedTime->SetMarkerColor(kTeal-1);
+  HP_ootSP_SeedTime->SetMarkerColor(kAzure-1);
 
   //SetLineWidth
   HP_fitresult_SeedTime->SetLineWidth(2);
   HP_phoEBprompt_SeedTime->SetLineWidth(2);
-  HP_ootBH210_SeedTime->SetLineWidth(2);
-  HP_ootSP210_SeedTime->SetLineWidth(2);
+  HP_ootBH_SeedTime->SetLineWidth(2);
+  HP_ootSP_SeedTime->SetLineWidth(2);
 
   //SetMarkerColor
   HP_fitresult_SeedTime->SetMarkerSize(0.4);
   HP_phoEBprompt_SeedTime->SetMarkerSize(0.3);
-  HP_ootBH210_SeedTime->SetMarkerSize(0.3);
-  HP_ootSP210_SeedTime->SetMarkerSize(0.3);
+  HP_ootBH_SeedTime->SetMarkerSize(0.3);
+  HP_ootSP_SeedTime->SetMarkerSize(0.3);
 
   TLegend *lhs = new TLegend(0.65, 0.72, 0.92, 0.88);//VBS
   lhs->SetTextSize(0.035);
@@ -317,30 +317,30 @@ void xDraw_OOTFit(Int_t year){
   }
 
   pad1->cd();
-  H_phoEB_SeedTime->Draw();
-  cout << "data cand: " << H_phoEB_SeedTime->Integral(1, -1) << endl;
-  cout << "data cand 3ns: " << H_phoEB_SeedTime->Integral(45, 56) << endl;
+  H_phoEB210_SeedTime->Draw();
+  cout << "data cand: " << H_phoEB210_SeedTime->Integral(1, -1) << endl;
+  cout << "data cand 3ns: " << H_phoEB210_SeedTime->Integral(45, 56) << endl;
   
-  H_phoEB_SeedTime->SetName("HF_SeedTime");
-  H_phoEB_SeedTime->GetYaxis()->SetTitle("Events");
-  H_phoEB_SeedTime->GetXaxis()->SetTitle("");
+  H_phoEB210_SeedTime->SetName("HF_SeedTime");
+  H_phoEB210_SeedTime->GetYaxis()->SetTitle("Events");
+  H_phoEB210_SeedTime->GetXaxis()->SetTitle("");
   HP_fitresult_SeedTime->Draw("HIST SAME");
   HP_phoEBprompt_SeedTime->Draw("EP SAME");
-  HP_ootBH210_SeedTime->Draw("EP SAME");
-  HP_ootSP210_SeedTime->Draw("EP SAME");
+  HP_ootBH_SeedTime->Draw("EP SAME");
+  HP_ootSP_SeedTime->Draw("EP SAME");
   //H_phoEBprompt_SeedTime->Draw("EP SAME");
-  //H_ootBH210_SeedTime->Draw("EP SAME");
-  //H_ootSP210_SeedTime->Draw("EP SAME");
+  //H_ootBH_SeedTime->Draw("EP SAME");
+  //H_ootSP_SeedTime->Draw("EP SAME");
   lhs->Clear();
   lhs->AddEntry(HP_fitresult_SeedTime, "Fit result", "L");
   lhs->AddEntry(HP_phoEBprompt_SeedTime, "Prompt", "PL");
-  lhs->AddEntry(HP_ootBH210_SeedTime, "Beam Halo", "PL");
-  lhs->AddEntry(HP_ootSP210_SeedTime, "Spike", "PL");
-  lhs->AddEntry(H_phoEB_SeedTime, "DATA", "PL");
+  lhs->AddEntry(HP_ootBH_SeedTime, "Beam Halo", "PL");
+  lhs->AddEntry(HP_ootSP_SeedTime, "Spike", "PL");
+  lhs->AddEntry(H_phoEB210_SeedTime, "DATA", "PL");
   lhs->Draw("SAME");
-  title = H_phoEB_SeedTime->GetName();
+  title = H_phoEB210_SeedTime->GetName();
   pad2->cd();
-  hratio = ratioplot(H_phoEB_SeedTime, HP_fitresult_SeedTime);
+  hratio = ratioplot(H_phoEB210_SeedTime, HP_fitresult_SeedTime);
   hratio->SetTitle("");
   hratio->GetXaxis()->SetTitle("SeedTime(ns)");
   hratio->Draw("EP");

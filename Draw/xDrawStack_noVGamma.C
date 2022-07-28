@@ -3,11 +3,10 @@
 #include <cstring>
 #include <string>
 #include "TH1F.h"
-#include "TText.h"
 #include "../Drawlumi/CMS_lumi.C"
 
 using namespace std;
-#define nfile 9
+#define nfile 10
 #define nhisto 2
 #define njet 2
 #define ncolor 20
@@ -95,9 +94,8 @@ void xDrawStack(Int_t year){
   }
   
   //Float_t xsec[20] = {1, 1, 1, 1, 1, 1, 1, 192.3, 123.3, 750.5, 1.41};//[GJet, WJet, ZJet, DYJet, monoB, diB, triB, Wg, Zg, TTJet, ZgEWK]
-  //Float_t xsec[20] = {1, 1, 1, 1, 1, 1, 1, 192.3, 123.3, 750.5, 0.01817};//[GJet, WJet, ZJet, DYJet, monoB, diB, triB, Wg, Zg, TTJet, ZnngVBS]
-  //Float_t xsec[20] = {1, 1, 1, 1, 1, 750.5, 0.8145, 0.2064, 0.3008, 0.01817};//[GJet, VJet, monoB, diB, triB, ttjet, Wg+jet, Zg+jet, Zvvg+jet, ZvvgVBS]
-  Float_t xsec[20] = {1, 1, 1, 1, 1, 1, 1, 0.01817};//[GJet, VJet, VG, monoB, diB, triB, ttjet, ZvvgVBS]
+  //Float_t xsec[20] = {1, 1, 1, 1, 1, 1, 1, 192.3, 123.3, 750.5, 0.296};//[GJet, WJet, ZJet, DYJet, monoB, diB, triB, Wg, Zg, TTJet, Znng]
+  Float_t xsec[20] = {1, 1, 1, 1, 1, 1, 1, 750.5, 0.01817};//[GJet, WJet, ZJet, DYJet, monoB, diB, triB, TTJet, ZnngVBS]
   
   Float_t filter[20] = {1., 1., 1., 1., 1., 1., 1.};
   Float_t kfactor[20] = {1., 1., 1., 1., 1., 1., 1.};
@@ -120,39 +118,33 @@ void xDrawStack(Int_t year){
     rootname[11] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220406/summer16/data/output_ggtree.root";
   }
   else if(year==2017){
-    rootname[0] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/GJet/output_merge_GJet.root";
-    rootname[1] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/WJet/output_merge_WJet.root";
-    rootname[2] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/ZJet/output_merge_ZJet.root";
-    rootname[3] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/DYJet/output_merge_DYJet.root";
-    rootname[4] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/monoboson/output_merge_monoBoson.root";
-    rootname[5] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/diboson/output_merge_diBoson.root";
-    rootname[6] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/triboson/output_merge_triBoson.root";
-    rootname[7] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/job_fall17_Wg_aMCatNLO/output_ggtree.root";
-    rootname[8] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/job_fall17_Zg_aMCatNLO/output_ggtree.root";
-    rootname[9] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/job_fall17_TT_aMCatNLO/output_ggtree.root";
+    rootname[0] = "/wk_cms3/judychen/chip02/output_ana/220529/fall17/mc/GJet/output_merge_GJet.root";
+    rootname[1] = "/wk_cms3/judychen/chip02/output_ana/220529/fall17/mc/WJet/output_merge_WJet.root";
+    rootname[2] = "/wk_cms3/judychen/chip02/output_ana/220529/fall17/mc/ZJet/output_merge_ZJet.root";
+    rootname[3] = "/wk_cms3/judychen/chip02/output_ana/220529/fall17/mc/DYJet/output_merge_DYJet.root";
+    rootname[4] = "/wk_cms3/judychen/chip02/output_ana/220529/fall17/mc/monoboson/output_merge_monoBoson.root";
+    rootname[5] = "/wk_cms3/judychen/chip02/output_ana/220529/fall17/mc/diboson/output_merge_diBoson.root";
+    rootname[6] = "/wk_cms3/judychen/chip02/output_ana/220529/fall17/mc/triboson/output_merge_triBoson.root";
+    rootname[7] = "/wk_cms3/judychen/chip02/output_ana/220529/fall17/mc/job_fall17_Wg_aMCatNLO/output_ggtree.root";
+    rootname[8] = "/wk_cms3/judychen/chip02/output_ana/220529/fall17/mc/job_fall17_Zg_aMCatNLO/output_ggtree.root";
+    rootname[9] = "/wk_cms3/judychen/chip02/output_ana/220529/fall17/mc/job_fall17_TT_aMCatNLO/output_ggtree.root";
     //rootname[10] = "/home/judy/ntuhep/GMET/output_file/fall17/mc/job_fall17_Znunug_pt130/output_ggtree.root";
-    rootname[10] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/mc/job_UL17_Znunug_VBS/output_ggtree.root";
+    rootname[10] = "/wk_cms3/judychen/chip02/output_ana/220529/fall17/mc/job_UL17_Znunug_VBS/output_ggtree.root";
     //rootname[11] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220406/fall17/data/output_ggtree.root";
-    rootname[11] = "/wk_cms3/judychen/chip02/output_ana/220715/fall17/data/output_ggtree.root";
+    rootname[11] = "/wk_cms3/judychen/chip02/output_ana/220529/fall17/data/output_ggtree.root";
   }
   else if(year==2018){
-    rootname[0] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/GJet/output_merge_GJet.root";
-    rootname[1] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/VJet/output_merge_VJet.root";
-    rootname[2] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/VG/output_merge_VG.root";
-    //rootname[2] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/ZJet/output_merge_ZJet.root";
-    //rootname[3] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/DYJet/output_merge_DYJet.root";
-    rootname[3] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/monoboson/output_merge_monoBoson.root";
-    rootname[4] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/diboson/output_merge_diBoson.root";
-    rootname[5] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/triboson/output_merge_triBoson.root";
-    rootname[6] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/TT/output_merge_TT.root";
-    //rootname[6] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/job_UL18_Wg_pt130/output_ggtree.root";
-    //rootname[7] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/job_UL18_Zg_pt130/output_ggtree.root";
-    //rootname[8] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/job_UL18_Znunug_pt130/output_ggtree.root";
-    //rootname[6] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/VG/job_autumn18_Wg_aMCatNLO/output_ggtree.root";
-    //rootname[7] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/VG/job_autumn18_Zg_aMCatNLO/output_ggtree.root";
-    //rootname[8] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/VG/job_autumn18_Znunug_pt130/output_ggtree.root";
-    rootname[7] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/mc/job_UL18_Znunug_VBS/output_ggtree.root";
-    rootname[8] = "/wk_cms3/judychen/chip02/output_ana/220715/autumn18/data/output_ggtree.root";
+    rootname[0] = "/wk_cms3/judychen/chip02/output_ana/220529/autumn18/mc/GJet/output_merge_GJet.root";
+    rootname[1] = "/wk_cms3/judychen/chip02/output_ana/220529/autumn18/mc/WJet/output_merge_WJet.root";
+    rootname[2] = "/wk_cms3/judychen/chip02/output_ana/220529/autumn18/mc/ZJet/output_merge_ZJet.root";
+    rootname[3] = "/wk_cms3/judychen/chip02/output_ana/220529/autumn18/mc/DYJet/output_merge_DYJet.root";
+    rootname[4] = "/wk_cms3/judychen/chip02/output_ana/220529/autumn18/mc/monoboson/output_merge_monoBoson.root";
+    rootname[5] = "/wk_cms3/judychen/chip02/output_ana/220529/autumn18/mc/diboson/output_merge_diBoson.root";
+    rootname[6] = "/wk_cms3/judychen/chip02/output_ana/220529/autumn18/mc/triboson/output_merge_triBoson.root";
+    rootname[7] = "/wk_cms3/judychen/chip02/output_ana/220529/autumn18/mc/job_autumn18_TT_aMCatNLO_ext1/output_ggtree.root";
+    //rootname[10] = "/data1/GMET/ana/ggNtuples102X/V10_06_00_20/220406/autumn18/mc/job_autumn18_Znunug_pt130/output_ggtree.root";
+    rootname[8] = "/wk_cms3/judychen/chip02/output_ana/220529/autumn18/mc/job_UL18_Znunug_VBS/output_ggtree.root";
+    rootname[9] = "/wk_cms3/judychen/chip02/output_ana/220529/autumn18/data/output_ggtree.root";
   }
 
   for(Int_t i=0; i<nfile-1; i++){
@@ -178,8 +170,8 @@ void xDrawStack(Int_t year){
   //Float_t mclumi[5] = {311.6,6750,989.7};//(fb-1) [1,2,3,4][WG,ZG,ZNuNu]
   
   //color name
-  //string hexcolor[ncolor] = {"#fff176", "#03a9f4", "#ff3360", "#b23b8c", "#96ff5a", "#a983d3", "#ff9e00", "#00FFFF", "#FFCCCC", "#3d5afe", "#67ccc1"};
-  string hexcolor[ncolor] = {"#fff176", "#03a9f4", "#ff9e00", "#b23b8c", "#a983d3", "#96ff5a", "#FFCCCC", "#67ccc1"};
+  //string hexcolor[ncolor] = {"#fff176", "#03a9f4", "#ff3360", "#3d5afe", "#b23b8c", "#96ff5a", "#a983d3", "#ff9e00", "#00FFFF", "#FFCCCC", "#67ccc1"};
+  string hexcolor[ncolor] = {"#fff176", "#03a9f4", "#ff3360", "#3d5afe", "#b23b8c", "#96ff5a", "#a983d3", "#FFCCCC", "#67ccc1"};
   TColor *color[ncolor];
   Int_t cnum[ncolor];
    
@@ -200,6 +192,7 @@ void xDrawStack(Int_t year){
   TH1F *H_MET_cut[nfile][nhisto];
   TH1F *H_METPhi_cut[nfile][nhisto];
   TH1F *H_dphoMETPhi_cut[nfile][nhisto];
+  TH1F *H_ptoverMET_cut[nfile][nhisto];
   TH1F *H_nvtx_cut[nfile][nhisto];
   TH1F *H_njet_cut[nfile][nhisto];
   
@@ -216,7 +209,6 @@ void xDrawStack(Int_t year){
   TH1F *H_dEta_jetjet_cut[nfile];
   TH1F *H_dPhi_jetjet_cut[nfile];
   TH1F *H_dijetMass_cut[nfile];
-  TH1F *H_ptoverMET_cut[nfile];
   TH1F *H_phoCentral_cut[nfile];
   TH1F *H_jetjetZdPhi_cut[nfile];
   TH1F *H_jetjetphodPhi_cut[nfile];
@@ -229,6 +221,7 @@ void xDrawStack(Int_t year){
   TH1F *HA_MET_cut[nhisto];		 
   TH1F *HA_METPhi_cut[nhisto];		 
   TH1F *HA_dphoMETPhi_cut[nhisto];	 
+  TH1F *HA_ptoverMET_cut[nhisto];	 
   TH1F *HA_nvtx_cut[nhisto];		 
   TH1F *HA_njet_cut[nhisto];		 
 
@@ -245,7 +238,6 @@ void xDrawStack(Int_t year){
   TH1F *HA_dEta_jetjet_cut;
   TH1F *HA_dPhi_jetjet_cut;
   TH1F *HA_dijetMass_cut;
-  TH1F *HA_ptoverMET_cut;	 
   TH1F *HA_phoCentral_cut;
   TH1F *HA_jetjetZdPhi_cut;
   TH1F *HA_jetjetphodPhi_cut;
@@ -258,6 +250,7 @@ void xDrawStack(Int_t year){
   TH1F *HSig_MET_cut[nhisto];
   TH1F *HSig_METPhi_cut[nhisto];
   TH1F *HSig_dphoMETPhi_cut[nhisto];
+  TH1F *HSig_ptoverMET_cut[nhisto];
   TH1F *HSig_nvtx_cut[nhisto];
   TH1F *HSig_njet_cut[nhisto];
   
@@ -274,7 +267,6 @@ void xDrawStack(Int_t year){
   TH1F *HSig_dEta_jetjet_cut;
   TH1F *HSig_dPhi_jetjet_cut;
   TH1F *HSig_dijetMass_cut;
-  TH1F *HSig_ptoverMET_cut;
   TH1F *HSig_phoCentral_cut;
   TH1F *HSig_jetjetZdPhi_cut;
   TH1F *HSig_jetjetphodPhi_cut;
@@ -294,7 +286,6 @@ void xDrawStack(Int_t year){
       HA_dEta_jetjet_cut = (TH1F*)fopen->Get("dijet/h_dEta_jetjet_cut")->Clone();
       HA_dPhi_jetjet_cut = (TH1F*)fopen->Get("dijet/h_dPhi_jetjet_cut")->Clone();
       HA_dijetMass_cut = (TH1F*)fopen->Get("dijet/h_dijetMass_cut")->Clone();
-      HA_ptoverMET_cut	= (TH1F*)fopen->Get("dijet/h_ptoverMET_cut")->Clone();
       HA_phoCentral_cut = (TH1F*)fopen->Get("dijet/h_phoCentral_cut")->Clone();
       HA_jetjetZdPhi_cut = (TH1F*)fopen->Get("dijet/h_jetjetZdPhi_cut")->Clone();
       HA_jetjetphodPhi_cut = (TH1F*)fopen->Get("dijet/h_jetjetphodPhi_cut")->Clone();
@@ -305,7 +296,6 @@ void xDrawStack(Int_t year){
       HA_dEta_jetjet_cut->Scale(scale[i]);
       HA_dPhi_jetjet_cut->Scale(scale[i]);
       HA_dijetMass_cut->Scale(scale[i]);
-      HA_ptoverMET_cut->Scale(scale[i]);
       HA_phoCentral_cut->Scale(scale[i]);
       HA_jetjetZdPhi_cut->Scale(scale[i]);
       HA_jetjetphodPhi_cut->Scale(scale[i]);
@@ -316,7 +306,6 @@ void xDrawStack(Int_t year){
       HA_dEta_jetjet_cut->SetFillStyle(3145);
       HA_dPhi_jetjet_cut->SetFillStyle(3145);
       HA_dijetMass_cut->SetFillStyle(3145);
-      HA_ptoverMET_cut->SetFillStyle(3145);
       HA_phoCentral_cut->SetFillStyle(3145);
       HA_jetjetZdPhi_cut->SetFillStyle(3145);
       HA_jetjetphodPhi_cut->SetFillStyle(3145);
@@ -327,7 +316,6 @@ void xDrawStack(Int_t year){
       HA_dEta_jetjet_cut->SetFillColor(12);
       HA_dPhi_jetjet_cut->SetFillColor(12);
       HA_dijetMass_cut->SetFillColor(12);
-      HA_ptoverMET_cut->SetFillColor(12);
       HA_phoCentral_cut->SetFillColor(12);
       HA_jetjetZdPhi_cut->SetFillColor(12);
       HA_jetjetphodPhi_cut->SetFillColor(12);
@@ -339,7 +327,6 @@ void xDrawStack(Int_t year){
       HA_dEta_jetjet_cut->SetMarkerSize(0.1);
       HA_dPhi_jetjet_cut->SetMarkerSize(0.1);
       HA_dijetMass_cut->SetMarkerSize(0.1);
-      HA_ptoverMET_cut->SetMarkerSize(0.1);
       HA_phoCentral_cut->SetMarkerSize(0.1);
       HA_jetjetZdPhi_cut->SetMarkerSize(0.1);
       HA_jetjetphodPhi_cut->SetMarkerSize(0.1);
@@ -353,7 +340,6 @@ void xDrawStack(Int_t year){
       HSig_dEta_jetjet_cut = (TH1F*)fopen->Get("dijet/h_dEta_jetjet_cut")->Clone();
       HSig_dPhi_jetjet_cut = (TH1F*)fopen->Get("dijet/h_dPhi_jetjet_cut")->Clone();
       HSig_dijetMass_cut = (TH1F*)fopen->Get("dijet/h_dijetMass_cut")->Clone();
-      HSig_ptoverMET_cut = (TH1F*)fopen->Get("dijet/h_ptoverMET_cut")->Clone();
       HSig_phoCentral_cut = (TH1F*)fopen->Get("dijet/h_phoCentral_cut")->Clone();
       HSig_jetjetZdPhi_cut = (TH1F*)fopen->Get("dijet/h_jetjetZdPhi_cut")->Clone();
       HSig_jetjetphodPhi_cut = (TH1F*)fopen->Get("dijet/h_jetjetphodPhi_cut")->Clone();
@@ -364,7 +350,6 @@ void xDrawStack(Int_t year){
       HSig_dEta_jetjet_cut->Scale(scale[i]);
       HSig_dPhi_jetjet_cut->Scale(scale[i]);
       HSig_dijetMass_cut->Scale(scale[i]);
-      HSig_ptoverMET_cut->Scale(scale[i]);
       HSig_phoCentral_cut->Scale(scale[i]);
       HSig_jetjetZdPhi_cut->Scale(scale[i]);
       HSig_jetjetphodPhi_cut->Scale(scale[i]);
@@ -375,7 +360,6 @@ void xDrawStack(Int_t year){
       HSig_dEta_jetjet_cut->SetLineColor(kRed);
       HSig_dPhi_jetjet_cut->SetLineColor(kRed);
       HSig_dijetMass_cut->SetLineColor(kRed);
-      HSig_ptoverMET_cut->SetLineColor(kRed);
       HSig_phoCentral_cut->SetLineColor(kRed);
       HSig_jetjetZdPhi_cut->SetLineColor(kRed);
       HSig_jetjetphodPhi_cut->SetLineColor(kRed);
@@ -386,7 +370,6 @@ void xDrawStack(Int_t year){
       HSig_dEta_jetjet_cut->SetLineWidth(2);
       HSig_dPhi_jetjet_cut->SetLineWidth(2);
       HSig_dijetMass_cut->SetLineWidth(2);
-      HSig_ptoverMET_cut->SetLineWidth(2);
       HSig_phoCentral_cut->SetLineWidth(2);
       HSig_jetjetZdPhi_cut->SetLineWidth(2);
       HSig_jetjetphodPhi_cut->SetLineWidth(2);
@@ -398,7 +381,6 @@ void xDrawStack(Int_t year){
     H_dEta_jetjet_cut[i] = (TH1F*)fopen->Get("dijet/h_dEta_jetjet_cut");
     H_dPhi_jetjet_cut[i] = (TH1F*)fopen->Get("dijet/h_dPhi_jetjet_cut");
     H_dijetMass_cut[i] = (TH1F*)fopen->Get("dijet/h_dijetMass_cut");
-    H_ptoverMET_cut[i]	= (TH1F*)fopen->Get("dijet/h_ptoverMET_cut");
     H_phoCentral_cut[i] = (TH1F*)fopen->Get("dijet/h_phoCentral_cut");
     H_jetjetZdPhi_cut[i] = (TH1F*)fopen->Get("dijet/h_jetjetZdPhi_cut");
     H_jetjetphodPhi_cut[i] = (TH1F*)fopen->Get("dijet/h_jetjetphodPhi_cut");
@@ -408,7 +390,6 @@ void xDrawStack(Int_t year){
     H_dEta_jetjet_cut[i]->Scale(scale[i]);
     H_dPhi_jetjet_cut[i]->Scale(scale[i]);
     H_dijetMass_cut[i]->Scale(scale[i]);
-    H_ptoverMET_cut[i]->Scale(scale[i]);
     H_phoCentral_cut[i]->Scale(scale[i]);
     H_jetjetZdPhi_cut[i]->Scale(scale[i]);
     H_jetjetphodPhi_cut[i]->Scale(scale[i]);
@@ -420,7 +401,6 @@ void xDrawStack(Int_t year){
       H_dEta_jetjet_cut[i]->SetFillColor(cnum[i]);
       H_dPhi_jetjet_cut[i]->SetFillColor(cnum[i]);
       H_dijetMass_cut[i]->SetFillColor(cnum[i]);
-      H_ptoverMET_cut[i]->SetFillColor(cnum[i]);
       H_phoCentral_cut[i]->SetFillColor(cnum[i]);
       H_jetjetZdPhi_cut[i]->SetFillColor(cnum[i]);
       H_jetjetphodPhi_cut[i]->SetFillColor(cnum[i]);
@@ -433,7 +413,6 @@ void xDrawStack(Int_t year){
     H_dEta_jetjet_cut[i]->SetLineColor(1);
     H_dPhi_jetjet_cut[i]->SetLineColor(1);
     H_dijetMass_cut[i]->SetLineColor(1);
-    H_ptoverMET_cut[i]->SetLineColor(1);
     H_phoCentral_cut[i]->SetLineColor(1);
     H_jetjetZdPhi_cut[i]->SetLineColor(1);
     H_jetjetphodPhi_cut[i]->SetLineColor(1);
@@ -444,7 +423,6 @@ void xDrawStack(Int_t year){
     H_dEta_jetjet_cut[i]->SetLineWidth(1);
     H_dPhi_jetjet_cut[i]->SetLineWidth(1);
     H_dijetMass_cut[i]->SetLineWidth(1);
-    H_ptoverMET_cut[i]->SetLineWidth(1);
     H_phoCentral_cut[i]->SetLineWidth(1);
     H_jetjetZdPhi_cut[i]->SetLineWidth(1);
     H_jetjetphodPhi_cut[i]->SetLineWidth(1);
@@ -456,7 +434,6 @@ void xDrawStack(Int_t year){
       H_dEta_jetjet_cut[i]->SetLineWidth(2);
       H_dPhi_jetjet_cut[i]->SetLineWidth(2);
       H_dijetMass_cut[i]->SetLineWidth(2);
-      H_ptoverMET_cut[i]->SetLineWidth(2);
       H_phoCentral_cut[i]->SetLineWidth(2);
       H_jetjetZdPhi_cut[i]->SetLineWidth(2);
       H_jetjetphodPhi_cut[i]->SetLineWidth(2);
@@ -467,7 +444,6 @@ void xDrawStack(Int_t year){
       H_dEta_jetjet_cut[i]->SetMarkerStyle(8);
       H_dPhi_jetjet_cut[i]->SetMarkerStyle(8);
       H_dijetMass_cut[i]->SetMarkerStyle(8);
-      H_ptoverMET_cut[i]->SetMarkerStyle(8);
       H_phoCentral_cut[i]->SetMarkerStyle(8);
       H_jetjetZdPhi_cut[i]->SetMarkerStyle(8);
       H_jetjetphodPhi_cut[i]->SetMarkerStyle(8);
@@ -478,7 +454,6 @@ void xDrawStack(Int_t year){
       H_dEta_jetjet_cut[i]->SetMarkerSize(0.9);
       H_dPhi_jetjet_cut[i]->SetMarkerSize(0.9);
       H_dijetMass_cut[i]->SetMarkerSize(0.9);
-      H_ptoverMET_cut[i]->SetMarkerSize(0.9);
       H_phoCentral_cut[i]->SetMarkerSize(0.9);
       H_jetjetZdPhi_cut[i]->SetMarkerSize(0.9);
       H_jetjetphodPhi_cut[i]->SetMarkerSize(0.9);
@@ -489,6 +464,7 @@ void xDrawStack(Int_t year){
       H_phoEB_ptcut[i][jj]	= (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_ptcut_%i", jj));
       H_phoEB_Etacut[i][jj]	= (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_Etacut_%i", jj));
       H_phoEB_Phicut[i][jj]	= (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_Phicut_%i", jj));
+      H_ptoverMET_cut[i][jj]	= (TH1F*)fopen->Get(Form("SMandVBS/h_ptoverMET_cut_%i", jj));
       H_MET_cut[i][jj]		= (TH1F*)fopen->Get(Form("SMandVBS/h_MET_cut_%i", jj));
       //H_MET_cut[i][jj]->Rebin(2);
       H_METPhi_cut[i][jj]	= (TH1F*)fopen->Get(Form("SMandVBS/h_METPhi_cut_%i", jj));
@@ -502,6 +478,7 @@ void xDrawStack(Int_t year){
 	HA_phoEB_ptcut[jj]	= (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_ptcut_%i", jj))->Clone();
 	HA_phoEB_Etacut[jj]	= (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_Etacut_%i", jj))->Clone();
 	HA_phoEB_Phicut[jj]	= (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_Phicut_%i", jj))->Clone();
+	HA_ptoverMET_cut[jj]	= (TH1F*)fopen->Get(Form("SMandVBS/h_ptoverMET_cut_%i", jj))->Clone();
 	HA_MET_cut[jj]		= (TH1F*)fopen->Get(Form("SMandVBS/h_MET_cut_%i", jj))->Clone();
 	HA_METPhi_cut[jj]	= (TH1F*)fopen->Get(Form("SMandVBS/h_METPhi_cut_%i", jj))->Clone();
 	HA_MIP_cut[jj]		= (TH1F*)fopen->Get(Form("SMandVBS/h_MIP_cut_%i", jj))->Clone();
@@ -512,6 +489,7 @@ void xDrawStack(Int_t year){
 	HA_phoEB_ptcut[jj]->Scale(scale[i]);	
 	HA_phoEB_Etacut[jj]->Scale(scale[i]);	
 	HA_phoEB_Phicut[jj]->Scale(scale[i]);	
+	HA_ptoverMET_cut[jj]->Scale(scale[i]);	
 	HA_MET_cut[jj]->Scale(scale[i]);		
 	HA_METPhi_cut[jj]->Scale(scale[i]);	
 	HA_MIP_cut[jj]->Scale(scale[i]);		
@@ -522,6 +500,7 @@ void xDrawStack(Int_t year){
 	HA_phoEB_ptcut[jj]->SetFillStyle(3145);	
 	HA_phoEB_Etacut[jj]->SetFillStyle(3145);	
 	HA_phoEB_Phicut[jj]->SetFillStyle(3145);	
+	HA_ptoverMET_cut[jj]->SetFillStyle(3145);	
 	HA_MET_cut[jj]->SetFillStyle(3145);		
 	HA_METPhi_cut[jj]->SetFillStyle(3145);	
 	HA_MIP_cut[jj]->SetFillStyle(3145);		
@@ -532,6 +511,7 @@ void xDrawStack(Int_t year){
 	HA_phoEB_ptcut[jj]->SetFillColor(12);	
 	HA_phoEB_Etacut[jj]->SetFillColor(12);	
 	HA_phoEB_Phicut[jj]->SetFillColor(12);	
+	HA_ptoverMET_cut[jj]->SetFillColor(12);	
 	HA_MET_cut[jj]->SetFillColor(12);		
 	HA_METPhi_cut[jj]->SetFillColor(12);	
 	HA_MIP_cut[jj]->SetFillColor(12);		
@@ -542,6 +522,7 @@ void xDrawStack(Int_t year){
 	HA_phoEB_ptcut[jj]->SetMarkerSize(0.1);	
 	HA_phoEB_Etacut[jj]->SetMarkerSize(0.1);	
 	HA_phoEB_Phicut[jj]->SetMarkerSize(0.1);	
+	HA_ptoverMET_cut[jj]->SetMarkerSize(0.1);	
 	HA_MET_cut[jj]->SetMarkerSize(0.1);		
 	HA_METPhi_cut[jj]->SetMarkerSize(0.1);	
 	HA_MIP_cut[jj]->SetMarkerSize(0.1);		
@@ -554,6 +535,7 @@ void xDrawStack(Int_t year){
 	HSig_phoEB_ptcut[jj]	= (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_ptcut_%i", jj))->Clone();
 	HSig_phoEB_Etacut[jj]	= (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_Etacut_%i", jj))->Clone();
 	HSig_phoEB_Phicut[jj]	= (TH1F*)fopen->Get(Form("SMandVBS/h_phoEB_Phicut_%i", jj))->Clone();
+	HSig_ptoverMET_cut[jj]	= (TH1F*)fopen->Get(Form("SMandVBS/h_ptoverMET_cut_%i", jj))->Clone();
 	HSig_MET_cut[jj]		= (TH1F*)fopen->Get(Form("SMandVBS/h_MET_cut_%i", jj))->Clone();
 	HSig_METPhi_cut[jj]	= (TH1F*)fopen->Get(Form("SMandVBS/h_METPhi_cut_%i", jj))->Clone();
 	HSig_MIP_cut[jj]		= (TH1F*)fopen->Get(Form("SMandVBS/h_MIP_cut_%i", jj))->Clone();
@@ -565,6 +547,7 @@ void xDrawStack(Int_t year){
 	HSig_phoEB_ptcut[jj]->Scale(scale[i]);	
 	HSig_phoEB_Etacut[jj]->Scale(scale[i]);	
 	HSig_phoEB_Phicut[jj]->Scale(scale[i]);	
+	HSig_ptoverMET_cut[jj]->Scale(scale[i]);	
 	HSig_MET_cut[jj]->Scale(scale[i]);		
 	HSig_METPhi_cut[jj]->Scale(scale[i]);	
 	HSig_MIP_cut[jj]->Scale(scale[i]);		
@@ -575,6 +558,7 @@ void xDrawStack(Int_t year){
 	HSig_phoEB_ptcut[jj]->SetLineColor(kRed);	
 	HSig_phoEB_Etacut[jj]->SetLineColor(kRed);	
 	HSig_phoEB_Phicut[jj]->SetLineColor(kRed);	
+	HSig_ptoverMET_cut[jj]->SetLineColor(kRed);	
 	HSig_MET_cut[jj]->SetLineColor(kRed);		
 	HSig_METPhi_cut[jj]->SetLineColor(kRed);	
 	HSig_MIP_cut[jj]->SetLineColor(kRed);		
@@ -585,6 +569,7 @@ void xDrawStack(Int_t year){
 	HSig_phoEB_ptcut[jj]->SetLineWidth(2);	
 	HSig_phoEB_Etacut[jj]->SetLineWidth(2);	
 	HSig_phoEB_Phicut[jj]->SetLineWidth(2);	
+	HSig_ptoverMET_cut[jj]->SetLineWidth(2);	
 	HSig_MET_cut[jj]->SetLineWidth(2);		
 	HSig_METPhi_cut[jj]->SetLineWidth(2);	
 	HSig_MIP_cut[jj]->SetLineWidth(2);		
@@ -596,6 +581,7 @@ void xDrawStack(Int_t year){
       H_phoEB_ptcut[i][jj]->Scale(scale[i]);	
       H_phoEB_Etacut[i][jj]->Scale(scale[i]);	
       H_phoEB_Phicut[i][jj]->Scale(scale[i]);	
+      H_ptoverMET_cut[i][jj]->Scale(scale[i]);	
       H_MET_cut[i][jj]->Scale(scale[i]);		
       H_METPhi_cut[i][jj]->Scale(scale[i]);	
       H_MIP_cut[i][jj]->Scale(scale[i]);		
@@ -607,6 +593,7 @@ void xDrawStack(Int_t year){
 	H_phoEB_ptcut[i][jj]->SetFillColor(cnum[i]);	
 	H_phoEB_Etacut[i][jj]->SetFillColor(cnum[i]);	
 	H_phoEB_Phicut[i][jj]->SetFillColor(cnum[i]);	
+	H_ptoverMET_cut[i][jj]->SetFillColor(cnum[i]);	
 	H_MET_cut[i][jj]->SetFillColor(cnum[i]);		
 	H_METPhi_cut[i][jj]->SetFillColor(cnum[i]);	
 	H_MIP_cut[i][jj]->SetFillColor(cnum[i]);		
@@ -618,6 +605,7 @@ void xDrawStack(Int_t year){
       H_phoEB_ptcut[i][jj]->SetLineColor(1);	
       H_phoEB_Etacut[i][jj]->SetLineColor(1);	
       H_phoEB_Phicut[i][jj]->SetLineColor(1);	
+      H_ptoverMET_cut[i][jj]->SetLineColor(1);	
       H_MET_cut[i][jj]->SetLineColor(1);		
       H_METPhi_cut[i][jj]->SetLineColor(1);	
       H_MIP_cut[i][jj]->SetLineColor(1);		
@@ -628,6 +616,7 @@ void xDrawStack(Int_t year){
       H_phoEB_ptcut[i][jj]->SetLineWidth(1);	
       H_phoEB_Etacut[i][jj]->SetLineWidth(1);	
       H_phoEB_Phicut[i][jj]->SetLineWidth(1);	
+      H_ptoverMET_cut[i][jj]->SetLineWidth(1);	
       H_MET_cut[i][jj]->SetLineWidth(1);		
       H_METPhi_cut[i][jj]->SetLineWidth(1);	
       H_MIP_cut[i][jj]->SetLineWidth(1);		
@@ -639,6 +628,7 @@ void xDrawStack(Int_t year){
 	H_phoEB_ptcut[i][jj]->SetLineWidth(2);	
 	H_phoEB_Etacut[i][jj]->SetLineWidth(2);	
 	H_phoEB_Phicut[i][jj]->SetLineWidth(2);	
+	H_ptoverMET_cut[i][jj]->SetLineWidth(2);	
 	H_MET_cut[i][jj]->SetLineWidth(2);		
 	H_METPhi_cut[i][jj]->SetLineWidth(2);	
 	H_MIP_cut[i][jj]->SetLineWidth(2);		
@@ -649,6 +639,7 @@ void xDrawStack(Int_t year){
 	H_phoEB_ptcut[i][jj]->SetMarkerStyle(8);	
 	H_phoEB_Etacut[i][jj]->SetMarkerStyle(8);	
 	H_phoEB_Phicut[i][jj]->SetMarkerStyle(8);	
+	H_ptoverMET_cut[i][jj]->SetMarkerStyle(8);	
 	H_MET_cut[i][jj]->SetMarkerStyle(8);		
 	H_METPhi_cut[i][jj]->SetMarkerStyle(8);	
 	H_MIP_cut[i][jj]->SetMarkerStyle(8);		
@@ -659,6 +650,7 @@ void xDrawStack(Int_t year){
 	H_phoEB_ptcut[i][jj]->SetMarkerSize(0.9);	
 	H_phoEB_Etacut[i][jj]->SetMarkerSize(0.9);	
 	H_phoEB_Phicut[i][jj]->SetMarkerSize(0.9);	
+	H_ptoverMET_cut[i][jj]->SetMarkerSize(0.9);	
 	H_MET_cut[i][jj]->SetMarkerSize(0.9);		
 	H_METPhi_cut[i][jj]->SetMarkerSize(0.9);	
 	H_MIP_cut[i][jj]->SetMarkerSize(0.9);		
@@ -859,7 +851,6 @@ void xDrawStack(Int_t year){
       HA_dEta_jetjet_cut->Add(H_dEta_jetjet_cut[i]);
       HA_dPhi_jetjet_cut->Add(H_dPhi_jetjet_cut[i]);
       HA_dijetMass_cut->Add(H_dijetMass_cut[i]);
-      HA_ptoverMET_cut->Add(H_ptoverMET_cut[i]);
       HA_phoCentral_cut->Add(H_phoCentral_cut[i]);
       HA_jetjetZdPhi_cut->Add(H_jetjetZdPhi_cut[i]);
       HA_jetjetphodPhi_cut->Add(H_jetjetphodPhi_cut[i]);
@@ -872,6 +863,7 @@ void xDrawStack(Int_t year){
 	HA_MET_cut[jj]->Add(H_MET_cut[i][jj]);
 	HA_METPhi_cut[jj]->Add(H_METPhi_cut[i][jj]);
 	HA_dphoMETPhi_cut[jj]->Add(H_dphoMETPhi_cut[i][jj]);
+	HA_ptoverMET_cut[jj]->Add(H_ptoverMET_cut[i][jj]);
 	HA_nvtx_cut[jj]->Add(H_nvtx_cut[i][jj]);
 	HA_njet_cut[jj]->Add(H_njet_cut[i][jj]);
 	
@@ -895,6 +887,7 @@ void xDrawStack(Int_t year){
   THStack *HS_MET_cut[nhisto];		 
   THStack *HS_METPhi_cut[nhisto];		 
   THStack *HS_dphoMETPhi_cut[nhisto];	 
+  THStack *HS_ptoverMET_cut[nhisto];	 
   THStack *HS_nvtx_cut[nhisto];		 
   THStack *HS_njet_cut[nhisto];		 
 
@@ -911,7 +904,6 @@ void xDrawStack(Int_t year){
   THStack *HS_dEta_jetjet_cut;
   THStack *HS_dPhi_jetjet_cut;
   THStack *HS_dijetMass_cut;
-  THStack *HS_ptoverMET_cut;
   THStack *HS_phoCentral_cut;
   THStack *HS_jetjetZdPhi_cut;
   THStack *HS_jetjetphodPhi_cut;
@@ -924,6 +916,7 @@ void xDrawStack(Int_t year){
     HS_MET_cut[jj]		= new THStack(Form("HS_MET_cut_%i", jj), "HS_MET_cut");		 
     HS_METPhi_cut[jj]		= new THStack(Form("HS_METPhi_cut_%i", jj), "HS_METPhi_cut");		 
     HS_dphoMETPhi_cut[jj]	= new THStack(Form("HS_dphoMETPhi_cut_%i", jj), "HS_dphoMETPhi_cut");	 
+    HS_ptoverMET_cut[jj]	= new THStack(Form("HS_ptoverMET_cut_%i", jj), "HS_ptoverMET_cut");	 
     HS_nvtx_cut[jj]		= new THStack(Form("HS_nvtx_cut_%i", jj), "HS_nvtx_cut");		 
     HS_njet_cut[jj]		= new THStack(Form("HS_njet_cut_%i", jj), "HS_njet_cut");
 
@@ -944,7 +937,6 @@ void xDrawStack(Int_t year){
   HS_dEta_jetjet_cut = new THStack("HS_dEta_jetjet_cut", "HS_dEta_jetjet_cut");
   HS_dPhi_jetjet_cut = new THStack("HS_dPhi_jetjet_cut", "HS_dPhi_jetjet_cut");
   HS_dijetMass_cut = new THStack("HS_dijetMass_cut", "HS_dijetMass_cut");
-  HS_ptoverMET_cut = new THStack("HS_ptoverMET_cut", "HS_ptoverMET_cut");
   HS_phoCentral_cut = new THStack("HS_phoCentral_cut", "HS_phoCentral_cut");
   HS_jetjetZdPhi_cut = new THStack("HS_jetjetZdPhi_cut", "HS_jetjetZdPhi_cut");
   HS_jetjetphodPhi_cut = new THStack("HS_jetjetphodPhi_cut", "HS_jetjetphodPhi_cut");
@@ -959,7 +951,6 @@ void xDrawStack(Int_t year){
     HS_dEta_jetjet_cut->Add(H_dEta_jetjet_cut[i]);
     HS_dPhi_jetjet_cut->Add(H_dPhi_jetjet_cut[i]);
     HS_dijetMass_cut->Add(H_dijetMass_cut[i]);
-    HS_ptoverMET_cut->Add(H_ptoverMET_cut[i]);
     HS_phoCentral_cut->Add(H_phoCentral_cut[i]);
     HS_jetjetZdPhi_cut->Add(H_jetjetZdPhi_cut[i]);
     HS_jetjetphodPhi_cut->Add(H_jetjetphodPhi_cut[i]);
@@ -973,6 +964,7 @@ void xDrawStack(Int_t year){
       HS_MET_cut[jj]->Add(H_MET_cut[i][jj]);
       HS_METPhi_cut[jj]->Add(H_METPhi_cut[i][jj]);
       HS_dphoMETPhi_cut[jj]->Add(H_dphoMETPhi_cut[i][jj]);
+      HS_ptoverMET_cut[jj]->Add(H_ptoverMET_cut[i][jj]);
       HS_nvtx_cut[jj]->Add(H_nvtx_cut[i][jj]);
       HS_njet_cut[jj]->Add(H_njet_cut[i][jj]);      
       
@@ -993,18 +985,8 @@ void xDrawStack(Int_t year){
   lhs->SetTextSize(0.035);
   lhs->SetFillStyle(0);
   //TString ltext[20] = {"#gamma+jet", "W(#rightarrowl#nu)+jets", "Z(#rightarrow#nu#nu)+jets", "Z(#rightarrowll)+jets", "Monoboson", "Diboson", "Triboson", "Wg#rightarrowl#nug", "Zg#rightarrowllg", "ttJets", "Zg#rightarrow#nu#nug", "DATA"};//Znunug QCD
-  TString ltext[20] = {"#gamma+jet", "V+jets", "V#gamma+jets", "Monoboson", "Diboson", "Triboson", "tt#gamma/tt", "Z#gamma#rightarrow#nu#nu#gamma(VBS)", "DATA"};//Znunug VBS
-  //TString ltext[20] = {"#gamma+jet", "V+jets", "Monoboson", "Diboson", "Triboson", "ttJets", "W(#rightarrowl#nu)#gamma", "Z(#rightarrowll)#gamma", "Z(#rightarrow#nu#nu)#gamma", "Z#gamma#rightarrow#nu#nu#gamma(VBS)", "DATA"};//Znunug VBS
-
-  // Data/MC event yield text
-  Int_t dataIntegral =  H_phoEB_ptcut[nfile-1][1]->Integral(1, -1);
-  Float_t mcIntegral = HA_phoEB_ptcut[1]->Integral(1, -1);
-  TLatex *ths = new TLatex(0.51, 0.63, Form("Data/MC = %i/%.2f", dataIntegral, mcIntegral));
-  ths->SetNDC();
-  ths->SetTextAlign(13);
-  //TText *ths  = new TText(0.5, 0.8, Form("Data/MC = %i/%.2f", dataIntegral, mcIntegral));
-  ths->SetTextFont(42);
-  ths->SetTextSize(0.04);
+  //TString ltext[20] = {"#gamma+jet", "W(#rightarrowl#nu)+jets", "Z(#rightarrow#nu#nu)+jets", "Z(#rightarrowll)+jets", "Monoboson", "Diboson", "Triboson", "Wg#rightarrowl#nu#gamma", "Z#gamma#rightarrowll#gamma", "ttJets", "Z#gamma#rightarrow#nu#nu#gamma(VBS)", "DATA"};//Znunug VBS
+  TString ltext[20] = {"#gamma+jet", "W(#rightarrowl#nu)+jets", "Z(#rightarrow#nu#nu)+jets", "Z(#rightarrowll)+jets", "Monoboson", "Diboson", "Triboson", "ttJets", "Z#gamma#rightarrow#nu#nu#gamma(VBS)", "DATA"};//Znunug VBS
   
   //HS_dphoMETPhi->Draw("HIST");
   TH1F *hratio;
@@ -1043,6 +1025,7 @@ void xDrawStack(Int_t year){
   //save plots//
 
   pad1->cd();
+  pad1->SetLogy(0);
   HS_minJMETdPhi_cut->Draw("HIST");
   H_minJMETdPhi_cut[nfile-1]->Draw("SAME");
   HSig_minJMETdPhi_cut->Draw("HISTSAME");
@@ -1051,8 +1034,8 @@ void xDrawStack(Int_t year){
   HS_minJMETdPhi_cut->GetXaxis()->SetTitle("");
   //HS_minJMETdPhi_cut->GetYaxis()->ChangeLabel(1, -1, 0, -1, -1, -1, "");
   HS_minJMETdPhi_cut->GetXaxis()->SetLabelSize(0);
-  HS_minJMETdPhi_cut->SetMaximum(100000);
-  HS_minJMETdPhi_cut->SetMinimum(1);
+  HS_minJMETdPhi_cut->SetMaximum(200);
+  HS_minJMETdPhi_cut->SetMinimum(0);
   lhs->Clear();
   lhs->SetNColumns(2);
   for(Int_t ifile=0; ifile<nfile; ifile++){
@@ -1062,7 +1045,6 @@ void xDrawStack(Int_t year){
     if(ifile < nfile-1) lhs->AddEntry(H_minJMETdPhi_cut[ifile], ltext[ifile], "F");
   }
   lhs->Draw("SAME");
-  ths->Draw("SAME");
   title = HS_minJMETdPhi_cut->GetName();
   pad2->cd();
   hratio = ratioplot(HS_minJMETdPhi_cut, H_minJMETdPhi_cut[nfile-1]);
@@ -1074,18 +1056,19 @@ void xDrawStack(Int_t year){
   c1->Update();
   c1->RedrawAxis();
   c1->SaveAs(Form("%s/%s.pdf", saveto, title));
-  
+  pad1->SetLogy(1);
+
   pad1->cd();
+  pad1->SetLogy(0);
   HS_dr_jetjet_cut->Draw("HIST");
   H_dr_jetjet_cut[nfile-1]->Draw("SAME");
   HSig_dr_jetjet_cut->Draw("HISTSAME");
   HA_dr_jetjet_cut->Draw("E2 SAME");
   HS_dr_jetjet_cut->GetYaxis()->SetTitle("Events");
   HS_dr_jetjet_cut->GetXaxis()->SetTitle("");
-  //HS_dr_jetjet_cut->GetYaxis()->ChangeLabel(1, -1, 0, -1, -1, -1, "");
   HS_dr_jetjet_cut->GetXaxis()->SetLabelSize(0);
-  HS_dr_jetjet_cut->SetMaximum(100000);
-  HS_dr_jetjet_cut->SetMinimum(1);
+  HS_dr_jetjet_cut->SetMaximum(160);
+  HS_dr_jetjet_cut->SetMinimum(0);
   lhs->Clear();
   lhs->SetNColumns(2);
   for(Int_t ifile=0; ifile<nfile; ifile++){
@@ -1095,7 +1078,6 @@ void xDrawStack(Int_t year){
     if(ifile < nfile-1) lhs->AddEntry(H_dr_jetjet_cut[ifile], ltext[ifile], "F");
   }
   lhs->Draw("SAME");
-  ths->Draw("SAME");
   title = HS_dr_jetjet_cut->GetName();
   pad2->cd();
   hratio = ratioplot(HS_dr_jetjet_cut, H_dr_jetjet_cut[nfile-1]);
@@ -1107,18 +1089,19 @@ void xDrawStack(Int_t year){
   c1->Update();
   c1->RedrawAxis();
   c1->SaveAs(Form("%s/%s.pdf", saveto, title));
+  pad1->SetLogy(1);
   
   pad1->cd();
+  pad1->SetLogy(0);
   HS_dEta_jetjet_cut->Draw("HIST");
   H_dEta_jetjet_cut[nfile-1]->Draw("SAME");
   HSig_dEta_jetjet_cut->Draw("HISTSAME");
   HA_dEta_jetjet_cut->Draw("E2 SAME");
   HS_dEta_jetjet_cut->GetYaxis()->SetTitle("Events");
   HS_dEta_jetjet_cut->GetXaxis()->SetTitle("");
-  //HS_dEta_jetjet_cut->GetYaxis()->ChangeLabel(1, -1, 0, -1, -1, -1, "");
   HS_dEta_jetjet_cut->GetXaxis()->SetLabelSize(0);
-  HS_dEta_jetjet_cut->SetMaximum(80000);
-  HS_dEta_jetjet_cut->SetMinimum(1);
+  HS_dEta_jetjet_cut->SetMaximum(100);
+  HS_dEta_jetjet_cut->SetMinimum(0);
   lhs->Clear();
   lhs->SetNColumns(2);
   for(Int_t ifile=0; ifile<nfile; ifile++){
@@ -1128,7 +1111,6 @@ void xDrawStack(Int_t year){
     if(ifile < nfile-1) lhs->AddEntry(H_dEta_jetjet_cut[ifile], ltext[ifile], "F");
   }
   lhs->Draw("SAME");
-  ths->Draw("SAME");
   title = HS_dEta_jetjet_cut->GetName();
   pad2->cd();
   hratio = ratioplot(HS_dEta_jetjet_cut, H_dEta_jetjet_cut[nfile-1]);
@@ -1140,8 +1122,10 @@ void xDrawStack(Int_t year){
   c1->Update();
   c1->RedrawAxis();
   c1->SaveAs(Form("%s/%s.pdf", saveto, title));
-
+  pad1->SetLogy(1);
+    
   pad1->cd();
+  pad1->SetLogy(0);
   HS_dPhi_jetjet_cut->Draw("HIST");
   H_dPhi_jetjet_cut[nfile-1]->Draw("SAME");
   HSig_dPhi_jetjet_cut->Draw("HISTSAME");
@@ -1150,8 +1134,8 @@ void xDrawStack(Int_t year){
   HS_dPhi_jetjet_cut->GetXaxis()->SetTitle("");
   //HS_dPhi_jetjet_cut->GetYaxis()->ChangeLabel(1, -1, 0, -1, -1, -1, "");
   HS_dPhi_jetjet_cut->GetXaxis()->SetLabelSize(0);
-  HS_dPhi_jetjet_cut->SetMaximum(80000);
-  HS_dPhi_jetjet_cut->SetMinimum(1);
+  HS_dPhi_jetjet_cut->SetMaximum(100);
+  HS_dPhi_jetjet_cut->SetMinimum(0);
   lhs->Clear();
   lhs->SetNColumns(2);
   for(Int_t ifile=0; ifile<nfile; ifile++){
@@ -1161,7 +1145,6 @@ void xDrawStack(Int_t year){
     if(ifile < nfile-1) lhs->AddEntry(H_dPhi_jetjet_cut[ifile], ltext[ifile], "F");
   }
   lhs->Draw("SAME");
-  ths->Draw("SAME");
   title = HS_dPhi_jetjet_cut->GetName();
   pad2->cd();
   hratio = ratioplot(HS_dPhi_jetjet_cut, H_dPhi_jetjet_cut[nfile-1]);
@@ -1173,6 +1156,7 @@ void xDrawStack(Int_t year){
   c1->Update();
   c1->RedrawAxis();
   c1->SaveAs(Form("%s/%s.pdf", saveto, title));
+  pad1->SetLogy(1);
   
   pad1->cd();
   HS_dijetMass_cut->Draw("HIST");
@@ -1195,7 +1179,6 @@ void xDrawStack(Int_t year){
     if(ifile < nfile-1) lhs->AddEntry(H_dijetMass_cut[ifile], ltext[ifile], "F");
   }
   lhs->Draw("SAME");
-  ths->Draw("SAME");
   title = HS_dijetMass_cut->GetName();
   pad2->cd();
   hratio = ratioplot(HS_dijetMass_cut, H_dijetMass_cut[nfile-1]);
@@ -1232,7 +1215,6 @@ void xDrawStack(Int_t year){
     if(ifile < nfile-1) lhs->AddEntry(H_dijetMass_cut[ifile], ltext[ifile], "F");
   }
   lhs->Draw("SAME");
-  ths->Draw("SAME");
   title = HS_dijetMass_cut->GetName();
   pad2->cd();
   hratio = ratioplot(HS_dijetMass_cut, H_dijetMass_cut[nfile-1]);
@@ -1246,83 +1228,6 @@ void xDrawStack(Int_t year){
   c1->RedrawAxis();
   c1->SaveAs(Form("%s/%s_linear.pdf", saveto, title));
   pad1->SetLogy(1);
-
-  
-  pad1->cd();
-  HS_ptoverMET_cut->Draw("HIST");
-  H_ptoverMET_cut[nfile-1]->Draw("SAME");
-  HSig_ptoverMET_cut->Draw("HISTSAME");
-  HA_ptoverMET_cut->Draw("E2 SAME");
-  HS_ptoverMET_cut->GetYaxis()->SetTitle("Events");
-  HS_ptoverMET_cut->GetXaxis()->SetTitle("");
-  //HS_ptoverMET_cut->GetYaxis()->ChangeLabel(1, -1, 0, -1, -1, -1, "");
-  HS_ptoverMET_cut->GetXaxis()->SetLabelSize(0);
-  HS_ptoverMET_cut->GetXaxis()->SetRangeUser(0, 3);
-  //if(jj==1){HS_ptoverMET_cut->SetMaximum(10000); HS_ptoverMET_cut->SetMinimum(0.1);}
-  HS_ptoverMET_cut->SetMaximum(10000);
-  HS_ptoverMET_cut->SetMinimum(0.1);
-  lhs->Clear();
-  lhs->SetNColumns(2);
-  for(Int_t ifile=0; ifile<nfile; ifile++){
-    //if(ifile==10) continue;
-    if(ifile == nfile-1) lhs->AddEntry(H_ptoverMET_cut[ifile], ltext[ifile], "PL");
-    if(ifile == nfile-2) lhs->AddEntry(HSig_ptoverMET_cut, ltext[ifile], "L");
-    if(ifile < nfile-1) lhs->AddEntry(H_ptoverMET_cut[ifile], ltext[ifile], "F");
-  }
-  lhs->Draw("SAME");
-  ths->Draw("SAME");
-  title = HS_ptoverMET_cut->GetName();
-  pad2->cd();
-  hratio = ratioplot(HS_ptoverMET_cut, H_ptoverMET_cut[nfile-1]);
-  hratio->SetTitle("");
-  hratio->GetXaxis()->SetRangeUser(0, 3);
-  hratio->GetXaxis()->SetTitle("p_{T}^{#gamma}/E_{T}^{miss}");
-  hratio->Draw("EP");
-  tg->Draw("LSAME");
-  CMS_lumi(pad1, period, 0);
-  c1->Update();
-  c1->RedrawAxis();
-  c1->SaveAs(Form("%s/%s.pdf", saveto, title));
-    
-  //linear scale ptoverMET
-  pad1->cd();
-  pad1->SetLogy(0);
-  HS_ptoverMET_cut->Draw("HIST");
-  H_ptoverMET_cut[nfile-1]->Draw("SAME");
-  HSig_ptoverMET_cut->Draw("HISTSAME");
-  HA_ptoverMET_cut->Draw("E2 SAME");
-  HS_ptoverMET_cut->GetYaxis()->SetTitle("Events");
-  HS_ptoverMET_cut->GetXaxis()->SetTitle("");
-  //HS_ptoverMET_cut->GetYaxis()->ChangeLabel(1, -1, 0, -1, -1, -1, "");
-  HS_ptoverMET_cut->GetXaxis()->SetLabelSize(0);
-  HS_ptoverMET_cut->GetXaxis()->SetRangeUser(0, 3);
-  //if(jj==1){HS_ptoverMET_cut->SetMaximum(120); HS_ptoverMET_cut->SetMinimum(0);}
-  HS_ptoverMET_cut->SetMaximum(120);
-  HS_ptoverMET_cut->SetMinimum(0);
-  lhs->Clear();
-  lhs->SetNColumns(2);
-  for(Int_t ifile=0; ifile<nfile; ifile++){
-    //if(ifile==10) continue;
-    if(ifile == nfile-1) lhs->AddEntry(H_ptoverMET_cut[ifile], ltext[ifile], "PL");
-    if(ifile == nfile-2) lhs->AddEntry(HSig_ptoverMET_cut, ltext[ifile], "L");
-    if(ifile < nfile-1) lhs->AddEntry(H_ptoverMET_cut[ifile], ltext[ifile], "F");
-  }
-  lhs->Draw("SAME");
-  ths->Draw("SAME");
-  title = HS_ptoverMET_cut->GetName();
-  pad2->cd();
-  hratio = ratioplot(HS_ptoverMET_cut, H_ptoverMET_cut[nfile-1]);
-  hratio->SetTitle("");
-  hratio->GetXaxis()->SetRangeUser(0, 3);
-  hratio->GetXaxis()->SetTitle("p_{T}^{#gamma}/E_{T}^{miss}");
-  hratio->Draw("EP");
-  tg->Draw("LSAME");
-  CMS_lumi(pad1, period, 0);
-  c1->Update();
-  c1->RedrawAxis();
-  c1->SaveAs(Form("%s/%s_linear.pdf", saveto, title));
-  pad1->SetLogy(1);
-
   
   pad1->cd();
   HS_phoCentral_cut->Draw("HIST");
@@ -1344,7 +1249,6 @@ void xDrawStack(Int_t year){
     if(ifile < nfile-1) lhs->AddEntry(H_phoCentral_cut[ifile], ltext[ifile], "F");
   }
   lhs->Draw("SAME");
-  ths->Draw("SAME");
   title = HS_phoCentral_cut->GetName();
   pad2->cd();
   hratio = ratioplot(HS_phoCentral_cut, H_phoCentral_cut[nfile-1]);
@@ -1377,7 +1281,6 @@ void xDrawStack(Int_t year){
     if(ifile < nfile-1) lhs->AddEntry(H_jetjetZdPhi_cut[ifile], ltext[ifile], "F");
   }
   lhs->Draw("SAME");
-  ths->Draw("SAME");
   title = HS_jetjetZdPhi_cut->GetName();
   pad2->cd();
   hratio = ratioplot(HS_jetjetZdPhi_cut, H_jetjetZdPhi_cut[nfile-1]);
@@ -1410,7 +1313,6 @@ void xDrawStack(Int_t year){
     if(ifile < nfile-1) lhs->AddEntry(H_jetjetphodPhi_cut[ifile], ltext[ifile], "F");
   }
   lhs->Draw("SAME");
-  ths->Draw("SAME");
   title = HS_jetjetphodPhi_cut->GetName();
   pad2->cd();
   hratio = ratioplot(HS_jetjetphodPhi_cut, H_jetjetphodPhi_cut[nfile-1]);
@@ -1423,6 +1325,142 @@ void xDrawStack(Int_t year){
   c1->RedrawAxis();
   c1->SaveAs(Form("%s/%s.pdf", saveto, title));
   
+  pad1->cd();
+  pad1->SetLogy(0);
+  HS_djetMETPhi_cut->Draw("HIST");
+  H_djetMETPhi_cut[nfile-1]->Draw("SAME");
+  HSig_djetMETPhi_cut->Draw("HISTSAME");
+  HA_djetMETPhi_cut->Draw("E2 SAME");
+  HS_djetMETPhi_cut->GetYaxis()->SetTitle("Events");
+  HS_djetMETPhi_cut->GetXaxis()->SetTitle("");
+  //HS_djetMETPhi_cut->GetYaxis()->ChangeLabel(1, -1, 0, -1, -1, -1, "");
+  HS_djetMETPhi_cut->GetXaxis()->SetLabelSize(0);
+  HS_djetMETPhi_cut->SetMaximum(200);
+  HS_djetMETPhi_cut->SetMinimum(0);
+  lhs->Clear();
+  lhs->SetNColumns(2);
+  for(Int_t ifile=0; ifile<nfile; ifile++){
+    //if(ifile==10) continue;
+    if(ifile == nfile-1) lhs->AddEntry(H_djetMETPhi_cut[ifile], ltext[ifile], "PL");
+    if(ifile == nfile-2) lhs->AddEntry(HSig_djetMETPhi_cut, ltext[ifile], "L");
+    if(ifile < nfile-1) lhs->AddEntry(H_djetMETPhi_cut[ifile], ltext[ifile], "F");
+  }
+  lhs->Draw("SAME");
+  title = HS_djetMETPhi_cut->GetName();
+  pad2->cd();
+  hratio = ratioplot(HS_djetMETPhi_cut, H_djetMETPhi_cut[nfile-1]);
+  hratio->SetTitle("");
+  hratio->GetXaxis()->SetTitle("#Delta#phi(jet , E_{T}^{miss})");
+  hratio->Draw("EP");
+  tg->Draw("LSAME");
+  CMS_lumi(pad1, period, 0);
+  c1->Update();
+  c1->RedrawAxis();
+  c1->SaveAs(Form("%s/%s.pdf", saveto, title));
+  pad1->SetLogy(1);
+  
+  pad1->cd();
+  pad1->SetLogy(0);
+  HS_dr_phojet->Draw("HIST");
+  H_dr_phojet[nfile-1]->Draw("SAME");
+  HSig_dr_phojet->Draw("HISTSAME");
+  HA_dr_phojet->Draw("E2 SAME");
+  HS_dr_phojet->GetYaxis()->SetTitle("Events");
+  HS_dr_phojet->GetXaxis()->SetTitle("");
+  //HS_dr_phojet->GetYaxis()->ChangeLabel(1, -1, 0, -1, -1, -1, "");
+  HS_dr_phojet->GetXaxis()->SetLabelSize(0);
+  HS_dr_phojet->SetMaximum(200);
+  HS_dr_phojet->SetMinimum(0);
+  lhs->Clear();
+  lhs->SetNColumns(2);
+  for(Int_t ifile=0; ifile<nfile; ifile++){
+    //if(ifile==10) continue;
+    if(ifile == nfile-1) lhs->AddEntry(H_dr_phojet[ifile], ltext[ifile], "PL");
+    if(ifile == nfile-2) lhs->AddEntry(HSig_dr_phojet, ltext[ifile], "L");
+    if(ifile < nfile-1) lhs->AddEntry(H_dr_phojet[ifile], ltext[ifile], "F");
+  }
+  lhs->Draw("SAME");
+  title = HS_dr_phojet->GetName();
+  pad2->cd();
+  hratio = ratioplot(HS_dr_phojet, H_dr_phojet[nfile-1]);
+  hratio->SetTitle("");
+  hratio->GetXaxis()->SetTitle("#DeltaR(#gamma , jet%i)");
+  hratio->Draw("EP");
+  tg->Draw("LSAME");
+  CMS_lumi(pad1, period, 0);
+  c1->Update();
+  c1->RedrawAxis();
+  c1->SaveAs(Form("%s/%s.pdf", saveto, title));
+  pad1->SetLogy(1);
+  
+  pad1->cd();
+  pad1->SetLogy(0);
+  HS_dEta_phojet->Draw("HIST");
+  H_dEta_phojet[nfile-1]->Draw("SAME");
+  HSig_dEta_phojet->Draw("HISTSAME");
+  HA_dEta_phojet->Draw("E2 SAME");
+  HS_dEta_phojet->GetYaxis()->SetTitle("Events");
+  HS_dEta_phojet->GetXaxis()->SetTitle("");
+  //HS_dEta_phojet->GetYaxis()->ChangeLabel(1, -1, 0, -1, -1, -1, "");
+  HS_dEta_phojet->GetXaxis()->SetLabelSize(0);
+  HS_dEta_phojet->SetMaximum(100);
+  HS_dEta_phojet->SetMinimum(0);
+  lhs->Clear();
+  lhs->SetNColumns(2);
+  for(Int_t ifile=0; ifile<nfile; ifile++){
+    //if(ifile==10) continue;
+    if(ifile == nfile-1) lhs->AddEntry(H_dEta_phojet[ifile], ltext[ifile], "PL");
+    if(ifile == nfile-2) lhs->AddEntry(HSig_dEta_phojet, ltext[ifile], "L");
+    if(ifile < nfile-1) lhs->AddEntry(H_dEta_phojet[ifile], ltext[ifile], "F");
+  }
+  lhs->Draw("SAME");
+  title = HS_dEta_phojet->GetName();
+  pad2->cd();
+  hratio = ratioplot(HS_dEta_phojet, H_dEta_phojet[nfile-1]);
+  hratio->SetTitle("");
+  hratio->GetXaxis()->SetTitle("#Delta#eta(#gamma , jet%i)");
+  hratio->Draw("EP");
+  tg->Draw("LSAME");
+  CMS_lumi(pad1, period, 0);
+  c1->Update();
+  c1->RedrawAxis();
+  c1->SaveAs(Form("%s/%s.pdf", saveto, title));
+  pad1->SetLogy(1);
+  
+  pad1->cd();
+  pad1->SetLogy(0);
+  HS_dPhi_phojet->Draw("HIST");
+  H_dPhi_phojet[nfile-1]->Draw("SAME");
+  HSig_dPhi_phojet->Draw("HISTSAME");
+  HA_dPhi_phojet->Draw("E2 SAME");
+  HS_dPhi_phojet->GetYaxis()->SetTitle("Events");
+  HS_dPhi_phojet->GetXaxis()->SetTitle("");
+  //HS_dPhi_phojet->GetYaxis()->ChangeLabel(1, -1, 0, -1, -1, -1, "");
+  HS_dPhi_phojet->GetXaxis()->SetLabelSize(0);
+  HS_dPhi_phojet->SetMaximum(150);
+  HS_dPhi_phojet->SetMinimum(0);
+  lhs->Clear();
+  lhs->SetNColumns(2);
+  for(Int_t ifile=0; ifile<nfile; ifile++){
+    //if(ifile==10) continue;
+    if(ifile == nfile-1) lhs->AddEntry(H_dPhi_phojet[ifile], ltext[ifile], "PL");
+    if(ifile == nfile-2) lhs->AddEntry(HSig_dPhi_phojet, ltext[ifile], "L");
+    if(ifile < nfile-1) lhs->AddEntry(H_dPhi_phojet[ifile], ltext[ifile], "F");
+  }
+  lhs->Draw("SAME");
+  title = HS_dPhi_phojet->GetName();
+  pad2->cd();
+  hratio = ratioplot(HS_dPhi_phojet, H_dPhi_phojet[nfile-1]);
+  hratio->SetTitle("");
+  hratio->GetXaxis()->SetTitle("#Delta#phi(#gamma , jet%i)");
+  hratio->Draw("EP");
+  tg->Draw("LSAME");
+  CMS_lumi(pad1, period, 0);
+  c1->Update();
+  c1->RedrawAxis();
+  c1->SaveAs(Form("%s/%s.pdf", saveto, title));
+  pad1->SetLogy(1);
+  
   for(Int_t jj=0; jj<nhisto; jj++){
     
     pad1->cd();
@@ -1434,8 +1472,7 @@ void xDrawStack(Int_t year){
     HS_phoEB_ptcut[jj]->GetXaxis()->SetTitle("");
     //HS_phoEB_ptcut[jj]->GetYaxis()->ChangeLabel(1, -1, 0, -1, -1, -1, "");
     HS_phoEB_ptcut[jj]->GetXaxis()->SetLabelSize(0);
-    HS_phoEB_ptcut[jj]->GetXaxis()->SetRangeUser(130, 1000);
-    //HS_phoEB_ptcut[jj]->GetXaxis()->SetRangeUser(0, 220); // Et75
+    HS_phoEB_ptcut[jj]->GetXaxis()->SetRangeUser(210, 1000);
     HS_phoEB_ptcut[jj]->SetMaximum(10000);
     HS_phoEB_ptcut[jj]->SetMinimum(1);
     if(jj==1){HS_phoEB_ptcut[jj]->SetMaximum(10000); HS_phoEB_ptcut[jj]->SetMinimum(0.1);}
@@ -1448,13 +1485,12 @@ void xDrawStack(Int_t year){
       if(ifile < nfile-1) lhs->AddEntry(H_phoEB_ptcut[ifile][jj], ltext[ifile], "F");
     }
     lhs->Draw("SAME");
-    ths->Draw("SAME");
     title = HS_phoEB_ptcut[jj]->GetName();
     pad2->cd();
     hratio = ratioplot(HS_phoEB_ptcut[jj], H_phoEB_ptcut[nfile-1][jj]);
     hratio->SetTitle("");
     hratio->GetXaxis()->SetTitle("P_{T}^{#gamma}[GeV]");
-    hratio->GetXaxis()->SetRangeUser(130, 1000);
+    hratio->GetXaxis()->SetRangeUser(210, 1000);
     hratio->Draw("EP");
     tg->Draw("LSAME");
     CMS_lumi(pad1, period, 0);
@@ -1463,6 +1499,7 @@ void xDrawStack(Int_t year){
     c1->SaveAs(Form("%s/%s.pdf", saveto, title));
     
     pad1->cd();
+    if(jj==1) pad1->SetLogy(0);
     HS_phoEB_Etacut[jj]->Draw("HIST");
     H_phoEB_Etacut[nfile-1][jj]->Draw("SAME");
     HSig_phoEB_Etacut[jj]->Draw("HISTSAME");
@@ -1473,7 +1510,7 @@ void xDrawStack(Int_t year){
     HS_phoEB_Etacut[jj]->GetXaxis()->SetLabelSize(0);
     HS_phoEB_Etacut[jj]->SetMaximum(100000);
     HS_phoEB_Etacut[jj]->SetMinimum(1);
-    if(jj==1){HS_phoEB_Etacut[jj]->SetMaximum(10000); HS_phoEB_Etacut[jj]->SetMinimum(0.1);}
+    if(jj==1){HS_phoEB_Etacut[jj]->SetMaximum(200); HS_phoEB_Etacut[jj]->SetMinimum(0);}
     lhs->Clear();
     lhs->SetNColumns(2);
     for(Int_t ifile=0; ifile<nfile; ifile++){
@@ -1483,7 +1520,6 @@ void xDrawStack(Int_t year){
       if(ifile < nfile-1) lhs->AddEntry(H_phoEB_Etacut[ifile][jj], ltext[ifile], "F");
     }
     lhs->Draw("SAME");
-    ths->Draw("SAME");
     title = HS_phoEB_Etacut[jj]->GetName();
     pad2->cd();
     hratio = ratioplot(HS_phoEB_Etacut[jj], H_phoEB_Etacut[nfile-1][jj]);
@@ -1495,8 +1531,10 @@ void xDrawStack(Int_t year){
     c1->Update();
     c1->RedrawAxis();
     c1->SaveAs(Form("%s/%s.pdf", saveto, title));
-
+    if(jj==1) pad1->SetLogy(1);
+    
     pad1->cd();
+    if(jj==1) pad1->SetLogy(0);
     HS_phoEB_Phicut[jj]->Draw("HIST");
     H_phoEB_Phicut[nfile-1][jj]->Draw("SAME");
     HSig_phoEB_Phicut[jj]->Draw("HISTSAME");
@@ -1507,7 +1545,7 @@ void xDrawStack(Int_t year){
     HS_phoEB_Phicut[jj]->GetXaxis()->SetLabelSize(0);
     HS_phoEB_Phicut[jj]->SetMaximum(80000);
     HS_phoEB_Phicut[jj]->SetMinimum(1);
-    if(jj==1){HS_phoEB_Phicut[jj]->SetMaximum(10000); HS_phoEB_Phicut[jj]->SetMinimum(0.1);}
+    if(jj==1){HS_phoEB_Phicut[jj]->SetMaximum(120); HS_phoEB_Phicut[jj]->SetMinimum(0);}
     lhs->Clear();
     lhs->SetNColumns(2);
     for(Int_t ifile=0; ifile<nfile; ifile++){
@@ -1517,7 +1555,6 @@ void xDrawStack(Int_t year){
       if(ifile < nfile-1) lhs->AddEntry(H_phoEB_Phicut[ifile][jj], ltext[ifile], "F");
     }
     lhs->Draw("SAME");
-    ths->Draw("SAME");
     title = HS_phoEB_Phicut[jj]->GetName();
     pad2->cd();
     hratio = ratioplot(HS_phoEB_Phicut[jj], H_phoEB_Phicut[nfile-1][jj]);
@@ -1529,8 +1566,83 @@ void xDrawStack(Int_t year){
     c1->Update();
     c1->RedrawAxis();
     c1->SaveAs(Form("%s/%s.pdf", saveto, title));
+    if(jj==1) pad1->SetLogy(1);
     
     pad1->cd();
+    HS_ptoverMET_cut[jj]->Draw("HIST");
+    H_ptoverMET_cut[nfile-1][jj]->Draw("SAME");
+    HSig_ptoverMET_cut[jj]->Draw("HISTSAME");
+    HA_ptoverMET_cut[jj]->Draw("E2 SAME");
+    HS_ptoverMET_cut[jj]->GetYaxis()->SetTitle("Events");
+    HS_ptoverMET_cut[jj]->GetXaxis()->SetTitle("");
+    //HS_ptoverMET_cut[jj]->GetYaxis()->ChangeLabel(1, -1, 0, -1, -1, -1, "");
+    HS_ptoverMET_cut[jj]->GetXaxis()->SetLabelSize(0);
+    HS_ptoverMET_cut[jj]->SetMaximum(80000);
+    HS_ptoverMET_cut[jj]->SetMinimum(1);
+    HS_ptoverMET_cut[jj]->GetXaxis()->SetRangeUser(0, 3);
+    if(jj==1){HS_ptoverMET_cut[jj]->SetMaximum(10000); HS_ptoverMET_cut[jj]->SetMinimum(0.1);}
+    lhs->Clear();
+    lhs->SetNColumns(2);
+    for(Int_t ifile=0; ifile<nfile; ifile++){
+      //if(ifile==10) continue;
+      if(ifile == nfile-1) lhs->AddEntry(H_ptoverMET_cut[ifile][jj], ltext[ifile], "PL");
+      if(ifile == nfile-2) lhs->AddEntry(HSig_ptoverMET_cut[jj], ltext[ifile], "L");
+      if(ifile < nfile-1) lhs->AddEntry(H_ptoverMET_cut[ifile][jj], ltext[ifile], "F");
+    }
+    lhs->Draw("SAME");
+    title = HS_ptoverMET_cut[jj]->GetName();
+    pad2->cd();
+    hratio = ratioplot(HS_ptoverMET_cut[jj], H_ptoverMET_cut[nfile-1][jj]);
+    hratio->SetTitle("");
+    hratio->GetXaxis()->SetRangeUser(0, 3);
+    hratio->GetXaxis()->SetTitle("p_{T}^{#gamma}/E_{T}^{miss}");
+    hratio->Draw("EP");
+    tg->Draw("LSAME");
+    CMS_lumi(pad1, period, 0);
+    c1->Update();
+    c1->RedrawAxis();
+    c1->SaveAs(Form("%s/%s.pdf", saveto, title));
+    
+    //linear scale ptoverMET
+    pad1->cd();
+    pad1->SetLogy(0);
+    HS_ptoverMET_cut[jj]->Draw("HIST");
+    H_ptoverMET_cut[nfile-1][jj]->Draw("SAME");
+    HSig_ptoverMET_cut[jj]->Draw("HISTSAME");
+    HA_ptoverMET_cut[jj]->Draw("E2 SAME");
+    HS_ptoverMET_cut[jj]->GetYaxis()->SetTitle("Events");
+    HS_ptoverMET_cut[jj]->GetXaxis()->SetTitle("");
+    //HS_ptoverMET_cut[jj]->GetYaxis()->ChangeLabel(1, -1, 0, -1, -1, -1, "");
+    HS_ptoverMET_cut[jj]->GetXaxis()->SetLabelSize(0);
+    HS_ptoverMET_cut[jj]->SetMaximum(120);
+    HS_ptoverMET_cut[jj]->SetMinimum(0);
+    HS_ptoverMET_cut[jj]->GetXaxis()->SetRangeUser(0, 3);
+    if(jj==1){HS_ptoverMET_cut[jj]->SetMaximum(160); HS_ptoverMET_cut[jj]->SetMinimum(0);}
+    lhs->Clear();
+    lhs->SetNColumns(2);
+    for(Int_t ifile=0; ifile<nfile; ifile++){
+      //if(ifile==10) continue;
+      if(ifile == nfile-1) lhs->AddEntry(H_ptoverMET_cut[ifile][jj], ltext[ifile], "PL");
+      if(ifile == nfile-2) lhs->AddEntry(HSig_ptoverMET_cut[jj], ltext[ifile], "L");
+      if(ifile < nfile-1) lhs->AddEntry(H_ptoverMET_cut[ifile][jj], ltext[ifile], "F");
+    }
+    lhs->Draw("SAME");
+    title = HS_ptoverMET_cut[jj]->GetName();
+    pad2->cd();
+    hratio = ratioplot(HS_ptoverMET_cut[jj], H_ptoverMET_cut[nfile-1][jj]);
+    hratio->SetTitle("");
+    hratio->GetXaxis()->SetRangeUser(0, 3);
+    hratio->GetXaxis()->SetTitle("p_{T}^{#gamma}/E_{T}^{miss}");
+    hratio->Draw("EP");
+    tg->Draw("LSAME");
+    CMS_lumi(pad1, period, 0);
+    c1->Update();
+    c1->RedrawAxis();
+    c1->SaveAs(Form("%s/%s_linear.pdf", saveto, title));
+    pad1->SetLogy(1);
+    
+    pad1->cd();
+    if(jj==1) pad1->SetLogy(0);
     HS_MET_cut[jj]->Draw("HIST");
     H_MET_cut[nfile-1][jj]->Draw("SAME");
     HSig_MET_cut[jj]->Draw("HISTSAME");
@@ -1541,7 +1653,7 @@ void xDrawStack(Int_t year){
     HS_MET_cut[jj]->GetXaxis()->SetLabelSize(0);
     HS_MET_cut[jj]->SetMaximum(10000);
     HS_MET_cut[jj]->SetMinimum(1);
-    if(jj==1){HS_MET_cut[jj]->SetMaximum(10000); HS_MET_cut[jj]->SetMinimum(0.01);}
+    if(jj==1){HS_MET_cut[jj]->SetMaximum(120); HS_MET_cut[jj]->SetMinimum(0);}
     lhs->Clear();
     lhs->SetNColumns(2);
     for(Int_t ifile=0; ifile<nfile; ifile++){
@@ -1551,7 +1663,6 @@ void xDrawStack(Int_t year){
       if(ifile < nfile-1) lhs->AddEntry(H_MET_cut[ifile][jj], ltext[ifile], "F");
     }
     lhs->Draw("SAME");
-    ths->Draw("SAME");
     title = HS_MET_cut[jj]->GetName();
     pad2->cd();
     hratio = ratioplot(HS_MET_cut[jj], H_MET_cut[nfile-1][jj]);
@@ -1563,6 +1674,7 @@ void xDrawStack(Int_t year){
     c1->Update();
     c1->RedrawAxis();
     c1->SaveAs(Form("%s/%s.pdf", saveto, title));
+    if(jj==1) pad1->SetLogy(1);
     
     pad1->cd();
     HS_METPhi_cut[jj]->Draw("HIST");
@@ -1585,7 +1697,6 @@ void xDrawStack(Int_t year){
       if(ifile < nfile-1) lhs->AddEntry(H_METPhi_cut[ifile][jj], ltext[ifile], "F");
     }
     lhs->Draw("SAME");
-    ths->Draw("SAME");
     title = HS_METPhi_cut[jj]->GetName();
     pad2->cd();
     hratio = ratioplot(HS_METPhi_cut[jj], H_METPhi_cut[nfile-1][jj]);
@@ -1619,7 +1730,6 @@ void xDrawStack(Int_t year){
       if(ifile < nfile-1) lhs->AddEntry(H_MIP_cut[ifile][jj], ltext[ifile], "F");
     }
     lhs->Draw("SAME");
-    ths->Draw("SAME");
     title = HS_MIP_cut[jj]->GetName();
     pad2->cd();
     hratio = ratioplot(HS_MIP_cut[jj], H_MIP_cut[nfile-1][jj]);
@@ -1633,6 +1743,7 @@ void xDrawStack(Int_t year){
     c1->SaveAs(Form("%s/%s.pdf", saveto, title));
 
     pad1->cd();
+    if(jj==1) pad1->SetLogy(0);
     HS_dphoMETPhi_cut[jj]->Draw("HIST");
     H_dphoMETPhi_cut[nfile-1][jj]->Draw("SAME");
     HSig_dphoMETPhi_cut[jj]->Draw("HISTSAME");
@@ -1643,7 +1754,7 @@ void xDrawStack(Int_t year){
     HS_dphoMETPhi_cut[jj]->GetXaxis()->SetLabelSize(0);
     HS_dphoMETPhi_cut[jj]->SetMaximum(10000);
     HS_dphoMETPhi_cut[jj]->SetMinimum(1);
-    if(jj==1){HS_dphoMETPhi_cut[jj]->SetMaximum(10000); HS_dphoMETPhi_cut[jj]->SetMinimum(0.1);}
+    if(jj==1){HS_dphoMETPhi_cut[jj]->SetMaximum(120); HS_dphoMETPhi_cut[jj]->SetMinimum(0);}
     lhs->Clear();
     lhs->SetNColumns(2);
     for(Int_t ifile=0; ifile<nfile; ifile++){
@@ -1653,7 +1764,6 @@ void xDrawStack(Int_t year){
       if(ifile < nfile-1) lhs->AddEntry(H_dphoMETPhi_cut[ifile][jj], ltext[ifile], "F");
     }
     lhs->Draw("SAME");
-    ths->Draw("SAME");
     title = HS_dphoMETPhi_cut[jj]->GetName();
     pad2->cd();
     hratio = ratioplot(HS_dphoMETPhi_cut[jj], H_dphoMETPhi_cut[nfile-1][jj]);
@@ -1665,7 +1775,8 @@ void xDrawStack(Int_t year){
     c1->Update();
     c1->RedrawAxis();
     c1->SaveAs(Form("%s/%s.pdf", saveto, title));
-
+    if(jj==1) pad1->SetLogy(1);
+    
     pad1->cd();
     HS_nvtx_cut[jj]->Draw("HIST");
     H_nvtx_cut[nfile-1][jj]->Draw("SAME");
@@ -1687,7 +1798,6 @@ void xDrawStack(Int_t year){
       if(ifile < nfile-1) lhs->AddEntry(H_nvtx_cut[ifile][jj], ltext[ifile], "F");
     }
     lhs->Draw("SAME");
-    ths->Draw("SAME");
     title = HS_nvtx_cut[jj]->GetName();
     pad2->cd();
     hratio = ratioplot(HS_nvtx_cut[jj], H_nvtx_cut[nfile-1][jj]);
@@ -1721,7 +1831,6 @@ void xDrawStack(Int_t year){
       if(ifile < nfile-1) lhs->AddEntry(H_njet_cut[ifile][jj], ltext[ifile], "F");
     }
     lhs->Draw("SAME");
-    ths->Draw("SAME");
     title = HS_njet_cut[jj]->GetName();
     pad2->cd();
     hratio = ratioplot(HS_njet_cut[jj], H_njet_cut[nfile-1][jj]);
@@ -1733,145 +1842,9 @@ void xDrawStack(Int_t year){
     c1->Update();
     c1->RedrawAxis();
     c1->SaveAs(Form("%s/%s.pdf", saveto, title));
-
-    pad1->cd();
-    HS_djetMETPhi_cut->Draw("HIST");
-    H_djetMETPhi_cut[nfile-1]->Draw("SAME");
-    HSig_djetMETPhi_cut->Draw("HISTSAME");
-    HA_djetMETPhi_cut->Draw("E2 SAME");
-    HS_djetMETPhi_cut->GetYaxis()->SetTitle("Events");
-    HS_djetMETPhi_cut->GetXaxis()->SetTitle("");
-    //HS_djetMETPhi_cut->GetYaxis()->ChangeLabel(1, -1, 0, -1, -1, -1, "");
-    HS_djetMETPhi_cut->GetXaxis()->SetLabelSize(0);
-    HS_djetMETPhi_cut->SetMaximum(100000);
-    HS_djetMETPhi_cut->SetMinimum(1);
-    if(jj==1){HS_djetMETPhi_cut->SetMaximum(100000); HS_djetMETPhi_cut->SetMinimum(0.1);}
-    lhs->Clear();
-    lhs->SetNColumns(2);
-    for(Int_t ifile=0; ifile<nfile; ifile++){
-      //if(ifile==10) continue;
-      if(ifile == nfile-1) lhs->AddEntry(H_djetMETPhi_cut[ifile], ltext[ifile], "PL");
-      if(ifile == nfile-2) lhs->AddEntry(HSig_djetMETPhi_cut, ltext[ifile], "L");
-      if(ifile < nfile-1) lhs->AddEntry(H_djetMETPhi_cut[ifile], ltext[ifile], "F");
-    }
-    lhs->Draw("SAME");
-    ths->Draw("SAME");
-    title = HS_djetMETPhi_cut->GetName();
-    pad2->cd();
-    hratio = ratioplot(HS_djetMETPhi_cut, H_djetMETPhi_cut[nfile-1]);
-    hratio->SetTitle("");
-    hratio->GetXaxis()->SetTitle(Form("#Delta#phi(jet%i , E_{T}^{miss})", jj));
-    hratio->Draw("EP");
-    tg->Draw("LSAME");
-    CMS_lumi(pad1, period, 0);
-    c1->Update();
-    c1->RedrawAxis();
-    c1->SaveAs(Form("%s/%s.pdf", saveto, title));
-    
-    pad1->cd();
-    HS_dr_phojet->Draw("HIST");
-    H_dr_phojet[nfile-1]->Draw("SAME");
-    HSig_dr_phojet->Draw("HISTSAME");
-    HA_dr_phojet->Draw("E2 SAME");
-    HS_dr_phojet->GetYaxis()->SetTitle("Events");
-    HS_dr_phojet->GetXaxis()->SetTitle("");
-    //HS_dr_phojet->GetYaxis()->ChangeLabel(1, -1, 0, -1, -1, -1, "");
-    HS_dr_phojet->GetXaxis()->SetLabelSize(0);
-    HS_dr_phojet->SetMaximum(10000);
-    HS_dr_phojet->SetMinimum(1);
-    if(jj==1){HS_dr_phojet->SetMaximum(10000); HS_dr_phojet->SetMinimum(0.1);}
-    lhs->Clear();
-    lhs->SetNColumns(2);
-    for(Int_t ifile=0; ifile<nfile; ifile++){
-      //if(ifile==10) continue;
-      if(ifile == nfile-1) lhs->AddEntry(H_dr_phojet[ifile], ltext[ifile], "PL");
-      if(ifile == nfile-2) lhs->AddEntry(HSig_dr_phojet, ltext[ifile], "L");
-      if(ifile < nfile-1) lhs->AddEntry(H_dr_phojet[ifile], ltext[ifile], "F");
-    }
-    lhs->Draw("SAME");
-    ths->Draw("SAME");
-    title = HS_dr_phojet->GetName();
-    pad2->cd();
-    hratio = ratioplot(HS_dr_phojet, H_dr_phojet[nfile-1]);
-    hratio->SetTitle("");
-    hratio->GetXaxis()->SetTitle(Form("#DeltaR(#gamma , jet%i)", jj));
-    hratio->Draw("EP");
-    tg->Draw("LSAME");
-    CMS_lumi(pad1, period, 0);
-    c1->Update();
-    c1->RedrawAxis();
-    c1->SaveAs(Form("%s/%s.pdf", saveto, title));
-
-    pad1->cd();
-    HS_dEta_phojet->Draw("HIST");
-    H_dEta_phojet[nfile-1]->Draw("SAME");
-    HSig_dEta_phojet->Draw("HISTSAME");
-    HA_dEta_phojet->Draw("E2 SAME");
-    HS_dEta_phojet->GetYaxis()->SetTitle("Events");
-    HS_dEta_phojet->GetXaxis()->SetTitle("");
-    //HS_dEta_phojet->GetYaxis()->ChangeLabel(1, -1, 0, -1, -1, -1, "");
-    HS_dEta_phojet->GetXaxis()->SetLabelSize(0);
-    HS_dEta_phojet->SetMaximum(100000);
-    HS_dEta_phojet->SetMinimum(1);
-    if(jj==1){HS_dEta_phojet->SetMaximum(10000); HS_dEta_phojet->SetMinimum(0.1);}
-    lhs->Clear();
-    lhs->SetNColumns(2);
-    for(Int_t ifile=0; ifile<nfile; ifile++){
-      //if(ifile==10) continue;
-      if(ifile == nfile-1) lhs->AddEntry(H_dEta_phojet[ifile], ltext[ifile], "PL");
-      if(ifile == nfile-2) lhs->AddEntry(HSig_dEta_phojet, ltext[ifile], "L");
-      if(ifile < nfile-1) lhs->AddEntry(H_dEta_phojet[ifile], ltext[ifile], "F");
-    }
-    lhs->Draw("SAME");
-    ths->Draw("SAME");
-    title = HS_dEta_phojet->GetName();
-    pad2->cd();
-    hratio = ratioplot(HS_dEta_phojet, H_dEta_phojet[nfile-1]);
-    hratio->SetTitle("");
-    hratio->GetXaxis()->SetTitle(Form("#Delta#eta(#gamma , jet%i)", jj));
-    hratio->Draw("EP");
-    tg->Draw("LSAME");
-    CMS_lumi(pad1, period, 0);
-    c1->Update();
-    c1->RedrawAxis();
-    c1->SaveAs(Form("%s/%s.pdf", saveto, title));
-
-    pad1->cd();
-    HS_dPhi_phojet->Draw("HIST");
-    H_dPhi_phojet[nfile-1]->Draw("SAME");
-    HSig_dPhi_phojet->Draw("HISTSAME");
-    HA_dPhi_phojet->Draw("E2 SAME");
-    HS_dPhi_phojet->GetYaxis()->SetTitle("Events");
-    HS_dPhi_phojet->GetXaxis()->SetTitle("");
-    //HS_dPhi_phojet->GetYaxis()->ChangeLabel(1, -1, 0, -1, -1, -1, "");
-    HS_dPhi_phojet->GetXaxis()->SetLabelSize(0);
-    HS_dPhi_phojet->SetMaximum(100000);
-    HS_dPhi_phojet->SetMinimum(1);
-    if(jj==1){HS_dPhi_phojet->SetMaximum(50000); HS_dPhi_phojet->SetMinimum(0.1);}
-    lhs->Clear();
-    lhs->SetNColumns(2);
-    for(Int_t ifile=0; ifile<nfile; ifile++){
-      //if(ifile==10) continue;
-      if(ifile == nfile-1) lhs->AddEntry(H_dPhi_phojet[ifile], ltext[ifile], "PL");
-      if(ifile == nfile-2) lhs->AddEntry(HSig_dPhi_phojet, ltext[ifile], "L");
-      if(ifile < nfile-1) lhs->AddEntry(H_dPhi_phojet[ifile], ltext[ifile], "F");
-    }
-    lhs->Draw("SAME");
-    ths->Draw("SAME");
-    title = HS_dPhi_phojet->GetName();
-    pad2->cd();
-    hratio = ratioplot(HS_dPhi_phojet, H_dPhi_phojet[nfile-1]);
-    hratio->SetTitle("");
-    hratio->GetXaxis()->SetTitle(Form("#Delta#phi(#gamma , jet%i)", jj));
-    hratio->Draw("EP");
-    tg->Draw("LSAME");
-    CMS_lumi(pad1, period, 0);
-    c1->Update();
-    c1->RedrawAxis();
-    c1->SaveAs(Form("%s/%s.pdf", saveto, title));
-
       
     pad1->cd();
+    if(jj==1) pad1->SetLogy(0);
     HS_jetpt_cut[jj]->Draw("HIST");
     H_jetpt_cut[nfile-1][jj]->Draw("SAME");
     HSig_jetpt_cut[jj]->Draw("HISTSAME");
@@ -1882,7 +1855,7 @@ void xDrawStack(Int_t year){
     HS_jetpt_cut[jj]->GetXaxis()->SetLabelSize(0);
     HS_jetpt_cut[jj]->SetMaximum(100000);
     HS_jetpt_cut[jj]->SetMinimum(1);
-    if(jj==1){HS_jetpt_cut[jj]->SetMaximum(10000); HS_jetpt_cut[jj]->SetMinimum(0.1);}
+    if(jj==1){HS_jetpt_cut[jj]->SetMaximum(350); HS_jetpt_cut[jj]->SetMinimum(0);}
     lhs->Clear();
     lhs->SetNColumns(2);
     for(Int_t ifile=0; ifile<nfile; ifile++){
@@ -1892,7 +1865,6 @@ void xDrawStack(Int_t year){
       if(ifile < nfile-1) lhs->AddEntry(H_jetpt_cut[ifile][jj], ltext[ifile], "F");
     }
     lhs->Draw("SAME");
-    ths->Draw("SAME");
     title = HS_jetpt_cut[jj]->GetName();
     pad2->cd();
     hratio = ratioplot(HS_jetpt_cut[jj], H_jetpt_cut[nfile-1][jj]);
@@ -1904,7 +1876,8 @@ void xDrawStack(Int_t year){
     c1->Update();
     c1->RedrawAxis();
     c1->SaveAs(Form("%s/%s.pdf", saveto, title));
-
+    if(jj==1) pad1->SetLogy(1);
+    
     pad1->cd();
     HS_jetEta_cut[jj]->Draw("HIST");
     H_jetEta_cut[nfile-1][jj]->Draw("SAME");
@@ -1926,7 +1899,6 @@ void xDrawStack(Int_t year){
       if(ifile < nfile-1) lhs->AddEntry(H_jetEta_cut[ifile][jj], ltext[ifile], "F");
     }
     lhs->Draw("SAME");
-    ths->Draw("SAME");
     title = HS_jetEta_cut[jj]->GetName();
     pad2->cd();
     hratio = ratioplot(HS_jetEta_cut[jj], H_jetEta_cut[nfile-1][jj]);
@@ -1950,7 +1922,7 @@ void xDrawStack(Int_t year){
     HS_jetPhi_cut[jj]->GetXaxis()->SetLabelSize(0);
     HS_jetPhi_cut[jj]->SetMaximum(10000);
     HS_jetPhi_cut[jj]->SetMinimum(1);
-    if(jj==1){HS_jetPhi_cut[jj]->SetMaximum(50000); HS_jetPhi_cut[jj]->SetMinimum(0.1);}
+    if(jj==1){HS_jetPhi_cut[jj]->SetMaximum(10000); HS_jetPhi_cut[jj]->SetMinimum(0.1);}
     lhs->Clear();
     lhs->SetNColumns(2);
     for(Int_t ifile=0; ifile<nfile; ifile++){
@@ -1960,7 +1932,6 @@ void xDrawStack(Int_t year){
       if(ifile < nfile-1) lhs->AddEntry(H_jetPhi_cut[ifile][jj], ltext[ifile], "F");
     }
     lhs->Draw("SAME");
-    ths->Draw("SAME");
     title = HS_jetPhi_cut[jj]->GetName();
     pad2->cd();
     hratio = ratioplot(HS_jetPhi_cut[jj], H_jetPhi_cut[nfile-1][jj]);
